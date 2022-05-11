@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import Layout from "./components/Layout";
+import AfterLoginLayout from "./components/AfterLoginLayout";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   const sample = (
+      <div style={{ width: "100%", height: "100%", backgroundColor: "red" }}>
+         <h1>Hello</h1>
+      </div>
+   );
+   return (
+      <Router>
+         <Routes>
+            <Route
+               exact
+               path="/dashboard"
+               element={<AfterLoginLayout content={sample} />}
+            />
+            <Route exact path="/login" element={<Layout />} />
+
+            <Route path="*" element={<h1>Not Found</h1>} />
+         </Routes>
+      </Router>
+   );
 }
 
 export default App;
