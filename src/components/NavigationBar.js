@@ -6,7 +6,6 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 
@@ -40,8 +39,8 @@ const NavigationBar = () => {
 
    return (
       <ThemeProvider theme={theme}>
-         <AppBar position="static" sx={{ p: 0.1 }} >
-            <Container maxWidth="xl">
+         <AppBar position="static" sx={{ p: 0.1}} >
+           
                <Toolbar disableGutters>
                   <Typography
                      variant="h6"
@@ -49,13 +48,14 @@ const NavigationBar = () => {
                      component="a"
                      href="/"
                      sx={{
-                        mr: 2,
+                        ml: 2,
                         display: { xs: "none", md: "flex" },
                         fontFamily: "monospace",
                         fontWeight: 700,
                         letterSpacing: ".3rem",
                         color: "inherit",
                         textDecoration: "none",
+                        justifyContent:'flex-start'
                      }}
                   >
                      LOGO
@@ -156,7 +156,7 @@ const NavigationBar = () => {
                      </Button>
                   </Box>
                </Toolbar>
-            </Container>
+            
          </AppBar>
       </ThemeProvider>
    );

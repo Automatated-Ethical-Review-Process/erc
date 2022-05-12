@@ -2,8 +2,8 @@ import React from "react";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import Layout from "./components/Layout";
-import AfterLoginLayout from "./components/AfterLoginLayout";
+import Layout from "./components/DefaultLayout";
+import AfterLoginLayout from "./components/DashboardLayout";
 
 function App() {
    const sample = (

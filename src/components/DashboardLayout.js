@@ -26,7 +26,7 @@ import Footer from "./Footer";
 
 const drawerWidth = 240;
 
-function ResponsiveDrawer(props) {
+export default function DashboardLayout(props) {
    const [mobileOpen, setMobileOpen] = React.useState(false);
 
    const [anchorEl, setAnchorEl] = React.useState(null);
@@ -186,7 +186,7 @@ function ResponsiveDrawer(props) {
 
    return (
       <>
-         <Box sx={{ display: "flex" }}>
+         <Box sx={{ display: "flex"}}>
             <CssBaseline />
             <AppBar
                position="fixed"
@@ -323,5 +323,3 @@ function ResponsiveDrawer(props) {
       </>
    );
 }
-
-export default ResponsiveDrawer;
