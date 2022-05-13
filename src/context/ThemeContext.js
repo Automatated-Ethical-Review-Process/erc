@@ -10,7 +10,7 @@ function ThemeContextProvider(props) {
             color: color,
          }}
       >
-         {props.childern}
+         {props.children}
       </ThemeContext.Provider>
    );
 }
