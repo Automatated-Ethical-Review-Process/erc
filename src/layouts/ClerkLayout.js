@@ -22,11 +22,13 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
-import Footer from "./Footer";
+import Footer from "../components/Footer";
+
+import {Outlet} from 'react-router-dom';
 
 const drawerWidth = 240;
 
-export default function DashboardLayout(props) {
+export default function ClerkLayout(props) {
    const [mobileOpen, setMobileOpen] = React.useState(false);
 
    const [anchorEl, setAnchorEl] = React.useState(null);
@@ -316,7 +318,7 @@ export default function DashboardLayout(props) {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               {props.content}
+               <Outlet/>
             </Box>
          </Box>
          <Footer />
