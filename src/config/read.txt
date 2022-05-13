@@ -1,0 +1,1 @@
+all configurations shoud be in this.(Regx pattern,auth functions and etc)
