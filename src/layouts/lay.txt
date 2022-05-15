@@ -1,3 +1,0 @@
-all layouts  shoud be in this.
-Dashboard - Admin,Applicant,Secretary,Reviewer,Clerk
-Main -  Home,, 404 , 403

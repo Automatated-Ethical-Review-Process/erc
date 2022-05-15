@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 
 const FooterContainer = styled.div`
    text-align: center;
-   position: absolute;
+   position: fixed;
    bottom: 0;
    width: 100%;
    min-height: 50px;
