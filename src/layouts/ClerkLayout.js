@@ -1,4 +1,6 @@
 import React from "react";
+import { useState, useContext } from "react";
+import { Outlet } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -22,32 +24,24 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import Modal from "@mui/material/Modal";
 
-import { useState,useContext } from "react";
-import { Outlet } from "react-router-dom";
+import { ThemeContext } from "../context/ThemeContext";
 
-import {ThemeContext} from "../context/ThemeContext";
-import { borderRight } from "@mui/system";
+import RoleNavigationBar from "../components/RoleNavigationBar";
+import NotificationDropDown from "../components/NotificationDropDown";
 
 const drawerWidth = 240;
 
 export default function ClerkLayout() {
+   const { color, font } = useContext(ThemeContext);
 
-   const {color,font} = useContext(ThemeContext);
+   const [mobileOpen, setMobileOpen] = useState(false);
 
-   const [mobileOpen, setMobileOpen] = React.useState(false);
-
-   const [anchorEl, setAnchorEl] = React.useState(null);
-   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+   const [anchorEl, setAnchorEl] = useState(null);
+   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
    const isMenuOpen = Boolean(anchorEl);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-   const [btnValueInRoleMobile, setBtnValueInRoleMobile] =
-      useState("Choose Role");
 
    const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
@@ -75,43 +69,9 @@ export default function ClerkLayout() {
    const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
    };
-
-   const [open, setOpen] = React.useState(false);
-   const handleOpen = () => setOpen(true);
-   const handleClose = () => setOpen(false);
-
-   const handleMobileRole = (role) => {
-      switch (role) {
-         case "reviewer":
-            setBtnValueInRoleMobile("Reviewer");
-            break;
-         case "secretary":
-            setBtnValueInRoleMobile("Secretary");
-            break;
-         case "clerk":
-            setBtnValueInRoleMobile("Clerk");
-            break;
-         default:
-            setBtnValueInRoleMobile("Applicant");
-            break;
-      }
-   };
-
-   const ModalStyle = {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: 200,
-      bgcolor: "background.paper",
-      boxShadow: 24,
-      p: 4,
-      borderRadius: 4,
-   };
-
    const drawer = (
       <div>
-         <Toolbar sx={{bgcolor:color.primary}}>
+         <Toolbar sx={{ bgcolor: color.primary }}>
             <Typography
                sx={{
                   fontFamily: "monospace",
@@ -119,7 +79,7 @@ export default function ClerkLayout() {
                   lineHeight: 3,
                   ml: 4,
                   fontWeight: 700,
-                  color:'white' 
+                  color: "white",
                }}
             >
                ERC SYSTEM
@@ -251,7 +211,7 @@ export default function ClerkLayout() {
                sx={{
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                   ml: { sm: `${drawerWidth}px` },
-                  boxShadow:'none'
+                  boxShadow: "none",
                }}
             >
                <Toolbar>
@@ -263,10 +223,14 @@ export default function ClerkLayout() {
                      sx={{ mr: 2, display: { sm: "none" } }}
                   >
                      <MenuIcon />
-                  </IconButton>{/*header text */}
-                  <Typography variant="h6" noWrap component="div" sx={{color:'white',textAlign:'center',width:1000}}>
-                     
-                  </Typography>
+                  </IconButton>
+                  {/*header text */}
+                  <Typography
+                     variant="h6"
+                     noWrap
+                     component="div"
+                     sx={{ color: "white", textAlign: "center", width: 1000 }}
+                  ></Typography>
                   <Box
                      sx={{
                         display: { xs: "none", md: "flex" },
@@ -359,9 +323,8 @@ export default function ClerkLayout() {
                      "& .MuiDrawer-paper": {
                         boxSizing: "border-box",
                         width: drawerWidth,
-                        borderRightColor:color.primary,
-                        borderRightWidth:1
-                        
+                        borderRightColor: color.primary,
+                        borderRightWidth: 1,
                      },
                   }}
                   open
@@ -378,75 +341,7 @@ export default function ClerkLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <Box
-                  sx={{
-                     mt: 3,
-                     display: { xs: "none", md: "block" },
-                     mx: "auto",
-                     width: 500,
-                  }}
-               >
-                  <Stack direction="row" spacing={5}>
-                     <Button variant="outlined">Applicant</Button>
-                     <Button variant="outlined">Reviewer</Button>
-                     <Button variant="outlined">Clerk</Button>
-                     <Button variant="outlined">Secretary</Button>
-                  </Stack>
-               </Box>
-               <Box sx={{ display: { xs: "block", md: "none" }, mt: 3,transition: "0.2s", }}>
-                  <Box sx={{ mx: "auto", width: 150 }}>
-                     <Button onClick={handleOpen} variant="outlined" sx={{width:150}}>
-                        {btnValueInRoleMobile}
-                     </Button>
-                  </Box>
-                  <Modal
-                     open={open}
-                     onClose={handleClose}
-                     aria-labelledby="modal-modal-title"
-                     aria-describedby="modal-modal-description"
-                  >
-                     <Box sx={ModalStyle}>
-                        <Stack direction="column" spacing={2}>
-                           <Button
-                              variant="outlined"
-                              onClick={() => {
-                                 handleMobileRole("applicant");
-                                 handleClose();
-                              }}
-                           >
-                              Applicant
-                           </Button>
-                           <Button
-                              variant="outlined"
-                              onClick={() => {
-                                 handleMobileRole("reviewer");
-                                 handleClose();
-                              }}
-                           >
-                              Reviewer
-                           </Button>
-                           <Button
-                              variant="outlined"
-                              onClick={() => {
-                                 handleMobileRole("clerk");
-                                 handleClose();
-                              }}
-                           >
-                              Clerk
-                           </Button>
-                           <Button
-                              variant="outlined"
-                              onClick={() => {
-                                 handleMobileRole("secretary");
-                                 handleClose();
-                              }}
-                           >
-                              Secretary
-                           </Button>
-                        </Stack>
-                     </Box>
-                  </Modal>
-               </Box>
+               <RoleNavigationBar />
                <Outlet />
             </Box>
          </Box>
