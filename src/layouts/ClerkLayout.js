@@ -235,7 +235,7 @@ export default function ClerkLayout() {
                   >
                      <MenuIcon />
                   </IconButton>
-                  {/*header text */}
+                  CLERK
                   <Typography
                      variant="h6"
                      noWrap

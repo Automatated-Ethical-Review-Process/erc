@@ -1,1 +1,1 @@
-all views  shoud be in this.
+all views  should be in this.
