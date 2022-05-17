@@ -8,6 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -24,9 +25,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
 import { ThemeContext } from "../context/ThemeContext";
 
@@ -35,7 +34,7 @@ import NotificationDropDown from "../components/NotificationDropDown";
 
 const drawerWidth = 240;
 
-export default function ClerkLayout() {
+export default function ApplicantLayout() {
    const { color, font } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
@@ -93,9 +92,9 @@ export default function ClerkLayout() {
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <PersonAddIcon />
+                     <InboxIcon />
                   </ListItemIcon>
-                  <ListItemText primary="New user requests" />
+                  <ListItemText primary="Current Submission" />
                </ListItemButton>
             </ListItem>
             <ListItem
@@ -109,25 +108,17 @@ export default function ClerkLayout() {
             >
                <ListItemButton>
                   <ListItemIcon>
-                     <AccountBoxIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Current users" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
                      <NewReleasesIcon />
                   </ListItemIcon>
-                  <ListItemText primary="New submissions" />
+                  <ListItemText primary="New Submission" />
                </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <AssignmentIcon />
+                     <UnfoldMoreIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Curent proposals" />
+                  <ListItemText primary="Old Submissions" />
                </ListItemButton>
             </ListItem>
          </List>
@@ -235,16 +226,12 @@ export default function ClerkLayout() {
                   >
                      <MenuIcon />
                   </IconButton>
-                  CLERK
+                  {/*header text */}
                   <Typography
                      variant="h6"
                      noWrap
                      component="div"
-                     sx={{
-                        color: "white",
-                        textAlign: "center",
-                        width: 1000,
-                     }}
+                     sx={{ color: "white", textAlign: "center", width: 1000 }}
                   ></Typography>
                   <Box
                      sx={{
