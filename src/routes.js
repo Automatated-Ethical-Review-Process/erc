@@ -4,6 +4,7 @@ import ClerkLayout from "./layouts/ClerkLayout";
 import ApplicantLayout from "./layouts/ApplicantLayout";
 import SecretaryLayout from "./layouts/SecretaryLayout";
 import ReviewerLayout from "./layouts/ReviewerLayout";
+import AdminLayout from "./layouts/AdminLayout";
 
 //componets
 import SignIn from "./components/SignIn";
@@ -44,6 +45,14 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/reviewer",
       element: <ReviewerLayout />,
+      children: [
+         { path: "dashboard", element: <h1>Hello</h1> },
+         { path: "*", element: <h1>Not Found 404</h1> },
+      ],
+   },
+   {
+      path: "/admin",
+      element: <AdminLayout />,
       children: [
          { path: "dashboard", element: <h1>Hello</h1> },
          { path: "*", element: <h1>Not Found 404</h1> },
