@@ -22,14 +22,7 @@ const routes = (isAuthenticated, userRole) => [
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
-   {
-      path: "/reviewer",
-      element: <ClerkLayout />,
-      children: [
-         { path: "dashboard", element: <h1>Hello</h1> },
-         { path: "*", element: <h1>Not Found 404</h1> },
-      ],
-   },
+   
 ];
 
 export default routes;
