@@ -119,8 +119,10 @@ export default function SignIn() {
                      backgroundImage: `url(${Image})`,
                      height: "100%",
                      width: "100%",
-                     opacity:1,
-                     backgroundRepeat:'no-repeat'
+                     opacity: 1,
+                     backgroundRepeat: "no-repeat",
+                     backgroundPosition: "center",
+                     backgroundSize: "cover",
                   }}
                >
                   <Typography>

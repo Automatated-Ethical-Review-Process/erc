@@ -229,7 +229,11 @@ export default function ClerkLayout() {
                      variant="h6"
                      noWrap
                      component="div"
-                     sx={{ color: "white", textAlign: "center", width: 1000 }}
+                     sx={{
+                        color: "white",
+                        textAlign: "center",
+                        width: 1000,
+                     }}
                   ></Typography>
                   <Box
                      sx={{

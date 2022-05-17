@@ -4,6 +4,7 @@ import ClerkLayout from "./layouts/ClerkLayout";
 
 //componets
 import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
 
 const routes = (isAuthenticated, userRole) => [
    {
@@ -13,6 +14,10 @@ const routes = (isAuthenticated, userRole) => [
          { path: "/", element: <SignIn /> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
+   },
+   {
+      path: "/signup",
+      element: <SignUp />,
    },
    {
       path: "/clerk",
