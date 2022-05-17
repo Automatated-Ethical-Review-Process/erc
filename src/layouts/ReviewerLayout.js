@@ -24,7 +24,6 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 import { ThemeContext } from "../context/ThemeContext";
 
@@ -91,7 +90,7 @@ export default function ClerkLayout() {
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <AccountBalanceIcon />
+                     <InboxIcon />
                   </ListItemIcon>
                   <ListItemText primary="Home" />
                </ListItemButton>
