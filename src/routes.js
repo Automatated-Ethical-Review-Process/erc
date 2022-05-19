@@ -7,9 +7,12 @@ import ReviewerLayout from "./layouts/ReviewerLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import NewUserRequest from "./containers/Dashboard/Clerk/NewUserRequest";
 
+
 //componets
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
+import ShowProfile from "./components/ShowProfile";
+import EditProfile from "./components/EditProfile";
 
 const routes = (isAuthenticated, userRole) => [
    {
@@ -59,6 +62,22 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/admin",
       element: <AdminLayout />,
+      children: [
+         { path: "dashboard", element: <h1>Hello</h1> },
+         { path: "*", element: <h1>Not Found 404</h1> },
+      ],
+   },
+   {
+      path: "/profile",
+      element: <ShowProfile />,
+      children: [
+         { path: "dashboard", element: <h1>Hello</h1> },
+         { path: "*", element: <h1>Not Found 404</h1> },
+      ],
+   },
+   {
+      path: "/edit-profile",
+      element: <EditProfile />,
       children: [
          { path: "dashboard", element: <h1>Hello</h1> },
          { path: "*", element: <h1>Not Found 404</h1> },
