@@ -13,10 +13,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 import Image from "../assests/meetings.jpg";
 
 export default function SignIn() {
+   const navigate = useNavigate();
+
    const handleSubmit = (event) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
@@ -24,6 +27,7 @@ export default function SignIn() {
          email: data.get("email"),
          password: data.get("password"),
       });
+      navigate("/clerk");
    };
 
    const formView = (
@@ -83,12 +87,12 @@ export default function SignIn() {
                </Button>
                <Grid container>
                   <Grid item xs>
-                     <Link href="#" variant="body2">
+                     <Link href="/forgot-password" variant="body2">
                         Forgot password?
                      </Link>
                   </Grid>
                   <Grid item>
-                     <Link href="#" variant="body2">
+                     <Link href="/signup" variant="body2">
                         {"Don't have an account? Sign Up"}
                      </Link>
                   </Grid>

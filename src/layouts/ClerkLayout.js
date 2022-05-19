@@ -23,10 +23,10 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 import { ThemeContext } from "../context/ThemeContext";
 

@@ -9,7 +9,8 @@ import NewUserRequest from "./containers/Dashboard/Clerk/NewUserRequest";
 
 //componets
 import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
+import SignUp from "./components/signup/SignUp";
+import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 
 const routes = (isAuthenticated, userRole) => [
    {
@@ -23,6 +24,10 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/signup",
       element: <SignUp />,
+   },
+   {
+      path: "/forgot-password",
+      element: <ForgotPassword />,
    },
    {
       path: "/clerk",

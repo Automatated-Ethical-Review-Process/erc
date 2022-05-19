@@ -4,8 +4,19 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 export default function Step1() {
+   const [nationality, setNationality] = React.useState("");
+
+   const handleChange = (event) => {
+      setNationality(event.target.value);
+   };
+
    return (
       <React.Fragment>
          <Typography variant="h6" gutterBottom>
@@ -31,6 +42,65 @@ export default function Step1() {
                   label="Last name"
                   fullWidth
                   autoComplete="family-name"
+                  variant="standard"
+               />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+               <TextField
+                  required
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  label="Phone number"
+                  fullWidth
+                  variant="standard"
+               />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+               <TextField
+                  id="landNumber"
+                  name="landNumber"
+                  label="Land number"
+                  fullWidth
+                  variant="standard"
+               />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+               <TextField
+                  id="nicPassport"
+                  name="nicPassport"
+                  label="NIC / Passport"
+                  fullWidth
+                  variant="standard"
+               />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+               <Box sx={{ minWidth: 120 }}>
+                  <FormControl fullWidth>
+                     <InputLabel id="demo-simple-select-label">
+                        Nationality
+                     </InputLabel>
+                     <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={nationality}
+                        label="Nationality"
+                        onChange={handleChange}
+                     >
+                        <MenuItem value={"lanka"}>Sri Lanka</MenuItem>
+                        <MenuItem value={"other"}>Other</MenuItem>
+                     </Select>
+                  </FormControl>
+               </Box>
+            </Grid>
+            <Grid item xs={12}>
+               <TextField
+                  required
+                  id="qualifications"
+                  name="qualifications"
+                  label="Educational qualifications"
+                  multiline
+                  fullWidth
+                  rows={4}
                   variant="standard"
                />
             </Grid>
