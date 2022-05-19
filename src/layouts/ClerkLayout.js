@@ -31,12 +31,11 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { ThemeContext } from "../context/ThemeContext";
 
 import RoleNavigationBar from "../components/RoleNavigationBar";
-import NotificationDropDown from "../components/NotificationDropDown";
 
 const drawerWidth = 240;
 
 export default function ClerkLayout() {
-   const { color, font } = useContext(ThemeContext);
+   const { color} = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
 

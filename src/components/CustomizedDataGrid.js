@@ -6,7 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import tableData from "../db.json";
 
 const Container = styled.div`
-   height: 100vh ;
+   height: 80vh ;
    width: 100%;
 `;
 const CustomizedDataGrid = () => {
