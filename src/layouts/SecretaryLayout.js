@@ -352,7 +352,7 @@ export default function SecretaryLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar />
+               <RoleNavigationBar role="secretary"/>
                <Outlet />
             </Box>
          </Box>

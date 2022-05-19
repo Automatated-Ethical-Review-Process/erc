@@ -36,7 +36,7 @@ const routes = (isAuthenticated, userRole) => [
       path: "/applicant",
       element: <ApplicantLayout />,
       children: [
-         { path: "dashboard", element: <h1>Hello</h1> },
+         { path: "dashboard", element: <h1>Hello from applicant</h1> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
@@ -44,7 +44,7 @@ const routes = (isAuthenticated, userRole) => [
       path: "/secretary",
       element: <SecretaryLayout />,
       children: [
-         { path: "dashboard", element: <h1>Hello</h1> },
+         { path: "dashboard", element: <h1>Hello from secretary</h1> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
@@ -52,7 +52,7 @@ const routes = (isAuthenticated, userRole) => [
       path: "/reviewer",
       element: <ReviewerLayout />,
       children: [
-         { path: "dashboard", element: <h1>Hello</h1> },
+         { path: "dashboard", element: <h1>Hello from reviewer</h1> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },

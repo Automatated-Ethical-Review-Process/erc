@@ -343,7 +343,7 @@ export default function ApplicantLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar />
+               <RoleNavigationBar role="applicant"/>
                <Outlet />
             </Box>
          </Box>

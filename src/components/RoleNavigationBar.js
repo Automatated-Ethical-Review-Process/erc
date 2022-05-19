@@ -1,23 +1,50 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Modal from "@mui/material/Modal";
 
-const RoleNavigationBar = () => {
+import { useNavigate } from "react-router-dom";
+
+import { ThemeContext } from "../context/ThemeContext";
+
+const RoleNavigationBar = (props) => {
+   const { color, font } = useContext(ThemeContext);
+   const navigate = useNavigate();
+
    const [btnValueInRoleMobile, setBtnValueInRoleMobile] =
       useState("Choose Role");
    const [open, setOpen] = React.useState(false);
    const handleOpen = () => setOpen(true);
    const handleClose = () => setOpen(false);
 
-   const [roles, setRoles] = useState([
-      "Applicant",
-      "Reviewer",
-      "Clerk",
-      "Secretary",
-   ]);
+   const roles = ["Applicant", "Reviewer", "Clerk", "Secretary"];
+   const path = [
+      "/applicant/dashboard",
+      "/reviewer/dashboard",
+      "/Clerk/new-user-request",
+      "/secretary/dashboard",
+   ];
+   const [selectIndex, setSelectedIndex] = useState(null);
+
+   useEffect(() => {
+      switch (props.role) {
+         case "secretary":
+            setSelectedIndex(3);
+            break;
+         case "reviewer":
+            setSelectedIndex(1);
+            break;
+         case "clerk":
+            setSelectedIndex(2);
+            break;
+         case "applicant":
+            setSelectedIndex(0);
+            break;
+      }
+   }, []);
+
    const handleMobileRole = (role) => {
       switch (role) {
          case "reviewer":
@@ -51,7 +78,7 @@ const RoleNavigationBar = () => {
          <Box
             sx={{
                mt: 3,
-               mb:1,
+               mb: 1,
                display: { xs: "none", md: "block" },
                mx: "auto",
                width: 150 * roles.length + 10 * (roles.length - 1),
@@ -59,7 +86,27 @@ const RoleNavigationBar = () => {
          >
             <Stack direction="row" spacing={10} component="div">
                {roles.map((value, index) => (
-                  <Button key={index} variant="outlined" sx={{ width: 150 }}>
+                  <Button
+                     key={index}
+                     variant="outlined"
+                     sx={{
+                        width: 150,
+                        boxSizing: "border-box",
+                        color: index == selectIndex ? "white" : "",
+                        backgroundColor:
+                           index == selectIndex ? color.primary : "",
+                        fontWeight: index == selectIndex ? 700 : "",
+                        "&:hover": {
+                           boxShadow: 20,
+                           color: index == selectIndex ? color.primary : "",
+                           backgroundColor: index == selectIndex ? "white" : "",
+                           transitionDuration:'0.6s'
+                        },
+                     }}
+                     onClick={() => {
+                        navigate(path[index]);
+                     }}
+                  >
                      {value}
                   </Button>
                ))}
@@ -96,6 +143,7 @@ const RoleNavigationBar = () => {
                               onClick={() => {
                                  handleMobileRole(value.toLowerCase());
                                  handleClose();
+                                 navigate(path[index]);
                               }}
                            >
                               {value}

@@ -31,7 +31,6 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import { ThemeContext } from "../context/ThemeContext";
 
 import RoleNavigationBar from "../components/RoleNavigationBar";
-import NotificationDropDown from "../components/NotificationDropDown";
 
 const drawerWidth = 240;
 
@@ -352,7 +351,7 @@ export default function ReviewerLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar />
+               <RoleNavigationBar role="reviewer" />
                <Outlet />
             </Box>
          </Box>

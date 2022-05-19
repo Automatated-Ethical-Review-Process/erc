@@ -356,7 +356,7 @@ export default function ClerkLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar />
+               <RoleNavigationBar role="clerk"/>
                <Outlet />
             </Box>
          </Box>
