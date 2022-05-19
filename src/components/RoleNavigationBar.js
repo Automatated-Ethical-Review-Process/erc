@@ -51,6 +51,7 @@ const RoleNavigationBar = () => {
          <Box
             sx={{
                mt: 3,
+               mb:1,
                display: { xs: "none", md: "block" },
                mx: "auto",
                width: 150 * roles.length + 10 * (roles.length - 1),

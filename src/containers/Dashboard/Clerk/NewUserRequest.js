@@ -1,6 +1,12 @@
+import CustomizedDataGrid from "../../../components/CustomizedDataGrid";
+
+
+
 const NewUserRequest = () => {
   return (
-    <h1>Hello</h1>
+    <>
+    <CustomizedDataGrid/>
+    </>
   );
 }
  
