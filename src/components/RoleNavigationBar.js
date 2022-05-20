@@ -23,7 +23,7 @@ const RoleNavigationBar = (props) => {
    const path = [
       "/applicant/new-submission",
       "/reviewer/pending-proposals",
-      "/Clerk/new-user-request",
+      "/clerk/new-user-requests",
       "/secretary/unassigned-proposals",
    ];
    const [selectIndex, setSelectedIndex] = useState(null);
@@ -100,7 +100,7 @@ const RoleNavigationBar = (props) => {
                            boxShadow: 20,
                            color: index == selectIndex ? color.primary : "",
                            backgroundColor: index == selectIndex ? "white" : "",
-                           transitionDuration:'0.6s'
+                           transitionDuration: "0.6s",
                         },
                      }}
                      onClick={() => {
