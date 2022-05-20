@@ -1,11 +1,9 @@
 import CustomizedDataGrid from "../../../components/CustomizedDataGrid";
 
-
-
 const NewUserRequest = () => {
   return (
     <>
-    <CustomizedDataGrid/>
+    <CustomizedDataGrid rows={100} columns={9}/>
     </>
   );
 }
