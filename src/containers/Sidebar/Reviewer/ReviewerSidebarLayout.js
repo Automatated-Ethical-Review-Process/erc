@@ -28,10 +28,9 @@ import PreviewIcon from '@mui/icons-material/Preview';
 import GradingIcon from '@mui/icons-material/Grading';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 
-import RoleNavigationBar from "../components/RoleNavigationBar";
-import NotificationDropDown from "../components/NotificationDropDown";
+import RoleNavigationBar from "../../../components/RoleNavigationBar";
 
 const drawerWidth = 240;
 

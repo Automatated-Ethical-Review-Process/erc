@@ -8,6 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -23,18 +24,16 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
+import { ThemeContext } from "../../../context/ThemeContext";
 
-import { ThemeContext } from "../context/ThemeContext";
-
-import RoleNavigationBar from "../components/RoleNavigationBar";
-import NotificationDropDown from "../components/NotificationDropDown";
+import RoleNavigationBar from "../../../components/RoleNavigationBar";
 
 const drawerWidth = 240;
 
-export default function AdminLayout() {
+export default function ApplicantLayout() {
    const { color, font } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
@@ -92,9 +91,9 @@ export default function AdminLayout() {
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <AccountBoxIcon />
+                     <InboxIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Current Users" />
+                  <ListItemText primary="Current Submission" />
                </ListItemButton>
             </ListItem>
             <ListItem
@@ -108,9 +107,17 @@ export default function AdminLayout() {
             >
                <ListItemButton>
                   <ListItemIcon>
-                     <PersonAddAltIcon />
+                     <NewReleasesIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Add Users" />
+                  <ListItemText primary="New Submission" />
+               </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+               <ListItemButton>
+                  <ListItemIcon>
+                     <UnfoldMoreIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Old Submissions" />
                </ListItemButton>
             </ListItem>
          </List>
