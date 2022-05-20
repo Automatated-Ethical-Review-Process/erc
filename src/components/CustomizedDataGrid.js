@@ -2,18 +2,15 @@ import React from "react";
 
 import styled from "styled-components";
 import { DataGrid } from "@mui/x-data-grid";
+import { Container } from "@mui/material";
 
 import tableData from "../db.json";
 
-const Container = styled.div`
-   height: 80vh ;
-   width: 100%;
-`;
 const CustomizedDataGrid = () => {
     const rows = tableData.table.rows;
     const columns = tableData.table.columns;
    return (
-      <Container>
+      <Container maxWidth="md" sx={{height:'80vh'}}>
          <DataGrid
             rows={rows}
             columns={columns}

@@ -234,17 +234,6 @@ export default function ClerkLayout() {
                   >
                      <MenuIcon />
                   </IconButton>
-                  CLERK
-                  <Typography
-                     variant="h6"
-                     noWrap
-                     component="div"
-                     sx={{
-                        color: "white",
-                        textAlign: "center",
-                        width: 1000,
-                     }}
-                  ></Typography>
                   <Box
                      sx={{
                         display: { xs: "none", md: "flex" },
