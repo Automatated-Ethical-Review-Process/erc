@@ -3,6 +3,7 @@ import MainLayout from "./layouts/MainLayout";
 import NewUserRequest from "./containers/Dashboard/Clerk/NewUserRequest";
 import DashboardLayout from "./layouts/DashboardLayout";
 
+
 //componets
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
@@ -16,6 +17,8 @@ import ApplicantSidebarLayout from './containers/Sidebar/Applicant/ApplicantSide
 import SecretarySidebarLayout from './containers/Sidebar/Secretary/SecretarySidebarLayout';
 import ReviewerSidebarLayout from './containers/Sidebar/Reviewer/ReviewerSidebarLayout';
 import AdminSidebarLayout from './containers/Sidebar/Admin/AdminSidebarLayout';
+import ShowProfile from "./components/ShowProfile";
+import EditProfile from "./components/EditProfile";
 
 const routes = (isAuthenticated, userRole) => [
    {
@@ -104,7 +107,22 @@ const routes = (isAuthenticated, userRole) => [
       path: "/admin",
       element: <AdminSidebarLayout />,
       children: [
-         { path: "users", element:<NewUserRequest /> },
+         { path: "users", element:<NewUserRequest /> },]
+      },
+      {
+      path: "/profile",
+      element: <ShowProfile />,
+      children: [
+         { path: "dashboard", element: <h1>Hello</h1> },
+         { path: "*", element: <h1>Not Found 404</h1> },
+      ],
+   },
+   {
+      path: "/edit-profile",
+      element: <EditProfile />,
+      children: [
+         { path: "dashboard", element: <h1>Hello</h1> },
+         { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
 ];
