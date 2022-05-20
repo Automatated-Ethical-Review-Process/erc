@@ -8,6 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
+import PendingIcon from '@mui/icons-material/Pending';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -23,18 +24,17 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import PreviewIcon from '@mui/icons-material/Preview';
+import GradingIcon from '@mui/icons-material/Grading';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 
+import { ThemeContext } from "../../../context/ThemeContext";
 
-import { ThemeContext } from "../context/ThemeContext";
-
-import RoleNavigationBar from "../components/RoleNavigationBar";
-import NotificationDropDown from "../components/NotificationDropDown";
+import RoleNavigationBar from "../../../components/RoleNavigationBar";
 
 const drawerWidth = 240;
 
-export default function AdminLayout() {
+export default function ReviewerLayout() {
    const { color, font } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
@@ -92,9 +92,9 @@ export default function AdminLayout() {
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <AccountBoxIcon />
+                     <PendingIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Current Users" />
+                  <ListItemText primary="Pending" />
                </ListItemButton>
             </ListItem>
             <ListItem
@@ -108,9 +108,25 @@ export default function AdminLayout() {
             >
                <ListItemButton>
                   <ListItemIcon>
-                     <PersonAddAltIcon />
+                     <PreviewIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Add Users" />
+                  <ListItemText primary="In Review" />
+               </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+               <ListItemButton>
+                  <ListItemIcon>
+                     <GradingIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Reviewed" />
+               </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+               <ListItemButton>
+                  <ListItemIcon>
+                     <SummarizeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Other" />
                </ListItemButton>
             </ListItem>
          </List>

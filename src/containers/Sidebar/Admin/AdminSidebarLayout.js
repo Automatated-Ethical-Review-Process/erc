@@ -23,19 +23,17 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import GradingIcon from '@mui/icons-material/Grading';
-import PageviewIcon from '@mui/icons-material/Pageview';
-import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
-import ArchiveIcon from '@mui/icons-material/Archive';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
-import { ThemeContext } from "../context/ThemeContext";
 
-import RoleNavigationBar from "../components/RoleNavigationBar";
-import NotificationDropDown from "../components/NotificationDropDown";
+import { ThemeContext } from "../../../context/ThemeContext";
+
+import RoleNavigationBar from "../../../components/RoleNavigationBar";
 
 const drawerWidth = 240;
 
-export default function SecretaryLayout() {
+export default function AdminLayout() {
    const { color, font } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
@@ -93,9 +91,9 @@ export default function SecretaryLayout() {
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <AssignmentLateIcon />
+                     <AccountBoxIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Unassigned" />
+                  <ListItemText primary="Current Users" />
                </ListItemButton>
             </ListItem>
             <ListItem
@@ -109,25 +107,9 @@ export default function SecretaryLayout() {
             >
                <ListItemButton>
                   <ListItemIcon>
-                     <PageviewIcon />
+                     <PersonAddAltIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Under review" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <GradingIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Reviewed" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <ArchiveIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Archived" />
+                  <ListItemText primary="Add Users" />
                </ListItemButton>
             </ListItem>
          </List>
