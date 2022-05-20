@@ -23,10 +23,11 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import GradingIcon from '@mui/icons-material/Grading';
-import PageviewIcon from '@mui/icons-material/Pageview';
-import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
-import ArchiveIcon from '@mui/icons-material/Archive';
+import GradingIcon from "@mui/icons-material/Grading";
+import PageviewIcon from "@mui/icons-material/Pageview";
+import AssignmentLateIcon from "@mui/icons-material/AssignmentLate";
+import ArchiveIcon from "@mui/icons-material/Archive";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
 import { ThemeContext } from "../../../context/ThemeContext";
 
@@ -110,7 +111,7 @@ export default function SecretaryLayout() {
                   <ListItemIcon>
                      <PageviewIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Under review" />
+                  <ListItemText primary="In review" />
                </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -127,6 +128,14 @@ export default function SecretaryLayout() {
                      <ArchiveIcon />
                   </ListItemIcon>
                   <ListItemText primary="Archived" />
+               </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+               <ListItemButton>
+                  <ListItemIcon>
+                     <AccountBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="User Management" />
                </ListItemButton>
             </ListItem>
          </List>
@@ -351,7 +360,7 @@ export default function SecretaryLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar role="secretary"/>
+               <RoleNavigationBar role="secretary" />
                <Outlet />
             </Box>
          </Box>
