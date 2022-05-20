@@ -8,6 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -23,19 +24,16 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import GradingIcon from '@mui/icons-material/Grading';
-import PageviewIcon from '@mui/icons-material/Pageview';
-import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
-import ArchiveIcon from '@mui/icons-material/Archive';
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 
-import RoleNavigationBar from "../components/RoleNavigationBar";
-import NotificationDropDown from "../components/NotificationDropDown";
+import RoleNavigationBar from "../../../components/RoleNavigationBar";
 
 const drawerWidth = 240;
 
-export default function SecretaryLayout() {
+export default function ApplicantLayout() {
    const { color, font } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
@@ -93,9 +91,9 @@ export default function SecretaryLayout() {
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <AssignmentLateIcon />
+                     <InboxIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Unassigned" />
+                  <ListItemText primary="Current Submission" />
                </ListItemButton>
             </ListItem>
             <ListItem
@@ -109,25 +107,17 @@ export default function SecretaryLayout() {
             >
                <ListItemButton>
                   <ListItemIcon>
-                     <PageviewIcon />
+                     <NewReleasesIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Under review" />
+                  <ListItemText primary="New Submission" />
                </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <GradingIcon />
+                     <UnfoldMoreIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Reviewed" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <ArchiveIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Archived" />
+                  <ListItemText primary="Old Submissions" />
                </ListItemButton>
             </ListItem>
          </List>
@@ -352,7 +342,7 @@ export default function SecretaryLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar role="secretary"/>
+               <RoleNavigationBar role="applicant"/>
                <Outlet />
             </Box>
          </Box>

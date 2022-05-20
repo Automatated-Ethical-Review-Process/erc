@@ -23,18 +23,18 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import GradingIcon from '@mui/icons-material/Grading';
+import PageviewIcon from '@mui/icons-material/Pageview';
+import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
+import ArchiveIcon from '@mui/icons-material/Archive';
 
+import { ThemeContext } from "../../../context/ThemeContext";
 
-import { ThemeContext } from "../context/ThemeContext";
-
-import RoleNavigationBar from "../components/RoleNavigationBar";
-import NotificationDropDown from "../components/NotificationDropDown";
+import RoleNavigationBar from "../../../components/RoleNavigationBar";
 
 const drawerWidth = 240;
 
-export default function AdminLayout() {
+export default function SecretaryLayout() {
    const { color, font } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
@@ -92,9 +92,9 @@ export default function AdminLayout() {
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <AccountBoxIcon />
+                     <AssignmentLateIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Current Users" />
+                  <ListItemText primary="Unassigned" />
                </ListItemButton>
             </ListItem>
             <ListItem
@@ -108,9 +108,25 @@ export default function AdminLayout() {
             >
                <ListItemButton>
                   <ListItemIcon>
-                     <PersonAddAltIcon />
+                     <PageviewIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Add Users" />
+                  <ListItemText primary="Under review" />
+               </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+               <ListItemButton>
+                  <ListItemIcon>
+                     <GradingIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Reviewed" />
+               </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+               <ListItemButton>
+                  <ListItemIcon>
+                     <ArchiveIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Archived" />
                </ListItemButton>
             </ListItem>
          </List>
@@ -335,7 +351,7 @@ export default function AdminLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar />
+               <RoleNavigationBar role="secretary"/>
                <Outlet />
             </Box>
          </Box>

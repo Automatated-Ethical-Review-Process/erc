@@ -8,7 +8,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -24,18 +23,19 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 
-import RoleNavigationBar from "../components/RoleNavigationBar";
-import NotificationDropDown from "../components/NotificationDropDown";
+import RoleNavigationBar from "../../../components/RoleNavigationBar";
 
 const drawerWidth = 240;
 
-export default function ApplicantLayout() {
-   const { color, font } = useContext(ThemeContext);
+export default function ClerkLayout() {
+   const { color } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -92,9 +92,9 @@ export default function ApplicantLayout() {
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <InboxIcon />
+                     <PersonAddIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Current Submission" />
+                  <ListItemText primary="New user requests" />
                </ListItemButton>
             </ListItem>
             <ListItem
@@ -108,17 +108,25 @@ export default function ApplicantLayout() {
             >
                <ListItemButton>
                   <ListItemIcon>
-                     <NewReleasesIcon />
+                     <AccountBoxIcon />
                   </ListItemIcon>
-                  <ListItemText primary="New Submission" />
+                  <ListItemText primary="Current users" />
                </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <UnfoldMoreIcon />
+                     <NewReleasesIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Old Submissions" />
+                  <ListItemText primary="New submissions" />
+               </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+               <ListItemButton>
+                  <ListItemIcon>
+                     <AssignmentIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Curent proposals" />
                </ListItemButton>
             </ListItem>
          </List>
@@ -226,13 +234,6 @@ export default function ApplicantLayout() {
                   >
                      <MenuIcon />
                   </IconButton>
-                  {/*header text */}
-                  <Typography
-                     variant="h6"
-                     noWrap
-                     component="div"
-                     sx={{ color: "white", textAlign: "center", width: 1000 }}
-                  ></Typography>
                   <Box
                      sx={{
                         display: { xs: "none", md: "flex" },
@@ -343,7 +344,7 @@ export default function ApplicantLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar role="applicant"/>
+               <RoleNavigationBar role="clerk" />
                <Outlet />
             </Box>
          </Box>

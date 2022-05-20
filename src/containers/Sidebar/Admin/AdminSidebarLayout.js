@@ -8,7 +8,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import PendingIcon from '@mui/icons-material/Pending';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -24,17 +23,17 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import PreviewIcon from '@mui/icons-material/Preview';
-import GradingIcon from '@mui/icons-material/Grading';
-import SummarizeIcon from '@mui/icons-material/Summarize';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
-import { ThemeContext } from "../context/ThemeContext";
 
-import RoleNavigationBar from "../components/RoleNavigationBar";
+import { ThemeContext } from "../../../context/ThemeContext";
+
+import RoleNavigationBar from "../../../components/RoleNavigationBar";
 
 const drawerWidth = 240;
 
-export default function ReviewerLayout() {
+export default function AdminLayout() {
    const { color, font } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
@@ -92,9 +91,9 @@ export default function ReviewerLayout() {
             <ListItem disablePadding>
                <ListItemButton>
                   <ListItemIcon>
-                     <PendingIcon />
+                     <AccountBoxIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Pending" />
+                  <ListItemText primary="Current Users" />
                </ListItemButton>
             </ListItem>
             <ListItem
@@ -108,25 +107,9 @@ export default function ReviewerLayout() {
             >
                <ListItemButton>
                   <ListItemIcon>
-                     <PreviewIcon />
+                     <PersonAddAltIcon />
                   </ListItemIcon>
-                  <ListItemText primary="In Review" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <GradingIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Reviewed" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <SummarizeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Other" />
+                  <ListItemText primary="Add Users" />
                </ListItemButton>
             </ListItem>
          </List>
@@ -351,7 +334,7 @@ export default function ReviewerLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar role="reviewer" />
+               <RoleNavigationBar />
                <Outlet />
             </Box>
          </Box>
