@@ -4,30 +4,41 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Container } from "@mui/material";
 import { useDemoData } from "@mui/x-data-grid-generator";
 
-import tableData from "../db.json";
-
-const CustomizedDataGrid = (props) => {
+const CustomizedDataGrid = ({ fields, headerNames, onNodeCreate,rows }) => {
    const [pageSize, setPageSize] = useState(9);
+   const [windowSize, setWindowsize] = useState(window.screen.availWidth);
+   const columns = [];
 
    const { data } = useDemoData({
       dataSet: "Commodity",
-      rowLength: props.rows,
-      maxColumns: props.columns,
+      rowLength: 100,
+      maxColumns: 12,
    });
 
-   //console.log(data)
+   window.onresize = function () {
+      setWindowsize(window.screen.availWidth);
+   };
 
-   //const rows = tableData.table.rows;
-   //const columns = tableData.table.columns;
+   fields.map((value, index) =>  columns.push(onNodeCreate(value, headerNames[index], windowSize < 376 ? 0 : 1)));
+
    return (
       <Container maxWidth="lg" sx={{ height: "80vh" }}>
          <DataGrid
-            {...data}
+            rows={rows}
+            columns={columns}
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[9, 15, 20]}
             pagination
             disableSelectionOnClick
+            onRowClick={(params) => {
+               console.log(params);
+            }}
+            sx={{
+               "&.MuiDataGrid-root .MuiDataGrid-cell:focus": {
+                  outline: 0,
+               },
+            }}
          />
       </Container>
    );

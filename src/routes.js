@@ -130,6 +130,14 @@ const routes = (isAuthenticated, userRole) => [
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
+   {
+      path: "/test",
+      element: <ReviewerSidebarLayout />,
+      children: [
+         { path: "", element: <h1>Hello</h1> },
+         { path: "*", element: <h1>Not Found 404</h1> },
+      ],
+   },
 ];
 
 export default routes;

@@ -1,38 +1,5 @@
 {
    "table": {
-      "columns": [
-         {
-            "field": "id",
-            "headerName": "ID",
-            "align":"center",
-            "width": 90
-         },
-         {
-            "field": "firstName",
-            "headerName": "First name",
-            "width": 150,
-            "headerAlign": "center",
-            "align":"center",
-            "editable": true
-         },
-         {
-            "field": "lastName",
-            "headerName": "Last name",
-            "headerAlign": "center",
-            "align":"center",
-            "width": 150,
-            "editable": true
-         },
-         {
-            "field": "age",
-            "headerAlign": "center",
-            "align":"center",
-            "headerName": "Age",
-            "type": "number",
-            "width": 110,
-            "editable": true
-         }
-      ],
       "rows": [
          {
             "id": 1,
