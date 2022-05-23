@@ -7,16 +7,16 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/signup/SignUp";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
-import ClerkDashboardLayout from "./containers/Dashboard/Clerk/ClerkDashboardLayout";
-import ReviewerDashboardLayout from "./containers/Dashboard/Reviewer/ReviewerDashboardLayout";
-import ApplicantDashboardLayout from "./containers/Dashboard/Applicant/ApplicantDashboardLayout";
-import SecretatyDashboardLayout from "./containers/Dashboard/Secretary/SecretaryDashboardLayout";
-import AdminDashboardLayout from "./containers/Dashboard/Admin/AdminDashboardLayout";
-import ClerkSidebarLayout from "./containers/Sidebar/Clerk/ClerkSidebarLayout";
-import ApplicantSidebarLayout from "./containers/Sidebar/Applicant/ApplicantSidebarLayout";
-import SecretarySidebarLayout from "./containers/Sidebar/Secretary/SecretarySidebarLayout";
-import ReviewerSidebarLayout from "./containers/Sidebar/Reviewer/ReviewerSidebarLayout";
-import AdminSidebarLayout from "./containers/Sidebar/Admin/AdminSidebarLayout";
+import ClerkDashboard from "./containers/Dashboard/Clerk/ClerkDashboard";
+import ReviewerDashboard from "./containers/Dashboard/Reviewer/ReviewerDashboard";
+import ApplicantDashboard from "./containers/Dashboard/Applicant/ApplicantDashboard";
+import SecretatyDashboard from "./containers/Dashboard/Secretary/SecretaryDashboard";
+import AdminDashboard from "./containers/Dashboard/Admin/AdminDashboard";
+import ClerkSidebarLayout from "./layouts/Sidebar/Clerk/ClerkSidebarLayout";
+import ApplicantSidebarLayout from "./layouts/Sidebar/Applicant/ApplicantSidebarLayout";
+import SecretarySidebarLayout from "./layouts/Sidebar/Secretary/SecretarySidebarLayout";
+import ReviewerSidebarLayout from "./layouts/Sidebar/Reviewer/ReviewerSidebarLayout";
+import AdminSidebarLayout from "./layouts/Sidebar/Admin/AdminSidebarLayout";
 import ShowProfile from "./components/ShowProfile";
 import EditProfile from "./components/EditProfile";
 
@@ -41,7 +41,7 @@ const routes = (isAuthenticated, userRole) => [
       path: "/clerk",
       element: <DashboardLayout />,
       children: [
-         { path: "", element: <ClerkDashboardLayout /> },
+         { path: "", element: <ClerkDashboard /> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
@@ -54,7 +54,7 @@ const routes = (isAuthenticated, userRole) => [
       path: "/applicant",
       element: <DashboardLayout />,
       children: [
-         { path: "", element: <ApplicantDashboardLayout /> },
+         { path: "", element: <ApplicantDashboard /> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
@@ -67,7 +67,7 @@ const routes = (isAuthenticated, userRole) => [
       path: "/secretary",
       element: <DashboardLayout />,
       children: [
-         { path: "", element: <SecretatyDashboardLayout /> },
+         { path: "", element: <SecretatyDashboard /> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
@@ -80,7 +80,7 @@ const routes = (isAuthenticated, userRole) => [
       path: "/reviewer",
       element: <DashboardLayout />,
       children: [
-         { path: "", element: <ReviewerDashboardLayout /> },
+         { path: "", element: <ReviewerDashboard /> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
@@ -93,7 +93,7 @@ const routes = (isAuthenticated, userRole) => [
       path: "/admin",
       element: <DashboardLayout />,
       children: [
-         { path: "", element: <AdminDashboardLayout /> },
+         { path: "", element: <AdminDashboard /> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
