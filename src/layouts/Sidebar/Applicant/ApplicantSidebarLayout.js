@@ -24,8 +24,8 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 
 import { ThemeContext } from "../../../context/ThemeContext";
 
@@ -34,7 +34,7 @@ import RoleNavigationBar from "../../../components/RoleNavigationBar";
 const drawerWidth = 240;
 
 export default function ApplicantLayout() {
-   const { color, font } = useContext(ThemeContext);
+   const { color } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -342,7 +342,7 @@ export default function ApplicantLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar role="applicant"/>
+               <RoleNavigationBar role="applicant" />
                <Outlet />
             </Box>
          </Box>

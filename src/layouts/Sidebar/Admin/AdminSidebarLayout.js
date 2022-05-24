@@ -34,7 +34,7 @@ import RoleNavigationBar from "../../../components/RoleNavigationBar";
 const drawerWidth = 240;
 
 export default function AdminLayout() {
-   const { color, font } = useContext(ThemeContext);
+   const { color } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
 
