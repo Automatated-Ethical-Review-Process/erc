@@ -36,7 +36,7 @@ import RoleNavigationBar from "../../../components/RoleNavigationBar";
 const drawerWidth = 240;
 
 export default function SecretaryLayout() {
-   const { color } = useContext(ThemeContext);
+   const { theme } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -74,7 +74,7 @@ export default function SecretaryLayout() {
    };
    const drawer = (
       <div>
-         <Toolbar sx={{ bgcolor: color.primary }}>
+         <Toolbar sx={{ bgcolor: theme.color.main.primary }}>
             <Typography
                sx={{
                   fontFamily: "monospace",
@@ -231,6 +231,7 @@ export default function SecretaryLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                   ml: { sm: `${drawerWidth}px` },
                   boxShadow: "none",
+                  bgcolor: theme.color.main.primary,
                }}
             >
                <Toolbar>
@@ -342,7 +343,7 @@ export default function SecretaryLayout() {
                      "& .MuiDrawer-paper": {
                         boxSizing: "border-box",
                         width: drawerWidth,
-                        borderRightColor: color.primary,
+                        borderRightColor: theme.color.main.primary,
                         borderRightWidth: 1,
                      },
                   }}

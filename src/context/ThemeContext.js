@@ -3,12 +3,28 @@ import React, { createContext } from "react";
 export const ThemeContext = createContext();
 
 function ThemeContextProvider(props) {
-   const color = { primary: "#1976d2", secondary: "", error: "", warning: "" };
+   const theme = {
+      color: {
+         main: {
+            primary: "#178685",
+            secondary: "",
+            error: "",
+            warning: "",
+         },
+         component: {
+            listSelected: "#73b6b5",
+         },
+      },
+      font:{
+         button:{
+            family:'monospace',
+         }
+      }
+   };
    return (
       <ThemeContext.Provider
          value={{
-            color: color,
-            font: "",
+            theme,
          }}
       >
          {props.children}
