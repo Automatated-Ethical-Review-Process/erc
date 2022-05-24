@@ -1,12 +1,12 @@
 //layouts
 import MainLayout from "./layouts/MainLayout";
-import NewUserRequest from "./containers/Dashboard/Clerk/NewUserRequests/NewUserRequests";
+import NewUserRequests from "./containers/Dashboard/Clerk/NewUserRequests/NewUserRequests";
 import DashboardLayout from "./layouts/DashboardLayout";
 
-import Step1 from "./containers/Dashboard/Applicant/newSubmission/Step1";
-import CurrentSubmission from "./containers/Dashboard/Applicant/CurrentSubmission";
-import Step2 from "./containers/Dashboard/Applicant/newSubmission/Step2";
-import NewSubmission from "./containers/Dashboard/Applicant/newSubmission/NewSubmission";
+import Step1 from "./containers/Dashboard/Applicant/NewSubmission/Step1";
+import CurrentSubmission from "./containers/Dashboard/Applicant/CurrentSubmission/CurrentSubmission";
+import Step2 from "./containers/Dashboard/Applicant/NewSubmission/Step2";
+import NewSubmission from "./containers/Dashboard/Applicant/NewSubmission/NewSubmission";
 
 //componets
 import SignIn from "./components/SignIn";
