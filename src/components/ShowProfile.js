@@ -15,6 +15,7 @@ import Avatar from '@mui/material/Avatar';
 import Image from "../assests/baby.webp";
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from "react-router-dom";
 
 
 export  function ImageAvatar() {
@@ -27,9 +28,12 @@ export  function ImageAvatar() {
   );
 }
 
+
+
 export function EditButton() {
+  const navigate = useNavigate();
   return (
-      <Button variant="contained">Edit</Button>
+      <Button onClick={()=>navigate('/edit-profile')} variant="contained">Edit</Button>
   );
 }
 
@@ -52,6 +56,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export function RowAndColumnSpacing() {
+
+  
+
   return (
     <Container maxWidth={"md"}>
       <Grid container direction="column" alignItems="center" marginTop={2} marginBottom={2}>
@@ -101,7 +108,7 @@ export function RowAndColumnSpacing() {
         <Grid item xs={6}>
         </Grid>
         <Grid item xs={6}>
-          <Typography><EditButton/></Typography>
+          <Typography><EditButton /></Typography>
         </Grid>
       </Grid>
     </Box>
