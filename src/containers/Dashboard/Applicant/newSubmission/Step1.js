@@ -14,6 +14,7 @@ import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import { useState } from 'react';
 
 
 
@@ -24,7 +25,7 @@ export function FormControlLabelPosition(props) {
       <FormGroup aria-label="position" row>
         <FormControlLabel
           value="start"
-          control={<Switch color="primary" />}
+          control={<Switch color="primary" onChange={()=>props.setSwitch(!props.defaultValue)}/>}
           label={props.lbl}
           labelPlacement="start"
         />
@@ -87,6 +88,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function FullWidthGrid() {
+  const [hasCoverLetter , setHasCoverLetter] = useState(false);
+  const [hasCV , setHasCV] = useState(false);
+  const [hasTrainingCertificate , setHasTrainingCertificate] = useState(false);
   return (
       <Container>
         <Box sx={{ flexGrow: 1,mx:10,my:5 }} >
@@ -108,20 +112,20 @@ export default function FullWidthGrid() {
             </Grid>
             <Grid item xs={12} md={12}>
                 <Stack direction="row" spacing={2}>
-                    <FormControlLabelPosition lbl="Has cover letter?"/>
-                    <UploadButton upload="Upload"/>
+                    <FormControlLabelPosition lbl="Has cover letter?" setSwitch={setHasCoverLetter} defaultValue={hasCoverLetter} />
+                    {hasCoverLetter && <UploadButton upload="Upload"/>}
                 </Stack>
             </Grid>
             <Grid item xs={12} md={12}>
                 <Stack direction="row" spacing={2}>
-                    <FormControlLabelPosition lbl="Has CV?"/>
-                    <UploadButton upload="Upload"/>
+                    <FormControlLabelPosition lbl="Has CV?" setSwitch={setHasCV} defaultValue={hasCV}/>
+                    {hasCV && <UploadButton upload="Upload"/>}
                 </Stack>
             </Grid>
             <Grid item xs={12} md={12}>
                 <Stack direction="row" spacing={2}>
-                    <FormControlLabelPosition lbl="Has training certificate?"/>
-                    <UploadButton upload="Upload"/>
+                    <FormControlLabelPosition lbl="Has training certificate?" setSwitch={setHasTrainingCertificate} defaultValue={hasTrainingCertificate}/>
+                    {hasTrainingCertificate && <UploadButton upload="Upload"/>}
                 </Stack>
             </Grid>
             <Grid item xs={3} md={4}>
