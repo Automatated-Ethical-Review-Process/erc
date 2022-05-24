@@ -1,1 +1,0 @@
-all views  should be in this.

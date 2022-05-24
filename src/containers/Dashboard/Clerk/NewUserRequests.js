@@ -1,13 +1,31 @@
 import CustomizedDataGrid from "../../../components/CustomizedDataGrid";
+import tableData from "../../../db.json";
 
-
-
-const NewUserRequest = () => {
-  return (
-    <>
-    <CustomizedDataGrid/>
-    </>
-  );
+class ColumnDefinition {
+   constructor(field, headerName, flex) {
+      this.field = field;
+      this.headerName = headerName;
+      this.headerAlign = "center";
+      this.align = "center";
+      this.width = 150;
+      this.flex = flex;
+   }
 }
- 
+
+function createColumnNode(field, headerName, flex) {
+   return new ColumnDefinition(field, headerName, flex);
+}
+const NewUserRequest = () => {
+   return (
+      <>
+         <CustomizedDataGrid
+            fields={["id", "firstName", "lastName", "age"]}
+            headerNames={["ID", "First Name", "Last Name", "Age"]}
+            onNodeCreate={createColumnNode}
+            rows={tableData.table.rows}
+         />
+      </>
+   );
+};
+
 export default NewUserRequest;
