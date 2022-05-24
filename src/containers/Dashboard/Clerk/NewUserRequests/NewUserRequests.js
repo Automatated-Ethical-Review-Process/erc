@@ -23,7 +23,7 @@ export default function NewUserRequests() {
             fields={["id", "firstName", "lastName", "age"]}
             headerNames={["ID", "First Name", "Last Name", "Age"]}
             onNodeCreate={createColumnNode}
-            rows={tableData.table.rows}
+            rows={tableData.users.rows}
          />
       </>
    );

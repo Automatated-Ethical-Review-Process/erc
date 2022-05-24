@@ -1,5 +1,5 @@
-{
-   "table": {
+ {
+   "users": {
       "rows": [
          {
             "id": 1,
@@ -121,6 +121,38 @@
             "firstName": "Harvey",
             "age": 65
          }
+      ]
+   },
+
+   "perposals": {
+      "rows": [
+         {
+            "id": 1,
+            "perposalName": "Snow",
+            "category": "Jon",
+            "deadline": "2022-05-22"
+         },
+         {
+            "id": 2,
+            "perposalName": "Snow",
+            "category": "Jon",
+            "deadline": "2022-05-23"
+         },
+         {
+            "id": 3,
+            "perposalName": "Snow",
+            "category": "Jon",
+            "deadline": "2022-05-24"
+         },
+         {
+            "id": 4,
+            "perposalName": "Snow",
+            "category": "Jon",
+            "deadline": "2022-05-25"
+         }
+
+         
+         
       ]
    }
 }

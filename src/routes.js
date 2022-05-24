@@ -25,7 +25,7 @@ import AdminSidebarLayout from "./layouts/Sidebar/Admin/AdminSidebarLayout";
 import ShowProfile from "./components/ShowProfile";
 import EditProfile from "./components/EditProfile";
 import PendingProposals from "./containers/Dashboard/Reviewer/PendingProposals/PendingProposals";
-
+import Proposals from "./containers/Dashboard/Reviewer/PendingProposals/Proposals/Proposals";
 const routes = (isAuthenticated, userRole) => [
    {
       path: "/",
@@ -103,6 +103,7 @@ const routes = (isAuthenticated, userRole) => [
       element: <ReviewerSidebarLayout />,
       children: [
          { path: "pending", element: <PendingProposals /> },
+         { path: "pending/proposals", element: <Proposals /> },
          { path: "reviewing", element: <h1>Reviewing Proposals</h1> },
          { path: "reviewed", element: <h1>Reviewed Proposals</h1> },
          { path: "other", element: <h1>Other Proposals</h1> },
