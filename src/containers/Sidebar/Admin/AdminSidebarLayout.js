@@ -23,10 +23,10 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
-
+import { useNavigate, useLocation } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext";
 
 import RoleNavigationBar from "../../../components/RoleNavigationBar";
@@ -43,6 +43,11 @@ export default function AdminLayout() {
 
    const isMenuOpen = Boolean(anchorEl);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+   const navigate = useNavigate();
+   const location = useLocation();
+
+   console.log(location.pathname);
 
    const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
@@ -88,7 +93,13 @@ export default function AdminLayout() {
          </Toolbar>
          <Divider />
          <List>
-            <ListItem disablePadding>
+            <ListItem
+               disablePadding
+               selected={
+                  location.pathname.startsWith("/admin/users") ? true : false
+               }
+               onClick={() => navigate("/admin/users")}
+            >
                <ListItemButton>
                   <ListItemIcon>
                      <AccountBoxIcon />
@@ -104,6 +115,10 @@ export default function AdminLayout() {
                      transition: "0.2s",
                   },
                }}
+               selected={
+                  location.pathname.startsWith("/admin/add-user") ? true : false
+               }
+               onClick={() => navigate("/admin/add-user")}
             >
                <ListItemButton>
                   <ListItemIcon>

@@ -104,15 +104,16 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/admin",
       element: <DashboardLayout />,
-      children: [
-         { path: "", element: <AdminDashboardLayout /> },
-         { path: "*", element: <h1>Not Found 404</h1> },
-      ],
+      children: [{ path: "", element: <AdminDashboardLayout /> }],
    },
    {
       path: "/admin",
       element: <AdminSidebarLayout />,
-      children: [{ path: "users", element: <NewUserRequests /> }],
+      children: [
+         { path: "users", element: <h1>Current Users</h1> },
+         { path: "add-user", element: <h1>Add User</h1> },
+         { path: "*", element: <h1>Not Found 404</h1> },
+      ],
    },
    {
       path: "/profile",
