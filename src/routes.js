@@ -24,7 +24,7 @@ import ReviewerSidebarLayout from "./layouts/Sidebar/Reviewer/ReviewerSidebarLay
 import AdminSidebarLayout from "./layouts/Sidebar/Admin/AdminSidebarLayout";
 import ShowProfile from "./components/ShowProfile";
 import EditProfile from "./components/EditProfile";
-import PendingProposals from "./containers/Dashboard/Reviewer/PendingProposals/Pending-proposals";
+import PendingProposals from "./containers/Dashboard/Reviewer/PendingProposals/PendingProposals";
 
 const routes = (isAuthenticated, userRole) => [
    {
@@ -126,18 +126,12 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/profile",
       element: <ShowProfile />,
-      children: [
-         { path: "dashboard", element: <h1>Hello</h1> },
-         { path: "*", element: <h1>Not Found 404</h1> },
-      ],
+      children: [{ path: "*", element: <h1>Not Found 404</h1> }],
    },
    {
       path: "/edit-profile",
       element: <EditProfile />,
-      children: [
-         { path: "dashboard", element: <h1>Hello</h1> },
-         { path: "*", element: <h1>Not Found 404</h1> },
-      ],
+      children: [{ path: "*", element: <h1>Not Found 404</h1> }],
    },
    {
       path: "/test",
