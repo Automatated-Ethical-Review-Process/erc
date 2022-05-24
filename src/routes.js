@@ -1,8 +1,7 @@
 //layouts
 import MainLayout from "./layouts/MainLayout";
-import NewUserRequests from "./containers/Dashboard/Clerk/NewUserRequests";
+import NewUserRequest from "./containers/Dashboard/Clerk/NewUserRequests/NewUserRequests";
 import DashboardLayout from "./layouts/DashboardLayout";
-
 
 import Step1 from "./containers/Dashboard/Applicant/newSubmission/Step1";
 import CurrentSubmission from "./containers/Dashboard/Applicant/CurrentSubmission";
@@ -13,18 +12,19 @@ import NewSubmission from "./containers/Dashboard/Applicant/newSubmission/NewSub
 import SignIn from "./components/SignIn";
 import SignUp from "./components/signup/SignUp";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
-import ClerkDashboardLayout from "./containers/Dashboard/Clerk/ClerkDashboardLayout";
-import ReviewerDashboardLayout from "./containers/Dashboard/Reviewer/ReviewerDashboardLayout";
-import ApplicantDashboardLayout from "./containers/Dashboard/Applicant/ApplicantDashboardLayout";
-import SecretaryDashboardLayout from "./containers/Dashboard/Secretary/SecretaryDashboardLayout";
-import AdminDashboardLayout from "./containers/Dashboard/Admin/AdminDashboardLayout";
-import ClerkSidebarLayout from "./containers/Sidebar/Clerk/ClerkSidebarLayout";
-import ApplicantSidebarLayout from "./containers/Sidebar/Applicant/ApplicantSidebarLayout";
-import SecretarySidebarLayout from "./containers/Sidebar/Secretary/SecretarySidebarLayout";
-import ReviewerSidebarLayout from "./containers/Sidebar/Reviewer/ReviewerSidebarLayout";
-import AdminSidebarLayout from "./containers/Sidebar/Admin/AdminSidebarLayout";
+import ClerkDashboard from "./containers/Dashboard/Clerk/ClerkDashboard";
+import ReviewerDashboard from "./containers/Dashboard/Reviewer/ReviewerDashboard";
+import ApplicantDashboard from "./containers/Dashboard/Applicant/ApplicantDashboard";
+import SecretaryDashboard from "./containers/Dashboard/Secretary/SecretaryDashboard";
+import AdminDashboard from "./containers/Dashboard/Admin/AdminDashboard";
+import ClerkSidebarLayout from "./layouts/Sidebar/Clerk/ClerkSidebarLayout";
+import ApplicantSidebarLayout from "./layouts/Sidebar/Applicant/ApplicantSidebarLayout";
+import SecretarySidebarLayout from "./layouts/Sidebar/Secretary/SecretarySidebarLayout";
+import ReviewerSidebarLayout from "./layouts/Sidebar/Reviewer/ReviewerSidebarLayout";
+import AdminSidebarLayout from "./layouts/Sidebar/Admin/AdminSidebarLayout";
 import ShowProfile from "./components/ShowProfile";
 import EditProfile from "./components/EditProfile";
+import PendingProposals from "./containers/Dashboard/Reviewer/PendingProposals/Pending-proposals";
 
 const routes = (isAuthenticated, userRole) => [
    {
@@ -46,7 +46,7 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/clerk",
       element: <DashboardLayout />,
-      children: [{ path: "", element: <ClerkDashboardLayout /> }],
+      children: [{ path: "", element: <ClerkDashboard /> }],
    },
    {
       path: "/clerk",
@@ -62,7 +62,7 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/applicant",
       element: <DashboardLayout />,
-      children: [{ path: "", element: <ApplicantDashboardLayout /> }],
+      children: [{ path: "", element: <ApplicantDashboard /> }],
    },
    {
       path: "/applicant",
@@ -79,7 +79,7 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/secretary",
       element: <DashboardLayout />,
-      children: [{ path: "", element: <SecretaryDashboardLayout /> }],
+      children: [{ path: "", element: <SecretaryDashboard /> }],
    },
    {
       path: "/secretary",
@@ -96,13 +96,13 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/reviewer",
       element: <DashboardLayout />,
-      children: [{ path: "", element: <ReviewerDashboardLayout /> }],
+      children: [{ path: "", element: <ReviewerDashboard /> }],
    },
    {
       path: "/reviewer",
       element: <ReviewerSidebarLayout />,
       children: [
-         { path: "pending", element: <h1>Pending Proposals</h1> },
+         { path: "pending", element: <PendingProposals /> },
          { path: "reviewing", element: <h1>Reviewing Proposals</h1> },
          { path: "reviewed", element: <h1>Reviewed Proposals</h1> },
          { path: "other", element: <h1>Other Proposals</h1> },
@@ -112,7 +112,7 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/admin",
       element: <DashboardLayout />,
-      children: [{ path: "", element: <AdminDashboardLayout /> }],
+      children: [{ path: "", element: <AdminDashboard /> }],
    },
    {
       path: "/admin",
