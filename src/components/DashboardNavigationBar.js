@@ -16,6 +16,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { ThemeContext } from "../context/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
 import DashboardHeader from "./DashboardHeader";
 
@@ -33,8 +34,11 @@ export default function ClerkLayout() {
    const isMenuOpen = Boolean(anchorEl);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+   const navigate = useNavigate();
+
    const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
+      
    };
 
    const handleMobileMenuClose = () => {
@@ -44,6 +48,7 @@ export default function ClerkLayout() {
    const handleMenuClose = () => {
       setAnchorEl(null);
       handleMobileMenuClose();
+      navigate('/profile');
    };
 
    const handleLogout = () => {

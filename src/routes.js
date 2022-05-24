@@ -3,6 +3,12 @@ import MainLayout from "./layouts/MainLayout";
 import NewUserRequests from "./containers/Dashboard/Clerk/NewUserRequests";
 import DashboardLayout from "./layouts/DashboardLayout";
 
+
+import Step1 from "./containers/Dashboard/Applicant/newSubmission/Step1";
+import CurrentSubmission from "./containers/Dashboard/Applicant/CurrentSubmission";
+import Step2 from "./containers/Dashboard/Applicant/newSubmission/Step2";
+import NewSubmission from "./containers/Dashboard/Applicant/newSubmission/NewSubmission";
+
 //componets
 import SignIn from "./components/SignIn";
 import SignUp from "./components/signup/SignUp";
@@ -62,9 +68,11 @@ const routes = (isAuthenticated, userRole) => [
       path: "/applicant",
       element: <ApplicantSidebarLayout />,
       children: [
-         { path: "new-submission", element: <h1>New Submission</h1> },
-         { path: "current-submission", element: <h1>Current Submission</h1> },
+         { path: "new-submission", element: <NewSubmission /> },
+         { path: "current-submission", element: <CurrentSubmission /> },
          { path: "old-submissions", element: <h1>Old Submissions</h1> },
+         { path: "step1", element: <Step1 /> },
+         { path: "step2", element: <Step2 /> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
