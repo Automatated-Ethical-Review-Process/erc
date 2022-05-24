@@ -1,6 +1,6 @@
 //layouts
 import MainLayout from "./layouts/MainLayout";
-import NewUserRequest from "./containers/Dashboard/Clerk/NewUserRequest";
+import NewUserRequest from "./containers/Dashboard/Clerk/NewUserRequests/NewUserRequests";
 import DashboardLayout from "./layouts/DashboardLayout";
 
 //componets
@@ -19,7 +19,7 @@ import ReviewerSidebarLayout from "./layouts/Sidebar/Reviewer/ReviewerSidebarLay
 import AdminSidebarLayout from "./layouts/Sidebar/Admin/AdminSidebarLayout";
 import ShowProfile from "./components/ShowProfile";
 import EditProfile from "./components/EditProfile";
-import PendingProposals from "./layouts/Sidebar/Reviewer/PendingProposals/Pending-proposals";
+import PendingProposals from "./containers/Dashboard/Reviewer/PendingProposals/Pending-proposals"
 
 
 
