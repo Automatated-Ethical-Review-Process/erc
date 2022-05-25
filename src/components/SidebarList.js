@@ -15,6 +15,7 @@ export default function SidebarList({ items }) {
          <List>
             {items.map((item) => (
                <AListItem
+                  key={item.path}
                   location={location}
                   navigate={navigate}
                   path={item.path}

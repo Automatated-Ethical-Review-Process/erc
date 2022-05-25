@@ -1,19 +1,12 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import PendingIcon from "@mui/icons-material/Pending";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import MailIcon from "@mui/icons-material/Mail";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -28,17 +21,36 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import GradingIcon from "@mui/icons-material/Grading";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 
-import { ThemeContext } from "../../../context/ThemeContext";
-
 import RoleNavigationBar from "../../../components/RoleNavigationBar";
+import ADrawer from "../../../components/Drawer";
 
 const drawerWidth = 240;
 
+const sideBarItems = [
+   {
+      path: "/reviewer/pending",
+      icon: <PendingIcon />,
+      text: "Pending",
+   },
+   {
+      path: "/reviewer/reviewing",
+      icon: <PreviewIcon />,
+      text: "In Review",
+   },
+   {
+      path: "/reviewer/reviewed",
+      icon: <GradingIcon />,
+      text: "Reviewed",
+   },
+   {
+      path: "/reviewer/other",
+      icon: <SummarizeIcon />,
+      text: "Other",
+   },
+];
+
 export default function ReviewerLayout() {
-   const { color } = useContext(ThemeContext);
-
    const [mobileOpen, setMobileOpen] = useState(false);
-
    const [anchorEl, setAnchorEl] = useState(null);
    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -71,68 +83,6 @@ export default function ReviewerLayout() {
    const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
    };
-   const drawer = (
-      <div>
-         <Toolbar sx={{ bgcolor: color.primary }}>
-            <Typography
-               sx={{
-                  fontFamily: "monospace",
-                  fontSize: 20,
-                  lineHeight: 3,
-                  ml: 4,
-                  fontWeight: 700,
-                  color: "white",
-               }}
-            >
-               ERC SYSTEM
-            </Typography>
-         </Toolbar>
-         <Divider />
-         <List>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <PendingIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Pending" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem
-               disablePadding
-               sx={{
-                  bgcolor: "white",
-                  "&:hover": {
-                     transition: "0.2s",
-                  },
-               }}
-            >
-               <ListItemButton>
-                  <ListItemIcon>
-                     <PreviewIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="In Review" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <GradingIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Reviewed" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <SummarizeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Other" />
-               </ListItemButton>
-            </ListItem>
-         </List>
-         <Divider />
-      </div>
-   );
 
    const menuId = "primary-search-account-menu";
    const renderMenu = (
@@ -309,38 +259,12 @@ export default function ReviewerLayout() {
                aria-label="mailbox folders"
             >
                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-               <Drawer
-                  variant="temporary"
+               <ADrawer
                   open={mobileOpen}
                   onClose={handleDrawerToggle}
-                  ModalProps={{
-                     keepMounted: true, // Better open performance on mobile.
-                  }}
-                  sx={{
-                     display: { xs: "block", sm: "none" },
-                     "& .MuiDrawer-paper": {
-                        boxSizing: "border-box",
-                        width: drawerWidth,
-                     },
-                  }}
-               >
-                  {drawer}
-               </Drawer>
-               <Drawer
-                  variant="permanent"
-                  sx={{
-                     display: { xs: "none", sm: "block" },
-                     "& .MuiDrawer-paper": {
-                        boxSizing: "border-box",
-                        width: drawerWidth,
-                        borderRightColor: color.primary,
-                        borderRightWidth: 1,
-                     },
-                  }}
-                  open
-               >
-                  {drawer}
-               </Drawer>
+                  width={drawerWidth}
+                  items={sideBarItems}
+               />
             </Box>
             <Box
                component="main"
