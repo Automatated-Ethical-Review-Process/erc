@@ -1,19 +1,12 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import MailIcon from "@mui/icons-material/Mail";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -27,17 +20,31 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 
-import { ThemeContext } from "../../../context/ThemeContext";
-
 import RoleNavigationBar from "../../../components/RoleNavigationBar";
+import ADrawer from "../../../components/Drawer";
 
 const drawerWidth = 240;
 
+const sideBarItems = [
+   {
+      path: "/applicant/current-submission",
+      icon: <InboxIcon />,
+      text: "Current Submission",
+   },
+   {
+      path: "/applicant/new-submission",
+      icon: <NewReleasesIcon />,
+      text: "New Submission",
+   },
+   {
+      path: "/applicant/old-submissions",
+      icon: <UnfoldMoreIcon />,
+      text: "Old Submissions",
+   },
+];
+
 export default function ApplicantLayout() {
-   const { color } = useContext(ThemeContext);
-
    const [mobileOpen, setMobileOpen] = useState(false);
-
    const [anchorEl, setAnchorEl] = useState(null);
    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -70,60 +77,6 @@ export default function ApplicantLayout() {
    const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
    };
-   const drawer = (
-      <div>
-         <Toolbar sx={{ bgcolor: color.primary }}>
-            <Typography
-               sx={{
-                  fontFamily: "monospace",
-                  fontSize: 20,
-                  lineHeight: 3,
-                  ml: 4,
-                  fontWeight: 700,
-                  color: "white",
-               }}
-            >
-               ERC SYSTEM
-            </Typography>
-         </Toolbar>
-         <Divider />
-         <List>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <InboxIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Current Submission" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem
-               disablePadding
-               sx={{
-                  bgcolor: "white",
-                  "&:hover": {
-                     transition: "0.2s",
-                  },
-               }}
-            >
-               <ListItemButton>
-                  <ListItemIcon>
-                     <NewReleasesIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="New Submission" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <UnfoldMoreIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Old Submissions" />
-               </ListItemButton>
-            </ListItem>
-         </List>
-         <Divider />
-      </div>
-   );
 
    const menuId = "primary-search-account-menu";
    const renderMenu = (
@@ -300,38 +253,12 @@ export default function ApplicantLayout() {
                aria-label="mailbox folders"
             >
                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-               <Drawer
-                  variant="temporary"
+               <ADrawer
                   open={mobileOpen}
                   onClose={handleDrawerToggle}
-                  ModalProps={{
-                     keepMounted: true, // Better open performance on mobile.
-                  }}
-                  sx={{
-                     display: { xs: "block", sm: "none" },
-                     "& .MuiDrawer-paper": {
-                        boxSizing: "border-box",
-                        width: drawerWidth,
-                     },
-                  }}
-               >
-                  {drawer}
-               </Drawer>
-               <Drawer
-                  variant="permanent"
-                  sx={{
-                     display: { xs: "none", sm: "block" },
-                     "& .MuiDrawer-paper": {
-                        boxSizing: "border-box",
-                        width: drawerWidth,
-                        borderRightColor: color.primary,
-                        borderRightWidth: 1,
-                     },
-                  }}
-                  open
-               >
-                  {drawer}
-               </Drawer>
+                  width={drawerWidth}
+                  items={sideBarItems}
+               />
             </Box>
             <Box
                component="main"

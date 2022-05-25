@@ -22,9 +22,9 @@ const RoleNavigationBar = (props) => {
    const roles = ["Applicant", "Reviewer", "Clerk", "Secretary"];
    const path = [
       "/applicant/new-submission",
-      "/reviewer/pending-proposals",
+      "/reviewer/pending",
       "/clerk/new-user-requests",
-      "/secretary/unassigned-proposals",
+      "/secretary/unassigned",
    ];
    const [selectIndex, setSelectedIndex] = useState(null);
 
