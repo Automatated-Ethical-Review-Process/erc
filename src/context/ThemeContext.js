@@ -6,7 +6,7 @@ function ThemeContextProvider(props) {
    const theme = {
       color: {
          main: {
-            primary: "#178685",
+            primary: "#227093", //"#178685"
             secondary: "",
             error: "",
             warning: "",
@@ -15,11 +15,11 @@ function ThemeContextProvider(props) {
             listSelected: "#73b6b5",
          },
       },
-      font:{
-         button:{
-            family:'monospace',
-         }
-      }
+      font: {
+         button: {
+            family: "monospace",
+         },
+      },
    };
    return (
       <ThemeContext.Provider
