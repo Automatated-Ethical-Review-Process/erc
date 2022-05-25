@@ -93,20 +93,26 @@ const RoleNavigationBar = (props) => {
                         sx={{
                            width: 150,
                            boxSizing: "border-box",
-                           color: index == selectIndex ? "white" : "",
+                           fontFamily:theme.font.button.family,
+                           color:
+                              index === selectIndex
+                                 ? "white"
+                                 : theme.color.main.primary,
+                           borderColor: theme.color.main.primary,
                            backgroundColor:
-                              index == selectIndex
+                              index === selectIndex
                                  ? theme.color.main.primary
-                                 : "",
-                           fontWeight: index == selectIndex ? 700 : "",
+                                 : "white",
+                           fontWeight: index === selectIndex ? 700 : "",
                            "&:hover": {
+                              borderColor: theme.color.main.primary,
                               boxShadow: 20,
                               color:
-                                 index == selectIndex
+                                 index === selectIndex
                                     ? theme.color.main.primary
                                     : "",
                               backgroundColor:
-                                 index == selectIndex ? "white" : "",
+                                 index === selectIndex ? "white" : "",
                               transitionDuration: "0.6s",
                            },
                         }}
