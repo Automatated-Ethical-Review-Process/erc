@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
 
 const RoleNavigationBar = (props) => {
-   const { color, font } = useContext(ThemeContext);
+   const { theme } = useContext(ThemeContext);
    const navigate = useNavigate();
 
    const [btnValueInRoleMobile, setBtnValueInRoleMobile] =
@@ -75,43 +75,52 @@ const RoleNavigationBar = (props) => {
    };
    return (
       <>
-         <Box
-            sx={{
-               mt: 3,
-               mb: 1,
-               display: { xs: "none", md: "block" },
-               mx: "auto",
-               width: 150 * roles.length + 10 * (roles.length - 1),
-            }}
-         >
-            <Stack direction="row" spacing={10} component="div">
-               {roles.map((value, index) => (
-                  <Button
-                     key={index}
-                     variant="outlined"
-                     sx={{
-                        width: 150,
-                        boxSizing: "border-box",
-                        color: index == selectIndex ? "white" : "",
-                        backgroundColor:
-                           index == selectIndex ? color.primary : "",
-                        fontWeight: index == selectIndex ? 700 : "",
-                        "&:hover": {
-                           boxShadow: 20,
-                           color: index == selectIndex ? color.primary : "",
-                           backgroundColor: index == selectIndex ? "white" : "",
-                           transitionDuration: "0.6s",
-                        },
-                     }}
-                     onClick={() => {
-                        navigate(path[index]);
-                     }}
-                  >
-                     {value}
-                  </Button>
-               ))}
-            </Stack>
-         </Box>
+         {
+            <Box
+               sx={{
+                  mt: 3,
+                  mb: 1,
+                  display: { xs: "none", md: "block" },
+                  mx: "auto",
+                  width: 150 * roles.length + 10 * (roles.length - 1),
+               }}
+            >
+               <Stack direction="row" spacing={10} component="div">
+                  {roles.map((value, index) => (
+                     <Button
+                        key={index}
+                        variant="outlined"
+                        sx={{
+                           width: 150,
+                           boxSizing: "border-box",
+                           color: index == selectIndex ? "white" : "",
+                           backgroundColor:
+                              index == selectIndex
+                                 ? theme.color.main.primary
+                                 : "",
+                           fontWeight: index == selectIndex ? 700 : "",
+                           "&:hover": {
+                              boxShadow: 20,
+                              color:
+                                 index == selectIndex
+                                    ? theme.color.main.primary
+                                    : "",
+                              backgroundColor:
+                                 index == selectIndex ? "white" : "",
+                              transitionDuration: "0.6s",
+                           },
+                        }}
+                        onClick={() => {
+                           navigate(path[index]);
+                        }}
+                     >
+                        {value}
+                     </Button>
+                  ))}
+               </Stack>
+            </Box>
+         }
+
          <Box
             sx={{
                display: { xs: "block", md: "none" },

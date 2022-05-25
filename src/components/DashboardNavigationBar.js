@@ -20,11 +20,10 @@ import { useNavigate } from "react-router-dom";
 
 import DashboardHeader from "./DashboardHeader";
 
-
 const drawerWidth = 240;
 
 export default function ClerkLayout() {
-   const { color, font } = useContext(ThemeContext);
+   const { theme } = useContext(ThemeContext);
 
    const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -38,7 +37,6 @@ export default function ClerkLayout() {
 
    const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
-      
    };
 
    const handleMobileMenuClose = () => {
@@ -48,7 +46,7 @@ export default function ClerkLayout() {
    const handleMenuClose = () => {
       setAnchorEl(null);
       handleMobileMenuClose();
-      navigate('/profile');
+      navigate("/profile");
    };
 
    const handleLogout = () => {
@@ -150,9 +148,10 @@ export default function ClerkLayout() {
             <AppBar
                position="fixed"
                sx={{
-                position: "relative",
-                borderBottom: (t) => `1px solid ${t.palette.divider}`,
-             }}
+                  position: "relative",
+                  borderBottom: (t) => `1px solid ${t.palette.divider}`,
+                  bgcolor: theme.color.main.primary,
+               }}
             >
                <Toolbar>
                   <IconButton
@@ -234,7 +233,6 @@ export default function ClerkLayout() {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
-           
          </Box>
       </>
    );

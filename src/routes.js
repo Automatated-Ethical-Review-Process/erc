@@ -25,6 +25,7 @@ import AdminSidebarLayout from "./layouts/Sidebar/Admin/AdminSidebarLayout";
 import ShowProfile from "./components/ShowProfile";
 import EditProfile from "./components/EditProfile";
 import PendingProposals from "./containers/Dashboard/Reviewer/PendingProposals/PendingProposals";
+import Test from "./components/common/Test";
 
 const routes = (isAuthenticated, userRole) => [
    {
@@ -137,8 +138,8 @@ const routes = (isAuthenticated, userRole) => [
       path: "/test",
       element: <ReviewerSidebarLayout />,
       children: [
-         { path: "", element: <h1>Hello</h1> },
-         { path: "*", element: <h1>Not Found 404</h1> },
+         { path: "", element: <Test/> },
+         { path: "sample/:id", element: <Test/> },
       ],
    },
 ];

@@ -123,7 +123,7 @@ export default function SignIn() {
                      
                   }}
                >
-                  <Typography
+                  {/* {<Typography
                      align="justify"
                      sx={{ fontFamily: "monospace", letterSpacing: 2 }}
                   >
@@ -150,7 +150,7 @@ export default function SignIn() {
                      Ethical Review) recognition at the FERCAP conference, Chang
                      Gung Memorial Hospital,Taoyuan City, Taiwan 18th -21st
                      November 2018.
-                  </Typography>
+                  </Typography>} */}
                </Container>
             </Grid>
             <Grid item xs={4}>

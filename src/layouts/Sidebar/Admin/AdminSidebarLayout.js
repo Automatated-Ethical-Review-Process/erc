@@ -152,6 +152,7 @@ export default function AdminLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                   ml: { sm: `${drawerWidth}px` },
                   boxShadow: "none",
+                  bgcolor: theme.color.main.primary,
                }}
             >
                <Toolbar>
