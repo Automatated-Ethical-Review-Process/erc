@@ -16,7 +16,7 @@ function createColumnNode(field, headerName, flex) {
    return new ColumnDefinition(field, headerName, flex);
 }
 
-export default function NewUserRequests() {
+export default function PendingProposals() {
     console.log(tableData.perposals.rows)
    return (
       <>
