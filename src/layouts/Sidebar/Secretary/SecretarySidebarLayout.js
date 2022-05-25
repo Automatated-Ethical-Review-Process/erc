@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Outlet } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
@@ -21,6 +21,8 @@ import PageviewIcon from "@mui/icons-material/Pageview";
 import AssignmentLateIcon from "@mui/icons-material/AssignmentLate";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+
+import { ThemeContext } from "../../../context/ThemeContext";
 
 import RoleNavigationBar from "../../../components/RoleNavigationBar";
 import ADrawer from "../../../components/Drawer";
@@ -56,6 +58,8 @@ const sideBarItems = [
 ];
 
 export default function SecretaryLayout() {
+   const { theme } = useContext(ThemeContext);
+
    const [mobileOpen, setMobileOpen] = useState(false);
    const [anchorEl, setAnchorEl] = useState(null);
    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);

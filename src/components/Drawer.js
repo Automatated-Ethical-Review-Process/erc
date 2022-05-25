@@ -9,11 +9,11 @@ import { ThemeContext } from "../context/ThemeContext";
 import SidebarList from "./SidebarList";
 
 export default function ADrawer({ open, onClose, width, items }) {
-   const { color } = useContext(ThemeContext);
+   const { theme } = useContext(ThemeContext);
 
    const drawer = (
       <div>
-         <Toolbar sx={{ bgcolor: color.primary }}>
+         <Toolbar sx={{ bgcolor: theme.color.main.primary }}>
             <Typography
                sx={{
                   fontFamily: "monospace",
@@ -57,7 +57,7 @@ export default function ADrawer({ open, onClose, width, items }) {
                "& .MuiDrawer-paper": {
                   boxSizing: "border-box",
                   width: width,
-                  borderRightColor: color.primary,
+                  borderRightColor: theme.color.main.primary,
                   borderRightWidth: 1,
                },
             }}
