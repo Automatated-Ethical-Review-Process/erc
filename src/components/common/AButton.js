@@ -19,6 +19,7 @@ const AButton = (props) => {
                borderColor: theme.color.main.primary,
                transitionDuration: "0.4s",
             },
+            ...props.sx
          }}
       >
          {props.children}
