@@ -56,13 +56,19 @@ const RoleNavigationBar = ({ role }) => {
                      sx={{
                         width: 150,
                         boxSizing: "border-box",
-                        color: index === selectIndex ? "white" : "",
+                        fontFamily: theme.font.button.family,
+                        color:
+                           index === selectIndex
+                              ? "white"
+                              : theme.color.main.primary,
+                        borderColor: theme.color.main.primary,
                         backgroundColor:
                            index === selectIndex
                               ? theme.color.main.primary
-                              : "",
+                              : "white",
                         fontWeight: index === selectIndex ? 700 : "",
                         "&:hover": {
+                           borderColor: theme.color.main.primary,
                            boxShadow: 20,
                            color:
                               index === selectIndex
@@ -82,6 +88,7 @@ const RoleNavigationBar = ({ role }) => {
                ))}
             </Stack>
          </Box>
+
          <Box
             sx={{
                display: { xs: "block", md: "none" },
