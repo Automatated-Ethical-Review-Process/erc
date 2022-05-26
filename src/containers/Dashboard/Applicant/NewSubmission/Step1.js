@@ -72,13 +72,12 @@ export function BasicTextFields(props) {
       <Box
          component="form"
          sx={{
-            "& > :not(style)": {},
+            "& > :not(style)": {width:'100%'},
          }}
          noValidate
          autoComplete="off"
       >
          <TextField
-            sx={{ width: { xs: "20vw", md: "60vw" } }}
             id="outlined-basic"
             label={props.label}
             variant="outlined"
@@ -93,25 +92,25 @@ export default function FullWidthGrid() {
    const [hasCV, setHasCV] = useState(false);
    const [hasTrainingCertificate, setHasTrainingCertificate] = useState(false);
    return (
-      <Container>
-         <Box sx={{ flexGrow: 1, mx: 10, my: 5 }}>
+      <Container maxWidth='md'>
+         <Box sx={{ flexGrow: 1,my:7 }}>
             <Grid container spacing={1}>
-               <Grid item xs={12} md={12}>
+               <Grid item xs={12} sm={12} md={12}>
                   <BasicTextFields label="Proposal Name" />
                </Grid>
-               <Grid item xs={12} md={12}>
+               <Grid item xs={12} sm={12}  md={12}>
                   <BasicTextFields label="Proposal Type" />
                </Grid>
-               <Grid item xs={12} md={12}>
+               <Grid item xs={12} sm={12}  md={12}>
                   <BasicTextFields label="Co-Investigators" />
                </Grid>
-               <Grid item xs={12} md={12}>
+               <Grid item xs={12} sm={12}  md={12}>
                   <UploadButton upload="Upload the application form" />
                </Grid>
-               <Grid item xs={12} md={12}>
+               <Grid item xs={12} sm={12}  md={12}>
                   <UploadButton upload="Upload the proposal" />
                </Grid>
-               <Grid item xs={12} md={12}>
+               <Grid item xs={12} sm={12} md={12}>
                   <Stack direction="row" spacing={2}>
                      <FormControlLabelPosition
                         lbl="Has cover letter?"
@@ -121,7 +120,7 @@ export default function FullWidthGrid() {
                      {hasCoverLetter && <UploadButton upload="Upload" />}
                   </Stack>
                </Grid>
-               <Grid item xs={12} md={12}>
+               <Grid item xs={12} sm={12}  md={12}>
                   <Stack direction="row" spacing={2}>
                      <FormControlLabelPosition
                         lbl="Has CV?"
@@ -131,7 +130,7 @@ export default function FullWidthGrid() {
                      {hasCV && <UploadButton upload="Upload" />}
                   </Stack>
                </Grid>
-               <Grid item xs={12} md={12}>
+               <Grid item xs={12} sm={12}  md={12}>
                   <Stack direction="row" spacing={2}>
                      <FormControlLabelPosition
                         lbl="Has training certificate?"
@@ -143,12 +142,12 @@ export default function FullWidthGrid() {
                      )}
                   </Stack>
                </Grid>
-               <Grid item xs={3} md={4}>
+               <Grid item xs={3} sm={12}  md={4}>
                   <Typography varient={"h6"}>
                      Upload the supplementary
                   </Typography>
                </Grid>
-               <Grid item xs={6} md={8}></Grid>
+               <Grid item xs={6} sm={12}  md={8}></Grid>
             </Grid>
          </Box>
       </Container>

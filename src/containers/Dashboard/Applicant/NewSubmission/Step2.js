@@ -69,8 +69,8 @@ export function BasicTextFields(props) {
 
 export default function BasicGrid() {
    return (
-      <Container>
-         <Box sx={{ flexGrow: 1, mx: 10, my: 15 }}>
+      <Container maxWidth='md'>
+         <Box sx={{ flexGrow: 1,my:7}}>
             <Grid container spacing={2}>
                <Grid item xs={12}>
                   <BasicTextFields label="Slip ID" />
