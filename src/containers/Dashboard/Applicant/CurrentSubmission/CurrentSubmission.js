@@ -7,11 +7,27 @@ import { Container } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
-export function BasicButtons(props) {
+const Input = styled('input')({
+  display: 'none',
+});
+
+export function UploadButton(props) {
+  return (
+      <label htmlFor="contained-button-file">
+        <Input accept="image/*" id="contained-button-file" multiple type="file" />
+        <Button fullWidth='true' variant="outlined" component="span" sx={{minWidth:'15vw'}} >
+          {props.btnName} 
+        </Button>
+      </label>
+  );
+}
+
+export function BasicButton(props) {
   return (
     
-      <Button variant="outlined" sx={{width: {xs:'50%',md:'50%'} }}>{props.label1}</Button>
+      <Button fullWidth='true' variant="outlined" sx={{minWidth:'15vw'}}>{props.label1}</Button>
     
   );
 }
@@ -48,12 +64,13 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function BasicGrid() {
+  //const navigate = useNavigate();
   return (
-      <Container>
-        <Box sx={{ flexGrow: 1, mx:10,my:7 }}>
+      <Container maxWidth='md'>
+        <Box sx={{ flexGrow: 1,my:7 }}>
             <Grid container spacing={4}>
                 <Grid item xs={12}>
-                    <BasicTextFields label="Proposal Name"/>
+                    <BasicTextFields label="Proposal Title"/>
                 </Grid>
                 <Grid item xs={12}>
                     <BasicTextFields label="Proposal Type"/>
@@ -70,19 +87,14 @@ export default function BasicGrid() {
             </Grid>
         </Box>
 
-        <Box sx={{ flexGrow: 1, mx:10,mt:6 }}>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                <Stack spacing={2} direction="row">
-                    <BasicButtons label1="Submit New Version"/>
-                    <BasicButtons label1="View Document"/>
-                </Stack>
+        <Box sx={{ flexGrow: 1}}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6} sx={{minWidth:'md'}}>
+                    <UploadButton btnName="Submit New Version"/>
+                         
                 </Grid>
-                <Grid item xs={12}>
-                <Stack spacing={2} direction="row">
-                    <BasicButtons label1="Attach Progress Report"/>
-                    <BasicButtons label1="Attach Final Report"/>
-                </Stack>
+                <Grid item xs={12}  md={6} sx={{minWidth:'md'}}>
+                    <BasicButton label1="View Document"/>            
                 </Grid>
             </Grid>
         </Box>

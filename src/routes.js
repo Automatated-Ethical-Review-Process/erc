@@ -7,6 +7,7 @@ import Step1 from "./containers/Dashboard/Applicant/NewSubmission/Step1";
 import CurrentSubmission from "./containers/Dashboard/Applicant/CurrentSubmission/CurrentSubmission";
 import Step2 from "./containers/Dashboard/Applicant/NewSubmission/Step2";
 import NewSubmission from "./containers/Dashboard/Applicant/NewSubmission/NewSubmission";
+import SubmitNewVersion from "./containers/Dashboard/Applicant/CurrentSubmission/SubmitNewVersion/SubmitNewVersion";
 
 //componets
 import SignIn from "./components/SignIn";
@@ -80,6 +81,7 @@ const routes = (isAuthenticated, userRole) => [
          { path: "old-submissions", element: <h1>Old Submissions</h1> },
          { path: "step1", element: <Step1 /> },
          { path: "step2", element: <Step2 /> },
+         { path: "submit-new-version", element: <SubmitNewVersion /> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
