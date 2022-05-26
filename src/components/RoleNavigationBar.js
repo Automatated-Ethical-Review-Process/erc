@@ -59,8 +59,7 @@ const RoleNavigationBar = ({ role }) => {
                               ? "white"
                               : theme.color.main.primary,
                         borderColor: theme.color.main.primary,
-                        boxShadow: 20,
-                        color:
+                        backgroundColor:
                            index === selectIndex
                               ? theme.color.main.primary
                               : "white",
