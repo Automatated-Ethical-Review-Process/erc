@@ -20,7 +20,6 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import PreviewIcon from "@mui/icons-material/Preview";
 import GradingIcon from "@mui/icons-material/Grading";
 import SummarizeIcon from "@mui/icons-material/Summarize";
-import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "../../../context/ThemeContext";
 
@@ -61,8 +60,6 @@ export default function ReviewerLayout() {
 
    const isMenuOpen = Boolean(anchorEl);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-   const navigate = useNavigate();
 
    const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
