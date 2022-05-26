@@ -29,14 +29,14 @@ const drawerWidth = 240;
 
 const sideBarItems = [
    {
-      path: "/applicant/current-submission",
-      icon: <InboxIcon />,
-      text: "Current Submission",
-   },
-   {
       path: "/applicant/new-submission",
       icon: <NewReleasesIcon />,
       text: "New Submission",
+   },
+   {
+      path: "/applicant/current-submission",
+      icon: <InboxIcon />,
+      text: "Current Submission",
    },
    {
       path: "/applicant/old-submissions",
