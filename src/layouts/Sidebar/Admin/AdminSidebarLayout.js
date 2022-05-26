@@ -260,7 +260,7 @@ export default function AdminLayout() {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
             >
-               <RoleNavigationBar />
+               <RoleNavigationBar role="admin" />
                <Outlet />
             </Box>
          </Box>

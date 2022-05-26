@@ -32,10 +32,10 @@ function getStepContent(step) {
    }
 }
 
-const theme = createTheme();
+const themeApp = createTheme();
 
 export default function Checkout() {
-   const { color, font } = useContext(ThemeContext);
+   const { theme } = useContext(ThemeContext);
 
    const [activeStep, setActiveStep] = React.useState(0);
 
@@ -48,14 +48,14 @@ export default function Checkout() {
    };
 
    return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={themeApp}>
          <CssBaseline />
          <AppBar
             position="absolute"
             elevation={0}
             sx={{
                position: "relative",
-               bgColor: color.primary,
+               bgColor: theme.color.primary,
                borderBottom: (t) => `1px solid ${t.palette.divider}`,
             }}
          >
