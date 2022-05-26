@@ -25,7 +25,13 @@ import AdminSidebarLayout from "./layouts/Sidebar/Admin/AdminSidebarLayout";
 import ShowProfile from "./components/ShowProfile";
 import EditProfile from "./components/EditProfile";
 import PendingProposals from "./containers/Dashboard/Reviewer/PendingProposals/PendingProposals";
-import Test from "./components/common/Test";
+import ProposalsPending from "./containers/Dashboard/Reviewer/PendingProposals/Proposals/Proposals";
+import ReviewingProposals from "./containers/Dashboard/Reviewer/ReviewingProposals/ReviewingProposals";
+import ProposalsReviewing from "./containers/Dashboard/Reviewer/ReviewingProposals/Proposals/Proposals";
+import OtherProposals from "./containers/Dashboard/Reviewer/OtherProposals/OtherProposals";
+import ReviewedProposals from "./containers/Dashboard/Reviewer/ReviewedProposals/ReviewedProposals";
+import ProposalsReviewed from "./containers/Dashboard/Reviewer/ReviewedProposals/Proposals/Proposals";
+import ProposalsOther from "./containers/Dashboard/Reviewer/OtherProposals/Proposals/Proposals";
 
 const routes = (isAuthenticated, userRole) => [
    {
@@ -104,9 +110,13 @@ const routes = (isAuthenticated, userRole) => [
       element: <ReviewerSidebarLayout />,
       children: [
          { path: "pending", element: <PendingProposals /> },
-         { path: "reviewing", element: <h1>Reviewing Proposals</h1> },
-         { path: "reviewed", element: <h1>Reviewed Proposals</h1> },
-         { path: "other", element: <h1>Other Proposals</h1> },
+         { path: "pending/proposals", element: <ProposalsPending /> },
+         { path: "reviewing", element: <ReviewingProposals /> },
+         { path: "reviewing/proposals", element: <ProposalsReviewing /> },
+         { path: "reviewed", element: <ReviewedProposals /> },
+         { path: "reviewed/proposals", element: <ProposalsReviewed /> },
+         { path: "other", element: <OtherProposals /> },
+         { path: "other/proposals", element: <ProposalsOther /> },
          { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
@@ -133,14 +143,6 @@ const routes = (isAuthenticated, userRole) => [
       path: "/edit-profile",
       element: <EditProfile />,
       children: [{ path: "*", element: <h1>Not Found 404</h1> }],
-   },
-   {
-      path: "/test",
-      element: <ReviewerSidebarLayout />,
-      children: [
-         { path: "", element: <Test/> },
-         { path: "sample/:id", element: <Test/> },
-      ],
    },
 ];
 
