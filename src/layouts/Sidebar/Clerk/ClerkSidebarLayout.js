@@ -267,7 +267,7 @@ export default function ClerkLayout() {
                component="main"
                sx={{
                   flexGrow: 1,
-                  mt: { xs: 3.9, sm: 5, md: 5 },
+                  mt: { xs: 7, sm: 9, md: 9 },
                   p: 1,
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                }}
