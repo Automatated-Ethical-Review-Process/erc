@@ -9,15 +9,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 
+import { useNavigate } from "react-router-dom";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { ThemeContext } from "../context/ThemeContext";
 
-const pages = ["Home", "Sign in", "Sign up", "Instruction"];
+const pages = ["Sign up", "Instruction"];
 
 const NavigationBar = () => {
-
-   const{theme} = useContext(ThemeContext);
+   const { theme } = useContext(ThemeContext);
+   const navigate = useNavigate();
 
    const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -27,6 +29,19 @@ const NavigationBar = () => {
 
    const handleCloseNavMenu = () => {
       setAnchorElNav(null);
+   };
+
+   const handleOnClick = (page) => {
+      switch (page) {
+         case pages[0]:
+            navigate("/signup");
+            break;
+         case pages[1]:
+            break;
+         default:
+            console.log("invalid click param");
+      }
+      handleCloseNavMenu();
    };
 
    const themeLocal = createTheme({
@@ -44,7 +59,10 @@ const NavigationBar = () => {
 
    return (
       <ThemeProvider theme={themeLocal}>
-         <AppBar position="static" sx={{ p: 0.1,backgroundColor:theme.color.main.primary }}>
+         <AppBar
+            position="static"
+            sx={{ p: 0.1, backgroundColor: theme.color.main.primary }}
+         >
             <Toolbar disableGutters>
                <Typography
                   variant="h6"
@@ -94,7 +112,10 @@ const NavigationBar = () => {
                      }}
                   >
                      {pages.map((page) => (
-                        <MenuItem key={page} onClick={handleCloseNavMenu}>
+                        <MenuItem
+                           key={page}
+                           onClick={() => handleOnClick(page)}
+                        >
                            <Typography textAlign="center">{page}</Typography>
                         </MenuItem>
                      ))}
@@ -108,10 +129,10 @@ const NavigationBar = () => {
                   sx={{
                      mr: 2,
                      ml: { xs: 0, md: 6 },
-                     display: 'flex',
+                     display: "flex",
                      flexGrow: 1,
                      fontWeight: 500,
-                     letterSpacing: {xs:".1rem",md:".3rem"},
+                     letterSpacing: { xs: ".1rem", md: ".3rem" },
                      color: "inherit",
                      textDecoration: "none",
                      fontSize: { xs: 15, md: 30 },
@@ -127,35 +148,15 @@ const NavigationBar = () => {
                      justifyContent: "right",
                   }}
                >
-                  <Button
-                     onClick={handleCloseNavMenu}
-                     sx={{ my: 0, color: "white", display: "block" }}
-                  >
-                     Home
-                  </Button>
-                  <Button
-                     onClick={handleCloseNavMenu}
-                     sx={{
-                        my: 0,
-                        color: "white",
-                        display: "block",
-                        fontSize: 15,
-                     }}
-                  >
-                     Sign in
-                  </Button>
-                  <Button
-                     onClick={handleCloseNavMenu}
-                     sx={{ my: 0, color: "white", display: "block" }}
-                  >
-                     Sign up
-                  </Button>
-                  <Button
-                     onClick={handleCloseNavMenu}
-                     sx={{ my: 0, color: "white", display: "block" }}
-                  >
-                     Instruction
-                  </Button>
+                  {pages.map((page) => (
+                     <Button
+                        key={page}
+                        onClick={() => handleOnClick(page)}
+                        sx={{ my: 0, color: "white", display: "block" }}
+                     >
+                        {page}
+                     </Button>
+                  ))}
                </Box>
             </Toolbar>
          </AppBar>
