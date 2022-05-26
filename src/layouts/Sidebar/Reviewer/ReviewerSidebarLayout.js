@@ -27,6 +27,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import PreviewIcon from "@mui/icons-material/Preview";
 import GradingIcon from "@mui/icons-material/Grading";
 import SummarizeIcon from "@mui/icons-material/Summarize";
+import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "../../../context/ThemeContext";
 
@@ -44,6 +45,8 @@ export default function ReviewerLayout() {
 
    const isMenuOpen = Boolean(anchorEl);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+   const navigate=useNavigate();
 
    const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
@@ -90,10 +93,10 @@ export default function ReviewerLayout() {
          <Divider />
          <List>
             <ListItem disablePadding>
-               <ListItemButton>
+               <ListItemButton onClick={()=>navigate("/reviewer/pending")}>
                   <ListItemIcon>
                      <PendingIcon />
-                  </ListItemIcon>
+                  </ListItemIcon >
                   <ListItemText primary="Pending" />
                </ListItemButton>
             </ListItem>
@@ -106,7 +109,7 @@ export default function ReviewerLayout() {
                   },
                }}
             >
-               <ListItemButton>
+               <ListItemButton onClick={()=>navigate("/reviewer/reviewing")}>
                   <ListItemIcon>
                      <PreviewIcon />
                   </ListItemIcon>
@@ -114,7 +117,7 @@ export default function ReviewerLayout() {
                </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-               <ListItemButton>
+               <ListItemButton onClick={()=>navigate("/reviewer/reviewed")}>
                   <ListItemIcon>
                      <GradingIcon />
                   </ListItemIcon>
@@ -122,7 +125,7 @@ export default function ReviewerLayout() {
                </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-               <ListItemButton>
+               <ListItemButton onClick={()=>navigate("/reviewer/other")}>
                   <ListItemIcon>
                      <SummarizeIcon />
                   </ListItemIcon>
