@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,13 +11,14 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+
+import { ThemeContext } from "../context/ThemeContext";
 
 import Image from "../assests/meetings.jpg";
 
 export default function SignIn() {
+   const { theme } = useContext(ThemeContext);
    const navigate = useNavigate();
 
    const handleSubmit = (event) => {
@@ -41,7 +42,7 @@ export default function SignIn() {
                alignItems: "center",
             }}
          >
-            <Avatar sx={{ m: 1, bgcolor: "#1976d2" }}>
+            <Avatar sx={{ m: 1, backgroundColor: "#1976d2" }}>
                <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -108,7 +109,7 @@ export default function SignIn() {
             container
             spacing={0}
             columns={{ xs: 4, md: 12 }}
-            sx={{ mt: 1, mx: 1 }}
+            sx={{ mt: 1, pl: 2 }}
          >
             <Grid item xs={4} md={7}>
                <Container
@@ -120,7 +121,6 @@ export default function SignIn() {
                      backgroundRepeat: "no-repeat",
                      backgroundPosition: "center",
                      backgroundSize: "cover",
-                     
                   }}
                >
                   {/* {<Typography
