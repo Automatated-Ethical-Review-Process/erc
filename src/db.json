@@ -1,4 +1,4 @@
- {
+{
    "users": {
       "rows": [
          {
@@ -124,35 +124,40 @@
       ]
    },
 
-   "perposals": {
+   "proposals": {
       "rows": [
          {
             "id": 1,
-            "perposalName": "Snow",
-            "category": "Jon",
-            "deadline": "2022-05-22"
+            "name": "John",
+            "category": "A",
+            "date": "2022-04-10",
+            "time": "08:40:00",
+            "deadline": "2022-05-10"
          },
          {
             "id": 2,
-            "perposalName": "Snow",
-            "category": "Jon",
-            "deadline": "2022-05-23"
+            "name": "Sam",
+            "category": "B",
+            "date": "2022-04-15",
+            "time": "09:27:00",
+            "deadline": "2022-05-15"
          },
          {
             "id": 3,
-            "perposalName": "Snow",
-            "category": "Jon",
-            "deadline": "2022-05-24"
+            "name": "Jack",
+            "category": "C",
+            "date": "2022-05-22",
+            "time": "11:35:00",
+            "deadline": "2022-06-22"
          },
          {
             "id": 4,
-            "perposalName": "Snow",
-            "category": "Jon",
-            "deadline": "2022-05-25"
+            "name": "Jim",
+            "category": "D",
+            "date": "2022-06-12",
+            "time": "04:56:00",
+            "deadline": "2022-07-12"
          }
-
-         
-         
       ]
    }
 }

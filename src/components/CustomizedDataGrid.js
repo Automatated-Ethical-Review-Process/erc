@@ -3,7 +3,22 @@ import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Container } from "@mui/material";
 
-const CustomizedDataGrid = ({ fields, headerNames, onNodeCreate, rows }) => {
+class ColumnDefinition {
+   constructor(field, headerName, flex) {
+      this.field = field;
+      this.headerName = headerName;
+      this.headerAlign = "center";
+      this.align = "center";
+      this.width = 150;
+      this.flex = flex;
+   }
+}
+
+function createColumnNode(field, headerName, flex) {
+   return new ColumnDefinition(field, headerName, flex);
+}
+
+const CustomizedDataGrid = ({ fields, headerNames, rows, onRowClick }) => {
    const [pageSize, setPageSize] = useState(9);
    const [windowSize, setWindowsize] = useState(window.screen.availWidth);
    const columns = [];
@@ -14,7 +29,7 @@ const CustomizedDataGrid = ({ fields, headerNames, onNodeCreate, rows }) => {
 
    fields.map((value, index) =>
       columns.push(
-         onNodeCreate(value, headerNames[index], windowSize < 376 ? 0 : 1)
+         createColumnNode(value, headerNames[index], windowSize < 376 ? 0 : 1)
       )
    );
 
@@ -28,9 +43,7 @@ const CustomizedDataGrid = ({ fields, headerNames, onNodeCreate, rows }) => {
             rowsPerPageOptions={[9, 15, 20]}
             pagination
             disableSelectionOnClick
-            onRowClick={(params) => {
-               console.log(params);
-            }}
+            onRowClick={(params) => onRowClick(params.row)}
             sx={{
                "&.MuiDataGrid-root .MuiDataGrid-cell:focus": {
                   outline: 0,

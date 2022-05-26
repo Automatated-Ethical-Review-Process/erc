@@ -1,31 +1,25 @@
+import { useNavigate } from "react-router-dom";
+
 import CustomizedDataGrid from "../../../../components/CustomizedDataGrid";
 import tableData from "../../../../db.json";
 
-class ColumnDefinition {
-   constructor(field, headerName, flex) {
-      this.field = field;
-      this.headerName = headerName;
-      this.headerAlign = "center";
-      this.align = "center";
-      this.width = 150;
-      this.flex = flex;
-   }
-}
-
-function createColumnNode(field, headerName, flex) {
-   return new ColumnDefinition(field, headerName, flex);
-}
-
 export default function ReviewingProposals() {
-    console.log(tableData.perposals.rows)
+   const navigate = useNavigate();
+
    return (
       <>
          <CustomizedDataGrid
-            fields={["id", "perposalName", "category", "deadline"]}
-            headerNames={["Proposal ID", "Proposal Name", "Category", "Deadline"]}
-            onNodeCreate={createColumnNode}
-            rows={tableData.perposals.rows}
-            
+            fields={["id", "name", "category", "deadline"]}
+            headerNames={[
+               "Proposal ID",
+               "Proposal Name",
+               "Category",
+               "Deadline",
+            ]}
+            rows={tableData.proposals.rows}
+            onRowClick={(row) =>
+               navigate("/reviewer/reviewing/proposals", { state: row })
+            }
          />
       </>
    );
