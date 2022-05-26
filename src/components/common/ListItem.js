@@ -12,17 +12,25 @@ export default function AListItem({ location, navigate, path, icon, text }) {
    return (
       <ListItem
          disablePadding
+         button
          sx={{
             bgcolor: "white",
             "&:hover": {
                backgroundColor: theme.color.main.primary,
                color: "white",
                transition: "0.2s",
+               "&.MuiListItem-button .MuiListItemIcon-root": {
+                  color: "white",
+               },
             },
             "&.Mui-selected": {
                backgroundColor: theme.color.main.primary,
                color: "white",
                transition: "0.2s",
+               "&:hover": {
+                  backgroundColor: theme.color.main.primary,
+                  color: "white",
+               },
             },
          }}
          selected={location.pathname.startsWith(path) ? true : false}

@@ -25,14 +25,11 @@ const RoleNavigationBar = ({ role }) => {
    const handleClose = () => setOpen(false);
 
    const roles = ["Reviewer"];
-   const paths = ["/reviewer/pending"];
 
    if (role === "secretary") {
       roles.push("Secretary");
-      paths.push("/secretary/unassigned");
    } else {
       roles.push("Applicant");
-      paths.push("/applicant/new-submission");
    }
 
    const selectIndex = roles.map((s) => s.toLowerCase()).indexOf(role);
@@ -62,11 +59,12 @@ const RoleNavigationBar = ({ role }) => {
                               ? "white"
                               : theme.color.main.primary,
                         borderColor: theme.color.main.primary,
-                        backgroundColor:
+                        boxShadow: 20,
+                        color:
                            index === selectIndex
                               ? theme.color.main.primary
                               : "white",
-                        fontWeight: index === selectIndex ? 700 : "",
+                        fontWeight: 700,
                         "&:hover": {
                            borderColor: theme.color.main.primary,
                            boxShadow: 20,
@@ -80,7 +78,7 @@ const RoleNavigationBar = ({ role }) => {
                         },
                      }}
                      onClick={() => {
-                        navigate(paths[index]);
+                        navigate("/" + roles[index].toLowerCase());
                      }}
                   >
                      {value}
@@ -132,7 +130,7 @@ const RoleNavigationBar = ({ role }) => {
                               onClick={() => {
                                  setBtnValueInRoleMobile(value);
                                  handleClose();
-                                 navigate(paths[index]);
+                                 navigate("/" + roles[index].toLowerCase());
                               }}
                            >
                               {value}
