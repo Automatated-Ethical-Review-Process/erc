@@ -22,10 +22,10 @@ import AssignmentLateIcon from "@mui/icons-material/AssignmentLate";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
-import { ThemeContext } from "../../../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
 
-import RoleNavigationBar from "../../../components/RoleNavigationBar";
-import ADrawer from "../../../components/Drawer";
+import RoleNavigationBar from "components/RoleNavigationBar";
+import ADrawer from "components/Drawer";
 
 const drawerWidth = 240;
 

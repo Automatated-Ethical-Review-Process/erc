@@ -15,7 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 
 import DashboardHeader from "./DashboardHeader";
@@ -46,13 +46,18 @@ export default function ClerkLayout() {
    const handleMenuClose = () => {
       setAnchorEl(null);
       handleMobileMenuClose();
+   };
+
+   const handleProfile = () => {
+      setAnchorEl(null);
+      handleMobileMenuClose();
       navigate("/profile");
    };
 
    const handleLogout = () => {
       setAnchorEl(null);
       handleMobileMenuClose();
-      alert("You logout..!");
+      navigate("/");
    };
 
    const handleMobileMenuOpen = (event) => {
@@ -80,7 +85,7 @@ export default function ClerkLayout() {
          open={isMenuOpen}
          onClose={handleMenuClose}
       >
-         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+         <MenuItem onClick={handleProfile}>Profile</MenuItem>
          <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
    );

@@ -20,10 +20,10 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
-import { ThemeContext } from "../../../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
 
-import RoleNavigationBar from "../../../components/RoleNavigationBar";
-import ADrawer from "../../../components/Drawer";
+import RoleNavigationBar from "components/RoleNavigationBar";
+import ADrawer from "components/Drawer";
 
 const drawerWidth = 240;
 

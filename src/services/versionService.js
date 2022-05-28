@@ -1,17 +1,21 @@
-import db from "../db.json";
+import db from "db.json";
+import { getProposal } from "./proposalService";
 
-const { proposals, versions } = db;
+const { versions } = db;
 
 export function getVersions(proposalId) {
-   proposalId = Number(proposalId);
-   const proposal = proposals.find((i) => i.id === proposalId);
+   const proposal = getProposal(proposalId);
 
    if (proposal) {
       return versions.filter((v) => proposal.versions.includes(v.id));
    }
 }
 
-export function getVersion(id) {
+export function getVersion(proposalId, id) {
+   const proposal = getProposal(proposalId);
+
    id = Number(id);
-   return versions.find((i) => i.id === id);
+   if (proposal && proposal.versions.includes(id)) {
+      return versions.find((i) => i.id === id);
+   }
 }

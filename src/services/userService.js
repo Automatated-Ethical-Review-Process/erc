@@ -1,4 +1,4 @@
-import db from "../db.json";
+import db from "db.json";
 
 const users = db.users;
 

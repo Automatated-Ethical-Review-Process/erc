@@ -4,7 +4,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useContext } from "react";
 
-import { ThemeContext } from "../../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
 
 export default function AListItem({ location, navigate, path, icon, text }) {
    const { theme } = useContext(ThemeContext);

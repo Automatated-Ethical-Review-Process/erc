@@ -21,10 +21,10 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import GradingIcon from "@mui/icons-material/Grading";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 
-import { ThemeContext } from "../../../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
 
-import RoleNavigationBar from "../../../components/RoleNavigationBar";
-import ADrawer from "../../../components/Drawer";
+import RoleNavigationBar from "components/RoleNavigationBar";
+import ADrawer from "components/Drawer";
 
 const drawerWidth = 240;
 

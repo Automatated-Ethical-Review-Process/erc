@@ -7,7 +7,7 @@ import Modal from "@mui/material/Modal";
 
 import { useNavigate } from "react-router-dom";
 
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
 
 const RoleNavigationBar = ({ role }) => {
    const { theme } = useContext(ThemeContext);

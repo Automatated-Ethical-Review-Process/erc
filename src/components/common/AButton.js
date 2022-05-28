@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { Button } from "@mui/material";
 
-import { ThemeContext } from "../../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
+
 const AButton = (props) => {
    const { theme } = useContext(ThemeContext);
    return (
@@ -10,8 +11,8 @@ const AButton = (props) => {
          sx={{
             backgroundColor: theme.color.main.primary,
             borderColor: theme.color.main.primary,
-            fontFamily:theme.font.button.family,
-            fontWeight:700,
+            fontFamily: theme.font.button.family,
+            fontWeight: 700,
             "&:hover": {
                boxShadow: 10,
                color: "white",
@@ -19,7 +20,7 @@ const AButton = (props) => {
                borderColor: theme.color.main.primary,
                transitionDuration: "0.4s",
             },
-            ...props.sx
+            ...props.sx,
          }}
       >
          {props.children}

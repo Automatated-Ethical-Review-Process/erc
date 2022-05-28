@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,12 +13,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 
-import { ThemeContext } from "../context/ThemeContext";
-
-import Image from "../assests/meetings.jpg";
+import Image from "assests/meetings.jpg";
 
 export default function SignIn() {
-   const { theme } = useContext(ThemeContext);
    const navigate = useNavigate();
 
    const handleSubmit = (event) => {

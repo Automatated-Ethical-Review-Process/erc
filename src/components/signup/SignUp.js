@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
-import { ThemeContext } from "../../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
 
 const steps = ["Step 1", "Step 2", "Step 3"];
 

@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
 import CustomizedDataGrid from "../../../../components/CustomizedDataGrid";
-import tableData from "../../../../db.json";
+import { getProposals } from "../../../../services/proposalService";
 
 export default function ReviewingProposals() {
    const navigate = useNavigate();
+   const proposals = getProposals();
 
    return (
       <>
@@ -16,10 +17,8 @@ export default function ReviewingProposals() {
                "Category",
                "Deadline",
             ]}
-            rows={tableData.proposals.rows}
-            onRowClick={(row) =>
-               navigate("/reviewer/reviewing/proposals", { state: row })
-            }
+            rows={proposals}
+            onRowClick={(row) => navigate("/reviewer/reviewing/" + row.id)}
          />
       </>
    );

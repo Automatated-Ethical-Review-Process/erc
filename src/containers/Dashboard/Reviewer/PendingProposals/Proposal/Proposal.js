@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
@@ -12,22 +12,26 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import { getProposal } from "services/proposalService";
 
-import ReadOnlyTextField from "../../../../../components/common/ReadOnlyTextField";
+import ReadOnlyTextField from "components/common/ReadOnlyTextField";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
    return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function Proposals() {
+export default function Proposal() {
+   const navigate = useNavigate();
+   const { pathname } = useLocation();
+
    const [open1, setOpenAccept] = React.useState(false);
    const [open2, setOpenDecline] = React.useState(false);
 
-   const location = useLocation();
-   const proposal = location.state;
+   const { pid: proposalId } = useParams();
+   const proposal = getProposal(proposalId);
 
    if (!proposal) {
-      return "invalid data";
+      return "invalid proposal id " + proposalId;
    }
 
    const handleClickOpen1 = () => {
@@ -77,7 +81,12 @@ export default function Proposals() {
                </Grid>
 
                <Grid item xs={12}>
-                  <Button variant="contained">View Documents</Button>
+                  <Button
+                     variant="contained"
+                     onClick={() => navigate(`${pathname}/versions`)}
+                  >
+                     View Documents
+                  </Button>
                </Grid>
                <Grid item xs={12} md={6}></Grid>
                <Grid item xs={12} md={3}>
@@ -115,7 +124,7 @@ export default function Proposals() {
                   </DialogContentText>
                </DialogContent>
                <DialogActions>
-                  <Button onClick={handleClose1}>Cansel</Button>
+                  <Button onClick={handleClose1}>Cancel</Button>
                   <Button onClick={handleClose1}>Accept</Button>
                </DialogActions>
             </Dialog>
@@ -133,7 +142,7 @@ export default function Proposals() {
                   </DialogContentText>
                </DialogContent>
                <DialogActions>
-                  <Button onClick={handleClose2}>Cansel</Button>
+                  <Button onClick={handleClose2}>Cancel</Button>
                   <Button onClick={handleClose2}>Decline</Button>
                </DialogActions>
             </Dialog>

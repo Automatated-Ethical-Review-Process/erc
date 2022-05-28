@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
@@ -7,14 +7,17 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { Container } from "@mui/material";
 
+import { getProposal } from "../../../../../services/proposalService";
 import ReadOnlyTextField from "../../../../../components/common/ReadOnlyTextField";
 
 export default function ReviewingProposals() {
+   const navigate = useNavigate();
    const location = useLocation();
-   const proposal = location.state;
+   const { id: proposalId } = useParams();
+   const proposal = getProposal(proposalId);
 
    if (!proposal) {
-      return "invalid data";
+      return "invalid proposal id " + proposalId;
    }
 
    return (
@@ -51,7 +54,12 @@ export default function ReviewingProposals() {
                </Grid>
 
                <Grid item xs={12}>
-                  <Button variant="contained">View Documents</Button>
+                  <Button
+                     variant="contained"
+                     onClick={() => navigate(`${location.pathname}/versions`)}
+                  >
+                     View Documents
+                  </Button>
                </Grid>
             </Grid>
          </Box>

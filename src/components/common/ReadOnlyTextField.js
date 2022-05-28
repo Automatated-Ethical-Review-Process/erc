@@ -10,7 +10,6 @@ export default function ReadOnlyTextField({ label, value }) {
          size="small"
          label={label}
          value={value}
-         defaultValue="Read Only Text"
          InputProps={{
             readOnly: true,
          }}

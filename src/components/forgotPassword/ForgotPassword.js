@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { ThemeContext } from "../../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 

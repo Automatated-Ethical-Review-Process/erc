@@ -41,7 +41,6 @@ const CustomizedDataGrid = ({ fields, headerNames, rows, onRowClick }) => {
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[9, 15, 20]}
-            pagination
             disableSelectionOnClick
             onRowClick={(params) => onRowClick(params.row)}
             sx={{

@@ -1,17 +1,21 @@
-import db from "../db.json";
+import db from "db.json";
+import { getVersion } from "./versionService";
 
-const { versions, documents } = db;
+const { documents } = db;
 
-export function getDocuments(versionId) {
-   versionId = Number(versionId);
-   const version = versions.find((i) => i.id === versionId);
+export function getDocuments(proposalId, versionId) {
+   const version = getVersion(proposalId, versionId);
 
    if (version) {
       return documents.filter((d) => version.documents.includes(d.id));
    }
 }
 
-export function getDocument(id) {
+export function getDocument(proposalId, versionId, id) {
+   const version = getVersion(proposalId, versionId);
+
    id = Number(id);
-   return documents.find((i) => i.id === id);
+   if (version && version.documents.includes(id)) {
+      return documents.find((i) => i.id === id);
+   }
 }

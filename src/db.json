@@ -124,8 +124,8 @@
    "proposals": [
       {
          "id": 1,
-         "name": "John",
-         "category": "A",
+         "name": "Proposal 1",
+         "category": "Human Research",
          "date": "2022-04-10",
          "time": "08:40:00",
          "deadline": "2022-05-10",
@@ -133,8 +133,8 @@
       },
       {
          "id": 2,
-         "name": "Sam",
-         "category": "B",
+         "name": "Proposal 2",
+         "category": "Animal Research",
          "date": "2022-04-15",
          "time": "09:27:00",
          "deadline": "2022-05-15",
@@ -142,8 +142,8 @@
       },
       {
          "id": 3,
-         "name": "Jack",
-         "category": "C",
+         "name": "Proposal 3",
+         "category": "Human Research",
          "date": "2022-05-22",
          "time": "11:35:00",
          "deadline": "2022-06-22",
@@ -151,8 +151,8 @@
       },
       {
          "id": 4,
-         "name": "Jim",
-         "category": "D",
+         "name": "Proposal 4",
+         "category": "Animal Research",
          "date": "2022-06-12",
          "time": "04:56:00",
          "deadline": "2022-07-12",

@@ -1,13 +1,14 @@
 import CustomizedDataGrid from "../../../../components/CustomizedDataGrid";
-import tableData from "../../../../db.json";
+import { getUsers } from "../../../../services/userService";
 
 export default function NewUserRequests() {
+   const users = getUsers();
    return (
       <>
          <CustomizedDataGrid
             fields={["id", "firstName", "lastName", "age"]}
             headerNames={["ID", "First Name", "Last Name", "Age"]}
-            rows={tableData.users.rows}
+            rows={users}
             onRowClick={(row) => console.log(row)}
          />
       </>

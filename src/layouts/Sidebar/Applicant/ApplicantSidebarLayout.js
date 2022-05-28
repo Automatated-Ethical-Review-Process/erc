@@ -20,10 +20,10 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 
-import { ThemeContext } from "../../../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
 
-import RoleNavigationBar from "../../../components/RoleNavigationBar";
-import ADrawer from "../../../components/Drawer";
+import RoleNavigationBar from "components/RoleNavigationBar";
+import ADrawer from "components/Drawer";
 
 const drawerWidth = 240;
 
