@@ -1,6 +1,6 @@
-import db from "db.json";
+import db from "db";
 
-const proposals = db.proposals;
+const { proposals } = db;
 
 export function getProposals() {
    return proposals;

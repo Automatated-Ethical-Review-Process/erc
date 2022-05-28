@@ -1,6 +1,6 @@
-import db from "db.json";
+import db from "db";
 
-const users = db.users;
+const { users } = db;
 
 export function getUsers() {
    return users;

@@ -1,4 +1,4 @@
-import db from "db.json";
+import db from "db";
 import { getVersion } from "./versionService";
 
 const { documents } = db;

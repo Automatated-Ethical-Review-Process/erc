@@ -39,8 +39,8 @@ import ProposalsOther from "containers/Dashboard/Reviewer/OtherProposals/Proposa
 import SignIn from "components/SignIn";
 import SignUp from "components/signup/SignUp";
 import ForgotPassword from "components/forgotPassword/ForgotPassword";
-import ShowProfile from "components/ShowProfile";
-import EditProfile from "components/EditProfile";
+import ShowProfile from "components/profile/ShowProfile";
+import EditProfile from "components/profile/EditProfile";
 
 // test
 import Test from "components/common/Test";

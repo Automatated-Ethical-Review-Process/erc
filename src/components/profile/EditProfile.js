@@ -12,7 +12,7 @@ import { Container } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import Image from "../assests/baby.webp";
+import Image from "assests/baby.webp";
 import { Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
