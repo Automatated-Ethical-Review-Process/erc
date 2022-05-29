@@ -33,6 +33,11 @@ import ReviewedProposals from "./containers/Dashboard/Reviewer/ReviewedProposals
 import ProposalsReviewed from "./containers/Dashboard/Reviewer/ReviewedProposals/Proposals/Proposals";
 import ProposalsOther from "./containers/Dashboard/Reviewer/OtherProposals/Proposals/Proposals";
 
+import NotificationLayout from "./components/notification/NotificationLayout";
+import ShowNotification from "./components/notification/ShowNotification";
+
+
+
 const routes = (isAuthenticated, userRole) => [
    {
       path: "/",
@@ -49,6 +54,15 @@ const routes = (isAuthenticated, userRole) => [
    {
       path: "/forgot-password",
       element: <ForgotPassword />,
+   },
+   {
+      path: "/notification",
+      element: <NotificationLayout />,
+      children: [
+         { path: "", element: <ShowNotification /> },
+         
+      ],
+      
    },
    {
       path: "/clerk",
