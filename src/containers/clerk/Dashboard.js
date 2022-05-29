@@ -1,60 +1,20 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
+import BaseDashboard from "containers/Dashboard";
 
-import { useNavigate } from "react-router-dom";
+const data = [
+   {
+      value: "New User Requests",
+      weight: 6,
+      path: "/clerk/new-user-requests",
+   },
+   { value: "Current Users", weight: 6, path: "/clerk/current-users" },
+   { value: "New Submissions", weight: 6, path: "/clerk/new-submissions" },
+   {
+      value: "Current Proposals",
+      weight: 6,
+      path: "/clerk/current-proposals",
+   },
+];
 
 export default function Dashboard() {
-   const navigate = useNavigate();
-
-   return (
-      <Container sx={{ mt: 8, mb: 8 }}>
-         <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2} alignItems="center">
-               <Grid item xs={12} md={6}>
-                  <Button
-                     variant="outlined"
-                     size="large"
-                     fullWidth
-                     onClick={() => navigate("/clerk/new-user-requests")}
-                  >
-                     New User Requests
-                  </Button>
-               </Grid>
-               <Grid item xs={12} md={6}>
-                  <Button
-                     variant="outlined"
-                     size="large"
-                     fullWidth
-                     onClick={() => navigate("/clerk/current-users")}
-                  >
-                     Current Users
-                  </Button>
-               </Grid>
-               <Grid item xs={12} md={6}>
-                  <Button
-                     variant="outlined"
-                     size="large"
-                     fullWidth
-                     onClick={() => navigate("/clerk/new-submissions")}
-                  >
-                     New Submissions
-                  </Button>
-               </Grid>
-               <Grid item xs={12} md={6}>
-                  <Button
-                     variant="outlined"
-                     size="large"
-                     fullWidth
-                     onClick={() => navigate("/clerk/current-proposals")}
-                  >
-                     Current Proposals
-                  </Button>
-               </Grid>
-            </Grid>
-         </Box>
-      </Container>
-   );
+   return <BaseDashboard data={data} />;
 }

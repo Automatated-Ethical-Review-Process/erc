@@ -1,12 +1,9 @@
-import React from "react";
 import { useState, useContext } from "react";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
-import MailIcon from "@mui/icons-material/Mail";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
@@ -14,15 +11,13 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { ThemeContext } from "context/ThemeContext";
+
 import { useNavigate } from "react-router-dom";
 
-const drawerWidth = 240;
+import { ThemeContext } from "context/ThemeContext";
 
-export default function ClerkLayout() {
+export default function DashboardNavigationBar() {
    const { theme } = useContext(ThemeContext);
-
-   const [mobileOpen, setMobileOpen] = useState(false);
 
    const [anchorEl, setAnchorEl] = useState(null);
    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -59,10 +54,6 @@ export default function ClerkLayout() {
 
    const handleMobileMenuOpen = (event) => {
       setMobileMoreAnchorEl(event.currentTarget);
-   };
-
-   const handleDrawerToggle = () => {
-      setMobileOpen(!mobileOpen);
    };
 
    const menuId = "primary-search-account-menu";
@@ -107,18 +98,6 @@ export default function ClerkLayout() {
          <MenuItem onClick={handleMenuClose}>
             <IconButton
                size="large"
-               aria-label="show 4 new mails"
-               color="inherit"
-            >
-               <Badge badgeContent={4} color="error">
-                  <MailIcon />
-               </Badge>
-            </IconButton>
-            <p>Messages</p>
-         </MenuItem>
-         <MenuItem onClick={handleMenuClose}>
-            <IconButton
-               size="large"
                aria-label="show 17 new notifications"
                color="inherit"
             >
@@ -146,7 +125,6 @@ export default function ClerkLayout() {
    return (
       <>
          <Box sx={{ display: "flex" }}>
-            <CssBaseline />
             <AppBar
                position="fixed"
                sx={{
@@ -156,26 +134,7 @@ export default function ClerkLayout() {
                }}
             >
                <Toolbar>
-                  <IconButton
-                     color="inherit"
-                     aria-label="open drawer"
-                     edge="start"
-                     onClick={handleDrawerToggle}
-                     sx={{ mr: 2, display: { sm: "none" } }}
-                  >
-                     <MenuIcon />
-                  </IconButton>
-                  Dashboard
-                  <Typography
-                     variant="h6"
-                     noWrap
-                     component="div"
-                     sx={{
-                        color: "white",
-                        textAlign: "center",
-                        width: 1000,
-                     }}
-                  ></Typography>
+                  <Typography variant="h6">Dashboard</Typography>
                   <Box
                      sx={{
                         display: { xs: "none", md: "flex" },

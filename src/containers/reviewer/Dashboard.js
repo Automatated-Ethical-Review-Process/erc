@@ -1,69 +1,21 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
+import BaseDashboard from "containers/Dashboard";
 
-import { useNavigate } from "react-router-dom";
+const data = [
+   {
+      value: "Pending Proposals",
+      weight: 6,
+      path: "/reviewer/pending",
+   },
+   {
+      value: "Reviewing Proposals",
+      weight: 6,
+      path: "/reviewer/reviewing",
+   },
+   { value: "Reviewed Proposals", weight: 6, path: "/reviewer/reviewed" },
+   { value: "Other Proposals", weight: 6, path: "/reviewer/other" },
+   { value: "Switch to Applicant", weight: 12, path: "/applicant" },
+];
 
 export default function Dashboard() {
-   const navigate = useNavigate();
-   return (
-      <Container sx={{ mt: 15 }}>
-         <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2} alignItems="center">
-               <Grid item xs={12} md={6}>
-                  <Button
-                     variant="outlined"
-                     size="large"
-                     fullWidth
-                     onClick={() => navigate("/reviewer/pending")}
-                  >
-                     Pending Proposals
-                  </Button>
-               </Grid>
-               <Grid item xs={12} md={6}>
-                  <Button
-                     variant="outlined"
-                     size="large"
-                     fullWidth
-                     onClick={() => navigate("/reviewer/reviewing")}
-                  >
-                     Reviewing Proposals
-                  </Button>
-               </Grid>
-               <Grid item xs={12} md={6}>
-                  <Button
-                     variant="outlined"
-                     size="large"
-                     fullWidth
-                     onClick={() => navigate("/reviewer/reviewed")}
-                  >
-                     Reviewed Proposals
-                  </Button>
-               </Grid>
-               <Grid item xs={12} md={6}>
-                  <Button
-                     variant="outlined"
-                     size="large"
-                     fullWidth
-                     onClick={() => navigate("/reviewer/other")}
-                  >
-                     Other Proposals
-                  </Button>
-               </Grid>
-               <Grid item xs={12} md={12}>
-                  <Button
-                     variant="outlined"
-                     size="large"
-                     fullWidth
-                     onClick={() => navigate("/applicant")}
-                  >
-                     Switch to Applicant
-                  </Button>
-               </Grid>
-            </Grid>
-         </Box>
-      </Container>
-   );
+   return <BaseDashboard data={data} />;
 }
