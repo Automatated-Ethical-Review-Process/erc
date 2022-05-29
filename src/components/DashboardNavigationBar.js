@@ -18,8 +18,6 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { ThemeContext } from "../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-
 import DashboardHeader from "./DashboardHeader";
 
 const drawerWidth = 240;
@@ -34,8 +32,6 @@ export default function ClerkLayout() {
 
    const isMenuOpen = Boolean(anchorEl);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-   const notifications = useSelector((state) => state.notifications.value);
 
    const navigate = useNavigate();
 
@@ -187,10 +183,19 @@ export default function ClerkLayout() {
                   >
                      <IconButton
                         size="large"
+                        aria-label="show 4 new mails"
+                        color="inherit"
+                     >
+                        {/* <Badge badgeContent={4} color="error">
+                           {/* <MailIcon /> }
+                        </Badge> */}
+                     </IconButton>
+                     <IconButton
+                        size="large"
                         aria-label="show 17 new notifications"
                         color="inherit"
                      >
-                        <Badge badgeContent={notifications} color="error">
+                        <Badge badgeContent={17} color="error">
                            <NotificationsIcon />
                         </Badge>
                      </IconButton>
