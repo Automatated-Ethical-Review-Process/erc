@@ -27,7 +27,7 @@ const RoleNavigationBar = ({ role }) => {
    const roles = ["Reviewer"];
 
    if (role === "secretary") {
-      roles.push("Secretary");
+      roles.unshift("Secretary");
    } else {
       roles.push("Applicant");
    }
@@ -38,8 +38,7 @@ const RoleNavigationBar = ({ role }) => {
       <>
          <Box
             sx={{
-               mt: 3,
-               mb: 1,
+               mb: 2,
                display: { xs: "none", md: "block" },
                mx: "auto",
                width: 150 * roles.length + 10 * (roles.length - 1),
@@ -89,7 +88,6 @@ const RoleNavigationBar = ({ role }) => {
          <Box
             sx={{
                display: { xs: "block", md: "none" },
-               mt: 3,
             }}
          >
             <Box sx={{ mx: "auto", width: 150 }}>

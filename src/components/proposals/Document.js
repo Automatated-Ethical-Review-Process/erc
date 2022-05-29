@@ -1,6 +1,5 @@
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -32,35 +31,31 @@ export default function Document() {
 
    return (
       <Container maxWidth="md" sx={{ mt: 4 }}>
-         <Box sx={{ flexGrow: 1 }}>
-            <Grid container rowSpacing={4}>
-               {data.map((item, id) => (
-                  <Grid item xs={12}>
-                     <TextField key={id} {...item} readOnly />
-                  </Grid>
-               ))}
-
-               <Grid item xs={12} md={3}>
-                  <Button
-                     variant="contained"
-                     onClick={() => navigate(`${pathname}/preview`)}
-                  >
-                     Preview
-                  </Button>
+         <Grid container rowSpacing={4}>
+            {data.map((item, id) => (
+               <Grid item xs={12}>
+                  <TextField key={id} {...item} readOnly />
                </Grid>
+            ))}
 
-               <Grid item xs={12} md={3}>
-                  <Button
-                     variant="contained"
-                     onClick={() => navigate(`${pathname}/download`)}
-                  >
-                     Download
-                  </Button>
-               </Grid>
-
-               <Grid item xs={12} md={6}></Grid>
+            <Grid item xs={12} md={2}>
+               <Button
+                  variant="contained"
+                  onClick={() => navigate(`${pathname}/preview`)}
+               >
+                  Preview
+               </Button>
             </Grid>
-         </Box>
+
+            <Grid item xs={12} md={2}>
+               <Button
+                  variant="contained"
+                  onClick={() => navigate(`${pathname}/download`)}
+               >
+                  Download
+               </Button>
+            </Grid>
+         </Grid>
       </Container>
    );
 }
