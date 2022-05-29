@@ -1,4 +1,4 @@
-import React from "react";
+import Box from "@mui/material/Box";
 
 import NavigationBar from "components/NavigationBar";
 import Footer from "components/Footer";
@@ -9,7 +9,9 @@ export default function MainLayout() {
    return (
       <div>
          <NavigationBar />
-         <Outlet />
+         <Box sx={{ mb: 8 }}>
+            <Outlet />
+         </Box>
          <Footer />
       </div>
    );

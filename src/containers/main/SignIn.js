@@ -99,26 +99,25 @@ export default function SignIn() {
    );
 
    return (
-      <React.Fragment>
-         <Grid
-            container
-            spacing={0}
-            columns={{ xs: 4, md: 12 }}
-            sx={{ mt: 1, pl: 2, mb: 8 }}
-         >
-            <Grid item xs={4} md={7}>
-               <Container
-                  sx={{
-                     backgroundImage: `url(${Image})`,
-                     height: "100%",
-                     width: "100%",
-                     opacity: 1,
-                     backgroundRepeat: "no-repeat",
-                     backgroundPosition: "center",
-                     backgroundSize: "cover",
-                  }}
-               >
-                  {/* {<Typography
+      <Grid
+         container
+         spacing={0}
+         columns={{ xs: 4, md: 12 }}
+         sx={{ mt: 1, pl: 2 }}
+      >
+         <Grid item xs={4} md={7}>
+            <Container
+               sx={{
+                  backgroundImage: `url(${Image})`,
+                  height: "100%",
+                  width: "100%",
+                  opacity: 1,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+               }}
+            >
+               {/* {<Typography
                      align="justify"
                      sx={{ fontFamily: "monospace", letterSpacing: 2 }}
                   >
@@ -146,12 +145,11 @@ export default function SignIn() {
                      Gung Memorial Hospital,Taoyuan City, Taiwan 18th -21st
                      November 2018.
                   </Typography>} */}
-               </Container>
-            </Grid>
-            <Grid item xs={4}>
-               {formView}
-            </Grid>
+            </Container>
          </Grid>
-      </React.Fragment>
+         <Grid item xs={4}>
+            {formView}
+         </Grid>
+      </Grid>
    );
 }

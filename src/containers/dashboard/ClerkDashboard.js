@@ -1,4 +1,4 @@
-import BaseDashboard from "containers/Dashboard";
+import Dashboard from "containers/dashboard/Dashboard";
 
 const data = [
    {
@@ -15,6 +15,6 @@ const data = [
    },
 ];
 
-export default function Dashboard() {
-   return <BaseDashboard data={data} />;
+export default function ClerkDashboard() {
+   return <Dashboard data={data} />;
 }

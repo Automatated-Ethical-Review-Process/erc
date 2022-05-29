@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -12,7 +11,7 @@ const Input = styled("input")({
 
 export default function Step2() {
    return (
-      <React.Fragment>
+      <>
          <Typography variant="h6" gutterBottom>
             Undergraduate
          </Typography>
@@ -73,6 +72,6 @@ export default function Step2() {
                </Typography>
             </Grid>
          </Grid>
-      </React.Fragment>
+      </>
    );
 }

@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { ThemeContext } from "context/ThemeContext";
 
-const pages = ["Sign up", "Instruction"];
+const pages = ["Sign in", "Sign up", "Instruction"];
 
 const NavigationBar = () => {
    const { theme } = useContext(ThemeContext);
@@ -34,12 +34,16 @@ const NavigationBar = () => {
    const handleOnClick = (page) => {
       switch (page) {
          case pages[0]:
-            navigate("/signup");
+            navigate("/");
             break;
          case pages[1]:
+            navigate("/signup");
+            break;
+         case pages[2]:
+            alert("Not Implemented !");
             break;
          default:
-            console.log("invalid click param");
+            throw new Error("invalid index");
       }
       handleCloseNavMenu();
    };
@@ -125,7 +129,7 @@ const NavigationBar = () => {
                   variant="h5"
                   noWrap
                   component="a"
-                  href=""
+                  href="/"
                   sx={{
                      mr: 2,
                      ml: { xs: 0, md: 6 },

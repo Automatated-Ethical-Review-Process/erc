@@ -1,4 +1,4 @@
-import BaseDashboard from "containers/Dashboard";
+import Dashboard from "containers/dashboard/Dashboard";
 
 const data = [
    {
@@ -16,6 +16,6 @@ const data = [
    { value: "Switch to Applicant", weight: 12, path: "/applicant" },
 ];
 
-export default function Dashboard() {
-   return <BaseDashboard data={data} />;
+export default function ReviewerDashboard() {
+   return <Dashboard data={data} />;
 }

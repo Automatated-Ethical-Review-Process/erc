@@ -1,4 +1,4 @@
-import BaseDashboard from "containers/Dashboard";
+import Dashboard from "containers/dashboard/Dashboard";
 
 const data = [
    {
@@ -9,6 +9,6 @@ const data = [
    { value: "Add User", weight: 6, path: "/admin/add-user" },
 ];
 
-export default function Dashboard() {
-   return <BaseDashboard data={data} />;
+export default function AdminDashboard() {
+   return <Dashboard data={data} />;
 }

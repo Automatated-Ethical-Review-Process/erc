@@ -1,10 +1,9 @@
-import * as React from "react";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
 export default function Step1() {
    return (
-      <React.Fragment>
+      <>
          <Typography variant="body1" gutterBottom>
             Just enter your email address, and we will send you a link to reset
             your password.
@@ -17,6 +16,6 @@ export default function Step1() {
             fullWidth
             variant="standard"
          />
-      </React.Fragment>
+      </>
    );
 }

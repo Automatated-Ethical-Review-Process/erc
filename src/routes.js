@@ -1,6 +1,8 @@
 // layouts
 import MainLayout from "layouts/MainLayout";
+
 import DashboardLayout from "layouts/DashboardLayout";
+
 import ClerkLayout from "layouts/sidebar/ClerkLayout";
 import ApplicantLayout from "layouts/sidebar/ApplicantLayout";
 import SecretaryLayout from "layouts/sidebar/SecretaryLayout";
@@ -8,30 +10,31 @@ import ReviewerLayout from "layouts/sidebar/ReviewerLayout";
 import AdminLayout from "layouts/sidebar/AdminLayout";
 
 // containers
-import ClerkDashboard from "containers/clerk/Dashboard";
-import ReviewerDashboard from "containers/reviewer/Dashboard";
-import ApplicantDashboard from "containers/applicant/Dashboard";
-import SecretaryDashboard from "containers/secretary/Dashboard";
-import AdminDashboard from "containers/admin/Dashboard";
+import SignIn from "containers/main/SignIn";
+import SignUp from "containers/main/signup/SignUp";
+import ForgotPassword from "containers/main/forgotPassword/ForgotPassword";
 
-import Step1 from "containers/applicant/newSubmission/Step1";
-import CurrentSubmission from "containers/applicant/currentSubmission/CurrentSubmission";
-import Step2 from "containers/applicant/newSubmission/Step2";
-import NewSubmission from "containers/applicant/newSubmission/NewSubmission";
-import NewUserRequests from "containers/clerk/newUserRequests/NewUserRequests";
+import ClerkDashboard from "containers/dashboard/ClerkDashboard";
+import ReviewerDashboard from "containers/dashboard/ReviewerDashboard";
+import ApplicantDashboard from "containers/dashboard/ApplicantDashboard";
+import SecretaryDashboard from "containers/dashboard/SecretaryDashboard";
+import AdminDashboard from "containers/dashboard/AdminDashboard";
 
-import PendingProposal from "containers/reviewer/pending/Proposal";
-import ReviewingDocuments from "containers/reviewer/reviewing/Documents";
-import SubmitEvaluation from "containers/reviewer/reviewing/SubmitEvaluation";
-import ReviewedDocuments from "containers/reviewer/reviewed/Documents";
-import ViewEvaluation from "containers/reviewer/reviewed/ViewEvaluation";
-import OtherDocuments from "containers/reviewer/other/Documents";
-import AddComments from "containers/reviewer/other/AddComments";
+import Step1 from "containers/sidebar/applicant/newSubmission/Step1";
+import CurrentSubmission from "containers/sidebar/applicant/currentSubmission/CurrentSubmission";
+import Step2 from "containers/sidebar/applicant/newSubmission/Step2";
+import NewSubmission from "containers/sidebar/applicant/newSubmission/NewSubmission";
+import NewUserRequests from "containers/sidebar/clerk/newUserRequests/NewUserRequests";
+
+import PendingProposal from "containers/sidebar/reviewer/pending/Proposal";
+import ReviewingDocuments from "containers/sidebar/reviewer/reviewing/Documents";
+import SubmitEvaluation from "containers/sidebar/reviewer/reviewing/SubmitEvaluation";
+import ReviewedDocuments from "containers/sidebar/reviewer/reviewed/Documents";
+import ViewEvaluation from "containers/sidebar/reviewer/reviewed/ViewEvaluation";
+import OtherDocuments from "containers/sidebar/reviewer/other/Documents";
+import AddComments from "containers/sidebar/reviewer/other/AddComments";
 
 // components
-import SignIn from "components/SignIn";
-import SignUp from "components/signup/SignUp";
-import ForgotPassword from "components/forgotPassword/ForgotPassword";
 import ShowProfile from "components/profile/ShowProfile";
 import EditProfile from "components/profile/EditProfile";
 
@@ -68,15 +71,14 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    {
       path: "/",
       element: <MainLayout />,
-      children: [{ index: true, element: <SignIn /> }],
-   },
-   {
-      path: "/signup",
-      element: <SignUp />,
-   },
-   {
-      path: "/forgot-password",
-      element: <ForgotPassword />,
+      children: [
+         { index: true, element: <SignIn /> },
+         {
+            path: "signup",
+            element: <SignUp />,
+         },
+         { path: "forgot-password", element: <ForgotPassword /> },
+      ],
    },
    {
       path: "/clerk",

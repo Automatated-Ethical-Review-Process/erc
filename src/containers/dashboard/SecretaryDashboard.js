@@ -1,4 +1,4 @@
-import BaseDashboard from "containers/Dashboard";
+import Dashboard from "containers/dashboard/Dashboard";
 
 const data = [
    {
@@ -17,6 +17,6 @@ const data = [
    { value: "User Management", weight: 6, path: "/secretary/user-management" },
 ];
 
-export default function Dashboard() {
-   return <BaseDashboard data={data} />;
+export default function SecretaryDashboard() {
+   return <Dashboard data={data} />;
 }

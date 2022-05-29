@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useState } from "react";
+
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -11,14 +12,14 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 export default function Step1() {
-   const [nationality, setNationality] = React.useState("");
+   const [nationality, setNationality] = useState("");
 
    const handleChange = (event) => {
       setNationality(event.target.value);
    };
 
    return (
-      <React.Fragment>
+      <>
          <Typography variant="h6" gutterBottom>
             Personal Details
          </Typography>
@@ -180,6 +181,6 @@ export default function Step1() {
                />
             </Grid>
          </Grid>
-      </React.Fragment>
+      </>
    );
 }
