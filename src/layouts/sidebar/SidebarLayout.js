@@ -21,6 +21,8 @@ import { ThemeContext } from "context/ThemeContext";
 import RoleNavigationBar from "components/RoleNavigationBar";
 import Drawer from "components/Drawer";
 
+import { useSelector } from "react-redux";
+
 const drawerWidth = 240;
 
 export default function SidebarLayout({ role, sideBarItems }) {
@@ -32,6 +34,10 @@ export default function SidebarLayout({ role, sideBarItems }) {
 
    const isMenuOpen = Boolean(anchorEl);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+   const notifications = useSelector(
+      (state) => state.notifications.value.count
+   );
 
    const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
@@ -117,7 +123,7 @@ export default function SidebarLayout({ role, sideBarItems }) {
                aria-label="show 17 new notifications"
                color="inherit"
             >
-               <Badge badgeContent={17} color="error">
+               <Badge badgeContent={notifications} color="error">
                   <NotificationsIcon />
                </Badge>
             </IconButton>
@@ -175,19 +181,10 @@ export default function SidebarLayout({ role, sideBarItems }) {
                >
                   <IconButton
                      size="large"
-                     aria-label="show 4 new mails"
-                     color="inherit"
-                  >
-                     <Badge badgeContent={4} color="error">
-                        <MailIcon />
-                     </Badge>
-                  </IconButton>
-                  <IconButton
-                     size="large"
                      aria-label="show 17 new notifications"
                      color="inherit"
                   >
-                     <Badge badgeContent={17} color="error">
+                     <Badge badgeContent={notifications} color="error">
                         <NotificationsIcon />
                      </Badge>
                   </IconButton>

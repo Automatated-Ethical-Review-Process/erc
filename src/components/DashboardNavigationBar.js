@@ -16,6 +16,9 @@ import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "context/ThemeContext";
 
+import { useSelector } from "react-redux";
+
+
 export default function DashboardNavigationBar() {
    const { theme } = useContext(ThemeContext);
 
@@ -24,6 +27,8 @@ export default function DashboardNavigationBar() {
 
    const isMenuOpen = Boolean(anchorEl);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+   const notifications =  useSelector((state)=>state.notifications.value.count);
 
    const navigate = useNavigate();
 
@@ -147,7 +152,7 @@ export default function DashboardNavigationBar() {
                         aria-label="show 17 new notifications"
                         color="inherit"
                      >
-                        <Badge badgeContent={17} color="error">
+                        <Badge badgeContent={notifications} color="error">
                            <NotificationsIcon />
                         </Badge>
                      </IconButton>
