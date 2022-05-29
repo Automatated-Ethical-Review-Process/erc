@@ -3,7 +3,7 @@ import List from "@mui/material/List";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
-import AListItem from "./common/ListItem";
+import AListItem from "./ListItem";
 
 export default function SidebarList({ items }) {
    const location = useLocation();

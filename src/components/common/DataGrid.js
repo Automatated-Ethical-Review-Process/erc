@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid as BaseDataGrid } from "@mui/x-data-grid";
 import { Container } from "@mui/material";
 
 class ColumnDefinition {
@@ -18,13 +18,13 @@ function createColumnNode(field, headerName, flex) {
    return new ColumnDefinition(field, headerName, flex);
 }
 
-const CustomizedDataGrid = ({ fields, headerNames, rows, onRowClick }) => {
+const DataGrid = ({ fields, headerNames, rows, onRowClick }) => {
    const [pageSize, setPageSize] = useState(9);
-   const [windowSize, setWindowsize] = useState(window.screen.availWidth);
+   const [windowSize, setWindowSize] = useState(window.screen.availWidth);
    const columns = [];
 
    window.onresize = function () {
-      setWindowsize(window.screen.availWidth);
+      setWindowSize(window.screen.availWidth);
    };
 
    fields.map((value, index) =>
@@ -35,7 +35,7 @@ const CustomizedDataGrid = ({ fields, headerNames, rows, onRowClick }) => {
 
    return (
       <Container maxWidth="xl" sx={{ height: "80vh" }}>
-         <DataGrid
+         <BaseDataGrid
             rows={rows}
             columns={columns}
             pageSize={pageSize}
@@ -53,4 +53,4 @@ const CustomizedDataGrid = ({ fields, headerNames, rows, onRowClick }) => {
    );
 };
 
-export default CustomizedDataGrid;
+export default DataGrid;

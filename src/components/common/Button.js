@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
-import { Button } from "@mui/material";
+import { Button as BaseButton } from "@mui/material";
 
 import { ThemeContext } from "context/ThemeContext";
 
-const AButton = (props) => {
+const Button = (props) => {
    const { theme } = useContext(ThemeContext);
    return (
-      <Button
+      <BaseButton
          {...props}
          sx={{
             backgroundColor: theme.color.main.primary,
@@ -24,8 +24,8 @@ const AButton = (props) => {
          }}
       >
          {props.children}
-      </Button>
+      </BaseButton>
    );
 };
 
-export default AButton;
+export default Button;
