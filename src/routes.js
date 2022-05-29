@@ -38,6 +38,9 @@ import AddComments from "containers/sidebar/reviewer/other/AddComments";
 import ShowProfile from "components/profile/ShowProfile";
 import EditProfile from "components/profile/EditProfile";
 
+import NotificationLayout from "components/notification/NotificationLayout";
+import ShowNotification from "components/notification/ShowNotification";
+
 import Proposals from "components/proposals/Proposals";
 import Proposal from "components/proposals/Proposal";
 import Versions from "components/proposals/Versions";
@@ -259,6 +262,11 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
          { index: true, element: <ShowProfile /> },
          { path: "edit", element: <EditProfile /> },
       ],
+   },
+   {
+      path: "/notification",
+      element: <NotificationLayout />,
+      children: [{ index: true, element: <ShowNotification /> }],
    },
    { path: "/test", element: <Test /> },
    { path: "*", element: <h4>{"Oops, page not found :("}</h4> },

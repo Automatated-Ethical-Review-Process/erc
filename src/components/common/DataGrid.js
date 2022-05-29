@@ -4,18 +4,18 @@ import { DataGrid as BaseDataGrid } from "@mui/x-data-grid";
 import { Container } from "@mui/material";
 
 class ColumnDefinition {
-   constructor(field, headerName, flex) {
-      this.field = field;
-      this.headerName = headerName;
-      this.headerAlign = "center";
-      this.align = "center";
-      this.width = 150;
-      this.flex = flex;
-   }
+  constructor(field, headerName, flex) {
+    this.field = field;
+    this.headerName = headerName;
+    this.headerAlign = "center";
+    this.align = "center";
+    this.width = 150;
+    this.flex = flex;
+  }
 }
 
 function createColumnNode(field, headerName, flex) {
-   return new ColumnDefinition(field, headerName, flex);
+  return new ColumnDefinition(field, headerName, flex);
 }
 
 const DataGrid = ({ fields, headerNames, rows, onRowClick }) => {
