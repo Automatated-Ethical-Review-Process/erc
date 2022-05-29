@@ -19,32 +19,22 @@ export default function Proposal(props) {
       return "invalid proposal id " + proposalId;
    }
 
+   const data = [
+      { label: "Proposal Title", value: proposal.name },
+      { label: "Date", value: proposal.date },
+      { label: "Time", value: proposal.time },
+      { label: "Category", value: proposal.category },
+      { label: "Deadline", value: proposal.deadline },
+   ];
+
    return (
       <Container maxWidth="md" sx={{ mt: 4 }}>
          <Grid container spacing={4}>
-            <Grid item xs={12}>
-               <TextField
-                  label="Proposal Title"
-                  value={proposal.name}
-                  readOnly
-               />
-            </Grid>
-
-            <Grid item xs={12}>
-               <TextField label="Date" value={proposal.date} readOnly />
-            </Grid>
-
-            <Grid item xs={12}>
-               <TextField label="Time" value={proposal.time} readOnly />
-            </Grid>
-
-            <Grid item xs={12}>
-               <TextField label="Category" value={proposal.category} readOnly />
-            </Grid>
-
-            <Grid item xs={12}>
-               <TextField label="Deadline" value={proposal.deadline} readOnly />
-            </Grid>
+            {data.map((item, id) => (
+               <Grid item xs={12}>
+                  <TextField key={id} {...item} readOnly />
+               </Grid>
+            ))}
 
             <Grid item xs={12}>
                <Button

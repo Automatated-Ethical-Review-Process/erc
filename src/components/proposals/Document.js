@@ -22,33 +22,23 @@ export default function Document() {
 
    const docType = document.title.split(".").pop().toUpperCase();
 
+   const data = [
+      { label: "Title", value: document.title },
+      { label: "Type", value: docType },
+      { label: "Size", value: document.size + "KB" },
+      { label: "Date", value: document.date },
+      { label: "Time", value: document.time },
+   ];
+
    return (
       <Container maxWidth="md" sx={{ mt: 4 }}>
          <Box sx={{ flexGrow: 1 }}>
-            <Grid container rowSpacing={4} justifyContent="flex-end">
-               <Grid item xs={12}>
-                  <TextField label="Title" value={document.title} readOnly />
-               </Grid>
-
-               <Grid item xs={12}>
-                  <TextField label="Type" value={docType} readOnly />
-               </Grid>
-
-               <Grid item xs={12}>
-                  <TextField
-                     label="Size"
-                     value={document.size + "KB"}
-                     readOnly
-                  />
-               </Grid>
-
-               <Grid item xs={12}>
-                  <TextField label="Date" value={document.date} readOnly />
-               </Grid>
-
-               <Grid item xs={12}>
-                  <TextField label="Time" value={document.time} readOnly />
-               </Grid>
+            <Grid container rowSpacing={4}>
+               {data.map((item, id) => (
+                  <Grid item xs={12}>
+                     <TextField key={id} {...item} readOnly />
+                  </Grid>
+               ))}
 
                <Grid item xs={12} md={3}>
                   <Button
