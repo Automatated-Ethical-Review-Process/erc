@@ -1,6 +1,6 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
-import CustomizedDataGrid from "components/CustomizedDataGrid";
+import DataGrid from "components/common/DataGrid";
 
 import { getVersions } from "services/versionService";
 
@@ -17,7 +17,7 @@ export default function Versions() {
    }
 
    return (
-      <CustomizedDataGrid
+      <DataGrid
          fields={["id", "submitDate"]}
          headerNames={["Version", "Submit Date"]}
          rows={versions}

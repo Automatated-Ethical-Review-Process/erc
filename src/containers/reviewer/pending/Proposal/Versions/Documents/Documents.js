@@ -1,6 +1,6 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
-import CustomizedDataGrid from "components/CustomizedDataGrid";
+import DataGrid from "components/common/DataGrid";
 
 import { getDocuments } from "services/documentService";
 
@@ -17,7 +17,7 @@ export default function Documents() {
    }
 
    return (
-      <CustomizedDataGrid
+      <DataGrid
          fields={["title", "size"]}
          headerNames={["Title", "Size (KiB)"]}
          rows={documents}

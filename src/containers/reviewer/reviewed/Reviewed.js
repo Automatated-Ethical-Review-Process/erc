@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
-import CustomizedDataGrid from "../../../../components/CustomizedDataGrid";
-import { getProposals } from "../../../../services/proposalService";
+import DataGrid from "components/common/DataGrid";
+import { getProposals } from "services/proposalService";
 
 export default function ReviewedProposals() {
    const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function ReviewedProposals() {
 
    return (
       <>
-         <CustomizedDataGrid
+         <DataGrid
             fields={["id", "name", "category", "deadline"]}
             headerNames={[
                "Proposal ID",

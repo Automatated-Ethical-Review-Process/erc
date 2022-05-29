@@ -7,8 +7,8 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { Container } from "@mui/material";
 
-import { getProposal } from "../../../../../services/proposalService";
-import ReadOnlyTextField from "../../../../../components/common/ReadOnlyTextField";
+import { getProposal } from "services/proposalService";
+import TextField from "components/common/TextField";
 
 export default function OtherProposals() {
    const navigate = useNavigate();
@@ -25,31 +25,34 @@ export default function OtherProposals() {
          <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={4}>
                <Grid item xs={12}>
-                  <ReadOnlyTextField
+                  <TextField
                      label="Proposal Title"
                      value={proposal.name}
+                     readOnly
                   />
                </Grid>
 
                <Grid item xs={12}>
-                  <ReadOnlyTextField label="Date" value={proposal.date} />
+                  <TextField label="Date" value={proposal.date} readOnly />
                </Grid>
 
                <Grid item xs={12}>
-                  <ReadOnlyTextField label="Time" value={proposal.time} />
+                  <TextField label="Time" value={proposal.time} readOnly />
                </Grid>
 
                <Grid item xs={12}>
-                  <ReadOnlyTextField
+                  <TextField
                      label="Category"
                      value={proposal.category}
+                     readOnly
                   />
                </Grid>
 
                <Grid item xs={12}>
-                  <ReadOnlyTextField
+                  <TextField
                      label="Deadline"
                      value={proposal.deadline}
+                     readOnly
                   />
                </Grid>
 

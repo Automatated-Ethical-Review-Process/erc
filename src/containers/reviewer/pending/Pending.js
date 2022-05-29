@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import CustomizedDataGrid from "components/CustomizedDataGrid";
+import DataGrid from "components/common/DataGrid";
 import { getProposals } from "services/proposalService";
 
 export default function PendingProposals() {
@@ -9,7 +9,7 @@ export default function PendingProposals() {
 
    return (
       <>
-         <CustomizedDataGrid
+         <DataGrid
             fields={["id", "name", "category", "deadline"]}
             headerNames={[
                "Proposal ID",

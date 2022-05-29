@@ -1,39 +1,39 @@
 // layouts
 import MainLayout from "layouts/MainLayout";
 import DashboardLayout from "layouts/DashboardLayout";
-import ClerkSidebarLayout from "layouts/Sidebar/Clerk/ClerkSidebarLayout";
-import ApplicantSidebarLayout from "layouts/Sidebar/Applicant/ApplicantSidebarLayout";
-import SecretarySidebarLayout from "layouts/Sidebar/Secretary/SecretarySidebarLayout";
-import ReviewerSidebarLayout from "layouts/Sidebar/Reviewer/ReviewerSidebarLayout";
-import AdminSidebarLayout from "layouts/Sidebar/Admin/AdminSidebarLayout";
+import ClerkLayout from "layouts/sidebar/ClerkLayout";
+import ApplicantLayout from "layouts/sidebar/ApplicantLayout";
+import SecretaryLayout from "layouts/sidebar/SecretaryLayout";
+import ReviewerLayout from "layouts/sidebar/ReviewerLayout";
+import AdminLayout from "layouts/sidebar/AdminLayout";
 
 // containers
-import ClerkDashboard from "containers/Dashboard/Clerk/ClerkDashboard";
-import ReviewerDashboard from "containers/Dashboard/Reviewer/ReviewerDashboard";
-import ApplicantDashboard from "containers/Dashboard/Applicant/ApplicantDashboard";
-import SecretaryDashboard from "containers/Dashboard/Secretary/SecretaryDashboard";
-import AdminDashboard from "containers/Dashboard/Admin/AdminDashboard";
+import ClerkDashboard from "containers/clerk/Dashboard";
+import ReviewerDashboard from "containers/reviewer/Dashboard";
+import ApplicantDashboard from "containers/applicant/Dashboard";
+import SecretaryDashboard from "containers/secretary/Dashboard";
+import AdminDashboard from "containers/admin/Dashboard";
 
-import Step1 from "containers/Dashboard/Applicant/NewSubmission/Step1";
-import CurrentSubmission from "containers/Dashboard/Applicant/CurrentSubmission/CurrentSubmission";
-import Step2 from "containers/Dashboard/Applicant/NewSubmission/Step2";
-import NewSubmission from "containers/Dashboard/Applicant/NewSubmission/NewSubmission";
-import NewUserRequests from "containers/Dashboard/Clerk/NewUserRequests/NewUserRequests";
+import Step1 from "containers/applicant/newSubmission/Step1";
+import CurrentSubmission from "containers/applicant/currentSubmission/CurrentSubmission";
+import Step2 from "containers/applicant/newSubmission/Step2";
+import NewSubmission from "containers/applicant/newSubmission/NewSubmission";
+import NewUserRequests from "containers/clerk/newUserRequests/NewUserRequests";
 
-import PendingProposals from "containers/Dashboard/Reviewer/PendingProposals/PendingProposals";
-import PendingProposal from "containers/Dashboard/Reviewer/PendingProposals/Proposal/Proposal";
-import PendingVersions from "containers/Dashboard/Reviewer/PendingProposals/Proposal/Versions/Versions";
-import PendingDocuments from "containers/Dashboard/Reviewer/PendingProposals/Proposal/Versions/Documents/Documents";
-import PendingDocument from "containers/Dashboard/Reviewer/PendingProposals/Proposal/Versions/Documents/Document/Document";
-import PendingDocumentPreview from "containers/Dashboard/Reviewer/PendingProposals/Proposal/Versions/Documents/Document/Preview";
-import PendingDocumentDownload from "containers/Dashboard/Reviewer/PendingProposals/Proposal/Versions/Documents/Document/Download";
+import PendingProposals from "containers/reviewer/pending/Pending";
+import PendingProposal from "containers/reviewer/pending/Proposal/Proposal";
+import PendingVersions from "containers/reviewer/pending/Proposal/Versions/Versions";
+import PendingDocuments from "containers/reviewer/pending/Proposal/Versions/Documents/Documents";
+import PendingDocument from "containers/reviewer/pending/Proposal/Versions/Documents/Document/Document";
+import PendingDocumentPreview from "containers/reviewer/pending/Proposal/Versions/Documents/Document/Preview";
+import PendingDocumentDownload from "containers/reviewer/pending/Proposal/Versions/Documents/Document/Download";
 
-import ReviewingProposals from "containers/Dashboard/Reviewer/ReviewingProposals/ReviewingProposals";
-import ProposalsReviewing from "containers/Dashboard/Reviewer/ReviewingProposals/Proposals/Proposals";
-import OtherProposals from "containers/Dashboard/Reviewer/OtherProposals/OtherProposals";
-import ReviewedProposals from "containers/Dashboard/Reviewer/ReviewedProposals/ReviewedProposals";
-import ProposalsReviewed from "containers/Dashboard/Reviewer/ReviewedProposals/Proposals/Proposals";
-import ProposalsOther from "containers/Dashboard/Reviewer/OtherProposals/Proposals/Proposals";
+import ReviewingProposals from "containers/reviewer/reviewing/Reviewing";
+import ProposalsReviewing from "containers/reviewer/reviewing/Proposals/Proposals";
+import OtherProposals from "containers/reviewer/other/Other";
+import ReviewedProposals from "containers/reviewer/reviewed/Reviewed";
+import ProposalsReviewed from "containers/reviewer/reviewed/Proposals/Proposals";
+import ProposalsOther from "containers/reviewer/other/Proposals/Proposals";
 
 // components
 import SignIn from "components/SignIn";
@@ -61,7 +61,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    },
    {
       path: "/clerk",
-      element: decideLayout(<DashboardLayout />, <ClerkSidebarLayout />),
+      element: decideLayout(<DashboardLayout />, <ClerkLayout />),
       children: [
          { index: true, element: <ClerkDashboard /> },
          { path: "new-user-requests", element: <NewUserRequests /> },
@@ -72,7 +72,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    },
    {
       path: "/applicant",
-      element: decideLayout(<DashboardLayout />, <ApplicantSidebarLayout />),
+      element: decideLayout(<DashboardLayout />, <ApplicantLayout />),
       children: [
          { index: true, element: <ApplicantDashboard /> },
          { path: "new-submission", element: <NewSubmission /> },
@@ -84,7 +84,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    },
    {
       path: "/secretary",
-      element: decideLayout(<DashboardLayout />, <SecretarySidebarLayout />),
+      element: decideLayout(<DashboardLayout />, <SecretaryLayout />),
       children: [
          { index: true, element: <SecretaryDashboard /> },
          { path: "unassigned", element: <h1>Unassigned Proposals</h1> },
@@ -96,7 +96,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    },
    {
       path: "/reviewer",
-      element: decideLayout(<DashboardLayout />, <ReviewerSidebarLayout />),
+      element: decideLayout(<DashboardLayout />, <ReviewerLayout />),
       children: [
          { index: true, element: <ReviewerDashboard /> },
          {
@@ -165,7 +165,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    },
    {
       path: "/admin",
-      element: decideLayout(<DashboardLayout />, <AdminSidebarLayout />),
+      element: decideLayout(<DashboardLayout />, <AdminLayout />),
       children: [
          { index: true, element: <AdminDashboard /> },
          { path: "users", element: <h1>Current Users</h1> },

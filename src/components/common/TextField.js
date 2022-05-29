@@ -1,4 +1,4 @@
-import { TextField as BaseTextField } from "@mui/material/TextField";
+import BaseTextField from "@mui/material/TextField";
 
 export default function TextField({ label, value, readOnly = false }) {
    return (

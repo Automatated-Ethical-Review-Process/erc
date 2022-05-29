@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 
 import { useNavigate } from "react-router-dom";
 
-export default function FullWidthGrid() {
+export default function Dashboard() {
    const navigate = useNavigate();
    return (
       <Container sx={{ mt: 15 }}>

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Button as BaseButton } from "@mui/material";
+import BaseButton from "@mui/material/Button";
 
 import { ThemeContext } from "context/ThemeContext";
 

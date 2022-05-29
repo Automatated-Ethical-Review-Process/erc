@@ -3,7 +3,7 @@ import List from "@mui/material/List";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
-import AListItem from "./ListItem";
+import ListItem from "./ListItem";
 
 export default function SidebarList({ items }) {
    const location = useLocation();
@@ -14,7 +14,7 @@ export default function SidebarList({ items }) {
          <Divider />
          <List>
             {items.map((item) => (
-               <AListItem
+               <ListItem
                   key={item.path}
                   location={location}
                   navigate={navigate}
