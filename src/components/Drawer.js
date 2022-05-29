@@ -2,13 +2,13 @@ import { useContext } from "react";
 
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Drawer from "@mui/material/Drawer";
+import BaseDrawer from "@mui/material/Drawer";
 
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "context/ThemeContext";
 
-import SidebarList from "./SidebarList";
+import SidebarList from "./common/SidebarList";
 
-export default function ADrawer({ open, onClose, width, items }) {
+export default function Drawer({ open, onClose, width, items }) {
    const { theme } = useContext(ThemeContext);
 
    const drawer = (
@@ -33,7 +33,7 @@ export default function ADrawer({ open, onClose, width, items }) {
 
    return (
       <>
-         <Drawer
+         <BaseDrawer
             variant="temporary"
             open={open}
             onClose={onClose}
@@ -49,8 +49,8 @@ export default function ADrawer({ open, onClose, width, items }) {
             }}
          >
             {drawer}
-         </Drawer>
-         <Drawer
+         </BaseDrawer>
+         <BaseDrawer
             variant="permanent"
             sx={{
                display: { xs: "none", sm: "block" },
@@ -64,7 +64,7 @@ export default function ADrawer({ open, onClose, width, items }) {
             open
          >
             {drawer}
-         </Drawer>
+         </BaseDrawer>
       </>
    );
 }

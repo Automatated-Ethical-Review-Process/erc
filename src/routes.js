@@ -1,149 +1,267 @@
-//layouts
-import MainLayout from "./layouts/MainLayout";
-import NewUserRequests from "./containers/Dashboard/Clerk/NewUserRequests/NewUserRequests";
-import DashboardLayout from "./layouts/DashboardLayout";
+// layouts
+import MainLayout from "layouts/MainLayout";
 
-import Step1 from "./containers/Dashboard/Applicant/NewSubmission/Step1";
-import CurrentSubmission from "./containers/Dashboard/Applicant/CurrentSubmission/CurrentSubmission";
-import Step2 from "./containers/Dashboard/Applicant/NewSubmission/Step2";
-import NewSubmission from "./containers/Dashboard/Applicant/NewSubmission/NewSubmission";
+import DashboardLayout from "layouts/DashboardLayout";
 
-//componets
-import SignIn from "./components/SignIn";
-import SignUp from "./components/signup/SignUp";
-import ForgotPassword from "./components/forgotPassword/ForgotPassword";
-import ClerkDashboard from "./containers/Dashboard/Clerk/ClerkDashboard";
-import ReviewerDashboard from "./containers/Dashboard/Reviewer/ReviewerDashboard";
-import ApplicantDashboard from "./containers/Dashboard/Applicant/ApplicantDashboard";
-import SecretaryDashboard from "./containers/Dashboard/Secretary/SecretaryDashboard";
-import AdminDashboard from "./containers/Dashboard/Admin/AdminDashboard";
-import ClerkSidebarLayout from "./layouts/Sidebar/Clerk/ClerkSidebarLayout";
-import ApplicantSidebarLayout from "./layouts/Sidebar/Applicant/ApplicantSidebarLayout";
-import SecretarySidebarLayout from "./layouts/Sidebar/Secretary/SecretarySidebarLayout";
-import ReviewerSidebarLayout from "./layouts/Sidebar/Reviewer/ReviewerSidebarLayout";
-import AdminSidebarLayout from "./layouts/Sidebar/Admin/AdminSidebarLayout";
-import ShowProfile from "./components/ShowProfile";
-import EditProfile from "./components/EditProfile";
-import PendingProposals from "./containers/Dashboard/Reviewer/PendingProposals/PendingProposals";
-import ProposalsPending from "./containers/Dashboard/Reviewer/PendingProposals/Proposals/Proposals";
-import ReviewingProposals from "./containers/Dashboard/Reviewer/ReviewingProposals/ReviewingProposals";
-import ProposalsReviewing from "./containers/Dashboard/Reviewer/ReviewingProposals/Proposals/Proposals";
-import OtherProposals from "./containers/Dashboard/Reviewer/OtherProposals/OtherProposals";
-import ReviewedProposals from "./containers/Dashboard/Reviewer/ReviewedProposals/ReviewedProposals";
-import ProposalsReviewed from "./containers/Dashboard/Reviewer/ReviewedProposals/Proposals/Proposals";
-import ProposalsOther from "./containers/Dashboard/Reviewer/OtherProposals/Proposals/Proposals";
+import ClerkLayout from "layouts/sidebar/ClerkLayout";
+import ApplicantLayout from "layouts/sidebar/ApplicantLayout";
+import SecretaryLayout from "layouts/sidebar/SecretaryLayout";
+import ReviewerLayout from "layouts/sidebar/ReviewerLayout";
+import AdminLayout from "layouts/sidebar/AdminLayout";
 
-const routes = (isAuthenticated, userRole) => [
+// containers
+import SignIn from "containers/main/SignIn";
+import SignUp from "containers/main/signup/SignUp";
+import ForgotPassword from "containers/main/forgotPassword/ForgotPassword";
+
+import ClerkDashboard from "containers/dashboard/ClerkDashboard";
+import ReviewerDashboard from "containers/dashboard/ReviewerDashboard";
+import ApplicantDashboard from "containers/dashboard/ApplicantDashboard";
+import SecretaryDashboard from "containers/dashboard/SecretaryDashboard";
+import AdminDashboard from "containers/dashboard/AdminDashboard";
+
+import Step1 from "containers/sidebar/applicant/newSubmission/Step1";
+import CurrentSubmission from "containers/sidebar/applicant/currentSubmission/CurrentSubmission";
+import Step2 from "containers/sidebar/applicant/newSubmission/Step2";
+import NewSubmission from "containers/sidebar/applicant/newSubmission/NewSubmission";
+import NewUserRequests from "containers/sidebar/clerk/newUserRequests/NewUserRequests";
+
+import PendingProposal from "containers/sidebar/reviewer/pending/Proposal";
+import ReviewingDocuments from "containers/sidebar/reviewer/reviewing/Documents";
+import SubmitEvaluation from "containers/sidebar/reviewer/reviewing/SubmitEvaluation";
+import ReviewedDocuments from "containers/sidebar/reviewer/reviewed/Documents";
+import ViewEvaluation from "containers/sidebar/reviewer/reviewed/ViewEvaluation";
+import OtherDocuments from "containers/sidebar/reviewer/other/Documents";
+import AddComments from "containers/sidebar/reviewer/other/AddComments";
+
+// components
+import ShowProfile from "components/profile/ShowProfile";
+import EditProfile from "components/profile/EditProfile";
+
+import Proposals from "components/proposals/Proposals";
+import Proposal from "components/proposals/Proposal";
+import Versions from "components/proposals/Versions";
+import Documents from "components/proposals/Documents";
+import Document from "components/proposals/Document";
+import Preview from "components/proposals/Preview";
+import Download from "components/proposals/Download";
+
+// test
+import Test from "components/common/Test";
+
+const documentRoutes = {
+   path: "doc-:did",
+   children: [
+      {
+         index: true,
+         element: <Document />,
+      },
+      {
+         path: "preview",
+         element: <Preview />,
+      },
+      {
+         path: "download",
+         element: <Download />,
+      },
+   ],
+};
+
+const routes = (isAuthenticated, userRole, decideLayout) => [
    {
       path: "/",
       element: <MainLayout />,
       children: [
-         { path: "", element: <SignIn /> },
-         { path: "*", element: <h1>Not Found 404</h1> },
+         { index: true, element: <SignIn /> },
+         {
+            path: "signup",
+            element: <SignUp />,
+         },
+         { path: "forgot-password", element: <ForgotPassword /> },
       ],
    },
    {
-      path: "/signup",
-      element: <SignUp />,
-   },
-   {
-      path: "/forgot-password",
-      element: <ForgotPassword />,
-   },
-   {
       path: "/clerk",
-      element: <DashboardLayout />,
-      children: [{ path: "", element: <ClerkDashboard /> }],
-   },
-   {
-      path: "/clerk",
-      element: <ClerkSidebarLayout />,
+      element: decideLayout(<DashboardLayout />, <ClerkLayout />),
       children: [
+         { index: true, element: <ClerkDashboard /> },
          { path: "new-user-requests", element: <NewUserRequests /> },
          { path: "current-users", element: <h1>Current Users</h1> },
          { path: "new-submissions", element: <h1>New Submissions</h1> },
          { path: "current-proposals", element: <h1>Current Proposals</h1> },
-         { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
    {
       path: "/applicant",
-      element: <DashboardLayout />,
-      children: [{ path: "", element: <ApplicantDashboard /> }],
-   },
-   {
-      path: "/applicant",
-      element: <ApplicantSidebarLayout />,
+      element: decideLayout(<DashboardLayout />, <ApplicantLayout />),
       children: [
+         { index: true, element: <ApplicantDashboard /> },
          { path: "new-submission", element: <NewSubmission /> },
          { path: "current-submission", element: <CurrentSubmission /> },
          { path: "old-submissions", element: <h1>Old Submissions</h1> },
          { path: "step1", element: <Step1 /> },
          { path: "step2", element: <Step2 /> },
-         { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
    {
       path: "/secretary",
-      element: <DashboardLayout />,
-      children: [{ path: "", element: <SecretaryDashboard /> }],
-   },
-   {
-      path: "/secretary",
-      element: <SecretarySidebarLayout />,
+      element: decideLayout(<DashboardLayout />, <SecretaryLayout />),
       children: [
+         { index: true, element: <SecretaryDashboard /> },
          { path: "unassigned", element: <h1>Unassigned Proposals</h1> },
          { path: "in-review", element: <h1>In Review Proposals</h1> },
          { path: "reviewed", element: <h1>Reviewed Proposals</h1> },
          { path: "archived", element: <h1>Archived Proposals</h1> },
          { path: "user-management", element: <h1>User Management</h1> },
-         { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
    {
       path: "/reviewer",
-      element: <DashboardLayout />,
-      children: [{ path: "", element: <ReviewerDashboard /> }],
-   },
-   {
-      path: "/reviewer",
-      element: <ReviewerSidebarLayout />,
+      element: decideLayout(<DashboardLayout />, <ReviewerLayout />),
       children: [
-         { path: "pending", element: <PendingProposals /> },
-         { path: "pending/proposals", element: <ProposalsPending /> },
-         { path: "reviewing", element: <ReviewingProposals /> },
-         { path: "reviewing/proposals", element: <ProposalsReviewing /> },
-         { path: "reviewed", element: <ReviewedProposals /> },
-         { path: "reviewed/proposals", element: <ProposalsReviewed /> },
-         { path: "other", element: <OtherProposals /> },
-         { path: "other/proposals", element: <ProposalsOther /> },
-         { path: "*", element: <h1>Not Found 404</h1> },
+         { index: true, element: <ReviewerDashboard /> },
+         {
+            path: "pending",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <PendingProposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 { index: true, element: <Documents /> },
+
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
+            ],
+         },
+         {
+            path: "reviewing",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <ReviewingDocuments />,
+                                 },
+                                 {
+                                    path: "evaluation",
+                                    element: <SubmitEvaluation />,
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
+            ],
+         },
+         {
+            path: "reviewed",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <ReviewedDocuments />,
+                                 },
+                                 {
+                                    path: "evaluation",
+                                    element: <ViewEvaluation />,
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
+            ],
+         },
+         {
+            path: "other",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <OtherDocuments />,
+                                 },
+                                 {
+                                    path: "comments",
+                                    element: <AddComments />,
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
+            ],
+         },
       ],
    },
    {
       path: "/admin",
-      element: <DashboardLayout />,
-      children: [{ path: "", element: <AdminDashboard /> }],
-   },
-   {
-      path: "/admin",
-      element: <AdminSidebarLayout />,
+      element: decideLayout(<DashboardLayout />, <AdminLayout />),
       children: [
+         { index: true, element: <AdminDashboard /> },
          { path: "users", element: <h1>Current Users</h1> },
          { path: "add-user", element: <h1>Add User</h1> },
-         { path: "*", element: <h1>Not Found 404</h1> },
       ],
    },
    {
       path: "/profile",
-      element: <ShowProfile />,
-      children: [{ path: "*", element: <h1>Not Found 404</h1> }],
+      children: [
+         { index: true, element: <ShowProfile /> },
+         { path: "edit", element: <EditProfile /> },
+      ],
    },
-   {
-      path: "/edit-profile",
-      element: <EditProfile />,
-      children: [{ path: "*", element: <h1>Not Found 404</h1> }],
-   },
+   { path: "/test", element: <Test /> },
+   { path: "*", element: <h4>{"Oops, page not found :("}</h4> },
 ];
 
 export default routes;

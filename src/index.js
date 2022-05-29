@@ -4,7 +4,8 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-import { BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import { Provider } from "react-redux";
 import { store } from "./store/store";
@@ -13,7 +14,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
    <React.StrictMode>
       <Provider store={store}>
-         <BrowserRouter >
+         <BrowserRouter>
+            <CssBaseline />
             <App />
          </BrowserRouter>
       </Provider>

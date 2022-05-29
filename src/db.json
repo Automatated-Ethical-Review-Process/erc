@@ -1,158 +1,213 @@
- {
-   "users": {
-      "rows": [
-         {
-            "id": 1,
-            "lastName": "Snow",
-            "firstName": "Jon",
-            "age": 35
-         },
-         {
-            "id": 2,
-            "lastName": "Lannister",
-            "firstName": "Cersei",
-            "age": 42
-         },
-         {
-            "id": 3,
-            "lastName": "Lannister",
-            "firstName": "Jaime",
-            "age": 45
-         },
-         {
-            "id": 4,
-            "lastName": "Stark",
-            "firstName": "Arya",
-            "age": 16
-         },
-         {
-            "id": 5,
-            "lastName": "Targaryen",
-            "firstName": "Daenerys",
-            "age": 67
-         },
-         {
-            "id": 6,
-            "lastName": "Melisandre",
-            "firstName": "Arya",
-            "age": 150
-         },
-         {
-            "id": 7,
-            "lastName": "Clifford",
-            "firstName": "Ferrara",
-            "age": 44
-         },
-         {
-            "id": 8,
-            "lastName": "Frances",
-            "firstName": "Rossini",
-            "age": 36
-         },
-         {
-            "id": 9,
-            "lastName": "Roxie",
-            "firstName": "Harvey",
-            "age": 65
-         },
-         {
-            "id": 10,
-            "lastName": "Snow",
-            "firstName": "Jon",
-            "age": 35
-         },
-         {
-            "id": 11,
-            "lastName": "Lannister",
-            "firstName": "Cersei",
-            "age": 42
-         },
-         {
-            "id": 12,
-            "lastName": "Lannister",
-            "firstName": "Jaime",
-            "age": 45
-         },
-         {
-            "id": 13,
-            "lastName": "Stark",
-            "firstName": "Arya",
-            "age": 16
-         },
-         {
-            "id": 14,
-            "lastName": "Targaryen",
-            "firstName": "Daenerys",
-            "age": 34
-         },
-         {
-            "id": 15,
-            "lastName": "Melisandre",
-            "firstName": "Arya",
-            "age": 150
-         },
-         {
-            "id": 16,
-            "lastName": "Clifford",
-            "firstName": "Ferrara",
-            "age": 44
-         },
-         {
-            "id": 17,
-            "lastName": "Frances",
-            "firstName": "Rossini",
-            "age": 36
-         },
-         {
-            "id": 18,
-            "lastName": "Roxie",
-            "firstName": "Harvey",
-            "age": 65
-         },
-         {
-            "id": 19,
-            "lastName": "Frances",
-            "firstName": "Rossini",
-            "age": 36
-         },
-         {
-            "id": 20,
-            "lastName": "Roxie",
-            "firstName": "Harvey",
-            "age": 65
-         }
-      ]
-   },
-
-   "perposals": {
-      "rows": [
-         {
-            "id": 1,
-            "perposalName": "Snow",
-            "category": "Jon",
-            "deadline": "2022-05-22"
-         },
-         {
-            "id": 2,
-            "perposalName": "Snow",
-            "category": "Jon",
-            "deadline": "2022-05-23"
-         },
-         {
-            "id": 3,
-            "perposalName": "Snow",
-            "category": "Jon",
-            "deadline": "2022-05-24"
-         },
-         {
-            "id": 4,
-            "perposalName": "Snow",
-            "category": "Jon",
-            "deadline": "2022-05-25"
-         }
-
-         
-         
-      ]
-   }
+{
+   "users": [
+      {
+         "id": 1,
+         "firstName": "Jon",
+         "lastName": "Snow",
+         "age": 35
+      },
+      {
+         "id": 2,
+         "firstName": "Cersei",
+         "lastName": "Lannister",
+         "age": 42
+      },
+      {
+         "id": 3,
+         "firstName": "Jaime",
+         "lastName": "Lannister",
+         "age": 45
+      },
+      {
+         "id": 4,
+         "firstName": "Arya",
+         "lastName": "Stark",
+         "age": 16
+      },
+      {
+         "id": 5,
+         "firstName": "Daenerys",
+         "lastName": "Targaryen",
+         "age": 67
+      },
+      {
+         "id": 6,
+         "firstName": "Arya",
+         "lastName": "Melisandre",
+         "age": 150
+      },
+      {
+         "id": 7,
+         "firstName": "Ferrara",
+         "lastName": "Clifford",
+         "age": 44
+      },
+      {
+         "id": 8,
+         "firstName": "Rossini",
+         "lastName": "Frances",
+         "age": 36
+      },
+      {
+         "id": 9,
+         "firstName": "Harvey",
+         "lastName": "Roxie",
+         "age": 65
+      },
+      {
+         "id": 10,
+         "firstName": "Jon",
+         "lastName": "Snow",
+         "age": 35
+      },
+      {
+         "id": 11,
+         "firstName": "Cersei",
+         "lastName": "Lannister",
+         "age": 42
+      },
+      {
+         "id": 12,
+         "firstName": "Jaime",
+         "lastName": "Lannister",
+         "age": 45
+      },
+      {
+         "id": 13,
+         "firstName": "Arya",
+         "lastName": "Stark",
+         "age": 16
+      },
+      {
+         "id": 14,
+         "firstName": "Daenerys",
+         "lastName": "Targaryen",
+         "age": 34
+      },
+      {
+         "id": 15,
+         "firstName": "Arya",
+         "lastName": "Melisandre",
+         "age": 150
+      },
+      {
+         "id": 16,
+         "firstName": "Ferrara",
+         "lastName": "Clifford",
+         "age": 44
+      },
+      {
+         "id": 17,
+         "firstName": "Rossini",
+         "lastName": "Frances",
+         "age": 36
+      },
+      {
+         "id": 18,
+         "firstName": "Harvey",
+         "lastName": "Roxie",
+         "age": 65
+      },
+      {
+         "id": 19,
+         "firstName": "Rossini",
+         "lastName": "Frances",
+         "age": 36
+      },
+      {
+         "id": 20,
+         "firstName": "Harvey",
+         "lastName": "Roxie",
+         "age": 65
+      }
+   ],
+   "proposals": [
+      {
+         "id": 1,
+         "name": "Proposal 1",
+         "category": "Human Research",
+         "date": "2022-04-10",
+         "time": "08:40:00",
+         "deadline": "2022-05-10",
+         "versions": [1, 2, 3]
+      },
+      {
+         "id": 2,
+         "name": "Proposal 2",
+         "category": "Animal Research",
+         "date": "2022-04-15",
+         "time": "09:27:00",
+         "deadline": "2022-05-15",
+         "versions": [1, 2]
+      },
+      {
+         "id": 3,
+         "name": "Proposal 3",
+         "category": "Human Research",
+         "date": "2022-05-22",
+         "time": "11:35:00",
+         "deadline": "2022-06-22",
+         "versions": [1]
+      },
+      {
+         "id": 4,
+         "name": "Proposal 4",
+         "category": "Animal Research",
+         "date": "2022-06-12",
+         "time": "04:56:00",
+         "deadline": "2022-07-12",
+         "versions": [1, 2, 3]
+      }
+   ],
+   "versions": [
+      {
+         "id": 1,
+         "submitDate": "2022-07-15",
+         "documents": [1, 2, 3, 4]
+      },
+      {
+         "id": 2,
+         "submitDate": "2022-08-15",
+         "documents": [1, 2]
+      },
+      {
+         "id": 3,
+         "submitDate": "2022-09-15",
+         "documents": [1, 2, 3]
+      }
+   ],
+   "documents": [
+      {
+         "id": 1,
+         "title": "doc-1.pdf",
+         "size": 1500,
+         "date": "2022-07-15",
+         "time": "08:40:00",
+         "link": ""
+      },
+      {
+         "id": 2,
+         "title": "doc-2.pdf",
+         "size": 1600,
+         "date": "2022-07-15",
+         "time": "08:40:00",
+         "link": ""
+      },
+      {
+         "id": 3,
+         "title": "doc-3.pdf",
+         "size": 1700,
+         "date": "2022-07-15",
+         "time": "08:40:00",
+         "link": ""
+      },
+      {
+         "id": 4,
+         "title": "doc-4.pdf",
+         "size": 1800,
+         "date": "2022-07-15",
+         "time": "08:40:00",
+         "link": ""
+      }
+   ]
 }
