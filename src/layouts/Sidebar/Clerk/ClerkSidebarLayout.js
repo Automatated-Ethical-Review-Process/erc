@@ -25,6 +25,9 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import RoleNavigationBar from "../../../components/RoleNavigationBar";
 import ADrawer from "../../../components/Drawer";
 
+import {useSelector} from 'react-redux';
+//import {setNotification} from "../../../store/notificationSlice";
+
 const drawerWidth = 240;
 
 const sideBarItems = [
@@ -59,6 +62,9 @@ export default function ClerkLayout() {
 
    const isMenuOpen = Boolean(anchorEl);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+
+   const notifications = useSelector((state)=>state.notifications.value); 
 
    const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
@@ -197,19 +203,10 @@ export default function ClerkLayout() {
                   >
                      <IconButton
                         size="large"
-                        aria-label="show 4 new mails"
-                        color="inherit"
-                     >
-                        <Badge badgeContent={4} color="error">
-                           <MailIcon />
-                        </Badge>
-                     </IconButton>
-                     <IconButton
-                        size="large"
                         aria-label="show 17 new notifications"
                         color="inherit"
                      >
-                        <Badge badgeContent={17} color="error">
+                        <Badge badgeContent={notifications} color="error">
                            <NotificationsIcon />
                         </Badge>
                      </IconButton>
