@@ -1,10 +1,12 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
-import CustomizedDataGrid from "components/CustomizedDataGrid";
+import { Container } from "@mui/material";
+
+import DataGrid from "components/common/DataGrid";
 
 import { getDocuments } from "services/documentService";
 
-export default function Documents() {
+export default function Documents(props) {
    const navigate = useNavigate();
    const { pathname } = useLocation();
 
@@ -17,11 +19,16 @@ export default function Documents() {
    }
 
    return (
-      <CustomizedDataGrid
-         fields={["title", "size"]}
-         headerNames={["Title", "Size (KiB)"]}
-         rows={documents}
-         onRowClick={(row) => navigate(`${pathname}/doc-${row.id}`)}
-      />
+      <>
+         <DataGrid
+            fields={["title", "size"]}
+            headerNames={["Title", "Size (KiB)"]}
+            rows={documents}
+            onRowClick={(row) => navigate(`${pathname}/doc-${row.id}`)}
+         />
+         <Container maxWidth="md" sx={{ mt: 4 }}>
+            {props.children}
+         </Container>
+      </>
    );
 }

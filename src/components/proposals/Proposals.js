@@ -1,25 +1,19 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import CustomizedDataGrid from "components/CustomizedDataGrid";
+import DataGrid from "components/common/DataGrid";
 import { getProposals } from "services/proposalService";
 
-export default function PendingProposals() {
+export default function Proposals() {
    const navigate = useNavigate();
+   const { pathname } = useLocation();
    const proposals = getProposals();
 
    return (
-      <>
-         <CustomizedDataGrid
-            fields={["id", "name", "category", "deadline"]}
-            headerNames={[
-               "Proposal ID",
-               "Proposal Name",
-               "Category",
-               "Deadline",
-            ]}
-            rows={proposals}
-            onRowClick={(row) => navigate("/reviewer/pending/" + row.id)}
-         />
-      </>
+      <DataGrid
+         fields={["id", "name", "category", "deadline"]}
+         headerNames={["Proposal ID", "Proposal Name", "Category", "Deadline"]}
+         rows={proposals}
+         onRowClick={(row) => navigate(`${pathname}/${row.id}`)}
+      />
    );
 }

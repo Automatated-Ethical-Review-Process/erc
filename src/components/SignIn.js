@@ -1,7 +1,6 @@
 import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -30,7 +29,6 @@ export default function SignIn() {
 
    const formView = (
       <Container component="main" maxWidth="xs">
-         <CssBaseline />
          <Box
             sx={{
                marginTop: 8,
@@ -106,7 +104,7 @@ export default function SignIn() {
             container
             spacing={0}
             columns={{ xs: 4, md: 12 }}
-            sx={{ mt: 1, pl: 2 }}
+            sx={{ mt: 1, pl: 2, mb: 8 }}
          >
             <Grid item xs={4} md={7}>
                <Container

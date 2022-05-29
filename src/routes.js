@@ -20,20 +20,13 @@ import Step2 from "containers/applicant/newSubmission/Step2";
 import NewSubmission from "containers/applicant/newSubmission/NewSubmission";
 import NewUserRequests from "containers/clerk/newUserRequests/NewUserRequests";
 
-import PendingProposals from "containers/reviewer/pending/Pending";
-import PendingProposal from "containers/reviewer/pending/Proposal/Proposal";
-import PendingVersions from "containers/reviewer/pending/Proposal/Versions/Versions";
-import PendingDocuments from "containers/reviewer/pending/Proposal/Versions/Documents/Documents";
-import PendingDocument from "containers/reviewer/pending/Proposal/Versions/Documents/Document/Document";
-import PendingDocumentPreview from "containers/reviewer/pending/Proposal/Versions/Documents/Document/Preview";
-import PendingDocumentDownload from "containers/reviewer/pending/Proposal/Versions/Documents/Document/Download";
-
-import ReviewingProposals from "containers/reviewer/reviewing/Reviewing";
-import ProposalsReviewing from "containers/reviewer/reviewing/Proposals/Proposals";
-import OtherProposals from "containers/reviewer/other/Other";
-import ReviewedProposals from "containers/reviewer/reviewed/Reviewed";
-import ProposalsReviewed from "containers/reviewer/reviewed/Proposals/Proposals";
-import ProposalsOther from "containers/reviewer/other/Proposals/Proposals";
+import PendingProposal from "containers/reviewer/pending/Proposal";
+import ReviewingDocuments from "containers/reviewer/reviewing/Documents";
+import SubmitEvaluation from "containers/reviewer/reviewing/SubmitEvaluation";
+import ReviewedDocuments from "containers/reviewer/reviewed/Documents";
+import ViewEvaluation from "containers/reviewer/reviewed/ViewEvaluation";
+import OtherDocuments from "containers/reviewer/other/Documents";
+import AddComments from "containers/reviewer/other/AddComments";
 
 // components
 import SignIn from "components/SignIn";
@@ -42,8 +35,34 @@ import ForgotPassword from "components/forgotPassword/ForgotPassword";
 import ShowProfile from "components/profile/ShowProfile";
 import EditProfile from "components/profile/EditProfile";
 
+import Proposals from "components/proposals/Proposals";
+import Proposal from "components/proposals/Proposal";
+import Versions from "components/proposals/Versions";
+import Documents from "components/proposals/Documents";
+import Document from "components/proposals/Document";
+import Preview from "components/proposals/Preview";
+import Download from "components/proposals/Download";
+
 // test
 import Test from "components/common/Test";
+
+const documentRoutes = {
+   path: "doc-:did",
+   children: [
+      {
+         index: true,
+         element: <Document />,
+      },
+      {
+         path: "preview",
+         element: <Preview />,
+      },
+      {
+         path: "download",
+         element: <Download />,
+      },
+   ],
+};
 
 const routes = (isAuthenticated, userRole, decideLayout) => [
    {
@@ -102,7 +121,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
          {
             path: "pending",
             children: [
-               { index: true, element: <PendingProposals /> },
+               { index: true, element: <Proposals /> },
                {
                   path: ":pid",
                   children: [
@@ -110,28 +129,13 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
                      {
                         path: "versions",
                         children: [
-                           { index: true, element: <PendingVersions /> },
+                           { index: true, element: <Versions /> },
                            {
                               path: ":vid",
                               children: [
-                                 { index: true, element: <PendingDocuments /> },
-                                 {
-                                    path: "doc-:did",
-                                    children: [
-                                       {
-                                          index: true,
-                                          element: <PendingDocument />,
-                                       },
-                                       {
-                                          path: "preview",
-                                          element: <PendingDocumentPreview />,
-                                       },
-                                       {
-                                          path: "download",
-                                          element: <PendingDocumentDownload />,
-                                       },
-                                    ],
-                                 },
+                                 { index: true, element: <Documents /> },
+
+                                 documentRoutes,
                               ],
                            },
                         ],
@@ -143,22 +147,97 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
          {
             path: "reviewing",
             children: [
-               { index: true, element: <ReviewingProposals /> },
-               { path: ":id", element: <ProposalsReviewing /> },
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <ReviewingDocuments />,
+                                 },
+                                 {
+                                    path: "evaluation",
+                                    element: <SubmitEvaluation />,
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
             ],
          },
          {
             path: "reviewed",
             children: [
-               { index: true, element: <ReviewedProposals /> },
-               { path: ":id", element: <ProposalsReviewed /> },
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <ReviewedDocuments />,
+                                 },
+                                 {
+                                    path: "evaluation",
+                                    element: <ViewEvaluation />,
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
             ],
          },
          {
             path: "other",
             children: [
-               { index: true, element: <OtherProposals /> },
-               { path: ":id", element: <ProposalsOther /> },
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <OtherDocuments />,
+                                 },
+                                 {
+                                    path: "comments",
+                                    element: <AddComments />,
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
             ],
          },
       ],

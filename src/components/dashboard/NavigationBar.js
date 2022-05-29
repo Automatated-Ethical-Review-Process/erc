@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useContext } from "react";
-import { Outlet } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,8 +16,6 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { ThemeContext } from "context/ThemeContext";
 import { useNavigate } from "react-router-dom";
-
-import DashboardHeader from "./DashboardHeader";
 
 const drawerWidth = 240;
 
@@ -186,15 +183,6 @@ export default function ClerkLayout() {
                         justifyContent: "right",
                      }}
                   >
-                     <IconButton
-                        size="large"
-                        aria-label="show 4 new mails"
-                        color="inherit"
-                     >
-                        {/* <Badge badgeContent={4} color="error">
-                           {/* <MailIcon /> }
-                        </Badge> */}
-                     </IconButton>
                      <IconButton
                         size="large"
                         aria-label="show 17 new notifications"

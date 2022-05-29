@@ -1,10 +1,12 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
-import CustomizedDataGrid from "components/CustomizedDataGrid";
+import { Container } from "@mui/material";
+
+import DataGrid from "components/common/DataGrid";
 
 import { getVersions } from "services/versionService";
 
-export default function Versions() {
+export default function Versions(props) {
    const navigate = useNavigate();
    const { pathname } = useLocation();
 
@@ -17,11 +19,16 @@ export default function Versions() {
    }
 
    return (
-      <CustomizedDataGrid
-         fields={["id", "submitDate"]}
-         headerNames={["Version", "Submit Date"]}
-         rows={versions}
-         onRowClick={(row) => navigate(`${pathname}/${row.id}`)}
-      />
+      <>
+         <DataGrid
+            fields={["id", "submitDate"]}
+            headerNames={["Version", "Submit Date"]}
+            rows={versions}
+            onRowClick={(row) => navigate(`${pathname}/${row.id}`)}
+         />
+         <Container maxWidth="md" sx={{ mt: 4 }}>
+            {props.children}
+         </Container>
+      </>
    );
 }

@@ -10,7 +10,7 @@ export default function Dashboard() {
    const navigate = useNavigate();
 
    return (
-      <Container sx={{ mt: 15 }}>
+      <Container sx={{ mt: 8, mb: 8 }}>
          <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2} alignItems="center">
                <Grid item xs={12} md={6}>

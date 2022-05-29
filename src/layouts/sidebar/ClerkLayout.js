@@ -4,7 +4,6 @@ import { Outlet } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
 import MailIcon from "@mui/icons-material/Mail";
 import Menu from "@mui/material/Menu";
@@ -23,7 +22,8 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { ThemeContext } from "context/ThemeContext";
 
 import RoleNavigationBar from "components/RoleNavigationBar";
-import ADrawer from "components/Drawer";
+import Footer from "components/Footer";
+import Drawer from "components/Drawer";
 
 const drawerWidth = 240;
 
@@ -168,7 +168,6 @@ export default function ClerkLayout() {
    return (
       <>
          <Box sx={{ display: "flex" }}>
-            <CssBaseline />
             <AppBar
                position="fixed"
                sx={{
@@ -256,7 +255,7 @@ export default function ClerkLayout() {
                aria-label="mailbox folders"
             >
                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-               <ADrawer
+               <Drawer
                   open={mobileOpen}
                   onClose={handleDrawerToggle}
                   width={drawerWidth}
@@ -275,6 +274,7 @@ export default function ClerkLayout() {
                <RoleNavigationBar role="clerk" />
                <Outlet />
             </Box>
+            <Footer />
          </Box>
       </>
    );

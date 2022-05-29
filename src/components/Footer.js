@@ -7,13 +7,12 @@ const FooterContainer = styled.div`
    position: fixed;
    bottom: 0;
    width: 100%;
-   min-height: 50px;
    background: black;
-   opacity: 0.8 ;
+   opacity: 0.6;
 `;
 
 export default function Footer() {
-   const text = "© 2022 Department of Computer Science.All Rights Reserved";
+   const text = `© ${new Date().getFullYear()} Department of Computer Science. All Rights Reserved`;
    return (
       <div>
          <FooterContainer>
@@ -22,7 +21,7 @@ export default function Footer() {
                display="block"
                sx={{
                   mr: 2,
-                  p:1,
+                  p: 1,
                   display: { xs: "block", md: "none" },
                   fontSize: 15,
                   letterSpacing: ".1rem",
