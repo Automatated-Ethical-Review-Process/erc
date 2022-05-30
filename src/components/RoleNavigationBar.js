@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -11,11 +10,12 @@ import { ThemeContext } from "context/ThemeContext";
 
 const RoleNavigationBar = ({ role }) => {
    const { theme } = useContext(ThemeContext);
+
    const navigate = useNavigate();
 
    const [btnValueInRoleMobile, setBtnValueInRoleMobile] =
       useState("Choose Role");
-   const [open, setOpen] = React.useState(false);
+   const [open, setOpen] = useState(false);
 
    if (!["secretary", "reviewer"].includes(role)) {
       return null;
@@ -32,6 +32,33 @@ const RoleNavigationBar = ({ role }) => {
       roles.push("Applicant");
    }
 
+   const button = (value, index, onClick) => (
+      <Button
+         key={index}
+         variant="outlined"
+         sx={{
+            width: 150,
+            boxSizing: "border-box",
+            fontFamily: theme.font.button.family,
+            color: index === selectIndex ? "white" : theme.color.main.primary,
+            borderColor: theme.color.main.primary,
+            backgroundColor:
+               index === selectIndex ? theme.color.main.primary : "white",
+            fontWeight: 700,
+            "&:hover": {
+               borderColor: theme.color.main.primary,
+               boxShadow: 20,
+               color: index === selectIndex ? theme.color.main.primary : "",
+               backgroundColor: index === selectIndex ? "white" : "",
+               transitionDuration: "0.6s",
+            },
+         }}
+         onClick={onClick}
+      >
+         {value}
+      </Button>
+   );
+
    const selectIndex = roles.map((s) => s.toLowerCase()).indexOf(role);
 
    return (
@@ -45,66 +72,17 @@ const RoleNavigationBar = ({ role }) => {
             }}
          >
             <Stack direction="row" spacing={10} component="div">
-               {roles.map((value, index) => (
-                  <Button
-                     key={index}
-                     variant="outlined"
-                     sx={{
-                        width: 150,
-                        boxSizing: "border-box",
-                        fontFamily: theme.font.button.family,
-                        color:
-                           index === selectIndex
-                              ? "white"
-                              : theme.color.main.primary,
-                        borderColor: theme.color.main.primary,
-                        backgroundColor:
-                           index === selectIndex
-                              ? theme.color.main.primary
-                              : "white",
-                        fontWeight: 700,
-                        "&:hover": {
-                           borderColor: theme.color.main.primary,
-                           boxShadow: 20,
-                           color:
-                              index === selectIndex
-                                 ? theme.color.main.primary
-                                 : "",
-                           backgroundColor:
-                              index === selectIndex ? "white" : "",
-                           transitionDuration: "0.6s",
-                        },
-                     }}
-                     onClick={() => {
-                        navigate("/" + roles[index].toLowerCase());
-                     }}
-                  >
-                     {value}
-                  </Button>
-               ))}
+               {roles.map((value, index) =>
+                  button(value, index, () =>
+                     navigate("/" + roles[index].toLowerCase())
+                  )
+               )}
             </Stack>
          </Box>
 
-         <Box
-            sx={{
-               display: { xs: "block", md: "none" },
-            }}
-         >
-            <Box sx={{ mx: "auto", width: 150 }}>
-               <Button
-                  onClick={handleOpen}
-                  variant="outlined"
-                  sx={{ width: 150 }}
-               >
-                  {roles.length === 1 ? roles[0] : btnValueInRoleMobile}
-               </Button>
-            </Box>
-            <Modal
-               open={open}
-               onClose={handleClose}
-               aria-labelledby="modal-modal-title"
-               aria-describedby="modal-modal-description"
-            >
+         <Box display={{ xs: "flex", md: "none" }} justifyContent="center">
+            {button(btnValueInRoleMobile, 1, handleOpen)}
+            <Modal open={open} onClose={handleClose}>
                <Box
                   sx={{
                      position: "absolute",
@@ -119,19 +97,13 @@ const RoleNavigationBar = ({ role }) => {
                   }}
                >
                   <Stack direction="column" spacing={2}>
-                     {roles.map((value, index) => (
-                        <Button
-                           key={index}
-                           variant="outlined"
-                           onClick={() => {
-                              setBtnValueInRoleMobile(value);
-                              handleClose();
-                              navigate("/" + roles[index].toLowerCase());
-                           }}
-                        >
-                           {value}
-                        </Button>
-                     ))}
+                     {roles.map((value, index) =>
+                        button(value, index, () => {
+                           setBtnValueInRoleMobile(value);
+                           handleClose();
+                           navigate("/" + roles[index].toLowerCase());
+                        })
+                     )}
                   </Stack>
                </Box>
             </Modal>
