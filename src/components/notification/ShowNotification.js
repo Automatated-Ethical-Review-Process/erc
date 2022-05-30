@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -8,9 +7,17 @@ import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { Container, Typography } from "@mui/material";
-import DataGrid from "components/common/DataGrid";
-import { useLocation, useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
+
+import { useLocation, useNavigate } from "react-router-dom";
+
+import {
+   getNotification,
+   getNotifications,
+} from "services/notificationService";
+
+import DataGrid from "components/common/DataGrid";
+import NavigationBar from "components/NavigationBar";
 
 const Search = styled("div")(({ theme }) => ({
    position: "relative",
@@ -80,131 +87,96 @@ const Item = styled(Paper)(({ theme }) => ({
    color: theme.palette.text.secondary,
 }));
 
-const notifications = [
-   {
-      id: 1,
-      title: "Notification 1",
-      date: "2020/05/25",
-      time: "20.30",
-      content:
-         "This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content",
-      from: "a1@gmail.com",
-   },
-   {
-      id: 2,
-      title: "Notification 2",
-      date: "2020/05/26",
-      time: "21.24",
-      content: "this is content",
-      from: "a1@gmail.com",
-   },
-   {
-      id: 3,
-      title: "Notification 3",
-      date: "2020/05/27",
-      time: "10.36",
-      content: "this is content",
-      from: "a1@gmail.com",
-   },
-   {
-      id: 4,
-      title: "Notification 4",
-      date: "2020/05/28",
-      time: "02.50",
-      content: "this is content",
-      from: "a1@gmail.com",
-   },
-   {
-      id: 5,
-      title: "Notification 5",
-      date: "2020/05/29",
-      time: "06.30",
-      content: "this is content",
-      from: "a1@gmail.com",
-   },
-];
+function Notification({ id }) {
+   const notification = getNotification(id);
 
-function Notification({ row }) {
-   console.log(row);
-   return (
-      <Container>
-         <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2}>
-               <Grid item xs={12}>
-                  <h1>{row.title}</h1>
-               </Grid>
-               <Grid item xs={12} container direction="column" spacing={2}>
-                  <Grid item container>
-                     <Grid item xs={2} md={2}>
-                        <Typography>Date :</Typography>
-                     </Grid>
-                     <Grid item xs={4} md={4}>
-                        <Item>
-                           <Typography>{row.date}</Typography>
-                        </Item>
-                     </Grid>
-                  </Grid>
-                  <Grid item container>
-                     <Grid item xs={2} md={2}>
-                        <Typography>Time :</Typography>
-                     </Grid>
-                     <Grid item xs={4} md={4}>
-                        <Item>
-                           <Typography>{row.time}</Typography>
-                        </Item>
-                     </Grid>
-                  </Grid>
-                  <Grid item container>
-                     <Grid item xs={2} md={2}>
-                        <Typography>From :</Typography>
-                     </Grid>
-                     <Grid item xs={4} md={4}>
-                        <Item>
-                           <Typography>{row.from}</Typography>
-                        </Item>
-                     </Grid>
-                  </Grid>
-               </Grid>
-               <Grid item xs={12}>
-                  <Divider sx={{ borderBottomWidth: 5 }} />
-               </Grid>
-               <Grid item xs={12} container sx={{ mt: 2 }}>
-                  <Typography>{row.content}</Typography>
-               </Grid>
-            </Grid>
-         </Box>
-      </Container>
-   );
-}
-
-export default function BasicGrid() {
-   const onclick = useNavigate();
-   const location = useLocation();
-   const row = location.state;
-
-   if (row) {
-      return <Notification row={row} />;
+   if (!notification) {
+      return "invalid notification id: " + id;
    }
 
    return (
-      <Container sx={{ mx: "4" }}>
-         <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={1}>
-               <Grid item xs={12}>
-                  <SearchAppBar />
+      <Grid container spacing={2}>
+         <Grid item xs={12}>
+            <h1>{notification.title}</h1>
+         </Grid>
+         <Grid item xs={12} container direction="column" spacing={2}>
+            <Grid item container>
+               <Grid item xs={2} md={2}>
+                  <Typography>Date :</Typography>
                </Grid>
-               <Grid item xs={12}>
-                  <DataGrid
-                     fields={["title", "date", "time", "content", "from"]}
-                     headerNames={["Title", "Date", "Time", "Content", "From"]}
-                     rows={notifications}
-                     onRowClick={(row) =>
-                        onclick("/notification", { state: row })
-                     }
-                  />
+               <Grid item xs={4} md={4}>
+                  <Item>
+                     <Typography>{notification.date}</Typography>
+                  </Item>
                </Grid>
             </Grid>
-         </Box>
-      </Container>
+            <Grid item container>
+               <Grid item xs={2} md={2}>
+                  <Typography>Time :</Typography>
+               </Grid>
+               <Grid item xs={4} md={4}>
+                  <Item>
+                     <Typography>{notification.time}</Typography>
+                  </Item>
+               </Grid>
+            </Grid>
+            <Grid item container>
+               <Grid item xs={2} md={2}>
+                  <Typography>From :</Typography>
+               </Grid>
+               <Grid item xs={4} md={4}>
+                  <Item>
+                     <Typography>{notification.from}</Typography>
+                  </Item>
+               </Grid>
+            </Grid>
+         </Grid>
+         <Grid item xs={12}>
+            <Divider sx={{ borderBottomWidth: 5 }} />
+         </Grid>
+         <Grid item xs={12} container sx={{ mt: 2 }}>
+            <Typography>{notification.content}</Typography>
+         </Grid>
+      </Grid>
+   );
+}
+
+function GetView() {
+   const onclick = useNavigate();
+   const location = useLocation();
+   const id = location.state;
+
+   if (id) {
+      return <Notification id={id} />;
+   }
+
+   const notifications = getNotifications();
+
+   return (
+      <Grid container spacing={1}>
+         <Grid item xs={12}>
+            <SearchAppBar />
+         </Grid>
+         <Grid item xs={12}>
+            <DataGrid
+               fields={["title", "date", "time", "content", "from"]}
+               headerNames={["Title", "Date", "Time", "Content", "From"]}
+               rows={notifications}
+               onRowClick={(row) => onclick("/notification", { state: row.id })}
+            />
+         </Grid>
+      </Grid>
+   );
+}
+
+export default function ShowNotification() {
+   return (
+      <NavigationBar title="Notification">
+         <Container sx={{ mx: 4 }}>
+            <Box sx={{ flexGrow: 1 }}>
+               <GetView />
+            </Box>
+         </Container>
+      </NavigationBar>
    );
 }

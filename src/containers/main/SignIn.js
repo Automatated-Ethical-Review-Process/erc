@@ -4,13 +4,13 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useNavigate } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 
 import Image from "assests/meetings.jpg";
 
@@ -83,14 +83,16 @@ export default function SignIn() {
                </Button>
                <Grid container>
                   <Grid item xs>
-                     <Link href="/forgot-password" variant="body2">
-                        Forgot password?
-                     </Link>
+                     <Typography variant="body2">
+                        <Link to="/forgot-password">Forgot password?</Link>
+                     </Typography>
                   </Grid>
                   <Grid item>
-                     <Link href="/signup" variant="body2">
-                        {"Don't have an account? Sign Up"}
-                     </Link>
+                     <Typography variant="body2">
+                        <Link to="/signup" variant="body2">
+                           {"Don't have an account? Sign Up"}
+                        </Link>
+                     </Typography>
                   </Grid>
                </Grid>
             </Box>

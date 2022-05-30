@@ -1,32 +1,30 @@
-import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import { useState } from "react";
+
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
 import { Container } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import Image from "assests/baby.webp";
 import { Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 import { useNavigate } from "react-router-dom";
 
+import NavigationBar from "components/NavigationBar";
+
+import Image from "assests/baby.webp";
+
 export function InputPassword() {
-   const [values, setValues] = React.useState({
+   const [values, setValues] = useState({
       amount: "",
       password: "",
       weight: "",
@@ -128,14 +126,6 @@ export function IsUndergraduateCheckbox() {
    );
 }
 
-const Item = styled(Paper)(({ theme }) => ({
-   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-   ...theme.typography.body2,
-   padding: theme.spacing(1),
-   textAlign: "center",
-   color: theme.palette.text.secondary,
-}));
-
 export function RowAndColumnSpacing() {
    return (
       <Container maxWidth={"md"}>
@@ -198,32 +188,10 @@ export function RowAndColumnSpacing() {
    );
 }
 
-const theme = createTheme();
-
 export default function EditProfile() {
    return (
-      <ThemeProvider theme={theme}>
-         <CssBaseline />
-         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-               <Toolbar>
-                  <IconButton
-                     size="large"
-                     edge="start"
-                     color="inherit"
-                     aria-label="menu"
-                     sx={{ mr: 2 }}
-                  >
-                     <MenuIcon />
-                  </IconButton>
-                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                     P R O F I L E
-                  </Typography>
-                  <Button color="inherit">Logout</Button>
-               </Toolbar>
-            </AppBar>
-         </Box>
+      <NavigationBar title="Profile">
          <RowAndColumnSpacing />
-      </ThemeProvider>
+      </NavigationBar>
    );
 }

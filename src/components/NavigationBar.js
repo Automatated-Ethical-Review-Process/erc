@@ -1,170 +1,225 @@
-import React, { useContext, useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-
+import React from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Badge from "@mui/material/Badge";
+import MenuItem from "@mui/material/MenuItem";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MoreIcon from "@mui/icons-material/MoreVert";
 
 import { ThemeContext } from "context/ThemeContext";
+import Drawer from "./Drawer";
 
-const pages = ["Sign in", "Sign up", "Instruction"];
+import { useSelector } from "react-redux";
 
-const NavigationBar = () => {
+export default function SidebarLayout({ title, sideBarItems, children }) {
    const { theme } = useContext(ThemeContext);
+
+   const [mobileOpen, setMobileOpen] = useState(false);
+   const [anchorEl, setAnchorEl] = useState(null);
+   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+   const isMenuOpen = Boolean(anchorEl);
+   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
    const navigate = useNavigate();
 
-   const [anchorElNav, setAnchorElNav] = useState(null);
+   const notifications = useSelector(
+      (state) => state.notifications.value.count
+   );
 
-   const handleOpenNavMenu = (event) => {
-      setAnchorElNav(event.currentTarget);
+   const handleProfileMenuOpen = (event) => {
+      setAnchorEl(event.currentTarget);
    };
 
-   const handleCloseNavMenu = () => {
-      setAnchorElNav(null);
+   const handleMobileMenuClose = () => {
+      setMobileMoreAnchorEl(null);
    };
 
-   const handleOnClick = (page) => {
-      switch (page) {
-         case pages[0]:
-            navigate("/");
-            break;
-         case pages[1]:
-            navigate("/signup");
-            break;
-         case pages[2]:
-            alert("Not Implemented !");
-            break;
-         default:
-            throw new Error("invalid index");
-      }
-      handleCloseNavMenu();
+   const handleMenuClose = () => {
+      setAnchorEl(null);
+      handleMobileMenuClose();
    };
 
-   const themeLocal = createTheme({
-      breakpoints: {
-         values: {
-            xs: 0,
-            sm: 600,
-            md: 900,
-            tab: 1024,
-            lg: 1200,
-            xl: 1536,
-         },
-      },
-   });
+   const handleNotification = () => {
+      handleMenuClose();
+      navigate("/notification");
+   };
+
+   const handleProfile = () => {
+      handleMenuClose();
+      navigate("/profile");
+   };
+
+   const handleLogout = () => {
+      handleMenuClose();
+      navigate("/");
+   };
+
+   const handleMobileMenuOpen = (event) => {
+      setMobileMoreAnchorEl(event.currentTarget);
+   };
+
+   const handleDrawerToggle = () => {
+      setMobileOpen(!mobileOpen);
+   };
+
+   const renderMenu = (
+      <Menu
+         anchorEl={anchorEl}
+         anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+         }}
+         keepMounted
+         transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+         }}
+         open={isMenuOpen}
+         onClose={handleMenuClose}
+      >
+         <MenuItem onClick={handleProfile}>Profile</MenuItem>
+         <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
+   );
+
+   const renderMobileMenu = (
+      <Menu
+         anchorEl={mobileMoreAnchorEl}
+         anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+         }}
+         keepMounted
+         transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+         }}
+         open={isMobileMenuOpen}
+         onClose={handleMobileMenuClose}
+      >
+         <MenuItem onClick={handleNotification}>
+            <IconButton size="large" color="inherit">
+               <Badge badgeContent={notifications} color="error">
+                  <NotificationsIcon />
+               </Badge>
+            </IconButton>
+            <p>Notifications</p>
+         </MenuItem>
+         <MenuItem onClick={handleProfileMenuOpen}>
+            <IconButton size="large" color="inherit">
+               <AccountCircle />
+            </IconButton>
+            <p>Profile</p>
+         </MenuItem>
+      </Menu>
+   );
 
    return (
-      <ThemeProvider theme={themeLocal}>
+      <Box sx={{ display: "flex" }}>
          <AppBar
-            position="static"
-            sx={{ p: 0.1, backgroundColor: theme.color.main.primary }}
+            position="fixed"
+            sx={{
+               boxShadow: "none",
+               bgcolor: theme.color.main.primary,
+               zIndex: (t) => t.zIndex.drawer + 1,
+            }}
          >
-            <Toolbar disableGutters>
-               <Typography
-                  variant="h6"
-                  noWrap
-                  component="a"
-                  href="/"
-                  sx={{
-                     ml: 2,
-                     display: { xs: "none", md: "flex" },
-                     fontFamily: "monospace",
-                     fontWeight: 700,
-                     letterSpacing: ".3rem",
-                     color: "inherit",
-                     textDecoration: "none",
-                     justifyContent: "flex-start",
-                  }}
-               >
-                  LOGO
-               </Typography>
-               <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <Toolbar>
+               {sideBarItems && (
                   <IconButton
-                     size="large"
-                     aria-label="account of current user"
-                     aria-controls="menu-appbar"
-                     aria-haspopup="true"
-                     onClick={handleOpenNavMenu}
                      color="inherit"
+                     edge="start"
+                     onClick={handleDrawerToggle}
+                     sx={{ mr: 2, display: { sm: "none" } }}
                   >
                      <MenuIcon />
                   </IconButton>
-                  <Menu
-                     id="menu-appbar"
-                     anchorEl={anchorElNav}
-                     anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left",
-                     }}
-                     keepMounted
-                     transformOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
-                     }}
-                     open={Boolean(anchorElNav)}
-                     onClose={handleCloseNavMenu}
-                     sx={{
-                        display: { xs: "block", md: "none" },
-                     }}
-                  >
-                     {pages.map((page) => (
-                        <MenuItem
-                           key={page}
-                           onClick={() => handleOnClick(page)}
-                        >
-                           <Typography textAlign="center">{page}</Typography>
-                        </MenuItem>
-                     ))}
-                  </Menu>
-               </Box>
+               )}
+
                <Typography
-                  variant="h5"
-                  noWrap
-                  component="a"
-                  href="/"
                   sx={{
-                     mr: 2,
-                     ml: { xs: 0, md: 6 },
-                     display: "flex",
-                     flexGrow: 1,
-                     fontWeight: 500,
-                     letterSpacing: { xs: ".1rem", md: ".3rem" },
-                     color: "inherit",
-                     textDecoration: "none",
-                     fontSize: { xs: 15, md: 30 },
                      fontFamily: "monospace",
+                     fontSize: 20,
+                     lineHeight: 3,
+                     fontWeight: 700,
+                     color: "white",
                   }}
                >
-                  {"Ethical Review Committee".toLocaleUpperCase()}
+                  {title}
                </Typography>
+
                <Box
                   sx={{
-                     flexGrow: 1,
                      display: { xs: "none", md: "flex" },
+                     flexGrow: 1,
                      justifyContent: "right",
                   }}
                >
-                  {pages.map((page) => (
-                     <Button
-                        key={page}
-                        onClick={() => handleOnClick(page)}
-                        sx={{ my: 0, color: "white", display: "block" }}
-                     >
-                        {page}
-                     </Button>
-                  ))}
+                  <IconButton
+                     size="large"
+                     color="inherit"
+                     onClick={handleNotification}
+                  >
+                     <Badge badgeContent={notifications} color="error">
+                        <NotificationsIcon />
+                     </Badge>
+                  </IconButton>
+                  <IconButton
+                     size="large"
+                     edge="end"
+                     onClick={handleProfileMenuOpen}
+                     color="inherit"
+                  >
+                     <AccountCircle />
+                  </IconButton>
+               </Box>
+               <Box
+                  sx={{
+                     display: { xs: "flex", md: "none" },
+                     flexGrow: 1,
+                     justifyContent: "right",
+                  }}
+               >
+                  <IconButton
+                     size="large"
+                     onClick={handleMobileMenuOpen}
+                     color="inherit"
+                  >
+                     <MoreIcon />
+                  </IconButton>
                </Box>
             </Toolbar>
          </AppBar>
-      </ThemeProvider>
+         {renderMobileMenu}
+         {renderMenu}
+         {sideBarItems && (
+            <Drawer
+               open={mobileOpen}
+               onClose={handleDrawerToggle}
+               items={sideBarItems}
+            />
+         )}
+         <Box
+            component="main"
+            sx={{
+               flexGrow: 1,
+               p: 1,
+               mt: { xs: 1, sm: 0 },
+            }}
+         >
+            <Toolbar />
+            {children}
+         </Box>
+      </Box>
    );
-};
-export default NavigationBar;
+}

@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "styled-components";
+
 import Typography from "@mui/material/Typography";
 
 const FooterContainer = styled.div`
@@ -14,7 +14,7 @@ const FooterContainer = styled.div`
 export default function Footer() {
    const text = `© ${new Date().getFullYear()} Department of Computer Science. All Rights Reserved`;
    return (
-      <div>
+      <>
          <FooterContainer>
             <Typography
                variant="title"
@@ -46,6 +46,6 @@ export default function Footer() {
                {text}
             </Typography>
          </FooterContainer>
-      </div>
+      </>
    );
 }

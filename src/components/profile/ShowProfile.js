@@ -1,9 +1,4 @@
-import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -12,10 +7,12 @@ import { Container } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import Image from "assests/baby.webp";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+
 import { useNavigate } from "react-router-dom";
+
+import NavigationBar from "components/NavigationBar";
+
+import Image from "assests/baby.webp";
 
 export function ImageAvatar() {
    return (
@@ -124,32 +121,10 @@ export function RowAndColumnSpacing() {
    );
 }
 
-const theme = createTheme();
-
 export default function Checkout() {
    return (
-      <ThemeProvider theme={theme}>
-         <CssBaseline />
-         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-               <Toolbar>
-                  <IconButton
-                     size="large"
-                     edge="start"
-                     color="inherit"
-                     aria-label="menu"
-                     sx={{ mr: 2 }}
-                  >
-                     <MenuIcon />
-                  </IconButton>
-                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                     P R O F I L E
-                  </Typography>
-                  <Button color="inherit">Logout</Button>
-               </Toolbar>
-            </AppBar>
-         </Box>
+      <NavigationBar title="Profile">
          <RowAndColumnSpacing />
-      </ThemeProvider>
+      </NavigationBar>
    );
 }

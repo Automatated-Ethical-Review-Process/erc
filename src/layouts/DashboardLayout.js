@@ -6,14 +6,13 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 
-import DashboardNavigationBar from "components/DashboardNavigationBar";
+import NavigationBar from "components/NavigationBar";
 import Footer from "components/Footer";
 
 export default function DashboardLayout() {
    return (
-      <div>
-         <DashboardNavigationBar />
-         <Container sx={{ mb: 10 }}>
+      <NavigationBar title="Dashboard">
+         <Container sx={{ mb: 8 }}>
             <Card sx={{ mt: 2, mb: 6 }}>
                <CardContent>
                   <Stack alignItems="center">
@@ -32,6 +31,6 @@ export default function DashboardLayout() {
             <Outlet />
          </Container>
          <Footer />
-      </div>
+      </NavigationBar>
    );
 }

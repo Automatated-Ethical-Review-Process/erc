@@ -1,32 +1,20 @@
 import { useContext } from "react";
 
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import BaseDrawer from "@mui/material/Drawer";
 
 import { ThemeContext } from "context/ThemeContext";
 
 import SidebarList from "./common/SidebarList";
 
-export default function Drawer({ open, onClose, width, items }) {
+const drawerWidth = 240;
+
+export default function Drawer({ open, onClose, items }) {
    const { theme } = useContext(ThemeContext);
 
    const drawer = (
       <div>
-         <Toolbar sx={{ bgcolor: theme.color.main.primary }}>
-            <Typography
-               sx={{
-                  fontFamily: "monospace",
-                  fontSize: 20,
-                  lineHeight: 3,
-                  ml: 4,
-                  fontWeight: 700,
-                  color: "white",
-               }}
-            >
-               ERC SYSTEM
-            </Typography>
-         </Toolbar>
+         <Toolbar />
          <SidebarList items={items} />
       </div>
    );
@@ -41,10 +29,11 @@ export default function Drawer({ open, onClose, width, items }) {
                keepMounted: true, // Better open performance on mobile.
             }}
             sx={{
+               width: drawerWidth,
                display: { xs: "block", sm: "none" },
                "& .MuiDrawer-paper": {
                   boxSizing: "border-box",
-                  width: width,
+                  width: drawerWidth,
                },
             }}
          >
@@ -53,10 +42,11 @@ export default function Drawer({ open, onClose, width, items }) {
          <BaseDrawer
             variant="permanent"
             sx={{
+               width: drawerWidth,
                display: { xs: "none", sm: "block" },
                "& .MuiDrawer-paper": {
                   boxSizing: "border-box",
-                  width: width,
+                  width: drawerWidth,
                   borderRightColor: theme.color.main.primary,
                   borderRightWidth: 1,
                },

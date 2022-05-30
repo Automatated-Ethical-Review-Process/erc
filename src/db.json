@@ -209,5 +209,47 @@
          "time": "08:40:00",
          "link": ""
       }
+   ],
+   "notifications": [
+      {
+         "id": 1,
+         "title": "Notification 1",
+         "date": "2020/05/25",
+         "time": "20.30",
+         "content": "This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content",
+         "from": "a1@gmail.com"
+      },
+      {
+         "id": 2,
+         "title": "Notification 2",
+         "date": "2020/05/26",
+         "time": "21.24",
+         "content": "this is content",
+         "from": "a1@gmail.com"
+      },
+      {
+         "id": 3,
+         "title": "Notification 3",
+         "date": "2020/05/27",
+         "time": "10.36",
+         "content": "this is content",
+         "from": "a1@gmail.com"
+      },
+      {
+         "id": 4,
+         "title": "Notification 4",
+         "date": "2020/05/28",
+         "time": "02.50",
+         "content": "this is content",
+         "from": "a1@gmail.com"
+      },
+      {
+         "id": 5,
+         "title": "Notification 5",
+         "date": "2020/05/29",
+         "time": "06.30",
+         "content": "this is content",
+         "from": "a1@gmail.com"
+      }
    ]
 }
