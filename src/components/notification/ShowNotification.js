@@ -172,7 +172,7 @@ function GetView() {
 export default function ShowNotification() {
    return (
       <NavigationBar title="Notification">
-         <Container sx={{ mx: 4 }}>
+         <Container>
             <Box sx={{ flexGrow: 1 }}>
                <GetView />
             </Box>
