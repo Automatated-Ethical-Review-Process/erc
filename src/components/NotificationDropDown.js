@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useState } from "react";
 
@@ -12,27 +11,24 @@ import InboxIcon from "@mui/icons-material/Inbox";
 
 const NotificationDropDown = () => {
    return (
-      <>
-         <List sx={{bgcolor:'red',transform:('50%','50%')}}>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <InboxIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Inbox" />
-               </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-               <ListItemButton>
-                  <ListItemIcon>
-                     <InboxIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Inbox" />
-               </ListItemButton>
-            </ListItem>
-            
-         </List>
-      </>
+      <List sx={{ bgcolor: "red", transform: ("50%", "50%") }}>
+         <ListItem disablePadding>
+            <ListItemButton>
+               <ListItemIcon>
+                  <InboxIcon />
+               </ListItemIcon>
+               <ListItemText primary="Inbox" />
+            </ListItemButton>
+         </ListItem>
+         <ListItem disablePadding>
+            <ListItemButton>
+               <ListItemIcon>
+                  <InboxIcon />
+               </ListItemIcon>
+               <ListItemText primary="Inbox" />
+            </ListItemButton>
+         </ListItem>
+      </List>
    );
 };
 

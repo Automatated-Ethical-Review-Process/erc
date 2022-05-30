@@ -49,8 +49,8 @@ export default function SignUp() {
                Registration
             </Typography>
             <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-               {steps.map((label) => (
-                  <Step key={label}>
+               {steps.map((label, id) => (
+                  <Step key={id}>
                      <StepLabel>{label}</StepLabel>
                   </Step>
                ))}

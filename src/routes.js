@@ -139,7 +139,6 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
                               path: ":vid",
                               children: [
                                  { index: true, element: <Documents /> },
-
                                  documentRoutes,
                               ],
                            },

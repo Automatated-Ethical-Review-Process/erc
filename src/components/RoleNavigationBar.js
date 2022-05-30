@@ -119,21 +119,19 @@ const RoleNavigationBar = ({ role }) => {
                   }}
                >
                   <Stack direction="column" spacing={2}>
-                     {roles.map((value, index) => {
-                        return (
-                           <Button
-                              key={index}
-                              variant="outlined"
-                              onClick={() => {
-                                 setBtnValueInRoleMobile(value);
-                                 handleClose();
-                                 navigate("/" + roles[index].toLowerCase());
-                              }}
-                           >
-                              {value}
-                           </Button>
-                        );
-                     })}
+                     {roles.map((value, index) => (
+                        <Button
+                           key={index}
+                           variant="outlined"
+                           onClick={() => {
+                              setBtnValueInRoleMobile(value);
+                              handleClose();
+                              navigate("/" + roles[index].toLowerCase());
+                           }}
+                        >
+                           {value}
+                        </Button>
+                     ))}
                   </Stack>
                </Box>
             </Modal>

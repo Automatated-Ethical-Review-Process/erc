@@ -13,9 +13,9 @@ export default function SidebarList({ items }) {
       <>
          <Divider />
          <List>
-            {items.map((item) => (
+            {items.map((item, id) => (
                <ListItem
-                  key={item.path}
+                  key={id}
                   location={location}
                   navigate={navigate}
                   path={item.path}

@@ -27,25 +27,23 @@ export default function ForgotPassword() {
             </Typography>
             <br />
 
-            <>
-               {activeStep === 1 ? (
-                  <Step2 />
-               ) : (
-                  <>
-                     <Step1 />
-                     <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                        <Button sx={{ mt: 3, ml: 1 }}>Back</Button>
-                        <Button
-                           variant="contained"
-                           onClick={handleNext}
-                           sx={{ mt: 3, ml: 1 }}
-                        >
-                           Continue
-                        </Button>
-                     </Box>
-                  </>
-               )}
-            </>
+            {activeStep === 1 ? (
+               <Step2 />
+            ) : (
+               <>
+                  <Step1 />
+                  <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                     <Button sx={{ mt: 3, ml: 1 }}>Back</Button>
+                     <Button
+                        variant="contained"
+                        onClick={handleNext}
+                        sx={{ mt: 3, ml: 1 }}
+                     >
+                        Continue
+                     </Button>
+                  </Box>
+               </>
+            )}
          </Paper>
       </Container>
    );

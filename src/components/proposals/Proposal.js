@@ -31,8 +31,8 @@ export default function Proposal(props) {
       <Container maxWidth="md" sx={{ mt: 4 }}>
          <Grid container spacing={4}>
             {data.map((item, id) => (
-               <Grid item xs={12}>
-                  <TextField key={id} {...item} readOnly />
+               <Grid key={id} item xs={12}>
+                  <TextField {...item} readOnly />
                </Grid>
             ))}
 
