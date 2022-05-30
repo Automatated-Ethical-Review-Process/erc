@@ -63,24 +63,24 @@ const RoleNavigationBar = ({ role }) => {
 
    return (
       <>
-         <Box
-            sx={{
-               mb: 2,
-               display: { xs: "none", md: "block" },
-               mx: "auto",
-               width: 150 * roles.length + 10 * (roles.length - 1),
-            }}
+         <Stack
+            display={{ xs: "none", md: "flex" }}
+            justifyContent="space-evenly"
+            direction="row"
+            mb={2}
          >
-            <Stack direction="row" spacing={10} component="div">
-               {roles.map((value, index) =>
-                  button(value, index, () =>
-                     navigate("/" + roles[index].toLowerCase())
-                  )
-               )}
-            </Stack>
-         </Box>
+            {roles.map((value, index) =>
+               button(value, index, () =>
+                  navigate("/" + roles[index].toLowerCase())
+               )
+            )}
+         </Stack>
 
-         <Box display={{ xs: "flex", md: "none" }} justifyContent="center">
+         <Box
+            display={{ xs: "flex", md: "none" }}
+            justifyContent="center"
+            mb={2}
+         >
             {button(btnValueInRoleMobile, 1, handleOpen)}
             <Modal open={open} onClose={handleClose}>
                <Box

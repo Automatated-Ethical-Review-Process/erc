@@ -11,26 +11,28 @@ import Footer from "components/Footer";
 
 export default function DashboardLayout() {
    return (
-      <NavigationBar title="Dashboard">
-         <Container sx={{ mb: 8 }}>
-            <Card sx={{ mt: 2, mb: 6 }}>
-               <CardContent>
-                  <Stack alignItems="center">
-                     <Typography variant="h6" component="div">
-                        University of Ruhuna
-                     </Typography>
-                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        Faculty of Medicine
-                     </Typography>
-                     <Typography variant="h5" component="div">
-                        Ethical Reviewing System
-                     </Typography>
-                  </Stack>
-               </CardContent>
-            </Card>
-            <Outlet />
-         </Container>
+      <>
+         <NavigationBar title="Dashboard">
+            <Container sx={{ mb: 8 }}>
+               <Card sx={{ mt: 2, mb: 6 }}>
+                  <CardContent>
+                     <Stack alignItems="center">
+                        <Typography variant="h6" component="div">
+                           University of Ruhuna
+                        </Typography>
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                           Faculty of Medicine
+                        </Typography>
+                        <Typography variant="h5" component="div">
+                           Ethical Reviewing System
+                        </Typography>
+                     </Stack>
+                  </CardContent>
+               </Card>
+               <Outlet />
+            </Container>
+         </NavigationBar>
          <Footer />
-      </NavigationBar>
+      </>
    );
 }
