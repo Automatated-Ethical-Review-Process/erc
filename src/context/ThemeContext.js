@@ -3,33 +3,33 @@ import React, { createContext } from "react";
 export const ThemeContext = createContext();
 
 function ThemeContextProvider(props) {
-   const theme = {
-      color: {
-         main: {
-            primary: "#227093", //"#178685"
-            secondary: "",
-            error: "",
-            warning: "",
-         },
-         component: {
-            listSelected: "#73b6b5",
-         },
+  const theme = {
+    color: {
+      main: {
+        primary: "#227093", //"#178685"
+        secondary: "#7f8c8d",
+        error: "",
+        warning: "",
       },
-      font: {
-         button: {
-            family: "monospace",
-         },
+      component: {
+        listSelected: "#73b6b5",
       },
-   };
-   return (
-      <ThemeContext.Provider
-         value={{
-            theme,
-         }}
-      >
-         {props.children}
-      </ThemeContext.Provider>
-   );
+    },
+    font: {
+      button: {
+        family: "monospace",
+      },
+    },
+  };
+  return (
+    <ThemeContext.Provider
+      value={{
+        theme,
+      }}
+    >
+      {props.children}
+    </ThemeContext.Provider>
+  );
 }
 
 export default ThemeContextProvider;
