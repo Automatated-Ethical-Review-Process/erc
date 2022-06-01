@@ -37,50 +37,52 @@ export default function RadioButtonsGroup() {
   return (
     <Container>
       <FormControl>
-        <Typography variant="h5" color="red">
+        <Typography variant="h5" color="black">
           Decision
         </Typography>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="disapprove"
-          name="radio-buttons-group"
-          ml="2"
-        >
-          <FormControlLabel
-            value="approve"
-            control={<Radio />}
-            label="Approve"
-          />
-          <FormControlLabel
-            value="mj_modification"
-            control={<Radio />}
-            label="Major Modification"
-          />
-          <FormControlLabel
-            value="mn_modification"
-            control={<Radio />}
-            label="Minor Modification"
-          />
-          <FormControlLabel
-            value="disapprove"
-            control={<Radio />}
-            label="Disapprove"
-          />
-        </RadioGroup>
-
-        <Typography variant="h5" color="red" my={2}>
+        <Box ml={3}>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue="disapprove"
+            name="radio-buttons-group"
+            ml="2"
+          >
+            <FormControlLabel
+              value="approve"
+              control={<Radio />}
+              label="Approve"
+            />
+            <FormControlLabel
+              value="mj_modification"
+              control={<Radio />}
+              label="Major Modification"
+            />
+            <FormControlLabel
+              value="mn_modification"
+              control={<Radio />}
+              label="Minor Modification"
+            />
+            <FormControlLabel
+              value="disapprove"
+              control={<Radio />}
+              label="Disapprove"
+            />
+          </RadioGroup>
+        </Box>
+        <Typography variant="h5" color="black" my={2}>
           Overall Comment
         </Typography>
         {/* textarea for comments */}
-        <TextareaAutosize
-          my={2}
-          aria-label="minimum height"
-          minRows={10}
-          placeholder="add overall comment for the proposal"
-          style={{ width: 600 }}
-        />
-
-        <Link href="#" underline="hover">
+        <Box ml={3}>
+          <TextareaAutosize
+            my={2}
+            aria-label="minimum height"
+            minRows={10}
+            placeholder="add overall comment for the proposal"
+            style={{ width: 600 }}
+          />
+        </Box>
+        <Link href="#" underline="hover" color="#227093">
           {"Download the Evaluation Form"}
         </Link>
       </FormControl>
