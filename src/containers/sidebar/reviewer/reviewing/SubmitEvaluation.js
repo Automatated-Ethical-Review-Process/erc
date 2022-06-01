@@ -8,7 +8,6 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import SendIcon from "@mui/icons-material/Send";
-import Stack from "@mui/material/Stack";
 import Link from "@mui/material/Link";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -16,6 +15,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import { Container } from "@mui/material";
+import { Box } from "@mui/material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -34,69 +35,78 @@ export default function RadioButtonsGroup() {
     setOpenAccept(false);
   };
   return (
-    <FormControl>
-      <Typography variant="h5" color="red">
-        Decision
-      </Typography>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="disapprove"
-        name="radio-buttons-group"
-        ml="2"
-      >
-        <FormControlLabel value="approve" control={<Radio />} label="Approve" />
-        <FormControlLabel
-          value="mj_modification"
-          control={<Radio />}
-          label="Major Modification"
-        />
-        <FormControlLabel
-          value="mn_modification"
-          control={<Radio />}
-          label="Minor Modification"
-        />
-        <FormControlLabel
-          value="disapprove"
-          control={<Radio />}
-          label="Disapprove"
-        />
-      </RadioGroup>
-      <Typography variant="h5" color="red" my={2}>
-        Overall Comment
-      </Typography>
-      <TextareaAutosize
-        my={2}
-        aria-label="minimum height"
-        minRows={10}
-        placeholder="add overall comment for the proposal"
-        style={{ width: 600 }}
-      />
+    <Container>
+      <FormControl>
+        <Typography variant="h5" color="red">
+          Decision
+        </Typography>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue="disapprove"
+          name="radio-buttons-group"
+          ml="2"
+        >
+          <FormControlLabel
+            value="approve"
+            control={<Radio />}
+            label="Approve"
+          />
+          <FormControlLabel
+            value="mj_modification"
+            control={<Radio />}
+            label="Major Modification"
+          />
+          <FormControlLabel
+            value="mn_modification"
+            control={<Radio />}
+            label="Minor Modification"
+          />
+          <FormControlLabel
+            value="disapprove"
+            control={<Radio />}
+            label="Disapprove"
+          />
+        </RadioGroup>
 
-      <label htmlFor="contained-button-file">
-        <Input
-          accept="image/*"
-          id="contained-button-file"
-          multiple
-          type="file"
+        <Typography variant="h5" color="red" my={2}>
+          Overall Comment
+        </Typography>
+        {/* textarea for comments */}
+        <TextareaAutosize
+          my={2}
+          aria-label="minimum height"
+          minRows={10}
+          placeholder="add overall comment for the proposal"
+          style={{ width: 600 }}
         />
 
         <Link href="#" underline="hover">
           {"Download the Evaluation Form"}
         </Link>
-
-        <Stack direction="row" spacing={2} mt={3}>
+      </FormControl>
+      <Box my={2}>
+        <label htmlFor="contained-button-file">
           <Button variant="contained" component="span">
+            <Input
+              accept="image/*"
+              id="contained-button-file"
+              multiple
+              type="file"
+            />
             Upload Form
           </Button>
-          <Button
-            variant="contained"
-            endIcon={<SendIcon />}
-            onClick={handleClickOpen1}
-          >
-            Submit
-          </Button>
-        </Stack>
-      </label>
+        </label>
+        <Button
+          variant="contained"
+          endIcon={<SendIcon />}
+          onClick={handleClickOpen1}
+          sx={{
+            ml: 3,
+          }}
+        >
+          Submit
+        </Button>
+      </Box>
 
       <Dialog
         open={open1}
@@ -116,6 +126,6 @@ export default function RadioButtonsGroup() {
           <Button onClick={handleClose1}>Submit</Button>
         </DialogActions>
       </Dialog>
-    </FormControl>
+    </Container>
   );
 }
