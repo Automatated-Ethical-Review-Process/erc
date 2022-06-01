@@ -26,7 +26,7 @@ const Input = styled("input")({
   display: "none",
 });
 
-export default function RadioButtonsGroup() {
+export default function SubmitEvaluation() {
   const [open1, setOpenAccept] = React.useState(false);
   const handleClickOpen1 = () => {
     setOpenAccept(true);
@@ -95,7 +95,16 @@ export default function RadioButtonsGroup() {
               multiple
               type="file"
             />
-            Upload Form
+            Upload Evaluation Form
+          </Button>
+          <Button variant="contained" component="span" sx={{ ml: 2 }}>
+            <Input
+              accept="image/*"
+              id="contained-button-file"
+              multiple
+              type="file"
+            />
+            Upload Reviewed Sheet
           </Button>
         </label>
         <Button
@@ -103,7 +112,7 @@ export default function RadioButtonsGroup() {
           endIcon={<SendIcon />}
           onClick={handleClickOpen1}
           sx={{
-            ml: 3,
+            ml: 6,
           }}
         >
           Submit
