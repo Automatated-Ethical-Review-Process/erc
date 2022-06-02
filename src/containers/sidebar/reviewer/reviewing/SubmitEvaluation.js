@@ -43,7 +43,7 @@ export default function SubmitEvaluation() {
         <Box ml={3}>
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="disapprove"
+            defaultValue="approve"
             name="radio-buttons-group"
             ml="2"
           >
