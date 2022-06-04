@@ -34,6 +34,7 @@ import OtherDocuments from "containers/sidebar/reviewer/other/Documents";
 import AddComments from "containers/sidebar/reviewer/other/AddComments";
 
 import NewUserDetails from "containers/sidebar/clerk/newUserRequests/userDetails1";
+import CurrentUserDetails from "containers/sidebar/clerk/currentUsers/CurrentUsers";
 
 // components
 import ShowProfile from "components/profile/ShowProfile";
@@ -126,7 +127,13 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
       },
       {
         path: "current-users",
-        children: [{ index: true, element: <Users /> }],
+        children: [
+          { index: true, element: <Users /> },
+          {
+            path: ":uid",
+            children: [{ index: true, element: <CurrentUserDetails /> }],
+          },
+        ],
       },
       { path: "new-submissions", element: <h1>New Submissions</h1> },
       { path: "current-proposals", element: <h1>Current Proposals</h1> },
