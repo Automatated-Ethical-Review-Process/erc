@@ -35,6 +35,7 @@ import OtherDocuments from "containers/sidebar/reviewer/other/Documents";
 import AddComments from "containers/sidebar/reviewer/other/AddComments";
 import CurrentDocument from "containers/sidebar/applicant/currentSubmission/Documents";
 import ViewDecision from "containers/sidebar/applicant/currentSubmission/ViewDecision";
+import OldSubmissions from "containers/sidebar/applicant/oldSubmissions/OldSubmissions";
 
 // components
 import ShowProfile from "components/profile/ShowProfile";
@@ -127,7 +128,31 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
           },
         ],
       },
-      { path: "old-submissions", element: <h1>Old Submissions</h1> },
+      {
+        path: "old-submissions",
+        children: [
+          { index: true, element: <OldSubmissions /> },
+          {
+            path: ":pid",
+            children: [
+              { index: true, element: <OldSubmissions /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      { index: true, element: <CurrentDocument /> },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
       { path: "step1", element: <Step1 /> },
       { path: "step2", element: <Step2 /> },
     ],
