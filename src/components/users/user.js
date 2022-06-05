@@ -57,7 +57,11 @@ export default function User(props) {
         <Grid item md={2}></Grid>
         <Grid item md={8}></Grid>
         <Grid item xs={12} md={2}>
-          <Button variant="contained" endIcon={<SendIcon />}>
+          <Button
+            variant="contained"
+            endIcon={<SendIcon />}
+            onClick={() => navigate(`${pathname}/undergraduate`)}
+          >
             Next
           </Button>
         </Grid>

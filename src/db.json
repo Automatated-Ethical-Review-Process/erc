@@ -9,7 +9,10 @@
       "email": "1230@gmail.com",
       "nic": "199823302426",
       "highestEducation": "P.H.D",
-      "createdDate": "2022-06-04"
+      "createdDate": "2022-06-04",
+      "university": "University of Ruhuna",
+      "faculty": "Science",
+      "regNumber": "SC/2018/10664"
     },
     {
       "id": 2,
@@ -20,7 +23,10 @@
       "email": "1293@gmail.com",
       "nic": "199823302426",
       "highestEducation": "B.S.c",
-      "createdDate": "2022-06-04"
+      "createdDate": "2022-06-04",
+      "university": "University of Ruhuna",
+      "faculty": "Science",
+      "regNumber": "SC/2018/10664"
     },
     {
       "id": 3,
@@ -31,7 +37,10 @@
       "email": "1238@gmail.com",
       "nic": "199823302426",
       "highestEducation": "P.H.D",
-      "createdDate": "2022-06-04"
+      "createdDate": "2022-06-04",
+      "university": "University of Ruhuna",
+      "faculty": "Science",
+      "regNumber": "SC/2018/10664"
     },
     {
       "id": 4,
@@ -42,7 +51,10 @@
       "email": "1237@gmail.com",
       "nic": "199823302426",
       "highestEducation": "B.C.s",
-      "createdDate": "2022-06-04"
+      "createdDate": "2022-06-04",
+      "university": "University of Ruhuna",
+      "faculty": "Science",
+      "regNumber": "SC/2018/10664"
     },
     {
       "id": 5,
@@ -53,7 +65,10 @@
       "email": "1236@gmail.com",
       "nic": "199823302426",
       "highestEducation": "Undergraduate",
-      "createdDate": "2022-06-04"
+      "createdDate": "2022-06-04",
+      "university": "University of Ruhuna",
+      "faculty": "Science",
+      "regNumber": "SC/2018/10664"
     },
     {
       "id": 6,
@@ -64,7 +79,10 @@
       "email": "1234@gmail.com",
       "nic": "199823302426",
       "highestEducation": "M.S.c",
-      "createdDate": "2022-06-04"
+      "createdDate": "2022-06-04",
+      "university": "University of Ruhuna",
+      "faculty": "Science",
+      "regNumber": "SC/2018/10664"
     }
   ],
   "proposals": [

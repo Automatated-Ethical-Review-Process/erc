@@ -51,6 +51,8 @@ import Preview from "components/proposals/Preview";
 import Download from "components/proposals/Download";
 
 import Users from "components/users/users";
+import Undergraduate1 from "containers/sidebar/clerk/newUserRequests/undergraduate";
+import Undergradute2 from "components/users/undergraduate";
 
 // test
 import Test from "components/common/Test";
@@ -121,7 +123,13 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
           { index: true, element: <Users /> },
           {
             path: ":uid",
-            children: [{ index: true, element: <NewUserDetails /> }],
+            children: [
+              { index: true, element: <NewUserDetails /> },
+              {
+                path: "undergraduate",
+                children: [{ index: true, element: <Undergraduate1 /> }],
+              },
+            ],
           },
         ],
       },
@@ -131,7 +139,13 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
           { index: true, element: <Users /> },
           {
             path: ":uid",
-            children: [{ index: true, element: <CurrentUserDetails /> }],
+            children: [
+              { index: true, element: <CurrentUserDetails /> },
+              {
+                path: "undergraduate",
+                children: [{ index: true, element: <Undergradute2 /> }],
+              },
+            ],
           },
         ],
       },
