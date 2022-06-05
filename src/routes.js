@@ -353,7 +353,16 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
                },
             ],
          },
-         { path: "user-management", element: <h1>User Management</h1> },
+         {
+            path: "user-management",
+            children: [
+               { index: true, element: <Users /> },
+               {
+                  path: ":uid",
+                  children: [{ index: true, element: <CurrentUserDetails /> }],
+               },
+            ],
+         },
       ],
    },
    {
@@ -483,7 +492,16 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
       element: decideLayout(<DashboardLayout />, <AdminLayout />),
       children: [
          { index: true, element: <AdminDashboard /> },
-         { path: "users", element: <h1>Current Users</h1> },
+         {
+            path: "users",
+            children: [
+               { index: true, element: <Users /> },
+               {
+                  path: ":uid",
+                  children: [{ index: true, element: <CurrentUserDetails /> }],
+               },
+            ],
+         },
          { path: "add-user", element: <h1>Add User</h1> },
       ],
    },
