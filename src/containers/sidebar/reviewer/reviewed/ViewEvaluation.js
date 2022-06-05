@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { Container } from "@mui/material";
 import { Box } from "@mui/material";
+import Link from "@mui/material/Link";
 
 export default function ViewEvaluation() {
   return (
@@ -18,7 +19,7 @@ export default function ViewEvaluation() {
         <Box ml={3}>
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="disapprove"
+            defaultValue="approve"
             name="radio-buttons-group"
             ml="2"
           >
@@ -47,6 +48,9 @@ export default function ViewEvaluation() {
             style={{ width: 600 }}
           />
         </Box>
+        <Link href="#" underline="hover" color="#227093">
+          {"Download the Evaluation Form"}
+        </Link>
       </FormControl>
     </Container>
   );

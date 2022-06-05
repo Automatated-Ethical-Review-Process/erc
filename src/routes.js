@@ -24,7 +24,6 @@ import Step1 from "containers/sidebar/applicant/newSubmission/Step1";
 import CurrentSubmission from "containers/sidebar/applicant/currentSubmission/CurrentSubmission";
 import Step2 from "containers/sidebar/applicant/newSubmission/Step2";
 import NewSubmission from "containers/sidebar/applicant/newSubmission/NewSubmission";
-import NewUserRequests from "containers/sidebar/clerk/newUserRequests/NewUserRequests";
 
 import PendingProposal from "containers/sidebar/reviewer/pending/Proposal";
 import ReviewingDocuments from "containers/sidebar/reviewer/reviewing/Documents";
@@ -45,6 +44,9 @@ import Comment from "containers/sidebar/secretary/inReview/Comment";
 import ReviewedProposal from "containers/sidebar/secretary/reviewed/Proposal";
 import NotifyAuthor from "containers/sidebar/secretary/reviewed/NotifyAuthor";
 
+import NewUserDetails from "containers/sidebar/clerk/newUserRequests/userDetails1";
+import CurrentUserDetails from "containers/sidebar/clerk/currentUsers/CurrentUsers";
+
 // components
 import ShowProfile from "components/profile/ShowProfile";
 import EditProfile from "components/profile/EditProfile";
@@ -58,6 +60,8 @@ import Documents from "components/proposals/Documents";
 import Document from "components/proposals/Document";
 import Preview from "components/proposals/Preview";
 import Download from "components/proposals/Download";
+
+import Users from "components/users/users";
 
 // test
 import Test from "components/common/Test";
@@ -98,8 +102,26 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
       element: decideLayout(<DashboardLayout />, <ClerkLayout />),
       children: [
          { index: true, element: <ClerkDashboard /> },
-         { path: "new-user-requests", element: <NewUserRequests /> },
-         { path: "current-users", element: <h1>Current Users</h1> },
+         {
+            path: "new-user-requests",
+            children: [
+               { index: true, element: <Users /> },
+               {
+                  path: ":uid",
+                  children: [{ index: true, element: <NewUserDetails /> }],
+               },
+            ],
+         },
+         {
+            path: "current-users",
+            children: [
+               { index: true, element: <Users /> },
+               {
+                  path: ":uid",
+                  children: [{ index: true, element: <CurrentUserDetails /> }],
+               },
+            ],
+         },
          { path: "new-submissions", element: <h1>New Submissions</h1> },
          { path: "current-proposals", element: <h1>Current Proposals</h1> },
       ],

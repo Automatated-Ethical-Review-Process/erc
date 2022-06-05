@@ -1,255 +1,201 @@
 {
-   "users": [
-      {
-         "id": 1,
-         "firstName": "Jon",
-         "lastName": "Snow",
-         "age": 35
-      },
-      {
-         "id": 2,
-         "firstName": "Cersei",
-         "lastName": "Lannister",
-         "age": 42
-      },
-      {
-         "id": 3,
-         "firstName": "Jaime",
-         "lastName": "Lannister",
-         "age": 45
-      },
-      {
-         "id": 4,
-         "firstName": "Arya",
-         "lastName": "Stark",
-         "age": 16
-      },
-      {
-         "id": 5,
-         "firstName": "Daenerys",
-         "lastName": "Targaryen",
-         "age": 67
-      },
-      {
-         "id": 6,
-         "firstName": "Arya",
-         "lastName": "Melisandre",
-         "age": 150
-      },
-      {
-         "id": 7,
-         "firstName": "Ferrara",
-         "lastName": "Clifford",
-         "age": 44
-      },
-      {
-         "id": 8,
-         "firstName": "Rossini",
-         "lastName": "Frances",
-         "age": 36
-      },
-      {
-         "id": 9,
-         "firstName": "Harvey",
-         "lastName": "Roxie",
-         "age": 65
-      },
-      {
-         "id": 10,
-         "firstName": "Jon",
-         "lastName": "Snow",
-         "age": 35
-      },
-      {
-         "id": 11,
-         "firstName": "Cersei",
-         "lastName": "Lannister",
-         "age": 42
-      },
-      {
-         "id": 12,
-         "firstName": "Jaime",
-         "lastName": "Lannister",
-         "age": 45
-      },
-      {
-         "id": 13,
-         "firstName": "Arya",
-         "lastName": "Stark",
-         "age": 16
-      },
-      {
-         "id": 14,
-         "firstName": "Daenerys",
-         "lastName": "Targaryen",
-         "age": 34
-      },
-      {
-         "id": 15,
-         "firstName": "Arya",
-         "lastName": "Melisandre",
-         "age": 150
-      },
-      {
-         "id": 16,
-         "firstName": "Ferrara",
-         "lastName": "Clifford",
-         "age": 44
-      },
-      {
-         "id": 17,
-         "firstName": "Rossini",
-         "lastName": "Frances",
-         "age": 36
-      },
-      {
-         "id": 18,
-         "firstName": "Harvey",
-         "lastName": "Roxie",
-         "age": 65
-      },
-      {
-         "id": 19,
-         "firstName": "Rossini",
-         "lastName": "Frances",
-         "age": 36
-      },
-      {
-         "id": 20,
-         "firstName": "Harvey",
-         "lastName": "Roxie",
-         "age": 65
-      }
-   ],
-   "proposals": [
-      {
-         "id": 1,
-         "name": "Proposal 1",
-         "category": "Human Research",
-         "date": "2022-04-10",
-         "time": "08:40:00",
-         "deadline": "2022-05-10",
-         "versions": [1, 2, 3]
-      },
-      {
-         "id": 2,
-         "name": "Proposal 2",
-         "category": "Animal Research",
-         "date": "2022-04-15",
-         "time": "09:27:00",
-         "deadline": "2022-05-15",
-         "versions": [1, 2]
-      },
-      {
-         "id": 3,
-         "name": "Proposal 3",
-         "category": "Human Research",
-         "date": "2022-05-22",
-         "time": "11:35:00",
-         "deadline": "2022-06-22",
-         "versions": [1]
-      },
-      {
-         "id": 4,
-         "name": "Proposal 4",
-         "category": "Animal Research",
-         "date": "2022-06-12",
-         "time": "04:56:00",
-         "deadline": "2022-07-12",
-         "versions": [1, 2, 3]
-      }
-   ],
-   "versions": [
-      {
-         "id": 1,
-         "submitDate": "2022-07-15",
-         "documents": [1, 2, 3, 4]
-      },
-      {
-         "id": 2,
-         "submitDate": "2022-08-15",
-         "documents": [1, 2]
-      },
-      {
-         "id": 3,
-         "submitDate": "2022-09-15",
-         "documents": [1, 2, 3]
-      }
-   ],
-   "documents": [
-      {
-         "id": 1,
-         "title": "doc-1.pdf",
-         "size": 1500,
-         "date": "2022-07-15",
-         "time": "08:40:00",
-         "link": ""
-      },
-      {
-         "id": 2,
-         "title": "doc-2.pdf",
-         "size": 1600,
-         "date": "2022-07-15",
-         "time": "08:40:00",
-         "link": ""
-      },
-      {
-         "id": 3,
-         "title": "doc-3.pdf",
-         "size": 1700,
-         "date": "2022-07-15",
-         "time": "08:40:00",
-         "link": ""
-      },
-      {
-         "id": 4,
-         "title": "doc-4.pdf",
-         "size": 1800,
-         "date": "2022-07-15",
-         "time": "08:40:00",
-         "link": ""
-      }
-   ],
-   "notifications": [
-      {
-         "id": 1,
-         "title": "Notification 1",
-         "date": "2020/05/25",
-         "time": "20.30",
-         "content": "This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content",
-         "from": "a1@gmail.com"
-      },
-      {
-         "id": 2,
-         "title": "Notification 2",
-         "date": "2020/05/26",
-         "time": "21.24",
-         "content": "this is content",
-         "from": "a1@gmail.com"
-      },
-      {
-         "id": 3,
-         "title": "Notification 3",
-         "date": "2020/05/27",
-         "time": "10.36",
-         "content": "this is content",
-         "from": "a1@gmail.com"
-      },
-      {
-         "id": 4,
-         "title": "Notification 4",
-         "date": "2020/05/28",
-         "time": "02.50",
-         "content": "this is content",
-         "from": "a1@gmail.com"
-      },
-      {
-         "id": 5,
-         "title": "Notification 5",
-         "date": "2020/05/29",
-         "time": "06.30",
-         "content": "this is content",
-         "from": "a1@gmail.com"
-      }
-   ]
+  "users": [
+    {
+      "id": 1,
+      "name": "Jon Snow",
+      "address": "Matara",
+      "phoneNum": "0719869934",
+      "landNum": "0332298765",
+      "email": "1230@gmail.com",
+      "nic": "199823302426",
+      "highestEducation": "P.H.D",
+      "createdDate": "2022-06-04"
+    },
+    {
+      "id": 2,
+      "name": "Cersei Lannister",
+      "address": "Matara",
+      "phoneNum": "0719869934",
+      "landNum": "0332298765",
+      "email": "1293@gmail.com",
+      "nic": "199823302426",
+      "highestEducation": "B.S.c",
+      "createdDate": "2022-06-04"
+    },
+    {
+      "id": 3,
+      "name": "Jaime Lannister",
+      "address": "Matara",
+      "phoneNum": "0719869934",
+      "landNum": "0332298765",
+      "email": "1238@gmail.com",
+      "nic": "199823302426",
+      "highestEducation": "P.H.D",
+      "createdDate": "2022-06-04"
+    },
+    {
+      "id": 4,
+      "name": "Arya Stark",
+      "address": "Matara",
+      "phoneNum": "0719869934",
+      "landNum": "0332298765",
+      "email": "1237@gmail.com",
+      "nic": "199823302426",
+      "highestEducation": "B.C.s",
+      "createdDate": "2022-06-04"
+    },
+    {
+      "id": 5,
+      "name": "Daenerys Targaryen",
+      "address": "Matara",
+      "phoneNum": "0719869934",
+      "landNum": "0332298765",
+      "email": "1236@gmail.com",
+      "nic": "199823302426",
+      "highestEducation": "Undergraduate",
+      "createdDate": "2022-06-04"
+    },
+    {
+      "id": 6,
+      "name": "Arya Melisandre",
+      "address": "Matara",
+      "phoneNum": "0719869934",
+      "landNum": "0332298765",
+      "email": "1234@gmail.com",
+      "nic": "199823302426",
+      "highestEducation": "M.S.c",
+      "createdDate": "2022-06-04"
+    }
+  ],
+  "proposals": [
+    {
+      "id": 1,
+      "name": "Proposal 1",
+      "category": "Human Research",
+      "date": "2022-04-10",
+      "time": "08:40:00",
+      "deadline": "2022-05-10",
+      "versions": [1, 2, 3]
+    },
+    {
+      "id": 2,
+      "name": "Proposal 2",
+      "category": "Animal Research",
+      "date": "2022-04-15",
+      "time": "09:27:00",
+      "deadline": "2022-05-15",
+      "versions": [1, 2]
+    },
+    {
+      "id": 3,
+      "name": "Proposal 3",
+      "category": "Human Research",
+      "date": "2022-05-22",
+      "time": "11:35:00",
+      "deadline": "2022-06-22",
+      "versions": [1]
+    },
+    {
+      "id": 4,
+      "name": "Proposal 4",
+      "category": "Animal Research",
+      "date": "2022-06-12",
+      "time": "04:56:00",
+      "deadline": "2022-07-12",
+      "versions": [1, 2, 3]
+    }
+  ],
+  "versions": [
+    {
+      "id": 1,
+      "submitDate": "2022-07-15",
+      "documents": [1, 2, 3, 4]
+    },
+    {
+      "id": 2,
+      "submitDate": "2022-08-15",
+      "documents": [1, 2]
+    },
+    {
+      "id": 3,
+      "submitDate": "2022-09-15",
+      "documents": [1, 2, 3]
+    }
+  ],
+  "documents": [
+    {
+      "id": 1,
+      "title": "doc-1.pdf",
+      "size": 1500,
+      "date": "2022-07-15",
+      "time": "08:40:00",
+      "link": ""
+    },
+    {
+      "id": 2,
+      "title": "doc-2.pdf",
+      "size": 1600,
+      "date": "2022-07-15",
+      "time": "08:40:00",
+      "link": ""
+    },
+    {
+      "id": 3,
+      "title": "doc-3.pdf",
+      "size": 1700,
+      "date": "2022-07-15",
+      "time": "08:40:00",
+      "link": ""
+    },
+    {
+      "id": 4,
+      "title": "doc-4.pdf",
+      "size": 1800,
+      "date": "2022-07-15",
+      "time": "08:40:00",
+      "link": ""
+    }
+  ],
+  "notifications": [
+    {
+      "id": 1,
+      "title": "Notification 1",
+      "date": "2020/05/25",
+      "time": "20.30",
+      "content": "This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content",
+      "from": "a1@gmail.com"
+    },
+    {
+      "id": 2,
+      "title": "Notification 2",
+      "date": "2020/05/26",
+      "time": "21.24",
+      "content": "this is content",
+      "from": "a1@gmail.com"
+    },
+    {
+      "id": 3,
+      "title": "Notification 3",
+      "date": "2020/05/27",
+      "time": "10.36",
+      "content": "this is content",
+      "from": "a1@gmail.com"
+    },
+    {
+      "id": 4,
+      "title": "Notification 4",
+      "date": "2020/05/28",
+      "time": "02.50",
+      "content": "this is content",
+      "from": "a1@gmail.com"
+    },
+    {
+      "id": 5,
+      "title": "Notification 5",
+      "date": "2020/05/29",
+      "time": "06.30",
+      "content": "this is content",
+      "from": "a1@gmail.com"
+    }
+  ]
 }
