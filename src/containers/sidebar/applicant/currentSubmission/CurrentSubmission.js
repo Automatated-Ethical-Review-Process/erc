@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 const Input = styled("input")({
    display: "none",
@@ -33,7 +34,7 @@ export function UploadButton(props) {
 
 export function BasicButton(props) {
    return (
-      <Button fullWidth="true" variant="outlined" sx={{ minWidth: "15vw" }}>
+      <Button fullWidth="true" variant="outlined" sx={{ minWidth: "15vw" }} onClick={props.onClick}>
          {props.label1}
       </Button>
    );
@@ -63,7 +64,8 @@ export function BasicTextFields(props) {
 }
 
 export default function BasicGrid() {
-   //const navigate = useNavigate();
+   const navigate = useNavigate();
+   const location = useLocation();
    return (
       <Container maxWidth="md">
          <Box sx={{ flexGrow: 1, my: 7 }}>
@@ -92,7 +94,7 @@ export default function BasicGrid() {
                   <UploadButton btnName="Submit New Version" />
                </Grid>
                <Grid item xs={12} md={6} sx={{ minWidth: "md" }}>
-                  <BasicButton label1="View Document" />
+                  <BasicButton label1="View Document"  onClick={()=>navigate(location.pathname+"/1/versions")}  />
                </Grid>
             </Grid>
          </Box>
