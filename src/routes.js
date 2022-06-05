@@ -37,6 +37,13 @@ import AddComments from "containers/sidebar/reviewer/other/AddComments";
 import UnassignedProposal from "containers/sidebar/secretary/unassigned/Proposal";
 import ChooseReviewType from "containers/sidebar/secretary/unassigned/ChooseReviewType";
 import AssignReviewers from "containers/sidebar/secretary/unassigned/AssignReviewers";
+import InReviewDocuments from "containers/sidebar/secretary/inReview/Documents";
+import Reviews from "containers/sidebar/secretary/inReview/Reviews";
+import Review from "containers/sidebar/secretary/inReview/Review";
+import Comments from "containers/sidebar/secretary/inReview/Comments";
+import Comment from "containers/sidebar/secretary/inReview/Comment";
+import ReviewedProposal from "containers/sidebar/secretary/reviewed/Proposal";
+import NotifyAuthor from "containers/sidebar/secretary/reviewed/NotifyAuthor";
 
 // components
 import ShowProfile from "components/profile/ShowProfile";
@@ -146,9 +153,133 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
                },
             ],
          },
-         { path: "in-review", element: <h1>In Review Proposals</h1> },
-         { path: "reviewed", element: <h1>Reviewed Proposals</h1> },
-         { path: "archived", element: <h1>Archived Proposals</h1> },
+         {
+            path: "in-review",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <InReviewDocuments />,
+                                 },
+                                 {
+                                    path: "reviews",
+                                    children: [
+                                       { index: true, element: <Reviews /> },
+                                       { path: ":rid", element: <Review /> },
+                                    ],
+                                 },
+                                 {
+                                    path: "comments",
+                                    children: [
+                                       { index: true, element: <Comments /> },
+                                       { path: ":cid", element: <Comment /> },
+                                    ],
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
+            ],
+         },
+         {
+            path: "reviewed",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <ReviewedProposal /> },
+                     { path: "notify", element: <NotifyAuthor /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <InReviewDocuments />,
+                                 },
+                                 {
+                                    path: "reviews",
+                                    children: [
+                                       { index: true, element: <Reviews /> },
+                                       { path: ":rid", element: <Review /> },
+                                    ],
+                                 },
+                                 {
+                                    path: "comments",
+                                    children: [
+                                       { index: true, element: <Comments /> },
+                                       { path: ":cid", element: <Comment /> },
+                                    ],
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
+            ],
+         },
+         {
+            path: "archived",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <InReviewDocuments />,
+                                 },
+                                 {
+                                    path: "reviews",
+                                    children: [
+                                       { index: true, element: <Reviews /> },
+                                       { path: ":rid", element: <Review /> },
+                                    ],
+                                 },
+                                 {
+                                    path: "comments",
+                                    children: [
+                                       { index: true, element: <Comments /> },
+                                       { path: ":cid", element: <Comment /> },
+                                    ],
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
+            ],
+         },
          { path: "user-management", element: <h1>User Management</h1> },
       ],
    },

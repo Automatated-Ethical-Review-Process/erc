@@ -1,6 +1,11 @@
 import BaseTextField from "@mui/material/TextField";
 
-export default function TextField({ label, value, readOnly = false }) {
+export default function TextField({
+   label,
+   value,
+   readOnly = false,
+   ...props
+}) {
    return (
       <BaseTextField
          fullWidth
@@ -10,6 +15,8 @@ export default function TextField({ label, value, readOnly = false }) {
          InputProps={{
             readOnly: readOnly,
          }}
+         {...props}
+         sx={{ ...props.sx }}
       />
    );
 }
