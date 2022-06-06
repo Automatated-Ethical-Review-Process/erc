@@ -13,7 +13,9 @@ function App() {
          pathname.split("/").filter((i) => i).length === 1 ? parent : child
       )
    );
-   return <ThemeContextProvider>{routing}</ThemeContextProvider>;
+   return <div>
+      <ThemeContextProvider>{routing}</ThemeContextProvider>
+   </div>;
 }
 
 export default App;
