@@ -1,30 +1,45 @@
 import styled from "styled-components";
 
 import Typography from "@mui/material/Typography";
+import { useState, useEffect } from "react";
 
-// const FooterContainer = styled.div`
-//    text-align: center;
-//    position: relative;
-//    bottom: 0px;
-//    width: 100%;
-//    background: black;
-//    opacity: 0.6;
-// `;
+import { useLocation } from "react-router-dom";
 
 const FooterContainer = styled.footer`
    text-align: center;
    width: 100%;
    background: black;
    opacity: 0.6;
-   margin-top: -50px;
    position: absolute;
-   bottom: 0px;
+   /* bottom: 0px; */
+   ${(props) => props.bottom}: 0px;
 `;
-
 export default function Footer() {
    const text = `© ${new Date().getFullYear()} Department of Computer Science. All Rights Reserved`;
+   const [bottom, setBottom] = useState("bottom");
+   const location = useLocation();
+
+   const setFooter = () => {
+      let ah = window.screen.availHeight;
+      let sh = document.body.scrollHeight;
+      ah < sh
+         ? setBottom("null")
+         : ah > 530 && ah < 601
+         ? setBottom("null")
+         : setBottom("bottom");
+      console.log(window.screen.availHeight < document.body.scrollHeight);
+   };
+   window.onresize = function () {
+      setFooter();
+   };
+   document.onclick = function () {
+      setFooter();
+   };
+   useEffect(() => {
+      setFooter();
+   }, [location]);
    return (
-      <FooterContainer>
+      <FooterContainer bottom={bottom}>
          <Typography
             variant="title"
             display="block"

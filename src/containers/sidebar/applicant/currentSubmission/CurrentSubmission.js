@@ -34,7 +34,12 @@ export function UploadButton(props) {
 
 export function BasicButton(props) {
    return (
-      <Button fullWidth="true" variant="outlined" sx={{ minWidth: "15vw" }} onClick={props.onClick}>
+      <Button
+         fullWidth="true"
+         variant="outlined"
+         sx={{ minWidth: "15vw" }}
+         onClick={props.onClick}
+      >
          {props.label1}
       </Button>
    );
@@ -63,7 +68,7 @@ export function BasicTextFields(props) {
    );
 }
 
-export default function BasicGrid() {
+export default function CurrentSubmission() {
    const navigate = useNavigate();
    const location = useLocation();
    return (
@@ -94,7 +99,10 @@ export default function BasicGrid() {
                   <UploadButton btnName="Submit New Version" />
                </Grid>
                <Grid item xs={12} md={6} sx={{ minWidth: "md" }}>
-                  <BasicButton label1="View Document"  onClick={()=>navigate(location.pathname+"/1/versions")}  />
+                  <BasicButton
+                     label1="View Document"
+                     onClick={() => navigate(location.pathname + "/1/versions")}
+                  />
                </Grid>
             </Grid>
          </Box>
