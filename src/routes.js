@@ -47,6 +47,8 @@ import NotifyAuthor from "containers/sidebar/secretary/reviewed/NotifyAuthor";
 
 import NewUserDetails from "containers/sidebar/clerk/newUserRequests/userDetails1";
 import CurrentUserDetails from "containers/sidebar/clerk/currentUsers/CurrentUsers";
+import AddReviewer from "containers/sidebar/clerk/addReviewer/addReviewer";
+import NewSubmissions from "containers/sidebar/clerk/newSubmissions/newSubmission";
 
 // components
 import ShowProfile from "components/profile/ShowProfile";
@@ -70,478 +72,503 @@ import Undergraduate2 from "components/users/undergraduate";
 import Test from "components/common/Test";
 
 const documentRoutes = {
-   path: "doc-:did",
-   children: [
-      {
-         index: true,
-         element: <Document />,
-      },
-      {
-         path: "preview",
-         element: <Preview />,
-      },
-      {
-         path: "download",
-         element: <Download />,
-      },
-   ],
+  path: "doc-:did",
+  children: [
+    {
+      index: true,
+      element: <Document />,
+    },
+    {
+      path: "preview",
+      element: <Preview />,
+    },
+    {
+      path: "download",
+      element: <Download />,
+    },
+  ],
 };
 
 const routes = (isAuthenticated, userRole, decideLayout) => [
-   {
-      path: "/",
-      element: <MainLayout />,
-      children: [
-         { index: true, element: <SignIn /> },
-         {
-            path: "signup",
-            element: <SignUp />,
-         },
-         { path: "forgot-password", element: <ForgotPassword /> },
-      ],
-   },
-   {
-      path: "/clerk",
-      element: decideLayout(<DashboardLayout />, <ClerkLayout />),
-      children: [
-         { index: true, element: <ClerkDashboard /> },
-         {
-            path: "new-user-requests",
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <SignIn /> },
+      {
+        path: "signup",
+        element: <SignUp />,
+      },
+      { path: "forgot-password", element: <ForgotPassword /> },
+    ],
+  },
+  {
+    path: "/clerk",
+    element: decideLayout(<DashboardLayout />, <ClerkLayout />),
+    children: [
+      { index: true, element: <ClerkDashboard /> },
+      {
+        path: "new-user-requests",
+        children: [
+          { index: true, element: <Users /> },
+          {
+            path: ":uid",
             children: [
-               { index: true, element: <Users /> },
-               {
-                  path: ":uid",
-                  children: [
-                     { index: true, element: <NewUserDetails /> },
-                     {
-                        path: "undergraduate",
+              { index: true, element: <NewUserDetails /> },
+              {
+                path: "undergraduate",
+                children: [{ index: true, element: <Undergraduate1 /> }],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "current-users",
+        children: [
+          { index: true, element: <Users /> },
+          {
+            path: ":uid",
+            children: [
+              { index: true, element: <CurrentUserDetails /> },
+              {
+                path: "undergraduate",
+                children: [{ index: true, element: <Undergraduate2 /> }],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "new-submissions",
+        children: [
+          { index: true, element: <Proposals /> },
+          {
+            path: ":pid",
+            children: [
+              { index: true, element: <NewSubmissions /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      {
+                        index: true,
+                        element: <Documents />,
+                      },
+
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
+      { path: "add-reviewer", element: <AddReviewer /> },
+    ],
+  },
+  {
+    path: "/applicant",
+    element: decideLayout(<DashboardLayout />, <ApplicantLayout />),
+    children: [
+      { index: true, element: <ApplicantDashboard /> },
+      { path: "new-submission", element: <NewSubmission /> },
+      {
+        path: "current-submission",
+        children: [
+          { index: true, element: <CurrentSubmission /> },
+          {
+            path: ":pid",
+            children: [
+              { index: true, element: <Proposal /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      { index: true, element: <CurrentDocument /> },
+                      {
+                        path: "decision",
+                        element: <ViewDecision />,
+                      },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "old-submissions",
+        children: [
+          { index: true, element: <OldSubmissions /> },
+          {
+            path: ":pid",
+            children: [
+              { index: true, element: <OldSubmissions /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      { index: true, element: <CurrentDocument /> },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/secretary",
+    element: decideLayout(<DashboardLayout />, <SecretaryLayout />),
+    children: [
+      { index: true, element: <SecretaryDashboard /> },
+      {
+        path: "unassigned",
+        children: [
+          { index: true, element: <Proposals /> },
+          {
+            path: ":pid",
+            children: [
+              { index: true, element: <UnassignedProposal /> },
+              {
+                path: "review",
+                children: [
+                  { index: true, element: <ChooseReviewType /> },
+                  { path: "assign", element: <AssignReviewers /> },
+                ],
+              },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      { index: true, element: <Documents /> },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "in-review",
+        children: [
+          { index: true, element: <Proposals /> },
+          {
+            path: ":pid",
+            children: [
+              { index: true, element: <Proposal /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      {
+                        index: true,
+                        element: <InReviewDocuments />,
+                      },
+                      {
+                        path: "reviews",
                         children: [
-                           { index: true, element: <Undergraduate1 /> },
+                          { index: true, element: <Reviews /> },
+                          { path: ":rid", element: <Review /> },
                         ],
-                     },
-                  ],
-               },
-            ],
-         },
-         {
-            path: "current-users",
-            children: [
-               { index: true, element: <Users /> },
-               {
-                  path: ":uid",
-                  children: [
-                     { index: true, element: <CurrentUserDetails /> },
-                     {
-                        path: "undergraduate",
+                      },
+                      {
+                        path: "comments",
                         children: [
-                           { index: true, element: <Undergraduate2 /> },
+                          { index: true, element: <Comments /> },
+                          { path: ":cid", element: <Comment /> },
                         ],
-                     },
-                  ],
-               },
+                      },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
             ],
-         },
-         { path: "new-submissions", element: <h1>New Submissions</h1> },
-         { path: "current-proposals", element: <h1>Current Proposals</h1> },
-      ],
-   },
-   {
-      path: "/applicant",
-      element: decideLayout(<DashboardLayout />, <ApplicantLayout />),
-      children: [
-         { index: true, element: <ApplicantDashboard /> },
-         { path: "new-submission", element: <NewSubmission /> },
-         {
-            path: "current-submission",
+          },
+        ],
+      },
+      {
+        path: "reviewed",
+        children: [
+          { index: true, element: <Proposals /> },
+          {
+            path: ":pid",
             children: [
-               { index: true, element: <CurrentSubmission /> },
-               {
-                  path: ":pid",
-                  children: [
-                     { index: true, element: <Proposal /> },
-                     {
-                        path: "versions",
+              { index: true, element: <ReviewedProposal /> },
+              { path: "notify", element: <NotifyAuthor /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      {
+                        index: true,
+                        element: <InReviewDocuments />,
+                      },
+                      {
+                        path: "reviews",
                         children: [
-                           { index: true, element: <Versions /> },
-                           {
-                              path: ":vid",
-                              children: [
-                                 { index: true, element: <CurrentDocument /> },
-                                 {
-                                    path: "decision",
-                                    element: <ViewDecision />,
-                                 },
-                                 documentRoutes,
-                              ],
-                           },
+                          { index: true, element: <Reviews /> },
+                          { path: ":rid", element: <Review /> },
                         ],
-                     },
-                  ],
-               },
-            ],
-         },
-         {
-            path: "old-submissions",
-            children: [
-               { index: true, element: <OldSubmissions /> },
-               {
-                  path: ":pid",
-                  children: [
-                     { index: true, element: <OldSubmissions /> },
-                     {
-                        path: "versions",
+                      },
+                      {
+                        path: "comments",
                         children: [
-                           { index: true, element: <Versions /> },
-                           {
-                              path: ":vid",
-                              children: [
-                                 { index: true, element: <CurrentDocument /> },
-                                 documentRoutes,
-                              ],
-                           },
+                          { index: true, element: <Comments /> },
+                          { path: ":cid", element: <Comment /> },
                         ],
-                     },
-                  ],
-               },
+                      },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
             ],
-         },
-      ],
-   },
-   {
-      path: "/secretary",
-      element: decideLayout(<DashboardLayout />, <SecretaryLayout />),
-      children: [
-         { index: true, element: <SecretaryDashboard /> },
-         {
-            path: "unassigned",
+          },
+        ],
+      },
+      {
+        path: "archived",
+        children: [
+          { index: true, element: <Proposals /> },
+          {
+            path: ":pid",
             children: [
-               { index: true, element: <Proposals /> },
-               {
-                  path: ":pid",
-                  children: [
-                     { index: true, element: <UnassignedProposal /> },
-                     {
-                        path: "review",
+              { index: true, element: <Proposal /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      {
+                        index: true,
+                        element: <InReviewDocuments />,
+                      },
+                      {
+                        path: "reviews",
                         children: [
-                           { index: true, element: <ChooseReviewType /> },
-                           { path: "assign", element: <AssignReviewers /> },
+                          { index: true, element: <Reviews /> },
+                          { path: ":rid", element: <Review /> },
                         ],
-                     },
-                     {
-                        path: "versions",
+                      },
+                      {
+                        path: "comments",
                         children: [
-                           { index: true, element: <Versions /> },
-                           {
-                              path: ":vid",
-                              children: [
-                                 { index: true, element: <Documents /> },
-                                 documentRoutes,
-                              ],
-                           },
+                          { index: true, element: <Comments /> },
+                          { path: ":cid", element: <Comment /> },
                         ],
-                     },
-                  ],
-               },
+                      },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
             ],
-         },
-         {
-            path: "in-review",
+          },
+        ],
+      },
+      {
+        path: "user-management",
+        children: [
+          { index: true, element: <Users /> },
+          {
+            path: ":uid",
+            children: [{ index: true, element: <CurrentUserDetails /> }],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/reviewer",
+    element: decideLayout(<DashboardLayout />, <ReviewerLayout />),
+    children: [
+      { index: true, element: <ReviewerDashboard /> },
+      {
+        path: "pending",
+        children: [
+          { index: true, element: <Proposals /> },
+          {
+            path: ":pid",
             children: [
-               { index: true, element: <Proposals /> },
-               {
-                  path: ":pid",
-                  children: [
-                     { index: true, element: <Proposal /> },
-                     {
-                        path: "versions",
-                        children: [
-                           { index: true, element: <Versions /> },
-                           {
-                              path: ":vid",
-                              children: [
-                                 {
-                                    index: true,
-                                    element: <InReviewDocuments />,
-                                 },
-                                 {
-                                    path: "reviews",
-                                    children: [
-                                       { index: true, element: <Reviews /> },
-                                       { path: ":rid", element: <Review /> },
-                                    ],
-                                 },
-                                 {
-                                    path: "comments",
-                                    children: [
-                                       { index: true, element: <Comments /> },
-                                       { path: ":cid", element: <Comment /> },
-                                    ],
-                                 },
-                                 documentRoutes,
-                              ],
-                           },
-                        ],
-                     },
-                  ],
-               },
+              { index: true, element: <PendingProposal /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      { index: true, element: <Documents /> },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
             ],
-         },
-         {
-            path: "reviewed",
+          },
+        ],
+      },
+      {
+        path: "reviewing",
+        children: [
+          { index: true, element: <Proposals /> },
+          {
+            path: ":pid",
             children: [
-               { index: true, element: <Proposals /> },
-               {
-                  path: ":pid",
-                  children: [
-                     { index: true, element: <ReviewedProposal /> },
-                     { path: "notify", element: <NotifyAuthor /> },
-                     {
-                        path: "versions",
-                        children: [
-                           { index: true, element: <Versions /> },
-                           {
-                              path: ":vid",
-                              children: [
-                                 {
-                                    index: true,
-                                    element: <InReviewDocuments />,
-                                 },
-                                 {
-                                    path: "reviews",
-                                    children: [
-                                       { index: true, element: <Reviews /> },
-                                       { path: ":rid", element: <Review /> },
-                                    ],
-                                 },
-                                 {
-                                    path: "comments",
-                                    children: [
-                                       { index: true, element: <Comments /> },
-                                       { path: ":cid", element: <Comment /> },
-                                    ],
-                                 },
-                                 documentRoutes,
-                              ],
-                           },
-                        ],
-                     },
-                  ],
-               },
+              { index: true, element: <Proposal /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      {
+                        index: true,
+                        element: <ReviewingDocuments />,
+                      },
+                      {
+                        path: "evaluation",
+                        element: <SubmitEvaluation />,
+                      },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
             ],
-         },
-         {
-            path: "archived",
+          },
+        ],
+      },
+      {
+        path: "reviewed",
+        children: [
+          { index: true, element: <Proposals /> },
+          {
+            path: ":pid",
             children: [
-               { index: true, element: <Proposals /> },
-               {
-                  path: ":pid",
-                  children: [
-                     { index: true, element: <Proposal /> },
-                     {
-                        path: "versions",
-                        children: [
-                           { index: true, element: <Versions /> },
-                           {
-                              path: ":vid",
-                              children: [
-                                 {
-                                    index: true,
-                                    element: <InReviewDocuments />,
-                                 },
-                                 {
-                                    path: "reviews",
-                                    children: [
-                                       { index: true, element: <Reviews /> },
-                                       { path: ":rid", element: <Review /> },
-                                    ],
-                                 },
-                                 {
-                                    path: "comments",
-                                    children: [
-                                       { index: true, element: <Comments /> },
-                                       { path: ":cid", element: <Comment /> },
-                                    ],
-                                 },
-                                 documentRoutes,
-                              ],
-                           },
-                        ],
-                     },
-                  ],
-               },
+              { index: true, element: <Proposal /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      {
+                        index: true,
+                        element: <ReviewedDocuments />,
+                      },
+                      {
+                        path: "evaluation",
+                        element: <ViewEvaluation />,
+                      },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
             ],
-         },
-         {
-            path: "user-management",
+          },
+        ],
+      },
+      {
+        path: "other",
+        children: [
+          { index: true, element: <Proposals /> },
+          {
+            path: ":pid",
             children: [
-               { index: true, element: <Users /> },
-               {
-                  path: ":uid",
-                  children: [{ index: true, element: <CurrentUserDetails /> }],
-               },
+              { index: true, element: <Proposal /> },
+              {
+                path: "versions",
+                children: [
+                  { index: true, element: <Versions /> },
+                  {
+                    path: ":vid",
+                    children: [
+                      {
+                        index: true,
+                        element: <OtherDocuments />,
+                      },
+                      {
+                        path: "comments",
+                        element: <AddComments />,
+                      },
+                      documentRoutes,
+                    ],
+                  },
+                ],
+              },
             ],
-         },
-      ],
-   },
-   {
-      path: "/reviewer",
-      element: decideLayout(<DashboardLayout />, <ReviewerLayout />),
-      children: [
-         { index: true, element: <ReviewerDashboard /> },
-         {
-            path: "pending",
-            children: [
-               { index: true, element: <Proposals /> },
-               {
-                  path: ":pid",
-                  children: [
-                     { index: true, element: <PendingProposal /> },
-                     {
-                        path: "versions",
-                        children: [
-                           { index: true, element: <Versions /> },
-                           {
-                              path: ":vid",
-                              children: [
-                                 { index: true, element: <Documents /> },
-                                 documentRoutes,
-                              ],
-                           },
-                        ],
-                     },
-                  ],
-               },
-            ],
-         },
-         {
-            path: "reviewing",
-            children: [
-               { index: true, element: <Proposals /> },
-               {
-                  path: ":pid",
-                  children: [
-                     { index: true, element: <Proposal /> },
-                     {
-                        path: "versions",
-                        children: [
-                           { index: true, element: <Versions /> },
-                           {
-                              path: ":vid",
-                              children: [
-                                 {
-                                    index: true,
-                                    element: <ReviewingDocuments />,
-                                 },
-                                 {
-                                    path: "evaluation",
-                                    element: <SubmitEvaluation />,
-                                 },
-                                 documentRoutes,
-                              ],
-                           },
-                        ],
-                     },
-                  ],
-               },
-            ],
-         },
-         {
-            path: "reviewed",
-            children: [
-               { index: true, element: <Proposals /> },
-               {
-                  path: ":pid",
-                  children: [
-                     { index: true, element: <Proposal /> },
-                     {
-                        path: "versions",
-                        children: [
-                           { index: true, element: <Versions /> },
-                           {
-                              path: ":vid",
-                              children: [
-                                 {
-                                    index: true,
-                                    element: <ReviewedDocuments />,
-                                 },
-                                 {
-                                    path: "evaluation",
-                                    element: <ViewEvaluation />,
-                                 },
-                                 documentRoutes,
-                              ],
-                           },
-                        ],
-                     },
-                  ],
-               },
-            ],
-         },
-         {
-            path: "other",
-            children: [
-               { index: true, element: <Proposals /> },
-               {
-                  path: ":pid",
-                  children: [
-                     { index: true, element: <Proposal /> },
-                     {
-                        path: "versions",
-                        children: [
-                           { index: true, element: <Versions /> },
-                           {
-                              path: ":vid",
-                              children: [
-                                 {
-                                    index: true,
-                                    element: <OtherDocuments />,
-                                 },
-                                 {
-                                    path: "comments",
-                                    element: <AddComments />,
-                                 },
-                                 documentRoutes,
-                              ],
-                           },
-                        ],
-                     },
-                  ],
-               },
-            ],
-         },
-      ],
-   },
-   {
-      path: "/admin",
-      element: decideLayout(<DashboardLayout />, <AdminLayout />),
-      children: [
-         { index: true, element: <AdminDashboard /> },
-         {
-            path: "users",
-            children: [
-               { index: true, element: <Users /> },
-               {
-                  path: ":uid",
-                  children: [{ index: true, element: <CurrentUserDetails /> }],
-               },
-            ],
-         },
-         { path: "add-user", element: <h1>Add User</h1> },
-      ],
-   },
-   {
-      path: "/profile",
-      children: [
-         { index: true, element: <ShowProfile /> },
-         { path: "edit", element: <EditProfile /> },
-      ],
-   },
-   {
-      path: "/notification",
-      element: <ShowNotification />,
-   },
-   { path: "/test", element: <Test /> },
-   { path: "*", element: <h4>{"Oops, page not found :("}</h4> },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: decideLayout(<DashboardLayout />, <AdminLayout />),
+    children: [
+      { index: true, element: <AdminDashboard /> },
+      {
+        path: "users",
+        children: [
+          { index: true, element: <Users /> },
+          {
+            path: ":uid",
+            children: [{ index: true, element: <CurrentUserDetails /> }],
+          },
+        ],
+      },
+      { path: "add-user", element: <h1>Add User</h1> },
+    ],
+  },
+  {
+    path: "/profile",
+    children: [
+      { index: true, element: <ShowProfile /> },
+      { path: "edit", element: <EditProfile /> },
+    ],
+  },
+  {
+    path: "/notification",
+    element: <ShowNotification />,
+  },
+  { path: "/test", element: <Test /> },
+  { path: "*", element: <h4>{"Oops, page not found :("}</h4> },
 ];
 
 export default routes;
