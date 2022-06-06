@@ -391,112 +391,118 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
          {
             path: "pending",
             children: [
-               { index: true, element: <PendingProposal /> },
+               { index: true, element: <Proposals /> },
                {
-                  path: "versions",
+                  path: ":pid",
                   children: [
-                     { index: true, element: <Versions /> },
+                     { index: true, element: <PendingProposal /> },
                      {
-                        path: ":vid",
+                        path: "versions",
                         children: [
-                           { index: true, element: <Documents /> },
-                           documentRoutes,
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 { index: true, element: <Documents /> },
+                                 documentRoutes,
+                              ],
+                           },
                         ],
                      },
                   ],
                },
             ],
          },
-      ],
-   },
-   {
-      path: "reviewing",
-      children: [
-         { index: true, element: <Proposals /> },
          {
-            path: ":pid",
+            path: "reviewing",
             children: [
-               { index: true, element: <Proposal /> },
+               { index: true, element: <Proposals /> },
                {
-                  path: "versions",
+                  path: ":pid",
                   children: [
-                     { index: true, element: <Versions /> },
+                     { index: true, element: <Proposal /> },
                      {
-                        path: ":vid",
+                        path: "versions",
                         children: [
+                           { index: true, element: <Versions /> },
                            {
-                              index: true,
-                              element: <ReviewingDocuments />,
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <ReviewingDocuments />,
+                                 },
+                                 {
+                                    path: "evaluation",
+                                    element: <SubmitEvaluation />,
+                                 },
+                                 documentRoutes,
+                              ],
                            },
-                           {
-                              path: "evaluation",
-                              element: <SubmitEvaluation />,
-                           },
-                           documentRoutes,
                         ],
                      },
                   ],
                },
             ],
          },
-      ],
-   },
-   {
-      path: "reviewed",
-      children: [
-         { index: true, element: <Proposals /> },
          {
-            path: ":pid",
+            path: "reviewed",
             children: [
-               { index: true, element: <Proposal /> },
+               { index: true, element: <Proposals /> },
                {
-                  path: "versions",
+                  path: ":pid",
                   children: [
-                     { index: true, element: <Versions /> },
+                     { index: true, element: <Proposal /> },
                      {
-                        path: ":vid",
+                        path: "versions",
                         children: [
+                           { index: true, element: <Versions /> },
                            {
-                              index: true,
-                              element: <ReviewedDocuments />,
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <ReviewedDocuments />,
+                                 },
+                                 {
+                                    path: "evaluation",
+                                    element: <ViewEvaluation />,
+                                 },
+                                 documentRoutes,
+                              ],
                            },
-                           {
-                              path: "evaluation",
-                              element: <ViewEvaluation />,
-                           },
-                           documentRoutes,
                         ],
                      },
                   ],
                },
             ],
          },
-      ],
-   },
-   {
-      path: "other",
-      children: [
-         { index: true, element: <Proposals /> },
          {
-            path: ":pid",
+            path: "other",
             children: [
-               { index: true, element: <Proposal /> },
+               { index: true, element: <Proposals /> },
                {
-                  path: "versions",
+                  path: ":pid",
                   children: [
-                     { index: true, element: <Versions /> },
+                     { index: true, element: <Proposal /> },
                      {
-                        path: ":vid",
+                        path: "versions",
                         children: [
+                           { index: true, element: <Versions /> },
                            {
-                              index: true,
-                              element: <OtherDocuments />,
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <OtherDocuments />,
+                                 },
+                                 {
+                                    path: "comments",
+                                    element: <AddComments />,
+                                 },
+                                 documentRoutes,
+                              ],
                            },
-                           {
-                              path: "comments",
-                              element: <AddComments />,
-                           },
-                           documentRoutes,
                         ],
                      },
                   ],
