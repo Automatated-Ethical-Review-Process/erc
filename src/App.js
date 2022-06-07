@@ -5,11 +5,16 @@ import routes from "./routes";
 
 import ThemeContextProvider from "./context/ThemeContext";
 
+import { useSelector } from "react-redux";
+
 function App() {
    const { pathname } = useLocation();
-
+   const { isAuthenticated, roles } = useSelector(
+      (state) => state.authentication.value
+   );
+   console.log(roles.includes("clerk"), isAuthenticated);
    const routing = useRoutes(
-      routes(null, null, (parent, child) =>
+      routes(isAuthenticated, roles, (parent, child) =>
          pathname.split("/").filter((i) => i).length === 1 ? parent : child
       )
    );

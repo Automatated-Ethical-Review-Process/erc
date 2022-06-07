@@ -68,6 +68,8 @@ import Users from "components/users/users";
 import Undergraduate1 from "containers/sidebar/clerk/newUserRequests/undergraduate";
 import Undergraduate2 from "components/users/undergraduate";
 
+import { Navigate } from "react-router-dom";
+
 // test
 import Test from "components/common/Test";
 
@@ -104,7 +106,12 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
   },
   {
     path: "/clerk",
-    element: decideLayout(<DashboardLayout />, <ClerkLayout />),
+    element:
+      isAuthenticated && userRole.includes("ROLE_CLERK") ? (
+        decideLayout(<DashboardLayout />, <ClerkLayout />)
+      ) : (
+        <Navigate to="/" />
+      ),
     children: [
       { index: true, element: <ClerkDashboard /> },
       {
@@ -174,7 +181,12 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
   },
   {
     path: "/applicant",
-    element: decideLayout(<DashboardLayout />, <ApplicantLayout />),
+    element:
+      isAuthenticated && userRole.includes("ROLE_APPLICANT") ? (
+        decideLayout(<DashboardLayout />, <ApplicantLayout />)
+      ) : (
+        <Navigate to="/" />
+      ),
     children: [
       { index: true, element: <ApplicantDashboard /> },
       { path: "new-submission", element: <NewSubmission /> },
@@ -236,7 +248,12 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
   },
   {
     path: "/secretary",
-    element: decideLayout(<DashboardLayout />, <SecretaryLayout />),
+    element:
+      isAuthenticated && userRole.includes("ROLE_SECRETARY") ? (
+        decideLayout(<DashboardLayout />, <SecretaryLayout />)
+      ) : (
+        <Navigate to="/" />
+      ),
     children: [
       { index: true, element: <SecretaryDashboard /> },
       {
@@ -412,7 +429,12 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
   },
   {
     path: "/reviewer",
-    element: decideLayout(<DashboardLayout />, <ReviewerLayout />),
+    element:
+      isAuthenticated && userRole.includes("ROLE_REVIEWER") ? (
+        decideLayout(<DashboardLayout />, <ReviewerLayout />)
+      ) : (
+        <Navigate to="/" />
+      ),
     children: [
       { index: true, element: <ReviewerDashboard /> },
       {
@@ -540,7 +562,12 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
   },
   {
     path: "/admin",
-    element: decideLayout(<DashboardLayout />, <AdminLayout />),
+    element:
+      isAuthenticated && userRole.includes("ROLE_REVIEWER") ? (
+        decideLayout(<DashboardLayout />, <AdminLayout />)
+      ) : (
+        <Navigate to="/" />
+      ),
     children: [
       { index: true, element: <AdminDashboard /> },
       {
