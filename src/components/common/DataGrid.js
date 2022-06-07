@@ -50,6 +50,9 @@ const DataGrid = ({ fields, headerNames, rows, onRowClick, ...props }) => {
                "&.MuiDataGrid-root .MuiDataGrid-cell:focus": {
                   outline: 0,
                },
+               ".MuiDataGrid-columnHeader": {
+                  backgroundColor: "#b2dfdb",
+               },
                ...props.sx,
             }}
          />

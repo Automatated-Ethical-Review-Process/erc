@@ -27,7 +27,6 @@ export default function Footer() {
          : ah > 530 && ah < 601
          ? setBottom("null")
          : setBottom("bottom");
-      console.log(window.screen.availHeight < document.body.scrollHeight);
    };
    window.onresize = function () {
       setFooter();
