@@ -57,7 +57,10 @@ export default function HorizontalLinearStepper() {
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
 
-              <Button onClick={() => navigate("/applicant")} variant="outlined">
+              <Button
+                onClick={() => navigate("/applicant")}
+                variant="contained"
+              >
                 Ok
               </Button>
             </Box>
@@ -71,7 +74,7 @@ export default function HorizontalLinearStepper() {
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 sx={{ mr: 1 }}
-                variant="outlined"
+                variant="contained"
               >
                 Back
               </Button>

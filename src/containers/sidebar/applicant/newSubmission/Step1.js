@@ -14,6 +14,54 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { useState } from "react";
+import MenuItem from "@mui/material/MenuItem";
+
+const currencies = [
+  {
+    value: "Human Research",
+    label: "Human Research",
+  },
+  {
+    value: "Animal Research",
+    label: "Animal Research",
+  },
+];
+
+export function SelectTextFields(props) {
+  const [currency, setCurrency] = React.useState("Human Research");
+
+  const handleChange = (event) => {
+    setCurrency(event.target.value);
+  };
+
+  return (
+    <Box
+      component="form"
+      sx={{
+        "& .MuiTextField-root": { width: "100%" },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <div>
+        <TextField
+          id="outlined-select-currency"
+          select
+          label={props.label}
+          value={currency}
+          onChange={handleChange}
+          size="small"
+        >
+          {currencies.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+      </div>
+    </Box>
+  );
+}
 
 export function FormControlLabelPosition(props) {
   return (
@@ -95,13 +143,13 @@ export default function FullWidthGrid() {
   const [hasOtherApproved, setHasOtherApproved] = useState(false);
   return (
     <Container maxWidth="md">
-      <Box sx={{ flexGrow: 1, my: 7 }}>
+      <Box sx={{ flexGrow: 1, my: 5 }}>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={12} md={12}>
             <BasicTextFields label="Proposal Name" />
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
-            <BasicTextFields label="Proposal Type" />
+            <SelectTextFields label="Proposal Type" />
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
             <BasicTextFields label="Co-Investigators" />
