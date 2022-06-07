@@ -12,6 +12,7 @@ import AdminLayout from "layouts/sidebar/AdminLayout";
 // containers
 import SignIn from "containers/main/SignIn";
 import SignUp from "containers/main/signup/SignUp";
+import InitSignUp from "containers/main/signup/SignInitiation";
 import ForgotPassword from "containers/main/forgotPassword/ForgotPassword";
 
 import ClerkDashboard from "containers/dashboard/ClerkDashboard";
@@ -99,7 +100,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
       { index: true, element: <SignIn /> },
       {
         path: "signup",
-        element: <SignUp />,
+        element: <InitSignUp />,
       },
       { path: "forgot-password", element: <ForgotPassword /> },
     ],
