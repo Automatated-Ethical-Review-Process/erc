@@ -47,21 +47,6 @@ export default function HorizontalLinearStepper() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
   const navigate = useNavigate();
 
   return (
@@ -76,7 +61,10 @@ export default function HorizontalLinearStepper() {
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
 
-              <Button onClick={() => navigate("/applicant")} variant="outlined">
+              <Button
+                onClick={() => navigate("/applicant")}
+                variant="contained"
+              >
                 Ok
               </Button>
             </Box>
@@ -90,7 +78,7 @@ export default function HorizontalLinearStepper() {
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 sx={{ mr: 1 }}
-                variant="outlined"
+                variant="contained"
               >
                 Back
               </Button>
@@ -98,7 +86,7 @@ export default function HorizontalLinearStepper() {
 
               <Button
                 onClick={handleNext}
-                variant="outlined"
+                variant="contained"
                 sx={{ bottom: 0 }}
               >
                 {activeStep === steps.length - 1 ? "Submit" : "Next"}

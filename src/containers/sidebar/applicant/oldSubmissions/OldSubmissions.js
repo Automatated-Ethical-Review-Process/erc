@@ -76,7 +76,10 @@ function Proposal({ id }) {
         <Divider sx={{ borderBottomWidth: 5 }} />
       </Grid>
       <Grid item xs={12} container sx={{ mt: 2 }}>
-        <Button onClick={() => navigate(location.pathname + "/versions")}>
+        <Button
+          variant="contained"
+          onClick={() => navigate(location.pathname + "/versions")}
+        >
           View Document
         </Button>
       </Grid>
