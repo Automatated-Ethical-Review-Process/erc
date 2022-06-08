@@ -25,7 +25,9 @@ export default function Footer() {
       ah < sh
          ? setBottom("null")
          : ah > 530 && ah < 601
-         ? setBottom("null")
+         ? location.pathname !== "/"
+            ? setBottom("bottom")
+            : setBottom("null")
          : setBottom("bottom");
    };
    window.onresize = function () {
