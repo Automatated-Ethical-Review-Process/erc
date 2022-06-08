@@ -48,6 +48,7 @@ import NotifyAuthor from "containers/sidebar/secretary/reviewed/NotifyAuthor";
 
 import NewUserDetails from "containers/sidebar/clerk/newUserRequests/userDetails1";
 import CurrentUserDetails from "containers/sidebar/clerk/currentUsers/CurrentUsers";
+import CurrentUserDeatailsAdmin from "containers/sidebar/admin/CurrentUsers";
 import AddReviewer from "containers/sidebar/clerk/addReviewer/addReviewer";
 import NewSubmissions from "containers/sidebar/clerk/newSubmissions/newSubmission";
 
@@ -67,12 +68,14 @@ import Download from "components/proposals/Download";
 
 import Users from "components/users/users";
 import Undergraduate1 from "containers/sidebar/clerk/newUserRequests/undergraduate";
-import Undergraduate2 from "components/users/undergraduate";
+import Undergraduate from "components/users/undergraduate";
+import AddUsers from "containers/sidebar/admin/AddUsers";
 
 import { Navigate } from "react-router-dom";
 
 // test
 import Test from "components/common/Test";
+import SignUp from "containers/main/signup/SignUp";
 
 const documentRoutes = {
   path: "doc-:did",
@@ -100,7 +103,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
       { index: true, element: <SignIn /> },
       {
         path: "verify",
-        element: <VerifyEmail />,
+        element: <SignUp />,
       },
       { path: "forgot-password", element: <ForgotPassword /> },
     ],
@@ -141,7 +144,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
               { index: true, element: <CurrentUserDetails /> },
               {
                 path: "undergraduate",
-                children: [{ index: true, element: <Undergraduate2 /> }],
+                children: [{ index: true, element: <Undergraduate /> }],
               },
             ],
           },
@@ -577,11 +580,17 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
           { index: true, element: <Users /> },
           {
             path: ":uid",
-            children: [{ index: true, element: <CurrentUserDetails /> }],
+            children: [
+              { index: true, element: <CurrentUserDeatailsAdmin /> },
+              {
+                path: "undergraduate",
+                children: [{ index: true, element: <Undergraduate /> }],
+              },
+            ],
           },
         ],
       },
-      { path: "add-user", element: <h1>Add User</h1> },
+      { path: "add-user", element: <AddUsers /> },
     ],
   },
   {
