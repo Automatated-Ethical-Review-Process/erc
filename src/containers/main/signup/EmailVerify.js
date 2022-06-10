@@ -24,6 +24,7 @@ export default function EmailVerify() {
               account.
             </Typography>
           </Grid>
+
           <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
             <TextField
@@ -38,12 +39,12 @@ export default function EmailVerify() {
             />
           </Grid>
           <Grid item xs={12} md={4}></Grid>
+
           <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
             <Button
               sx={{
-                mx: "30%",
-                mt: 2,
+                my: 2,
               }}
               variant="contained"
               color="success"
