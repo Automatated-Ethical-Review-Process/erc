@@ -19,82 +19,10 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function Proposal({ id }) {
-  const proposal = getProposal(id);
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  if (!proposal) {
-    return "invalid proposal id: " + id;
-  }
-
-  return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} container direction="column" spacing={2}>
-        <Grid item container>
-          <Grid item xs={2} md={2}>
-            <Typography>Proposal Name :</Typography>
-          </Grid>
-          <Grid item xs={4} md={4}>
-            <Item>
-              <Typography>{proposal.name}</Typography>
-            </Item>
-          </Grid>
-        </Grid>
-        <Grid item container>
-          <Grid item xs={2} md={2}>
-            <Typography>Proposal Type :</Typography>
-          </Grid>
-          <Grid item xs={4} md={4}>
-            <Item>
-              <Typography>{proposal.category}</Typography>
-            </Item>
-          </Grid>
-        </Grid>
-        <Grid item container>
-          <Grid item xs={2} md={2}>
-            <Typography>Submitted Date :</Typography>
-          </Grid>
-          <Grid item xs={4} md={4}>
-            <Item>
-              <Typography>{proposal.date}</Typography>
-            </Item>
-          </Grid>
-        </Grid>
-        <Grid item container>
-          <Grid item xs={2} md={2}>
-            <Typography>Status :</Typography>
-          </Grid>
-          <Grid item xs={4} md={4}>
-            <Item>
-              <Typography>{proposal.status}</Typography>
-            </Item>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Divider sx={{ borderBottomWidth: 5 }} />
-      </Grid>
-      <Grid item xs={12} container sx={{ mt: 2 }}>
-        <Button
-          variant="contained"
-          onClick={() => navigate(location.pathname + "/versions")}
-        >
-          View Document
-        </Button>
-      </Grid>
-    </Grid>
-  );
-}
-
 function GetView() {
   const onclick = useNavigate();
   const location = useLocation();
   const { pid } = useParams();
-
-  if (pid) {
-    return <Proposal id={pid} />;
-  }
 
   const proposals = getProposals();
 

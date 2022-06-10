@@ -229,7 +229,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
           {
             path: ":pid",
             children: [
-              { index: true, element: <OldSubmissions /> },
+              { index: true, element: <Proposal /> },
               {
                 path: "versions",
                 children: [

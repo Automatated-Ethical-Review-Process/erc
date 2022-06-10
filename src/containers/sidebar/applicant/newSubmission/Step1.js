@@ -143,7 +143,7 @@ export default function FullWidthGrid() {
   const [hasOtherApproved, setHasOtherApproved] = useState(false);
   return (
     <Container maxWidth="md">
-      <Box sx={{ flexGrow: 1, my: 5 }}>
+      <Box sx={{ flexGrow: 1, my: 3 }}>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={12} md={12}>
             <BasicTextFields label="Proposal Name" />
