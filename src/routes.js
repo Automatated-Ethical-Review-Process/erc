@@ -118,493 +118,533 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
     children: [
       { index: true, element: <ClerkDashboard /> },
       {
-        path: "new-user-requests",
-        children: [
-          { index: true, element: <Users /> },
-          {
-            path: ":uid",
-            children: [
-              { index: true, element: <NewUserDetails /> },
-              {
-                path: "undergraduate",
-                children: [{ index: true, element: <Undergraduate1 /> }],
-              },
-            ],
-          },
-        ],
+         index: true,
+         element: <Document />,
       },
       {
-        path: "current-users",
-        children: [
-          { index: true, element: <Users /> },
-          {
-            path: ":uid",
-            children: [
-              { index: true, element: <CurrentUserDetails /> },
-              {
-                path: "undergraduate",
-                children: [{ index: true, element: <Undergraduate /> }],
-              },
-            ],
-          },
-        ],
+         path: "preview",
+         element: <Preview />,
       },
       {
-        path: "new-submissions",
-        children: [
-          { index: true, element: <Proposals /> },
-          {
-            path: ":pid",
-            children: [
-              { index: true, element: <NewSubmissions /> },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      {
-                        index: true,
-                        element: <Documents />,
-                      },
+         path: "download",
+         element: <Download />,
+      },
+   ],
+};
 
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
+const routes = (isAuthenticated, userRole, decideLayout) => [
+   {
+      path: "/",
+      element: <MainLayout />,
+      children: [
+         { index: true, element: <SignIn /> },
+         {
+            path: "verify",
+            element: <VerifyEmail />,
+         },
+         { path: "forgot-password", element: <ForgotPassword /> },
+      ],
+   },
+   {
+      path: "/clerk",
+      element:
+         isAuthenticated && userRole.includes("ROLE_CLERK") ? (
+            decideLayout(<DashboardLayout />, <ClerkLayout />)
+         ) : (
+            <Navigate to="/" />
+         ),
+      children: [
+         { index: true, element: <ClerkDashboard /> },
+         {
+            path: "new-user-requests",
+            children: [
+               { index: true, element: <Users /> },
+               {
+                  path: ":uid",
+                  children: [
+                     { index: true, element: <NewUserDetails /> },
+                     {
+                        path: "undergraduate",
+                        children: [
+                           { index: true, element: <Undergraduate1 /> },
+                        ],
+                     },
+                  ],
+               },
             ],
-          },
-        ],
-      },
+         },
+         {
+            path: "current-users",
+            children: [
+               { index: true, element: <Users /> },
+               {
+                  path: ":uid",
+                  children: [
+                     { index: true, element: <CurrentUserDetails /> },
+                     {
+                        path: "undergraduate",
+                        children: [{ index: true, element: <Undergraduate /> }],
+                     },
+                  ],
+               },
+            ],
+         },
+         {
+            path: "new-submissions",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <NewSubmissions /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <Documents />,
+                                 },
 
-      { path: "add-reviewer", element: <AddReviewer /> },
-    ],
-  },
-  {
-    path: "/applicant",
-    element:
-      isAuthenticated && userRole.includes("ROLE_APPLICANT") ? (
-        decideLayout(<DashboardLayout />, <ApplicantLayout />)
-      ) : (
-        <Navigate to="/" />
-      ),
-    children: [
-      { index: true, element: <ApplicantDashboard /> },
-      { path: "new-submission", element: <NewSubmission /> },
-      {
-        path: "current-submission",
-        children: [
-          { index: true, element: <CurrentSubmission /> },
-          {
-            path: ":pid",
-            children: [
-              { index: true, element: <Proposal /> },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      { index: true, element: <CurrentDocument /> },
-                      {
-                        path: "decision",
-                        element: <ViewDecision />,
-                      },
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: "old-submissions",
-        children: [
-          { index: true, element: <OldSubmissions /> },
-          {
-            path: ":pid",
-            children: [
-              { index: true, element: <Proposal /> },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      { index: true, element: <CurrentDocument /> },
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    path: "/secretary",
-    element:
-      isAuthenticated && userRole.includes("ROLE_SECRETARY") ? (
-        decideLayout(<DashboardLayout />, <SecretaryLayout />)
-      ) : (
-        <Navigate to="/" />
-      ),
-    children: [
-      { index: true, element: <SecretaryDashboard /> },
-      {
-        path: "unassigned",
-        children: [
-          { index: true, element: <Proposals /> },
-          {
-            path: ":pid",
-            children: [
-              { index: true, element: <UnassignedProposal /> },
-              {
-                path: "review",
-                children: [
-                  { index: true, element: <ChooseReviewType /> },
-                  { path: "assign", element: <AssignReviewers /> },
-                ],
-              },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      { index: true, element: <Documents /> },
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: "in-review",
-        children: [
-          { index: true, element: <Proposals /> },
-          {
-            path: ":pid",
-            children: [
-              { index: true, element: <Proposal /> },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      {
-                        index: true,
-                        element: <InReviewDocuments />,
-                      },
-                      {
-                        path: "reviews",
-                        children: [
-                          { index: true, element: <Reviews /> },
-                          { path: ":rid", element: <Review /> },
+                                 documentRoutes,
+                              ],
+                           },
                         ],
-                      },
-                      {
-                        path: "comments",
+                     },
+                  ],
+               },
+            ],
+         },
+
+         { path: "add-reviewer", element: <AddReviewer /> },
+      ],
+   },
+   {
+      path: "/applicant",
+      element:
+         isAuthenticated && userRole.includes("ROLE_APPLICANT") ? (
+            decideLayout(<DashboardLayout />, <ApplicantLayout />)
+         ) : (
+            <Navigate to="/" />
+         ),
+      children: [
+         { index: true, element: <ApplicantDashboard /> },
+         { path: "new-submission", element: <NewSubmission /> },
+         {
+            path: "current-submission",
+            children: [
+               { index: true, element: <CurrentSubmission /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
                         children: [
-                          { index: true, element: <Comments /> },
-                          { path: ":cid", element: <Comment /> },
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 { index: true, element: <CurrentDocument /> },
+                                 {
+                                    path: "decision",
+                                    element: <ViewDecision />,
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
                         ],
-                      },
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
+                     },
+                  ],
+               },
             ],
-          },
-        ],
-      },
-      {
-        path: "reviewed",
-        children: [
-          { index: true, element: <Proposals /> },
-          {
-            path: ":pid",
+         },
+         {
+            path: "old-submissions",
             children: [
-              { index: true, element: <ReviewedProposal /> },
-              { path: "notify", element: <NotifyAuthor /> },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      {
-                        index: true,
-                        element: <InReviewDocuments />,
-                      },
-                      {
-                        path: "reviews",
+               { index: true, element: <OldSubmissions /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <OldSubmissions /> },
+                     {
+                        path: "versions",
                         children: [
-                          { index: true, element: <Reviews /> },
-                          { path: ":rid", element: <Review /> },
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 { index: true, element: <CurrentDocument /> },
+                                 documentRoutes,
+                              ],
+                           },
                         ],
-                      },
-                      {
-                        path: "comments",
+                     },
+                  ],
+               },
+            ],
+         },
+      ],
+   },
+   {
+      path: "/secretary",
+      element:
+         isAuthenticated && userRole.includes("ROLE_SECRETARY") ? (
+            decideLayout(<DashboardLayout />, <SecretaryLayout />)
+         ) : (
+            <Navigate to="/" />
+         ),
+      children: [
+         { index: true, element: <SecretaryDashboard /> },
+         {
+            path: "unassigned",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <UnassignedProposal /> },
+                     {
+                        path: "review",
                         children: [
-                          { index: true, element: <Comments /> },
-                          { path: ":cid", element: <Comment /> },
+                           { index: true, element: <ChooseReviewType /> },
+                           { path: "assign", element: <AssignReviewers /> },
                         ],
-                      },
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: "archived",
-        children: [
-          { index: true, element: <Proposals /> },
-          {
-            path: ":pid",
-            children: [
-              { index: true, element: <Proposal /> },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      {
-                        index: true,
-                        element: <InReviewDocuments />,
-                      },
-                      {
-                        path: "reviews",
+                     },
+                     {
+                        path: "versions",
                         children: [
-                          { index: true, element: <Reviews /> },
-                          { path: ":rid", element: <Review /> },
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 { index: true, element: <Documents /> },
+                                 documentRoutes,
+                              ],
+                           },
                         ],
-                      },
-                      {
-                        path: "comments",
+                     },
+                  ],
+               },
+            ],
+         },
+         {
+            path: "in-review",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
                         children: [
-                          { index: true, element: <Comments /> },
-                          { path: ":cid", element: <Comment /> },
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <InReviewDocuments />,
+                                 },
+                                 {
+                                    path: "reviews",
+                                    children: [
+                                       { index: true, element: <Reviews /> },
+                                       { path: ":rid", element: <Review /> },
+                                    ],
+                                 },
+                                 {
+                                    path: "comments",
+                                    children: [
+                                       { index: true, element: <Comments /> },
+                                       { path: ":cid", element: <Comment /> },
+                                    ],
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
                         ],
-                      },
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
+                     },
+                  ],
+               },
             ],
-          },
-        ],
-      },
-      {
-        path: "user-management",
-        children: [
-          { index: true, element: <Users /> },
-          {
-            path: ":uid",
-            children: [{ index: true, element: <CurrentUserDetails /> }],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    path: "/reviewer",
-    element:
-      isAuthenticated && userRole.includes("ROLE_REVIEWER") ? (
-        decideLayout(<DashboardLayout />, <ReviewerLayout />)
-      ) : (
-        <Navigate to="/" />
-      ),
-    children: [
-      { index: true, element: <ReviewerDashboard /> },
-      {
-        path: "pending",
-        children: [
-          { index: true, element: <Proposals /> },
-          {
-            path: ":pid",
+         },
+         {
+            path: "reviewed",
             children: [
-              { index: true, element: <PendingProposal /> },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      { index: true, element: <Documents /> },
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <ReviewedProposal /> },
+                     { path: "notify", element: <NotifyAuthor /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <InReviewDocuments />,
+                                 },
+                                 {
+                                    path: "reviews",
+                                    children: [
+                                       { index: true, element: <Reviews /> },
+                                       { path: ":rid", element: <Review /> },
+                                    ],
+                                 },
+                                 {
+                                    path: "comments",
+                                    children: [
+                                       { index: true, element: <Comments /> },
+                                       { path: ":cid", element: <Comment /> },
+                                    ],
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
             ],
-          },
-        ],
-      },
-      {
-        path: "reviewing",
-        children: [
-          { index: true, element: <Proposals /> },
-          {
-            path: ":pid",
+         },
+         {
+            path: "archived",
             children: [
-              { index: true, element: <Proposal /> },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      {
-                        index: true,
-                        element: <ReviewingDocuments />,
-                      },
-                      {
-                        path: "evaluation",
-                        element: <SubmitEvaluation />,
-                      },
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <InReviewDocuments />,
+                                 },
+                                 {
+                                    path: "reviews",
+                                    children: [
+                                       { index: true, element: <Reviews /> },
+                                       { path: ":rid", element: <Review /> },
+                                    ],
+                                 },
+                                 {
+                                    path: "comments",
+                                    children: [
+                                       { index: true, element: <Comments /> },
+                                       { path: ":cid", element: <Comment /> },
+                                    ],
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
             ],
-          },
-        ],
-      },
-      {
-        path: "reviewed",
-        children: [
-          { index: true, element: <Proposals /> },
-          {
-            path: ":pid",
+         },
+         {
+            path: "user-management",
             children: [
-              { index: true, element: <Proposal /> },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      {
-                        index: true,
-                        element: <ReviewedDocuments />,
-                      },
-                      {
-                        path: "evaluation",
-                        element: <ViewEvaluation />,
-                      },
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
+               { index: true, element: <Users /> },
+               {
+                  path: ":uid",
+                  children: [{ index: true, element: <CurrentUserDetails /> }],
+               },
             ],
-          },
-        ],
-      },
-      {
-        path: "other",
-        children: [
-          { index: true, element: <Proposals /> },
-          {
-            path: ":pid",
+         },
+      ],
+   },
+   {
+      path: "/reviewer",
+      element:
+         isAuthenticated && userRole.includes("ROLE_REVIEWER") ? (
+            decideLayout(<DashboardLayout />, <ReviewerLayout />)
+         ) : (
+            <Navigate to="/" />
+         ),
+      children: [
+         { index: true, element: <ReviewerDashboard /> },
+         {
+            path: "pending",
             children: [
-              { index: true, element: <Proposal /> },
-              {
-                path: "versions",
-                children: [
-                  { index: true, element: <Versions /> },
-                  {
-                    path: ":vid",
-                    children: [
-                      {
-                        index: true,
-                        element: <OtherDocuments />,
-                      },
-                      {
-                        path: "comments",
-                        element: <AddComments />,
-                      },
-                      documentRoutes,
-                    ],
-                  },
-                ],
-              },
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <PendingProposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 { index: true, element: <Documents /> },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
             ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    path: "/admin",
-    element:
-      isAuthenticated && userRole.includes("ROLE_REVIEWER") ? (
-        decideLayout(<DashboardLayout />, <AdminLayout />)
-      ) : (
-        <Navigate to="/" />
-      ),
-    children: [
-      { index: true, element: <AdminDashboard /> },
-      {
-        path: "users",
-        children: [
-          { index: true, element: <Users /> },
-          {
-            path: ":uid",
+         },
+         {
+            path: "reviewing",
             children: [
-              { index: true, element: <CurrentUserDeatailsAdmin /> },
-              {
-                path: "undergraduate",
-                children: [{ index: true, element: <Undergraduate /> }],
-              },
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <ReviewingDocuments />,
+                                 },
+                                 {
+                                    path: "evaluation",
+                                    element: <SubmitEvaluation />,
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
             ],
-          },
-        ],
-      },
-      { path: "add-user", element: <AddUsers /> },
-    ],
-  },
-  {
-    path: "/profile",
-    children: [
-      { index: true, element: <ShowProfile /> },
-      { path: "edit", element: <EditProfile /> },
-    ],
-  },
-  {
-    path: "/notification",
-    element: <ShowNotification />,
-  },
-  { path: "/test", element: <Test /> },
-  { path: "*", element: <h4>{"Oops, page not found :("}</h4> },
+         },
+         {
+            path: "reviewed",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <ReviewedDocuments />,
+                                 },
+                                 {
+                                    path: "evaluation",
+                                    element: <ViewEvaluation />,
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
+            ],
+         },
+         {
+            path: "other",
+            children: [
+               { index: true, element: <Proposals /> },
+               {
+                  path: ":pid",
+                  children: [
+                     { index: true, element: <Proposal /> },
+                     {
+                        path: "versions",
+                        children: [
+                           { index: true, element: <Versions /> },
+                           {
+                              path: ":vid",
+                              children: [
+                                 {
+                                    index: true,
+                                    element: <OtherDocuments />,
+                                 },
+                                 {
+                                    path: "comments",
+                                    element: <AddComments />,
+                                 },
+                                 documentRoutes,
+                              ],
+                           },
+                        ],
+                     },
+                  ],
+               },
+            ],
+         },
+      ],
+   },
+   {
+      path: "/admin",
+      element:
+         isAuthenticated && userRole.includes("ROLE_REVIEWER") ? (
+            decideLayout(<DashboardLayout />, <AdminLayout />)
+         ) : (
+            <Navigate to="/" />
+         ),
+      children: [
+         { index: true, element: <AdminDashboard /> },
+         {
+            path: "users",
+            children: [
+               { index: true, element: <Users /> },
+               {
+                  path: ":uid",
+                  children: [
+                     { index: true, element: <CurrentUserDeatailsAdmin /> },
+                     {
+                        path: "undergraduate",
+                        children: [{ index: true, element: <Undergraduate /> }],
+                     },
+                  ],
+               },
+            ],
+         },
+         { path: "add-user", element: <AddUsers /> },
+      ],
+   },
+   {
+      path: "/profile",
+      children: [
+         { index: true, element: <ShowProfile /> },
+         { path: "edit", element: <EditProfile /> },
+      ],
+   },
+   {
+      path: "/notification",
+      element: <ShowNotification />,
+   },
+   { path: "/test", element: <Test /> },
+   { path: "*", element: <h4>{"Oops, page not found :("}</h4> },
 ];
 
 export default routes;
