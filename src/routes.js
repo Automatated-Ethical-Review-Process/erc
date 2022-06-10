@@ -94,7 +94,6 @@ const documentRoutes = {
     },
   ],
 };
-
 const routes = (isAuthenticated, userRole, decideLayout) => [
   {
     path: "/",

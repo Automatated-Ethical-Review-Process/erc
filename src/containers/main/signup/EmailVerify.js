@@ -10,7 +10,10 @@ import Paper from "@mui/material/Paper";
 export default function EmailVerify() {
   return (
     <Container>
-      <Paper variant="outlined" sx={{ my: 2 }}>
+      <Paper
+        variant="outlined"
+        sx={{ my: 2, display: { xs: "none", md: "block" } }}
+      >
         <Grid container space={3} sx={{ mt: 4 }}>
           <Grid item xs={12} md={12}>
             <Typography variant="h3" textAlign={"center"}>
@@ -24,7 +27,6 @@ export default function EmailVerify() {
               account.
             </Typography>
           </Grid>
-
           <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
             <TextField
@@ -39,12 +41,57 @@ export default function EmailVerify() {
             />
           </Grid>
           <Grid item xs={12} md={4}></Grid>
-
           <Grid item xs={12} md={4}></Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} align="center">
             <Button
               sx={{
-                my: 2,
+                mt: 2,
+              }}
+              variant="contained"
+              color="success"
+            >
+              Verify Email
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}></Grid>
+        </Grid>
+      </Paper>
+      <Paper
+        variant="elavatino"
+        sx={{ my: 2, display: { xs: "block", md: "none" } }}
+      >
+        <Grid container space={3} sx={{ mt: 4 }}>
+          <Grid item xs={12} md={12}>
+            <Typography variant="h3" textAlign={"center"}>
+              Welcome!
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <Typography variant="body1" textAlign={"center"}>
+              You need to verify your email acount.Enter the email address and
+              press the button below.It will send you an email to your email
+              account.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={4}></Grid>
+          <Grid item xs={12} md={4}>
+            <TextField
+              id="email-1"
+              fullWidth
+              label="Input Email Address"
+              variant="outlined"
+              required
+              sx={{
+                mt: 4,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} md={4}></Grid>
+          <Grid item xs={12} md={4}></Grid>
+          <Grid item xs={12} md={4} align="center">
+            <Button
+              sx={{
+                mt: 2,
               }}
               variant="contained"
               color="success"
