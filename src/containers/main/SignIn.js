@@ -12,19 +12,25 @@ import Container from "@mui/material/Container";
 
 import { Link, useNavigate } from "react-router-dom";
 
+import { useLoginMutation } from "api/auth/api";
+
 import Image from "assests/meetings.jpg";
 
 export default function SignIn() {
    const navigate = useNavigate();
 
+   const [login] = useLoginMutation();
+
    const handleSubmit = (event) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      console.log({
+      login({
          email: data.get("email"),
          password: data.get("password"),
-      });
-      navigate("/clerk");
+      })
+         .unwrap()
+         .then(() => navigate("/"))
+         .catch((err) => console.log(err));
    };
 
    const formView = (

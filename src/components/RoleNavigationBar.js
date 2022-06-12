@@ -6,10 +6,15 @@ import Modal from "@mui/material/Modal";
 
 import { useNavigate } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
+import { selectCurrentUser } from "api/auth/api";
+
 import { ThemeContext } from "context/ThemeContext";
 
 const RoleNavigationBar = ({ role }) => {
    const { theme } = useContext(ThemeContext);
+   const user = useSelector(selectCurrentUser);
 
    const navigate = useNavigate();
 

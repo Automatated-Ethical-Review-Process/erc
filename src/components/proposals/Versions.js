@@ -4,7 +4,7 @@ import { Container } from "@mui/material";
 
 import DataGrid from "components/common/DataGrid";
 
-import { getVersions } from "services/versionService";
+import { getVersions } from "services/data/versionService";
 
 export default function Versions(props) {
    const navigate = useNavigate();

@@ -18,6 +18,8 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { ThemeContext } from "context/ThemeContext";
 import Drawer from "./Drawer";
 
+import { useLogoutMutation } from "api/auth/api";
+
 import { useSelector } from "react-redux";
 
 export default function SidebarLayout({ title, sideBarItems, children }) {
@@ -35,6 +37,8 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
    const notifications = useSelector(
       (state) => state.notifications.value.count
    );
+
+   const [logout] = useLogoutMutation();
 
    const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
@@ -61,7 +65,10 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
 
    const handleLogout = () => {
       handleMenuClose();
-      navigate("/");
+      logout()
+         .unwrap()
+         .then(() => navigate("/"))
+         .catch((err) => console.log(err));
    };
 
    const handleMobileMenuOpen = (event) => {

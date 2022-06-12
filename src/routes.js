@@ -71,6 +71,8 @@ import Undergraduate1 from "containers/sidebar/clerk/newUserRequests/undergradua
 import Undergraduate from "components/users/undergraduate";
 import AddUsers from "containers/sidebar/admin/AddUsers";
 
+import roles from "config/roles";
+
 import { Navigate } from "react-router-dom";
 
 // test
@@ -135,12 +137,26 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
 const routes = (isAuthenticated, userRole, decideLayout) => [
    {
       path: "/",
-      element: <MainLayout />,
+      element: !isAuthenticated ? (
+         <MainLayout />
+      ) : userRole.includes(roles.admin) ? (
+         <Navigate to="/admin" />
+      ) : userRole.includes(roles.secretary) ? (
+         <Navigate to="/secretary" />
+      ) : userRole.includes(roles.reviewer) ? (
+         <Navigate to="/reviewer" />
+      ) : userRole.includes(roles.clerk) ? (
+         <Navigate to="/clerk" />
+      ) : userRole.includes(roles.applicant) ? (
+         <Navigate to="/applicant" />
+      ) : (
+         <MainLayout />
+      ),
       children: [
          { index: true, element: <SignIn /> },
          {
             path: "verify",
-            element: <VerifyEmail />,
+            element: <SignUp />,
          },
          { path: "forgot-password", element: <ForgotPassword /> },
       ],
@@ -148,7 +164,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    {
       path: "/clerk",
       element:
-         isAuthenticated && userRole.includes("ROLE_CLERK") ? (
+         isAuthenticated && userRole.includes(roles.clerk) ? (
             decideLayout(<DashboardLayout />, <ClerkLayout />)
          ) : (
             <Navigate to="/" />
@@ -225,7 +241,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    {
       path: "/applicant",
       element:
-         isAuthenticated && userRole.includes("ROLE_APPLICANT") ? (
+         isAuthenticated && userRole.includes(roles.applicant) ? (
             decideLayout(<DashboardLayout />, <ApplicantLayout />)
          ) : (
             <Navigate to="/" />
@@ -292,7 +308,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    {
       path: "/secretary",
       element:
-         isAuthenticated && userRole.includes("ROLE_SECRETARY") ? (
+         isAuthenticated && userRole.includes(roles.secretary) ? (
             decideLayout(<DashboardLayout />, <SecretaryLayout />)
          ) : (
             <Navigate to="/" />
@@ -473,7 +489,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    {
       path: "/reviewer",
       element:
-         isAuthenticated && userRole.includes("ROLE_REVIEWER") ? (
+         isAuthenticated && userRole.includes(roles.reviewer) ? (
             decideLayout(<DashboardLayout />, <ReviewerLayout />)
          ) : (
             <Navigate to="/" />
@@ -606,7 +622,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    {
       path: "/admin",
       element:
-         isAuthenticated && userRole.includes("ROLE_REVIEWER") ? (
+         isAuthenticated && userRole.includes(roles.admin) ? (
             decideLayout(<DashboardLayout />, <AdminLayout />)
          ) : (
             <Navigate to="/" />
@@ -635,13 +651,19 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
    {
       path: "/profile",
       children: [
-         { index: true, element: <ShowProfile /> },
-         { path: "edit", element: <EditProfile /> },
+         {
+            index: true,
+            element: isAuthenticated ? <ShowProfile /> : <Navigate to="/" />,
+         },
+         {
+            path: "edit",
+            element: isAuthenticated ? <EditProfile /> : <Navigate to="/" />,
+         },
       ],
    },
    {
       path: "/notification",
-      element: <ShowNotification />,
+      element: isAuthenticated ? <ShowNotification /> : <Navigate to="/" />,
    },
    { path: "/test", element: <Test /> },
    { path: "*", element: <h4>{"Oops, page not found :("}</h4> },
