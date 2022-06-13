@@ -20,11 +20,10 @@ function App() {
    const user = useSelector(selectCurrentUser);
 
    useEffect(() => {
-      console.log(isAuthenticated);
       if (isAuthenticated) {
          dispatch(authApi.endpoints.getUser.initiate());
       }
-   }, [isAuthenticated, dispatch]);
+   }, [isAuthenticated]);
 
    console.log("app rendered");
 

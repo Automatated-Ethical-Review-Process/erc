@@ -156,7 +156,7 @@ const routes = (isAuthenticated, userRole, decideLayout) => [
          { index: true, element: <SignIn /> },
          {
             path: "verify",
-            element: <SignUp />,
+            element: <VerifyEmail />,
          },
          { path: "forgot-password", element: <ForgotPassword /> },
       ],

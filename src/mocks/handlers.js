@@ -3,8 +3,6 @@ import { nanoid } from "@reduxjs/toolkit";
 
 import roles from "config/roles";
 
-const token = nanoid();
-
 export const handlers = [
    rest.post("/api/auth/signup", (req, res, ctx) => {
       const { email, password } = req.body;
@@ -111,10 +109,10 @@ const getAccess = (req) => req.headers.get("authorization").split(" ").pop();
 const users = [
    {
       id: nanoid(),
-      email: "admin@gmail.com",
+      email: "test@gmail.com",
       password: "password",
-      access: "admin-access-token",
-      refresh: "admin-refresh-token",
+      access: "test-access-token",
+      refresh: "test-refresh-token",
       roles: [
          roles.admin,
          roles.applicant,
@@ -125,11 +123,19 @@ const users = [
    },
    {
       id: nanoid(),
+      email: "admin@gmail.com",
+      password: "password",
+      access: "admin-access-token",
+      refresh: "admin-refresh-token",
+      roles: [roles.admin],
+   },
+   {
+      id: nanoid(),
       email: "secretary@gmail.com",
       password: "password",
       access: "secretary-access-token",
       refresh: "secretary-refresh-token",
-      roles: [roles.reviewer, roles.secretary],
+      roles: [roles.secretary, roles.reviewer],
    },
    {
       id: nanoid(),
@@ -137,7 +143,7 @@ const users = [
       password: "password",
       access: "reviewer-access-token",
       refresh: "reviewer-refresh-token",
-      roles: [roles.applicant, roles.reviewer],
+      roles: [roles.reviewer, roles.applicant],
    },
    {
       id: nanoid(),
