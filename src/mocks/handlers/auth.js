@@ -2,33 +2,34 @@ import { rest } from "msw";
 import { nanoid } from "@reduxjs/toolkit";
 
 import roles from "config/roles";
+import { path, getToken, resp } from "mocks/utils";
 
-export const handlers = [
-   rest.post("/api/auth/signup", (req, res, ctx) => {
+const api = path("/api/auth/");
+
+export default [
+   rest.post(api("signup"), (req, res, ctx) => {
       const { email, password } = req.body;
 
       let user = users.find((u) => u.email === email);
 
       if (!user) {
          user = createUser(email, password);
-         return res(
-            ctx.delay(400),
-            ctx.json({
-               id: user.id,
-            })
-         );
+         return resp(res, ctx, {
+            id: user.id,
+         });
       }
 
-      return res(
-         ctx.delay(400),
-         ctx.json({
+      return resp(
+         res,
+         ctx,
+         {
             message: "user already registered",
-         }),
-         ctx.status(403)
+         },
+         403
       );
    }),
 
-   rest.post("/api/auth/login", (req, res, ctx) => {
+   rest.post(api("login"), (req, res, ctx) => {
       const { email, password } = req.body;
 
       const user = users.find(
@@ -36,75 +37,67 @@ export const handlers = [
       );
 
       if (user) {
-         return res(
-            ctx.delay(400),
-            ctx.json({
-               access: user.access,
-               refresh: user.refresh,
-               roles: user.roles,
-            })
-         );
+         return resp(res, ctx, {
+            access: user.access,
+            refresh: user.refresh,
+            roles: user.roles,
+         });
       }
 
-      return res(
-         ctx.delay(400),
-         ctx.json({
+      return resp(
+         res,
+         ctx,
+         {
             message: "invalid credentials",
-         }),
-         ctx.status(403)
+         },
+         403
       );
    }),
 
-   rest.post("/api/auth/logout", (req, res, ctx) => {
-      const access = getAccess(req);
+   rest.post(api("logout"), (req, res, ctx) => {
+      const access = getToken(req);
 
       const user = users.find((u) => u.access === access);
 
       if (user) {
-         return res(
-            ctx.delay(400),
-            ctx.json({
-               id: user.id,
-            })
-         );
+         return resp(res, ctx, {
+            id: user.id,
+         });
       }
 
-      return res(
-         ctx.delay(400),
-         ctx.json({
+      return resp(
+         res,
+         ctx,
+         {
             message: "invalid credentials",
-         }),
-         ctx.status(403)
+         },
+         403
       );
    }),
 
-   rest.get("/api/auth/getUser", (req, res, ctx) => {
-      const access = getAccess(req);
+   rest.get(api("getUser"), (req, res, ctx) => {
+      const access = getToken(req);
 
       const user = users.find((u) => u.access === access);
 
       if (user) {
-         return res(
-            ctx.delay(400),
-            ctx.json({
-               id: user.id,
-               email: user.email,
-               roles: user.roles,
-            })
-         );
+         return resp(res, ctx, {
+            id: user.id,
+            email: user.email,
+            roles: user.roles,
+         });
       }
 
-      return res(
-         ctx.delay(400),
-         ctx.json({
+      return resp(
+         res,
+         ctx,
+         {
             message: "unknown user",
-         }),
-         ctx.status(401)
+         },
+         401
       );
    }),
 ];
-
-const getAccess = (req) => req.headers.get("authorization").split(" ").pop();
 
 const users = [
    {
