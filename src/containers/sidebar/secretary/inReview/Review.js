@@ -13,7 +13,6 @@ export default function Review() {
             label="Reviewer"
             value="reviewer 1"
             readOnly
-            fullWidth={false}
          />
          <br />
          <TextField
@@ -21,7 +20,6 @@ export default function Review() {
             label="Decision"
             value="approved"
             readOnly
-            fullWidth={false}
          />
          <Typography variant="h5" color="black" my={2}>
             Overall Comment

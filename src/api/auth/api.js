@@ -117,6 +117,7 @@ const authSlice = createSlice({
       builder.addMatcher(
          isAnyOf(
             authApi.endpoints.logout.matchFulfilled,
+            authApi.endpoints.getUser.matchRejected,
             authApi.endpoints.refresh.matchRejected
          ),
          (auth) => {
