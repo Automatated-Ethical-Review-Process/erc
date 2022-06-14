@@ -12,7 +12,7 @@ import Roles, { toRole } from "config/roles";
 import useTheme from "hooks/useTheme";
 
 const RoleNavigationBar = ({ role }) => {
-   const { theme } = useTheme();
+   const theme = useTheme();
    const { roles } = useSelector(selectCurrentUser);
 
    const navigate = useNavigate();
