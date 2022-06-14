@@ -3,7 +3,8 @@ import { useContext } from "react";
 import { ThemeContext } from "context/ThemeContext";
 
 const useTheme = () => {
-   return ({ theme } = useContext(ThemeContext));
+   const { theme } = useContext(ThemeContext);
+   return theme;
 };
 
 export default useTheme;

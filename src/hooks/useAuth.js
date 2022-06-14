@@ -20,7 +20,7 @@ const useAuth = () => {
       if (isInitializing) {
          initGetUser(undefined, true);
       }
-   }, [isInitializing]);
+   }, [isInitializing, initGetUser]);
 
    return { user, isAuthenticated, isLoading: isInitializing || isLoading };
 };
