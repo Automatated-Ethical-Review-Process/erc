@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,6 +10,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Alert from "@mui/material/Alert";
 
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
@@ -42,11 +45,14 @@ export default function SignIn() {
       formState: { errors },
    } = useForm({ resolver: yupResolver(loginSchema) });
 
+   const [submitError, setSubmitError] = useState(null);
+
    const onSubmit = (data) => {
+      setSubmitError(null);
       login(data)
          .unwrap()
          .then(() => navigate(state && state.from ? state.from.pathname : "/"))
-         .catch((err) => console.log(err));
+         .catch((err) => setSubmitError(err.data.message));
    };
 
    const formView = (
@@ -109,6 +115,7 @@ export default function SignIn() {
                   control={<Checkbox value="remember" color="primary" />}
                   label="Remember me"
                />
+               {submitError && <Alert severity="error">{submitError}</Alert>}
                <Button
                   type="submit"
                   fullWidth
