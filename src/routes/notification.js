@@ -1,9 +1,10 @@
 import { Route } from "react-router-dom";
 
 import ShowNotification from "components/notification/ShowNotification";
+import routes from "config/routes";
 
 const notificationRoute = (
-   <Route path="/notification" element={<ShowNotification />} />
+   <Route path={routes.notification} element={<ShowNotification />} />
 );
 
 export default notificationRoute;

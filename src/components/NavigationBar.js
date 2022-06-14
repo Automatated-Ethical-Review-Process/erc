@@ -21,6 +21,7 @@ import Drawer from "./Drawer";
 import useTheme from "hooks/useTheme";
 
 import { useLogoutMutation } from "api/auth/api";
+import routes from "config/routes";
 
 export default function SidebarLayout({ title, sideBarItems, children }) {
    const theme = useTheme();
@@ -56,19 +57,19 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
 
    const handleNotification = () => {
       handleMenuClose();
-      navigate("/notification");
+      navigate(routes.notification);
    };
 
    const handleProfile = () => {
       handleMenuClose();
-      navigate("/profile");
+      navigate(routes.profile);
    };
 
    const handleLogout = () => {
       handleMenuClose();
       logout()
          .unwrap()
-         .then(() => navigate("/", { state: { from: location } }))
+         .then(() => navigate(routes.home, { state: { from: location } }))
          .catch((err) => console.log(err));
    };
 

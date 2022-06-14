@@ -3,6 +3,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import useAuth from "hooks/useAuth";
 import DashboardLayout from "layouts/DashboardLayout";
 import Loading from "components/common/Loading";
+import routes from "config/routes";
 
 const Redirect = ({ to }) => {
    const location = useLocation();
@@ -21,7 +22,7 @@ export const ProtectedNavigate = ({ rules, children }) => {
    return <Loading value={isLoading}>{children}</Loading>;
 };
 
-export const ProtectedRoute = ({ role, to = "/", children }) => {
+export const ProtectedRoute = ({ role, to = routes.home, children }) => {
    const { user, isAuthenticated, isLoading } = useAuth();
 
    if (isLoading) {

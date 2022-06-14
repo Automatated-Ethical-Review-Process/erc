@@ -19,7 +19,7 @@ const rules = [
 ];
 
 const mainRoute = (
-   <Route path="/" element={<MainLayout />}>
+   <Route path={routes.home} element={<MainLayout />}>
       <Route
          index
          element={
