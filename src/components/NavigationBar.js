@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -20,8 +22,6 @@ import Drawer from "./Drawer";
 
 import { useLogoutMutation } from "api/auth/api";
 
-import { useSelector } from "react-redux";
-
 export default function SidebarLayout({ title, sideBarItems, children }) {
    const { theme } = useContext(ThemeContext);
 
@@ -33,6 +33,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
    const navigate = useNavigate();
+   const location = useLocation();
 
    const notifications = useSelector(
       (state) => state.notifications.value.count
@@ -67,7 +68,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
       handleMenuClose();
       logout()
          .unwrap()
-         .then(() => navigate("/"))
+         .then(() => navigate("/", { state: { from: location } }))
          .catch((err) => console.log(err));
    };
 
