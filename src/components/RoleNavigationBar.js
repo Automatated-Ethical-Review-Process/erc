@@ -1,20 +1,18 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Modal from "@mui/material/Modal";
 
 import { useNavigate } from "react-router-dom";
-
 import { useSelector } from "react-redux";
 
 import { selectCurrentUser } from "api/auth/api";
 import Roles, { toRole } from "config/roles";
-
-import { ThemeContext } from "context/ThemeContext";
+import useTheme from "hooks/useTheme";
 
 const RoleNavigationBar = ({ role }) => {
-   const { theme } = useContext(ThemeContext);
+   const { theme } = useTheme();
    const { roles } = useSelector(selectCurrentUser);
 
    const navigate = useNavigate();

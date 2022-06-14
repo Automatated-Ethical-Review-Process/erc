@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -17,13 +17,13 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
-import { ThemeContext } from "context/ThemeContext";
 import Drawer from "./Drawer";
+import useTheme from "hooks/useTheme";
 
 import { useLogoutMutation } from "api/auth/api";
 
 export default function SidebarLayout({ title, sideBarItems, children }) {
-   const { theme } = useContext(ThemeContext);
+   const theme = useTheme();
 
    const [mobileOpen, setMobileOpen] = useState(false);
    const [anchorEl, setAnchorEl] = useState(null);

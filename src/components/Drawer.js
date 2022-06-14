@@ -1,16 +1,13 @@
-import { useContext } from "react";
-
 import Toolbar from "@mui/material/Toolbar";
 import BaseDrawer from "@mui/material/Drawer";
 
-import { ThemeContext } from "context/ThemeContext";
-
 import SidebarList from "./common/SidebarList";
+import useTheme from "hooks/useTheme";
 
 const drawerWidth = 240;
 
 export default function Drawer({ open, onClose, items }) {
-   const { theme } = useContext(ThemeContext);
+   const theme = useTheme();
 
    const drawer = (
       <div>
