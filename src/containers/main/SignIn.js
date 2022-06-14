@@ -10,7 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { useLoginMutation } from "api/auth/api";
 
@@ -18,6 +18,7 @@ import Image from "assests/meetings.jpg";
 
 export default function SignIn() {
    const navigate = useNavigate();
+   const { state } = useLocation();
 
    const [login] = useLoginMutation();
 
@@ -29,7 +30,7 @@ export default function SignIn() {
          password: data.get("password"),
       })
          .unwrap()
-         .then(() => navigate("/"))
+         .then(() => navigate(state && state.from ? state.from.pathname : "/"))
          .catch((err) => console.log(err));
    };
 

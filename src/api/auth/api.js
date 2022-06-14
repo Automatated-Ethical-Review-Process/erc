@@ -1,13 +1,9 @@
-import { lazy } from "react";
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 
 import { AUTH } from "config/endpoints";
 import tokenService from "services/auth/tokenService";
 import userService from "services/auth/userService";
-
-const store = lazy(() => import("store/store"));
 
 const authApi = createApi({
    reducerPath: "api/auth",
@@ -63,14 +59,20 @@ const authApi = createApi({
 });
 
 export const {
-   useGetUserQuery,
+   useLazyGetUserQuery,
    useSignupMutation,
    useLoginMutation,
    useLogoutMutation,
 } = authApi;
 
+const dispatch = (func) =>
+   import("store/store").then((store) => store.store.dispatch(func));
+
 export const refreshToken = async () =>
-   await store.dispatch(authApi.endpoints.refresh.initiate());
+   await dispatch(authApi.endpoints.refresh.initiate());
+
+export const waitAndDo = (callback) =>
+   Promise.all(authApi.util.getRunningOperationPromises()).finally(callback);
 
 export default authApi;
 
