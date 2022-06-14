@@ -1,4 +1,3 @@
-import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -11,24 +10,40 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 import { useLoginMutation } from "api/auth/api";
 
 import Image from "assests/meetings.jpg";
 
+const loginSchema = Yup.object()
+   .shape({
+      email: Yup.string()
+         .required("Email is required")
+         .email("Email is invalid"),
+      password: Yup.string()
+         .required("Password is required")
+         .min(6, "Password must be at least 6 characters")
+         .max(40, "Password must not exceed 40 characters"),
+   })
+   .required();
+
 export default function SignIn() {
    const navigate = useNavigate();
    const { state } = useLocation();
 
-   const [login] = useLoginMutation();
+   const [login, { isLoading }] = useLoginMutation();
 
-   const handleSubmit = (event) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      login({
-         email: data.get("email"),
-         password: data.get("password"),
-      })
+   const {
+      control,
+      handleSubmit,
+      formState: { errors },
+   } = useForm({ resolver: yupResolver(loginSchema) });
+
+   const onSubmit = (data) => {
+      login(data)
          .unwrap()
          .then(() => navigate(state && state.from ? state.from.pathname : "/"))
          .catch((err) => console.log(err));
@@ -52,29 +67,43 @@ export default function SignIn() {
             </Typography>
             <Box
                component="form"
-               onSubmit={handleSubmit}
+               onSubmit={handleSubmit(onSubmit)}
                noValidate
                sx={{ mt: 1 }}
             >
-               <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
+               <Controller
                   name="email"
-                  autoComplete="email"
-                  autoFocus
+                  control={control}
+                  render={({ field }) => (
+                     <TextField
+                        {...field}
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Email Address"
+                        autoComplete="email"
+                        error={!!errors.email}
+                        helperText={errors.email && errors.email.message}
+                        autoFocus
+                     />
+                  )}
                />
-               <TextField
-                  margin="normal"
-                  required
-                  fullWidth
+               <Controller
                   name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
+                  control={control}
+                  render={({ field }) => (
+                     <TextField
+                        {...field}
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Password"
+                        type="password"
+                        autoComplete="current-password"
+                        error={!!errors.password}
+                        helperText={errors.password && errors.password.message}
+                     />
+                  )}
                />
                <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
@@ -83,6 +112,7 @@ export default function SignIn() {
                <Button
                   type="submit"
                   fullWidth
+                  disabled={isLoading}
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                >
