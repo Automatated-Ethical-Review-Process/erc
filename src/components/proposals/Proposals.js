@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
 import DataGrid from "components/common/DataGrid";
-import { getProposals } from "services/proposalService";
+import { getProposals } from "services/data/proposalService";
 
 export default function Proposals() {
    const navigate = useNavigate();

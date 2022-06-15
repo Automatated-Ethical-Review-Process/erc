@@ -4,7 +4,7 @@ import { Container } from "@mui/material";
 
 import DataGrid from "components/common/DataGrid";
 
-import { getDocuments } from "services/documentService";
+import { getDocuments } from "services/data/documentService";
 
 export default function Documents(props) {
    const navigate = useNavigate();
