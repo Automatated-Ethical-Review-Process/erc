@@ -11,7 +11,6 @@ const FooterContainer = styled.footer`
    background: black;
    opacity: 0.6;
    position: absolute;
-   /* bottom: 0px; */
    ${(props) => props.bottom}: 0px;
 `;
 export default function Footer() {
