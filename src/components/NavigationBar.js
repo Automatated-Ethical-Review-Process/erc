@@ -1,6 +1,8 @@
 import React from "react";
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -15,13 +17,14 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
-import { ThemeContext } from "context/ThemeContext";
 import Drawer from "./Drawer";
+import useTheme from "hooks/useTheme";
 
-import { useSelector } from "react-redux";
+import { useLogoutMutation } from "api/auth/api";
+import routes from "config/routes";
 
 export default function SidebarLayout({ title, sideBarItems, children }) {
-   const { theme } = useContext(ThemeContext);
+   const theme = useTheme();
 
    const [mobileOpen, setMobileOpen] = useState(false);
    const [anchorEl, setAnchorEl] = useState(null);
@@ -31,10 +34,13 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
    const navigate = useNavigate();
+   const location = useLocation();
 
    const notifications = useSelector(
       (state) => state.notifications.value.count
    );
+
+   const [logout] = useLogoutMutation();
 
    const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
@@ -51,17 +57,20 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
 
    const handleNotification = () => {
       handleMenuClose();
-      navigate("/notification");
+      navigate(routes.notification);
    };
 
    const handleProfile = () => {
       handleMenuClose();
-      navigate("/profile");
+      navigate(routes.profile);
    };
 
    const handleLogout = () => {
       handleMenuClose();
-      navigate("/");
+      logout()
+         .unwrap()
+         .then(() => navigate(routes.home, { state: { from: location } }))
+         .catch((err) => console.log(err));
    };
 
    const handleMobileMenuOpen = (event) => {

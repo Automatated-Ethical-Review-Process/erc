@@ -23,6 +23,7 @@ function getStepContent(step) {
 export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
+  const isUndergraduate = false;
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -35,12 +36,16 @@ export default function HorizontalLinearStepper() {
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) =>
+      isUndergraduate ? prevActiveStep + 2 : prevActiveStep + 1
+    );
     setSkipped(newSkipped);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) =>
+      isUndergraduate ? prevActiveStep - 2 : prevActiveStep - 1
+    );
   };
 
   const navigate = useNavigate();

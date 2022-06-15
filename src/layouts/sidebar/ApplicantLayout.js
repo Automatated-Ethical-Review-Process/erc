@@ -3,6 +3,7 @@ import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 
 import SidebarLayout from "./SidebarLayout";
+import roles from "config/roles";
 
 const sideBarItems = [
    {
@@ -23,5 +24,5 @@ const sideBarItems = [
 ];
 
 export default function ApplicantLayout() {
-   return <SidebarLayout role="applicant" sideBarItems={sideBarItems} />;
+   return <SidebarLayout role={roles.applicant} sideBarItems={sideBarItems} />;
 }

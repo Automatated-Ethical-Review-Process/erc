@@ -1,15 +1,19 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Modal from "@mui/material/Modal";
 
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { ThemeContext } from "context/ThemeContext";
+import { selectCurrentUser } from "api/auth/api";
+import Roles, { toRole } from "config/roles";
+import useTheme from "hooks/useTheme";
 
 const RoleNavigationBar = ({ role }) => {
-   const { theme } = useContext(ThemeContext);
+   const theme = useTheme();
+   const { roles } = useSelector(selectCurrentUser);
 
    const navigate = useNavigate();
 
@@ -17,20 +21,20 @@ const RoleNavigationBar = ({ role }) => {
       useState("Choose Role");
    const [open, setOpen] = useState(false);
 
-   if (!["secretary", "reviewer"].includes(role)) {
+   const readableRoles = [];
+
+   if (roles.includes(Roles.admin)) readableRoles.push("Admin");
+   if (roles.includes(Roles.secretary)) readableRoles.push("Secretary");
+   if (roles.includes(Roles.reviewer)) readableRoles.push("Reviewer");
+   if (roles.includes(Roles.clerk)) readableRoles.push("Clerk");
+   if (roles.includes(Roles.applicant)) readableRoles.push("Applicant");
+
+   if (readableRoles.length <= 1) {
       return null;
    }
 
    const handleOpen = () => setOpen(true);
    const handleClose = () => setOpen(false);
-
-   const roles = ["Reviewer"];
-
-   if (role === "secretary") {
-      roles.unshift("Secretary");
-   } else {
-      roles.push("Applicant");
-   }
 
    const button = (value, index, onClick) => (
       <Button
@@ -59,7 +63,7 @@ const RoleNavigationBar = ({ role }) => {
       </Button>
    );
 
-   const selectIndex = roles.map((s) => s.toLowerCase()).indexOf(role);
+   const selectIndex = readableRoles.map((s) => toRole(s)).indexOf(role);
 
    return (
       <>
@@ -69,9 +73,9 @@ const RoleNavigationBar = ({ role }) => {
             direction="row"
             mb={2}
          >
-            {roles.map((value, index) =>
+            {readableRoles.map((value, index) =>
                button(value, index, () =>
-                  navigate("/" + roles[index].toLowerCase())
+                  navigate("/" + readableRoles[index].toLowerCase())
                )
             )}
          </Stack>
@@ -97,11 +101,11 @@ const RoleNavigationBar = ({ role }) => {
                   }}
                >
                   <Stack direction="column" spacing={2}>
-                     {roles.map((value, index) =>
+                     {readableRoles.map((value, index) =>
                         button(value, index, () => {
                            setBtnValueInRoleMobile(value);
                            handleClose();
-                           navigate("/" + roles[index].toLowerCase());
+                           navigate("/" + readableRoles[index].toLowerCase());
                         })
                      )}
                   </Stack>

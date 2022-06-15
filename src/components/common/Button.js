@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
 import BaseButton from "@mui/material/Button";
 
-import { ThemeContext } from "context/ThemeContext";
+import useTheme from "hooks/useTheme";
 
 const Button = (props) => {
-   const { theme } = useContext(ThemeContext);
+   const theme = useTheme();
    return (
       <BaseButton
          {...props}

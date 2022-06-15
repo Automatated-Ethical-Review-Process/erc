@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-import { getDocument } from "services/documentService";
+import { getDocument } from "services/data/documentService";
 
 export default function Download() {
    const { pid: proposalId, vid: versionId, did: documentId } = useParams();

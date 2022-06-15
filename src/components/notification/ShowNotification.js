@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
    getNotification,
    getNotifications,
-} from "services/notificationService";
+} from "services/data/notificationService";
 
 import DataGrid from "components/common/DataGrid";
 import NavigationBar from "components/NavigationBar";

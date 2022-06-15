@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
@@ -143,7 +142,7 @@ export default function FullWidthGrid() {
   const [hasOtherApproved, setHasOtherApproved] = useState(false);
   return (
     <Container maxWidth="md">
-      <Box sx={{ flexGrow: 1, my: 5 }}>
+      <Box sx={{ flexGrow: 1, my: 3 }}>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={12} md={12}>
             <BasicTextFields label="Proposal Name" />

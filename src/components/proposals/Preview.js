@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 
 import PdfViewer from "components/PdfViewer";
 
-import { getDocument } from "services/documentService";
+import { getDocument } from "services/data/documentService";
 
 export default function Preview() {
    const { pid: proposalId, vid: versionId, did: documentId } = useParams();

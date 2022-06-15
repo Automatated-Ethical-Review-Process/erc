@@ -37,7 +37,7 @@ export default function Footer() {
    };
    useEffect(() => {
       setFooter();
-   }, [location]);
+   }, [location, setFooter]);
    return (
       <FooterContainer bottom={bottom}>
          <Typography

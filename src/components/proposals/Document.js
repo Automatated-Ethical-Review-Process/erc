@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 
 import TextField from "components/common/TextField";
 
-import { getDocument } from "services/documentService";
+import { getDocument } from "services/data/documentService";
 
 export default function Document() {
    const navigate = useNavigate();
