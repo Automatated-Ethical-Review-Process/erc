@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Input = styled("input")({
    display: "none",

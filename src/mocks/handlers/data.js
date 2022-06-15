@@ -1,8 +1,8 @@
-import { rest } from "msw";
+// import { rest } from "msw";
 
-import { path, getToken, resp } from "mocks/utils";
+// import { path, getToken, resp } from "mocks/utils";
 
-const api = path("/api/data/");
+// const api = path("/api/data/");
 
 const handlers = [];
 
