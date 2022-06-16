@@ -16,7 +16,7 @@ import Proposals from "components/proposals/Proposals";
 import Proposal from "components/proposals/Proposal";
 import Versions from "components/proposals/Versions";
 import Documents from "components/proposals/Documents";
-import CurrentUsers from "containers/sidebar/clerk/currentUsers/CurrentUsers";
+import CurrentUser from "containers/sidebar/clerk/currentUsers/CurrentUser";
 import Users from "components/users/users";
 
 import routes from "config/routes";
@@ -123,7 +123,7 @@ const secretaryRoute = (
       <Route path="user-management">
          <Route index element={<Users />} />
          <Route path=":uid">
-            <Route index element={<CurrentUsers />} />
+            <Route index element={<CurrentUser />} />
          </Route>
       </Route>
    </Route>

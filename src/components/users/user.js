@@ -23,6 +23,7 @@ export default function User(props) {
    }
 
    const data = [
+      { label: "ID", value: user.id },
       { label: "Name", value: user.name },
       { label: "Address", value: user.address },
       { label: "Phone Number", value: user.phoneNum },

@@ -2,10 +2,10 @@ import { Route } from "react-router-dom";
 
 import ClerkLayout from "layouts/sidebar/ClerkLayout";
 import ClerkDashboard from "containers/dashboard/ClerkDashboard";
-import NewUserDetails from "containers/sidebar/clerk/newUserRequests/userDetails1";
-import CurrentUsers from "containers/sidebar/clerk/currentUsers/CurrentUsers";
+import NewUser from "containers/sidebar/clerk/newUserRequests/userDetails1";
+import CurrentUser from "containers/sidebar/clerk/currentUsers/CurrentUser";
 import AddReviewer from "containers/sidebar/clerk/addReviewer/addReviewer";
-import NewSubmissions from "containers/sidebar/clerk/newSubmissions/newSubmission";
+import NewSubmission from "containers/sidebar/clerk/newSubmissions/newSubmission";
 import Undergraduate from "containers/sidebar/clerk/newUserRequests/undergraduate";
 import Proposals from "components/proposals/Proposals";
 import Versions from "components/proposals/Versions";
@@ -31,7 +31,7 @@ const clerkRoute = (
       <Route path="new-user-requests">
          <Route index element={<Users />} />
          <Route path=":uid">
-            <Route index element={<NewUserDetails />} />
+            <Route index element={<NewUser />} />
             <Route path="undergraduate">
                <Route index element={<Undergraduate />} />
             </Route>
@@ -39,9 +39,9 @@ const clerkRoute = (
       </Route>
 
       <Route path="current-users">
-         <Route index element={<Users />} />
+         <Route index element={<Users extraFields={{ roles: "Roles" }} />} />
          <Route path=":uid">
-            <Route index element={<CurrentUsers />} />
+            <Route index element={<CurrentUser />} />
             <Route path="undergraduate">
                <Route index element={<Undergraduate />} />
             </Route>
@@ -49,9 +49,9 @@ const clerkRoute = (
       </Route>
 
       <Route path="new-submissions">
-         <Route index element={<Proposals />} />
+         <Route index element={<Proposals extraFields={{ pi: "PI" }} />} />
          <Route path=":pid">
-            <Route index element={<NewSubmissions />} />
+            <Route index element={<NewSubmission />} />
             <Route path="versions">
                <Route index element={<Versions />} />
                <Route path=":vid">

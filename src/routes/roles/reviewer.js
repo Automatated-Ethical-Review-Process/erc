@@ -60,9 +60,9 @@ const reviewerRoute = (
       </Route>
 
       <Route path="reviewed">
-         <Route index element={<Proposals />} />
+         <Route index element={<Proposals extraFields={null} />} />
          <Route path=":pid">
-            <Route index element={<Proposal />} />
+            <Route index element={<Proposal extraFields={null} />} />
             <Route path="versions">
                <Route index element={<Versions />} />
                <Route path=":vid">
@@ -75,9 +75,9 @@ const reviewerRoute = (
       </Route>
 
       <Route path="other">
-         <Route index element={<Proposals />} />
+         <Route index element={<Proposals extraFields={null} />} />
          <Route path=":pid">
-            <Route index element={<Proposal />} />
+            <Route index element={<Proposal extraFields={null} />} />
             <Route path="versions">
                <Route index element={<Versions />} />
                <Route path=":vid">
