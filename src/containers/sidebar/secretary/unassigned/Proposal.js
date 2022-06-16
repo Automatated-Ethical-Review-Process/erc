@@ -8,7 +8,9 @@ function Proposal() {
    const navigate = useNavigate();
    const { pathname } = useLocation();
    return (
-      <BaseProposal>
+      <BaseProposal
+         extraFields={{ pi: "Author", coInvestigators: "Co-Investigators" }}
+      >
          <Button
             variant="contained"
             onClick={() => navigate(`${pathname}/review`)}

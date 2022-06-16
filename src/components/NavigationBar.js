@@ -224,6 +224,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
                flexGrow: 1,
                p: 1,
                mt: { xs: 1, sm: 0 },
+               mb: 3,
             }}
          >
             <Toolbar />
