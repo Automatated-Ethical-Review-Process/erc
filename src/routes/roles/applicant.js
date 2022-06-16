@@ -2,11 +2,10 @@ import { Route } from "react-router-dom";
 
 import ApplicantLayout from "layouts/sidebar/ApplicantLayout";
 import ApplicantDashboard from "containers/dashboard/ApplicantDashboard";
-import CurrentSubmission from "containers/sidebar/applicant/currentSubmission/CurrentSubmission";
-import CurrentDocument from "containers/sidebar/applicant/currentSubmission/Documents";
-import ViewDecision from "containers/sidebar/applicant/currentSubmission/ViewDecision";
 import NewSubmission from "containers/sidebar/applicant/newSubmission/NewSubmission";
-import OldSubmissions from "containers/sidebar/applicant/oldSubmissions/OldSubmissions";
+import CurrentSubmission from "containers/sidebar/applicant/currentSubmissions/Proposal";
+import Documents from "containers/sidebar/applicant/currentSubmissions/Documents";
+import Proposals from "components/proposals/Proposals";
 import Proposal from "components/proposals/Proposal";
 import Versions from "components/proposals/Versions";
 
@@ -28,15 +27,17 @@ const applicantRoute = (
 
       <Route path="new-submission" element={<NewSubmission />} />
 
-      <Route path="current-submission">
-         <Route index element={<CurrentSubmission />} />
+      <Route path="current-submissions">
+         <Route
+            index
+            element={<Proposals extraFields={{ status: "Status" }} />}
+         />
          <Route path=":pid">
-            <Route index element={<Proposal />} />
+            <Route index element={<CurrentSubmission />} />
             <Route path="versions">
                <Route index element={<Versions />} />
                <Route path=":vid">
-                  <Route index element={<CurrentDocument />} />
-                  <Route path="decision" element={<ViewDecision />} />
+                  <Route index element={<Documents />} />
                   {documentRoute}
                </Route>
             </Route>
@@ -44,13 +45,19 @@ const applicantRoute = (
       </Route>
 
       <Route path="old-submissions">
-         <Route index element={<OldSubmissions />} />
+         <Route
+            index
+            element={<Proposals extraFields={{ status: "Status" }} />}
+         />
          <Route path=":pid">
-            <Route index element={<OldSubmissions />} />
+            <Route
+               index
+               element={<Proposal extraFields={{ status: "Status" }} />}
+            />
             <Route path="versions">
                <Route index element={<Versions />} />
                <Route path=":vid">
-                  <Route index element={<CurrentDocument />} />
+                  <Route index element={<Documents />} />
                   {documentRoute}
                </Route>
             </Route>
