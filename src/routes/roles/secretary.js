@@ -16,7 +16,8 @@ import Proposals from "components/proposals/Proposals";
 import Proposal from "components/proposals/Proposal";
 import Versions from "components/proposals/Versions";
 import Documents from "components/proposals/Documents";
-import CurrentUser from "containers/sidebar/clerk/currentUsers/CurrentUser";
+import CurrentUser from "containers/sidebar/admin/CurrentUser";
+import UpdateUser from "containers/sidebar/admin/UpdateUser";
 import Users from "components/users/users";
 
 import routes from "config/routes";
@@ -166,6 +167,7 @@ const secretaryRoute = (
          <Route index element={<Users extraFields={{ roles: "Roles" }} />} />
          <Route path=":uid">
             <Route index element={<CurrentUser />} />
+            <Route path="update" element={<UpdateUser />} />
          </Route>
       </Route>
    </Route>
