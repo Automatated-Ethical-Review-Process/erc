@@ -39,6 +39,7 @@ export default function AListItem({ location, navigate, path, icon, text }) {
             <ListItemIcon
                sx={{
                   color: location.pathname.startsWith(path) ? "white" : null,
+                  minWidth: 45,
                }}
             >
                {icon}

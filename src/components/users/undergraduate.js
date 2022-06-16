@@ -6,7 +6,7 @@ import { getUser } from "services/data/userService";
 import Link from "@mui/material/Link";
 import TextField from "components/common/TextField";
 
-export default function Undergradute(props) {
+export default function Undergraduate(props) {
    const { uid: userId } = useParams();
    const user = getUser(userId);
 

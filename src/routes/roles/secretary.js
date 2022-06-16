@@ -16,7 +16,7 @@ import Proposals from "components/proposals/Proposals";
 import Proposal from "components/proposals/Proposal";
 import Versions from "components/proposals/Versions";
 import Documents from "components/proposals/Documents";
-import CurrentUsers from "containers/sidebar/clerk/currentUsers/CurrentUsers";
+import CurrentUser from "containers/sidebar/clerk/currentUsers/CurrentUser";
 import Users from "components/users/users";
 
 import routes from "config/routes";
@@ -36,7 +36,7 @@ const secretaryRoute = (
       <Route index element={<SecretaryDashboard />} />
 
       <Route path="unassigned">
-         <Route index element={<Proposals />} />
+         <Route index element={<Proposals extraFields={{ pi: "Author" }} />} />
          <Route path=":pid">
             <Route index element={<UnassignedProposal />} />
             <Route path="review">
@@ -54,9 +54,31 @@ const secretaryRoute = (
       </Route>
 
       <Route path="in-review">
-         <Route index element={<Proposals />} />
+         <Route
+            index
+            element={
+               <Proposals
+                  extraFields={{
+                     reviewType: "Review Type",
+                     reviewers: "Reviewers",
+                  }}
+               />
+            }
+         />
          <Route path=":pid">
-            <Route index element={<Proposal />} />
+            <Route
+               index
+               element={
+                  <Proposal
+                     extraFields={{
+                        pi: "Author",
+                        coInvestigators: "Co-Investigators",
+                        reviewType: "Review Type",
+                        reviewers: "Reviewers",
+                     }}
+                  />
+               }
+            />
             <Route path="versions">
                <Route index element={<Versions />} />
                <Route path=":vid">
@@ -76,7 +98,17 @@ const secretaryRoute = (
       </Route>
 
       <Route path="reviewed">
-         <Route index element={<Proposals />} />
+         <Route
+            index
+            element={
+               <Proposals
+                  extraFields={{
+                     reviewType: "Review Type",
+                     reviewers: "Reviewers",
+                  }}
+               />
+            }
+         />
          <Route path=":pid">
             <Route index element={<ReviewedProposal />} />
             <Route path="notify" element={<NotifyAuthor />} />
@@ -99,9 +131,19 @@ const secretaryRoute = (
       </Route>
 
       <Route path="archived">
-         <Route index element={<Proposals />} />
+         <Route index element={<Proposals extraFields={{ pi: "Author" }} />} />
          <Route path=":pid">
-            <Route index element={<Proposal />} />
+            <Route
+               index
+               element={
+                  <Proposal
+                     extraFields={{
+                        pi: "Author",
+                        coInvestigators: "Co-Investigators",
+                     }}
+                  />
+               }
+            />
             <Route path="versions">
                <Route index element={<Versions />} />
                <Route path=":vid">
@@ -121,9 +163,9 @@ const secretaryRoute = (
       </Route>
 
       <Route path="user-management">
-         <Route index element={<Users />} />
+         <Route index element={<Users extraFields={{ roles: "Roles" }} />} />
          <Route path=":uid">
-            <Route index element={<CurrentUsers />} />
+            <Route index element={<CurrentUser />} />
          </Route>
       </Route>
    </Route>

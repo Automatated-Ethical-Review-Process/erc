@@ -12,7 +12,8 @@
          "createdDate": "2022-06-04",
          "university": "University of Ruhuna",
          "faculty": "Science",
-         "regNumber": "SC/2018/10664"
+         "regNumber": "SC/2018/10664",
+         "roles": "applicant"
       },
       {
          "id": 2,
@@ -26,7 +27,8 @@
          "createdDate": "2022-06-04",
          "university": "University of Ruhuna",
          "faculty": "Science",
-         "regNumber": "SC/2018/10664"
+         "regNumber": "SC/2018/10664",
+         "roles": "applicant"
       },
       {
          "id": 3,
@@ -40,7 +42,8 @@
          "createdDate": "2022-06-04",
          "university": "University of Ruhuna",
          "faculty": "Science",
-         "regNumber": "SC/2018/10664"
+         "regNumber": "SC/2018/10664",
+         "roles": "applicant, reviewer"
       },
       {
          "id": 4,
@@ -54,7 +57,8 @@
          "createdDate": "2022-06-04",
          "university": "University of Ruhuna",
          "faculty": "Science",
-         "regNumber": "SC/2018/10664"
+         "regNumber": "SC/2018/10664",
+         "roles": "applicant"
       },
       {
          "id": 5,
@@ -68,7 +72,8 @@
          "createdDate": "2022-06-04",
          "university": "University of Ruhuna",
          "faculty": "Science",
-         "regNumber": "SC/2018/10664"
+         "regNumber": "SC/2018/10664",
+         "roles": "secretary, reviewer"
       },
       {
          "id": 6,
@@ -82,7 +87,8 @@
          "createdDate": "2022-06-04",
          "university": "University of Ruhuna",
          "faculty": "Science",
-         "regNumber": "SC/2018/10664"
+         "regNumber": "SC/2018/10664",
+         "roles": "applicant"
       }
    ],
    "proposals": [
@@ -94,6 +100,10 @@
          "time": "08:40:00",
          "deadline": "2022-05-10",
          "status": "archived",
+         "pi": "Jon Snow",
+         "coInvestigators": "Cersei Lannister",
+         "reviewType": "full board",
+         "reviewers": "reviewer1, reviewer2, reviewer3",
          "versions": [1, 2, 3]
       },
       {
@@ -104,6 +114,10 @@
          "time": "09:27:00",
          "deadline": "2022-05-15",
          "status": "archived",
+         "pi": "Cersei Lannister",
+         "coInvestigators": "Jon Snow, Arya Stark",
+         "reviewType": "expedite",
+         "reviewers": "reviewer3",
          "versions": [1, 2]
       },
       {
@@ -114,6 +128,10 @@
          "time": "11:35:00",
          "deadline": "2022-06-22",
          "status": "archived",
+         "pi": "Jaime Lannister",
+         "coInvestigators": "Cersei Lannister, Jon Snow, Arya Stark",
+         "reviewType": "expedite",
+         "reviewers": "reviewer1",
          "versions": [1]
       },
       {
@@ -124,6 +142,10 @@
          "time": "04:56:00",
          "deadline": "2022-07-12",
          "status": "archived",
+         "pi": "Arya Stark",
+         "coInvestigators": "Cersei Lannister, Jon Snow",
+         "reviewType": "full board",
+         "reviewers": "reviewer2, reviewer3, reviewer4",
          "versions": [1, 2, 3]
       }
    ],

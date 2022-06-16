@@ -22,8 +22,10 @@ const updateAccessToken = (token) => {
    }
 };
 
-export default {
+const tokenService = {
    getRefreshToken,
    getAccessToken,
    updateAccessToken,
 };
+
+export default tokenService;

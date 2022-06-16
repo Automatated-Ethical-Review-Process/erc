@@ -3,9 +3,9 @@ import { Route } from "react-router-dom";
 import AdminLayout from "layouts/sidebar/AdminLayout";
 import AdminDashboard from "containers/dashboard/AdminDashboard";
 import Users from "components/users/users";
-import Undergraduate from "components/users/undergraduate";
-import AddUsers from "containers/sidebar/admin/AddUsers";
-import CurrentUsers from "containers/sidebar/admin/CurrentUsers";
+import UpdateUser from "containers/sidebar/admin/UpdateUser";
+import AddUser from "containers/sidebar/admin/AddUser";
+import CurrentUser from "containers/sidebar/admin/CurrentUser";
 
 import roles from "config/roles";
 import routes from "config/routes";
@@ -23,16 +23,23 @@ const adminRoute = (
       <Route index element={<AdminDashboard />} />
 
       <Route path="users">
-         <Route index element={<Users />} />
+         <Route
+            index
+            element={
+               <Users
+                  extraFields={{ createdDate: "Registered", roles: "Roles" }}
+               />
+            }
+         />
          <Route path=":uid">
-            <Route index element={<CurrentUsers />} />
-            <Route path="undergraduate">
-               <Route index element={<Undergraduate />} />
+            <Route index element={<CurrentUser />} />
+            <Route path="update">
+               <Route index element={<UpdateUser />} />
             </Route>
          </Route>
       </Route>
 
-      <Route path="add-user" element={<AddUsers />} />
+      <Route path="add-user" element={<AddUser />} />
    </Route>
 );
 

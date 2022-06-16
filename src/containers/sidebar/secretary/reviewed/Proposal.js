@@ -9,7 +9,14 @@ function Proposal() {
    const navigate = useNavigate();
 
    return (
-      <BaseProposal>
+      <BaseProposal
+         extraFields={{
+            pi: "Author",
+            coInvestigators: "Co-Investigators",
+            reviewType: "Review Type",
+            reviewers: "Reviewers",
+         }}
+      >
          <Button
             variant="contained"
             onClick={() => navigate(`${pathname}/notify`)}

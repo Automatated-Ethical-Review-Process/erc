@@ -21,17 +21,13 @@ import { useLoginMutation } from "api/auth/api";
 
 import Image from "assests/meetings.jpg";
 
-const loginSchema = Yup.object()
-   .shape({
-      email: Yup.string()
-         .required("Email is required")
-         .email("Email is invalid"),
-      password: Yup.string()
-         .required("Password is required")
-         .min(6, "Password must be at least 6 characters")
-         .max(40, "Password must not exceed 40 characters"),
-   })
-   .required();
+const loginSchema = Yup.object().shape({
+   email: Yup.string().required("Email is required").email("Email is invalid"),
+   password: Yup.string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters")
+      .max(40, "Password must not exceed 40 characters"),
+});
 
 export default function SignIn() {
    const navigate = useNavigate();
@@ -39,11 +35,9 @@ export default function SignIn() {
 
    const [login, { isLoading }] = useLoginMutation();
 
-   const {
-      control,
-      handleSubmit,
-      formState: { errors },
-   } = useForm({ resolver: yupResolver(loginSchema) });
+   const { control, handleSubmit } = useForm({
+      resolver: yupResolver(loginSchema),
+   });
 
    const [submitError, setSubmitError] = useState(null);
 
@@ -80,7 +74,8 @@ export default function SignIn() {
                <Controller
                   name="email"
                   control={control}
-                  render={({ field }) => (
+                  defaultValue=""
+                  render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}
                         margin="normal"
@@ -88,16 +83,16 @@ export default function SignIn() {
                         fullWidth
                         label="Email Address"
                         autoComplete="email"
-                        error={!!errors.email}
-                        helperText={errors.email && errors.email.message}
-                        autoFocus
+                        error={!!error}
+                        helperText={error && error.message}
                      />
                   )}
                />
                <Controller
                   name="password"
                   control={control}
-                  render={({ field }) => (
+                  defaultValue=""
+                  render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}
                         margin="normal"
@@ -106,8 +101,8 @@ export default function SignIn() {
                         label="Password"
                         type="password"
                         autoComplete="current-password"
-                        error={!!errors.password}
-                        helperText={errors.password && errors.password.message}
+                        error={!!error}
+                        helperText={error && error.message}
                      />
                   )}
                />

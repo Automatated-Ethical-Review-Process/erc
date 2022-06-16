@@ -12,9 +12,9 @@ const sideBarItems = [
       text: "New Submission",
    },
    {
-      path: "/applicant/current-submission",
+      path: "/applicant/current-submissions",
       icon: <InboxIcon />,
-      text: "Current Submission",
+      text: "Current Submissions",
    },
    {
       path: "/applicant/old-submissions",

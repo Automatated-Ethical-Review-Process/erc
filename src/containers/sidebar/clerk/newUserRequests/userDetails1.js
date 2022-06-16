@@ -1,6 +1,6 @@
 import * as React from "react";
-import Baseuser from "components/users/user";
+import BaseUser from "components/users/user";
 
 export default function UserDetails() {
-  return <Baseuser />;
+   return <BaseUser />;
 }

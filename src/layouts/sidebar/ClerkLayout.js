@@ -1,7 +1,7 @@
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 import SidebarLayout from "./SidebarLayout";
 import roles from "config/roles";
@@ -9,7 +9,7 @@ import roles from "config/roles";
 const sideBarItems = [
    {
       path: "/clerk/new-user-requests",
-      icon: <PersonAddIcon />,
+      icon: <GroupAddIcon />,
       text: "New user requests",
    },
    {
