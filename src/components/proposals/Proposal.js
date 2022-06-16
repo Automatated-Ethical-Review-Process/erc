@@ -8,7 +8,10 @@ import { getProposal } from "services/data/proposalService";
 
 import TextField from "components/common/TextField";
 
-export default function Proposal(props) {
+export default function Proposal({
+   extraFields = { deadline: "Deadline" },
+   children,
+}) {
    const navigate = useNavigate();
    const { pathname } = useLocation();
 
@@ -19,20 +22,21 @@ export default function Proposal(props) {
       return "invalid proposal id " + proposalId;
    }
 
-   const data = [
-      { label: "Proposal Title", value: proposal.name },
-      { label: "Date", value: proposal.date },
-      { label: "Time", value: proposal.time },
-      { label: "Category", value: proposal.category },
-      { label: "Deadline", value: proposal.deadline },
-   ];
+   const data = {
+      id: "Proposal ID",
+      name: "Proposal Name",
+      date: "Date",
+      time: "Time",
+      category: "Category",
+      ...extraFields,
+   };
 
    return (
       <Container maxWidth="md" sx={{ mt: 4 }}>
          <Grid container spacing={4}>
-            {data.map((item, id) => (
+            {Object.entries(data).map(([key, label], id) => (
                <Grid key={id} item xs={12}>
-                  <TextField {...item} readOnly />
+                  <TextField value={proposal[key]} label={label} readOnly />
                </Grid>
             ))}
 
@@ -46,7 +50,7 @@ export default function Proposal(props) {
             </Grid>
             <Grid item xs={12} />
          </Grid>
-         {props.children}
+         {children}
       </Container>
    );
 }
