@@ -1,10 +1,18 @@
-import Typography from "@mui/material/Typography";
+import { Bars } from "react-loader-spinner";
+import { Box } from "@mui/material";
 
 const Loading = ({ value, children }) => {
    return value ? (
-      <Typography variant="h6" color="initial" textAlign="center" mt={5}>
-         Loading Data ...
-      </Typography>
+      <Box
+         sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+         }}
+      >
+         <Bars color="grey" height={100} width={100} />
+      </Box>
    ) : (
       children
    );

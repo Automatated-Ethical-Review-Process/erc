@@ -162,7 +162,9 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
                      lineHeight: 3,
                      fontWeight: 700,
                      color: "white",
+                     cursor: "pointer",
                   }}
+                  onClick={() => navigate(routes.home)}
                >
                   {title}
                </Typography>
