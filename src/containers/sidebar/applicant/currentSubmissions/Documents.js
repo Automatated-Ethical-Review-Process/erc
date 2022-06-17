@@ -8,69 +8,77 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import BaseDocuments from "components/proposals/Documents";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function ScrollDialog() {
-   const [open, setOpen] = useState(false);
-   const [scroll, setScroll] = useState("paper");
+  const [open, setOpen] = useState(false);
+  const [scroll, setScroll] = useState("paper");
 
-   const handleClickOpen = (scrollType) => () => {
-      setOpen(true);
-      setScroll(scrollType);
-   };
+  const handleClickOpen = (scrollType) => () => {
+    setOpen(true);
+    setScroll(scrollType);
+  };
 
-   const handleClose = () => {
-      setOpen(false);
-   };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-   const descriptionElementRef = useRef(null);
+  const descriptionElementRef = useRef(null);
 
-   useEffect(() => {
-      if (open) {
-         const { current: descriptionElement } = descriptionElementRef;
-         if (descriptionElement !== null) {
-            descriptionElement.focus();
-         }
+  useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
       }
-   }, [open]);
+    }
+  }, [open]);
 
-   return (
-      <div>
-         <Button variant="contained" onClick={handleClickOpen("paper")}>
-            View decision and comments
-         </Button>
-         <Dialog
-            open={open}
-            onClose={handleClose}
-            scroll={scroll}
-            aria-labelledby="scroll-dialog-title"
-            aria-describedby="scroll-dialog-description"
-         >
-            <DialogTitle id="scroll-dialog-title">
-               The decision is a Minor Modification
-            </DialogTitle>
-            <DialogContent dividers={scroll === "paper"}>
-               <DialogContentText
-                  id="scroll-dialog-description"
-                  ref={descriptionElementRef}
-                  tabIndex={-1}
-               >
-                  {[...new Array(50)]
-                     .map(() => `Comments for the version.`)
-                     .join("\n")}
-               </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={handleClose}>Close</Button>
-            </DialogActions>
-         </Dialog>
-      </div>
-   );
+  return (
+    <div>
+      <Button variant="contained" onClick={handleClickOpen("paper")}>
+        View decision and comments
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        scroll={scroll}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle id="scroll-dialog-title">
+          The decision is a Minor Modification
+        </DialogTitle>
+        <DialogContent dividers={scroll === "paper"}>
+          <DialogContentText
+            id="scroll-dialog-description"
+            ref={descriptionElementRef}
+            tabIndex={-1}
+          >
+            {[...new Array(50)]
+              .map(() => `Comments for the version.`)
+              .join("\n")}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
 
 export default function Documents() {
-   return (
-      <BaseDocuments>
-         <ScrollDialog />
-      </BaseDocuments>
-   );
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  return (
+    <BaseDocuments>
+      <Button
+        variant="contained"
+        onClick={() => navigate(pathname + "/decision")}
+      >
+        View decision and comments
+      </Button>
+    </BaseDocuments>
+  );
 }
