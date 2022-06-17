@@ -91,18 +91,20 @@ export function UploadButton(props) {
   return (
     <Stack direction="row" alignItems="center">
       <label htmlFor="contained-button-file">
-        <Input
-          accept="image/*"
-          id="contained-button-file"
-          multiple
-          type="file"
-        />
+        <Input accept=".pdf" id="contained-button-file" multiple type="file" />
         <Button variant="outlined" component="span">
           {props.upload}
         </Button>
       </label>
       <label htmlFor="icon-button-file">
-        <Input accept="image/*" id="icon-button-file" type="file" />
+        <Input
+          accept=".pdf"
+          id="icon-button-file"
+          type="file"
+          onChange={(e) => console.log(e.target.files)}
+          multiple
+          type="file"
+        />
         <IconButton
           color="primary"
           aria-label="upload picture"
