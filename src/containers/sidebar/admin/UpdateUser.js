@@ -103,6 +103,10 @@ const currencies = [
     value: "Reviewer",
     label: "Reviewer",
   },
+  {
+    value: "Clerk",
+    label: "Clerk",
+  },
 ];
 
 export function SelectTextFields() {
