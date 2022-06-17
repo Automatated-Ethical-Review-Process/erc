@@ -35,7 +35,7 @@ export default function SubmitEvaluation() {
     setOpenAccept(false);
   };
   return (
-    <Container>
+    <Container sx={{ mt: 10 }}>
       <FormControl>
         <Typography variant="h5" color="black">
           Decision
@@ -69,19 +69,7 @@ export default function SubmitEvaluation() {
             />
           </RadioGroup>
         </Box>
-        <Typography variant="h5" color="black" my={2}>
-          Overall Comment
-        </Typography>
-        {/* textarea for comments */}
-        <Box ml={3}>
-          <TextareaAutosize
-            my={2}
-            aria-label="minimum height"
-            minRows={10}
-            placeholder="add overall comment for the proposal"
-            style={{ width: 600 }}
-          />
-        </Box>
+
         <Link href="#" underline="hover" color="#227093">
           {"Download the Evaluation Form"}
         </Link>
@@ -97,22 +85,13 @@ export default function SubmitEvaluation() {
             />
             Upload Evaluation Form
           </Button>
-          <Button variant="contained" component="span" sx={{ ml: 2 }}>
-            <Input
-              accept="image/*"
-              id="contained-button-file"
-              multiple
-              type="file"
-            />
-            Upload Reviewed Sheet
-          </Button>
         </label>
         <Button
           variant="contained"
           endIcon={<SendIcon />}
           onClick={handleClickOpen1}
           sx={{
-            ml: 6,
+            ml: 2,
           }}
         >
           Submit
