@@ -31,22 +31,27 @@ export default function SidebarLayout({ role, sideBarItems }) {
       [pathname]
    );
 
-   const curPath = paths.pop();
+   const curPath = paths && paths.pop();
 
    return (
       <NavigationBar title="ERC System" sideBarItems={sideBarItems}>
          <RoleNavigationBar role={role} />
-         <Breadcrumbs m={2} separator={<NavigateNextIcon fontSize="small" />}>
-            {paths.map((path, index) => (
-               <Chip
-                  key={index}
-                  label={path.name}
-                  onClick={() => navigate(path.link)}
-                  icon={index === 0 ? <HomeIcon fontSize="small" /> : null}
-               />
-            ))}
-            <Chip color="primary" label={curPath.name} />
-         </Breadcrumbs>
+         {curPath && (
+            <Breadcrumbs
+               m={2}
+               separator={<NavigateNextIcon fontSize="small" />}
+            >
+               {paths.map((path, index) => (
+                  <Chip
+                     key={index}
+                     label={path.name}
+                     onClick={() => navigate(path.link)}
+                     icon={index === 0 ? <HomeIcon fontSize="small" /> : null}
+                  />
+               ))}
+               <Chip color="primary" label={curPath.name} />
+            </Breadcrumbs>
+         )}
          <Outlet />
       </NavigationBar>
    );

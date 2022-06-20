@@ -16,16 +16,16 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 import Drawer from "./Drawer";
-import useTheme from "hooks/useTheme";
 
 import { useLogoutMutation } from "api/auth/api";
 import routes from "config/routes";
+import { useTheme } from "styled-components";
 
 export default function SidebarLayout({ title, sideBarItems, children }) {
-   const theme = useTheme();
-
    const [mobileOpen, setMobileOpen] = useState(false);
    const [anchorEl, setAnchorEl] = useState(null);
    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -35,6 +35,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
 
    const navigate = useNavigate();
    const location = useLocation();
+   const theme = useTheme();
 
    const notifications = useSelector(
       (state) => state.notifications.value.count
@@ -80,6 +81,12 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
    const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
    };
+
+   const toggleTheme = (
+      <IconButton size="large" onClick={theme.toggleTheme} color="inherit">
+         {theme.isLight ? <DarkModeIcon /> : <LightModeIcon />}
+      </IconButton>
+   );
 
    const renderMenu = (
       <Menu
@@ -139,7 +146,6 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
             position="fixed"
             sx={{
                boxShadow: "none",
-               bgcolor: theme.color.main.primary,
                zIndex: (t) => t.zIndex.drawer + 1,
             }}
          >
@@ -161,7 +167,6 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
                      fontSize: 20,
                      lineHeight: 3,
                      fontWeight: 700,
-                     color: "white",
                      cursor: "pointer",
                   }}
                   onClick={() => navigate(routes.home)}
@@ -176,6 +181,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
                      justifyContent: "right",
                   }}
                >
+                  {toggleTheme}
                   <IconButton
                      size="large"
                      color="inherit"
@@ -201,6 +207,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
                      justifyContent: "right",
                   }}
                >
+                  {toggleTheme}
                   <IconButton
                      size="large"
                      onClick={handleMobileMenuOpen}

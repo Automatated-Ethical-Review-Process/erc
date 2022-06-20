@@ -3,42 +3,16 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-import useTheme from "hooks/useTheme";
-
 export default function AListItem({ location, navigate, path, icon, text }) {
-   const theme = useTheme();
-
    return (
       <ListItem
          disablePadding
-         button
-         sx={{
-            bgcolor: "white",
-            "&:hover": {
-               backgroundColor: theme.color.main.secondary,
-               color: "white",
-               transition: "0.2s",
-               "&.MuiListItem-button .MuiListItemIcon-root": {
-                  color: "white",
-               },
-            },
-            "&.Mui-selected": {
-               backgroundColor: theme.color.main.primary,
-               color: "white",
-               transition: "0.2s",
-               "&:hover": {
-                  backgroundColor: theme.color.main.primary,
-                  color: "white",
-               },
-            },
-         }}
          selected={location.pathname.startsWith(path) ? true : false}
          onClick={() => navigate(path)}
       >
          <ListItemButton>
             <ListItemIcon
                sx={{
-                  color: location.pathname.startsWith(path) ? "white" : null,
                   minWidth: 45,
                }}
             >

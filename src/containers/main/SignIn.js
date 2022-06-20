@@ -59,7 +59,7 @@ export default function SignIn() {
                alignItems: "center",
             }}
          >
-            <Avatar sx={{ m: 1, backgroundColor: "#1976d2" }}>
+            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
                <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">

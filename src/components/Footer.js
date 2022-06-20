@@ -9,7 +9,7 @@ const FooterContainer = styled.footer`
    text-align: center;
    width: 100%;
    background: black;
-   opacity: 0.6;
+   opacity: 0.7;
    position: absolute;
    ${(props) => props.bottom}: 0px;
 `;

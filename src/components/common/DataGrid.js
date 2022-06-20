@@ -51,7 +51,10 @@ const DataGrid = ({ fields, headerNames, rows, onRowClick, ...props }) => {
                   outline: 0,
                },
                ".MuiDataGrid-columnHeader": {
-                  backgroundColor: "#b2dfdb",
+                  backgroundColor: (t) =>
+                     t.isLight
+                        ? t.palette.secondary.light
+                        : t.palette.secondary.dark,
                },
                ...props.sx,
             }}

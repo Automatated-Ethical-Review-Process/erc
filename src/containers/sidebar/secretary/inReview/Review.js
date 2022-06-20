@@ -21,7 +21,7 @@ export default function Review() {
             value="approved"
             readOnly
          />
-         <Typography variant="h5" color="black" my={2}>
+         <Typography variant="h5" my={2}>
             Overall Comment
          </Typography>
          <TextareaAutosize

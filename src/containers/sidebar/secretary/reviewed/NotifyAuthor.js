@@ -37,9 +37,7 @@ export default function NotifyAuthor() {
    return (
       <Container>
          <FormControl>
-            <Typography variant="h5" color="black">
-               Decision
-            </Typography>
+            <Typography variant="h5">Decision</Typography>
             <Box ml={3}>
                <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -69,7 +67,7 @@ export default function NotifyAuthor() {
                   />
                </RadioGroup>
             </Box>
-            <Typography variant="h5" color="black" my={2}>
+            <Typography variant="h5" my={2}>
                Overall Comment
             </Typography>
             {/* textarea for comments */}

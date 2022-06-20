@@ -7,9 +7,9 @@ const data = [
       path: "/applicant/new-submission",
    },
    {
-      value: "Current Submission",
+      value: "Current Submissions",
       weight: 6,
-      path: "/applicant/current-submission",
+      path: "/applicant/current-submissions",
    },
    { value: "Old Submissions", weight: 6, path: "/applicant/old-submissions" },
 ];

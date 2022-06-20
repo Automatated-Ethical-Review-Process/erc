@@ -1,7 +1,10 @@
 import { Bars } from "react-loader-spinner";
 import { Box } from "@mui/material";
+import { useTheme } from "styled-components";
 
 const Loading = ({ value, children }) => {
+   const { palette } = useTheme();
+
    return value ? (
       <Box
          sx={{
@@ -11,7 +14,7 @@ const Loading = ({ value, children }) => {
             height: "100vh",
          }}
       >
-         <Bars color="grey" height={100} width={100} />
+         <Bars color={palette.primary.main} height={100} width={100} />
       </Box>
    ) : (
       children

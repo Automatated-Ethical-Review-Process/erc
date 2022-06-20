@@ -9,10 +9,8 @@ import { useSelector } from "react-redux";
 
 import { selectCurrentUser } from "api/auth/api";
 import Roles, { toRole } from "config/roles";
-import useTheme from "hooks/useTheme";
 
 const RoleNavigationBar = ({ role }) => {
-   const theme = useTheme();
    const { roles } = useSelector(selectCurrentUser);
 
    const navigate = useNavigate();
@@ -39,21 +37,14 @@ const RoleNavigationBar = ({ role }) => {
    const button = (value, index, onClick) => (
       <Button
          key={index}
-         variant="outlined"
+         variant={index === selectIndex ? "contained" : "outlined"}
          sx={{
             width: 150,
             boxSizing: "border-box",
-            fontFamily: theme.font.button.family,
-            color: index === selectIndex ? "white" : theme.color.main.primary,
-            borderColor: theme.color.main.primary,
-            backgroundColor:
-               index === selectIndex ? theme.color.main.primary : "white",
+            fontFamily: "monospace",
             fontWeight: 700,
             "&:hover": {
-               borderColor: theme.color.main.primary,
                boxShadow: 20,
-               color: index === selectIndex ? theme.color.main.primary : "",
-               backgroundColor: index === selectIndex ? "white" : "",
                transitionDuration: "0.6s",
             },
          }}
