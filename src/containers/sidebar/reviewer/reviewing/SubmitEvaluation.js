@@ -68,7 +68,7 @@ export default function SubmitEvaluation() {
                </RadioGroup>
             </Box>
 
-            <Link href="#" underline="hover" color="#227093">
+            <Link href="#" underline="hover" color="warning.main">
                {"Download the Evaluation Form"}
             </Link>
          </FormControl>

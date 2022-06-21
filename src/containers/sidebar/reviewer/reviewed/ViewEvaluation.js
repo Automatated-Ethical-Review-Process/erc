@@ -28,23 +28,7 @@ export default function ViewEvaluation() {
                   />
                </RadioGroup>
             </Box>
-            <Typography variant="h5" my={2}>
-               Overall Comment
-            </Typography>
-            {/* textarea for comments */}
-            <Box ml={3}>
-               <TextareaAutosize
-                  my={2}
-                  minRows={10}
-                  placeholder="This proposal has approved.Lorem Ipsum is simply dummy text of the printing 
-            and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 
-            the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
-             book. It has survived not only five centuries, but also the leap into 
-            electronic typesetting, remaining essentially unchanged. It was popularised in"
-                  style={{ width: 600 }}
-               />
-            </Box>
-            <Link href="#" underline="hover" color="#227093">
+            <Link href="#" underline="hover" color="warning.main">
                {"Download the Evaluation Form"}
             </Link>
          </FormControl>

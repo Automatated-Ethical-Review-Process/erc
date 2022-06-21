@@ -31,8 +31,8 @@ export default function Undergraduate(props) {
             ))}
          </Grid>
          <Grid mt={3} sx={12}>
-            <Link href="#" underline="hover" color="#7158e2">
-               {"Donwload the University ID photo"}
+            <Link href="#" underline="hover" color="warning.main">
+               {"Download the University ID photo"}
             </Link>
          </Grid>
          <Grid mt={2}></Grid>
