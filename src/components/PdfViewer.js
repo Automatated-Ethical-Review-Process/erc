@@ -14,9 +14,11 @@ import tLink from "assests/(V2)_Lecture_11_2021.pdf";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { Container } from "@mui/material";
+import { useTheme } from "styled-components";
 
 const PdfViewer = ({ link }) => {
    const defaultLayoutPluginInstance = defaultLayoutPlugin();
+   const theme = useTheme();
 
    const handlePageChange = (e) => {
       let page = e.currentPage > 0 ? e.currentPage : 0;
@@ -78,6 +80,7 @@ const PdfViewer = ({ link }) => {
                )}
                renderPage={renderPage}
                defaultScale={SpecialZoomLevel.PageFit}
+               theme={theme.palette.mode}
             />
          </Worker>
       </Container>
