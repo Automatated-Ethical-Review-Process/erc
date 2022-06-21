@@ -92,7 +92,7 @@ export function UploadButton(props) {
       <Stack direction="row" alignItems="center">
          <label htmlFor="contained-button-file">
             <Input
-               accept="image/*"
+               accept=".pdf"
                id="contained-button-file"
                multiple
                type="file"
@@ -102,7 +102,13 @@ export function UploadButton(props) {
             </Button>
          </label>
          <label htmlFor="icon-button-file">
-            <Input accept="image/*" id="icon-button-file" type="file" />
+            <Input
+               accept=".pdf"
+               id="icon-button-file"
+               type="file"
+               onChange={(e) => console.log(e.target.files)}
+               multiple
+            />
             <IconButton color="primary" component="span">
                <DriveFolderUploadIcon />
             </IconButton>

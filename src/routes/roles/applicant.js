@@ -14,56 +14,53 @@ import roles from "config/roles";
 import { ProtectedDashboardRoute } from "routes/common/Protected";
 import documentRoute from "routes/common/document";
 
+import ViewDecision from "containers/sidebar/applicant/currentSubmissions/ViewDecision";
+
 const applicantRoute = (
-   <Route
-      path={routes.applicant}
-      element={
-         <ProtectedDashboardRoute role={roles.applicant}>
-            <ApplicantLayout />
-         </ProtectedDashboardRoute>
-      }
-   >
-      <Route index element={<ApplicantDashboard />} />
+  <Route
+    path={routes.applicant}
+    element={
+      <ProtectedDashboardRoute role={roles.applicant}>
+        <ApplicantLayout />
+      </ProtectedDashboardRoute>
+    }
+  >
+    <Route index element={<ApplicantDashboard />} />
 
-      <Route path="new-submission" element={<NewSubmission />} />
+    <Route path="new-submission" element={<NewSubmission />} />
 
-      <Route path="current-submissions">
-         <Route
-            index
-            element={<Proposals extraFields={{ status: "Status" }} />}
-         />
-         <Route path=":pid">
-            <Route index element={<CurrentSubmission />} />
-            <Route path="versions">
-               <Route index element={<Versions />} />
-               <Route path=":vid">
-                  <Route index element={<Documents />} />
-                  {documentRoute}
-               </Route>
-            </Route>
-         </Route>
+    <Route path="current-submissions">
+      <Route index element={<Proposals extraFields={{ status: "Status" }} />} />
+      <Route path=":pid">
+        <Route index element={<CurrentSubmission />} />
+        <Route path="versions">
+          <Route index element={<Versions />} />
+          <Route path=":vid">
+            <Route index element={<Documents />} />
+            <Route path="decision" element={<ViewDecision />} />
+            {documentRoute}
+          </Route>
+        </Route>
       </Route>
+    </Route>
 
-      <Route path="old-submissions">
-         <Route
-            index
-            element={<Proposals extraFields={{ status: "Status" }} />}
-         />
-         <Route path=":pid">
-            <Route
-               index
-               element={<Proposal extraFields={{ status: "Status" }} />}
-            />
-            <Route path="versions">
-               <Route index element={<Versions />} />
-               <Route path=":vid">
-                  <Route index element={<Documents />} />
-                  {documentRoute}
-               </Route>
-            </Route>
-         </Route>
+    <Route path="old-submissions">
+      <Route index element={<Proposals extraFields={{ status: "Status" }} />} />
+      <Route path=":pid">
+        <Route
+          index
+          element={<Proposal extraFields={{ status: "Status" }} />}
+        />
+        <Route path="versions">
+          <Route index element={<Versions />} />
+          <Route path=":vid">
+            <Route index element={<Documents />} />
+            {documentRoute}
+          </Route>
+        </Route>
       </Route>
-   </Route>
+    </Route>
+  </Route>
 );
 
 export default applicantRoute;

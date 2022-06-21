@@ -8,6 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import BaseDocuments from "components/proposals/Documents";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function ScrollDialog() {
    const [open, setOpen] = useState(false);
@@ -62,9 +63,16 @@ export function ScrollDialog() {
 }
 
 export default function Documents() {
+   const { pathname } = useLocation();
+   const navigate = useNavigate();
    return (
       <BaseDocuments>
-         <ScrollDialog />
+         <Button
+            variant="contained"
+            onClick={() => navigate(pathname + "/decision")}
+         >
+            View decision and comments
+         </Button>
       </BaseDocuments>
    );
 }

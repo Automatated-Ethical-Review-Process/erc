@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, forwardRef } from "react";
 
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -10,26 +10,21 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 
 import BaseUndergraduate from "components/users/undergraduate";
+import DeclineComments from "components/common/DeclineComment";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
    return <Slide direction="down" ref={ref} {...props} />;
 });
 
 export default function Undergraduate() {
-   const [open1, setOpenAccept] = React.useState(false);
-   const [open2, setOpenDecline] = React.useState(false);
+   const [open, setOpenAccept] = useState(false);
 
-   const handleClickOpen1 = () => {
+   const handleClickOpen = () => {
       setOpenAccept(true);
    };
-   const handleClickOpen2 = () => {
-      setOpenDecline(true);
-   };
-   const handleClose1 = () => {
+
+   const handleClose = () => {
       setOpenAccept(false);
-   };
-   const handleClose2 = () => {
-      setOpenDecline(false);
    };
 
    return (
@@ -40,26 +35,20 @@ export default function Undergraduate() {
                <Button
                   variant="contained"
                   color="success"
-                  onClick={handleClickOpen1}
+                  onClick={handleClickOpen}
                >
                   Accept Request
                </Button>
             </Grid>
             <Grid item xs={12} md={3}>
-               <Button
-                  variant="contained"
-                  color="error"
-                  onClick={handleClickOpen2}
-               >
-                  Decline Request
-               </Button>
+               <DeclineComments label="Decline Request" />
             </Grid>
          </Grid>
          <Dialog
-            open={open1}
+            open={open}
             TransitionComponent={Transition}
             keepMounted
-            onClose={handleClose1}
+            onClose={handleClose}
          >
             <DialogTitle>{"Accept the User Request"}</DialogTitle>
             <DialogContent>
@@ -68,25 +57,8 @@ export default function Undergraduate() {
                </DialogContentText>
             </DialogContent>
             <DialogActions>
-               <Button onClick={handleClose1}>Cancel</Button>
-               <Button onClick={handleClose1}>Accept</Button>
-            </DialogActions>
-         </Dialog>
-         <Dialog
-            open={open2}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleClose2}
-         >
-            <DialogTitle>{"Decline the User Request"}</DialogTitle>
-            <DialogContent>
-               <DialogContentText id="alert-dialog-slide-description">
-                  Do you want to decline this user?
-               </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={handleClose2}>Cancel</Button>
-               <Button onClick={handleClose2}>Decline</Button>
+               <Button onClick={handleClose}>Cancel</Button>
+               <Button onClick={handleClose}>Accept</Button>
             </DialogActions>
          </Dialog>
       </BaseUndergraduate>
