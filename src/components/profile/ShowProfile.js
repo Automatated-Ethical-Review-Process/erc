@@ -29,12 +29,10 @@ export function EditButton() {
    );
 }
 
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
 export function IsUndergraduateCheckbox() {
    return (
       <div>
-         <Checkbox {...label} />
+         <Checkbox />
       </div>
    );
 }

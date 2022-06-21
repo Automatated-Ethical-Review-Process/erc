@@ -69,10 +69,7 @@ export function SearchAppBar() {
                <SearchIconWrapper>
                   <SearchIcon />
                </SearchIconWrapper>
-               <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
-               />
+               <StyledInputBase placeholder="Search…" />
             </Search>
          </Toolbar>
       </Box>

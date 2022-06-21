@@ -66,7 +66,6 @@ export default function Documents() {
             TransitionComponent={Transition}
             keepMounted
             onClose={handleClose1}
-            aria-describedby="alert-dialog-slide-description"
          >
             <DialogTitle>{"Accept the Proposal"}</DialogTitle>
             <DialogContent>
@@ -85,7 +84,6 @@ export default function Documents() {
             TransitionComponent={Transition}
             keepMounted
             onClose={handleClose2}
-            aria-describedby="alert-dialog-slide-description"
          >
             <DialogTitle>{"Decline the Proposal"}</DialogTitle>
             <DialogContent>

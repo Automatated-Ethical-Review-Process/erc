@@ -62,7 +62,6 @@ export function InputPassword() {
                   endAdornment={
                      <InputAdornment position="end">
                         <IconButton
-                           aria-label="toggle password visibility"
                            onClick={handleClickShowPassword}
                            onMouseDown={handleMouseDownPassword}
                            edge="end"
@@ -116,12 +115,10 @@ export function EditButton() {
    );
 }
 
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
 export function IsUndergraduateCheckbox() {
    return (
       <div>
-         <Checkbox {...label} />
+         <Checkbox />
       </div>
    );
 }

@@ -38,13 +38,7 @@ export function ScrollDialog() {
          <Button variant="contained" onClick={handleClickOpen("paper")}>
             View decision and comments
          </Button>
-         <Dialog
-            open={open}
-            onClose={handleClose}
-            scroll={scroll}
-            aria-labelledby="scroll-dialog-title"
-            aria-describedby="scroll-dialog-description"
-         >
+         <Dialog open={open} onClose={handleClose} scroll={scroll}>
             <DialogTitle id="scroll-dialog-title">
                The decision is a Minor Modification
             </DialogTitle>

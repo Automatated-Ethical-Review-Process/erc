@@ -16,7 +16,6 @@ export default function ViewEvaluation() {
             <Typography variant="h5">Decision</Typography>
             <Box ml={3}>
                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="approve"
                   name="radio-buttons-group"
                   ml="2"
@@ -36,7 +35,6 @@ export default function ViewEvaluation() {
             <Box ml={3}>
                <TextareaAutosize
                   my={2}
-                  aria-label="minimum height"
                   minRows={10}
                   placeholder="This proposal has approved.Lorem Ipsum is simply dummy text of the printing 
             and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 

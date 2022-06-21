@@ -40,7 +40,6 @@ export default function NotifyAuthor() {
             <Typography variant="h5">Decision</Typography>
             <Box ml={3}>
                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="disapprove"
                   name="radio-buttons-group"
                   ml="2"
@@ -74,7 +73,6 @@ export default function NotifyAuthor() {
             <Box ml={3}>
                <TextareaAutosize
                   my={2}
-                  aria-label="minimum height"
                   minRows={10}
                   placeholder="add overall comment for the proposal"
                   style={{ width: 600 }}
@@ -99,7 +97,6 @@ export default function NotifyAuthor() {
             TransitionComponent={Transition}
             keepMounted
             onClose={handleClose1}
-            aria-describedby="alert-dialog-slide-description"
          >
             <DialogTitle>{"Send Decision"}</DialogTitle>
             <DialogContent>

@@ -34,7 +34,6 @@ export default function AddComments() {
             <Typography variant="h5">Decision</Typography>
             <Box ml={3}>
                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="approve"
                   name="radio-buttons-group"
                   ml="2"
@@ -61,14 +60,13 @@ export default function AddComments() {
                   />
                </RadioGroup>
             </Box>
-            <Typography variant="h5" color="black" my={2}>
+            <Typography variant="h5" my={2}>
                Overall Comment
             </Typography>
             {/* textarea for comments */}
             <Box ml={3}>
                <TextareaAutosize
                   my={2}
-                  aria-label="minimum height"
                   minRows={10}
                   placeholder="add overall comment for the proposal"
                   style={{ width: 600 }}
@@ -90,7 +88,6 @@ export default function AddComments() {
             TransitionComponent={Transition}
             keepMounted
             onClose={handleClose1}
-            aria-describedby="alert-dialog-slide-description"
          >
             <DialogTitle>{"Review Submission"}</DialogTitle>
             <DialogContent>

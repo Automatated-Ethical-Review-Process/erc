@@ -81,7 +81,6 @@ export default function AddReviewer() {
                   TransitionComponent={Transition}
                   keepMounted
                   onClose={handleClose1}
-                  aria-describedby="alert-dialog-slide-description"
                >
                   <DialogTitle>{"Add Reviewer"}</DialogTitle>
                   <DialogContent>

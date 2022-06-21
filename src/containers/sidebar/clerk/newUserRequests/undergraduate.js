@@ -60,7 +60,6 @@ export default function Undergraduate() {
             TransitionComponent={Transition}
             keepMounted
             onClose={handleClose1}
-            aria-describedby="alert-dialog-slide-description"
          >
             <DialogTitle>{"Accept the User Request"}</DialogTitle>
             <DialogContent>
@@ -78,7 +77,6 @@ export default function Undergraduate() {
             TransitionComponent={Transition}
             keepMounted
             onClose={handleClose2}
-            aria-describedby="alert-dialog-slide-description"
          >
             <DialogTitle>{"Decline the User Request"}</DialogTitle>
             <DialogContent>
