@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/erc/static/css/main.f0af8955.css",
+    "main.js": "/erc/static/js/main.0e92eb81.js",
+    "static/js/787.7d3d693b.chunk.js": "/erc/static/js/787.7d3d693b.chunk.js",
+    "static/media/(V2)_Lecture_11_2021.pdf": "/erc/static/media/(V2)_Lecture_11_2021.837ae9d3ce87466ec83e.pdf",
+    "static/media/baby.webp": "/erc/static/media/baby.e571532377fb3cfa8d8e.webp",
+    "static/media/meetings.jpg": "/erc/static/media/meetings.c7b93a7e35f39a3ac519.jpg",
+    "index.html": "/erc/index.html",
+    "main.f0af8955.css.map": "/erc/static/css/main.f0af8955.css.map",
+    "main.0e92eb81.js.map": "/erc/static/js/main.0e92eb81.js.map",
+    "787.7d3d693b.chunk.js.map": "/erc/static/js/787.7d3d693b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f0af8955.css",
+    "static/js/main.0e92eb81.js"
+  ]
+}
