@@ -1,7 +1,7 @@
 {
    "name": "layout",
    "version": "0.1.0",
-   "homepage": "https://automatated-ethical-review-process.github.io/erc",
+   "homepage": "https://erc-ruh.live",
    "private": true,
    "dependencies": {
       "@emotion/react": "^11.9.0",
