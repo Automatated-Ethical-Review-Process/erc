@@ -1,32 +1,32 @@
-import { indigo, blue, lightBlue, cyan } from "@mui/material/colors";
+import { cyan } from "@mui/material/colors";
 
 const getLightPalette = () => ({
-   primary: {
-      light: indigo[700],
-      main: indigo[800],
-      dark: indigo[900],
-   },
-   secondary: {
-      light: blue[100],
-      main: blue[200],
-      dark: blue[300],
-   },
+  primary: {
+    light: "#12CBC4",
+    main: "#1289A7",
+    dark: "#006266",
+  },
+  secondary: {
+    light: cyan[100],
+    main: cyan[700],
+    dark: cyan[900],
+  },
 });
 
 const getDarkPalette = () => ({
-   primary: {
-      light: lightBlue[100],
-      main: lightBlue[200],
-      dark: lightBlue[300],
-   },
-   secondary: {
-      light: cyan[700],
-      main: cyan[800],
-      dark: cyan[900],
-   },
+  primary: {
+    light: "#12CBC4",
+    main: "#1289A7",
+    dark: "#006266",
+  },
+  secondary: {
+    light: cyan[600],
+    main: cyan[700],
+    dark: cyan[900],
+  },
 });
 
 const getPalette = (isLight) =>
-   isLight ? getLightPalette() : getDarkPalette();
+  isLight ? getLightPalette() : getDarkPalette();
 
 export default getPalette;
