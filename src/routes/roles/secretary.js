@@ -4,7 +4,6 @@ import SecretaryLayout from "layouts/sidebar/SecretaryLayout";
 import SecretaryDashboard from "containers/dashboard/SecretaryDashboard";
 import UnassignedProposal from "containers/sidebar/secretary/unassigned/Proposal";
 import ChooseReviewType from "containers/sidebar/secretary/unassigned/ChooseReviewType";
-import AssignReviewers from "containers/sidebar/secretary/unassigned/AssignReviewers";
 import InReviewDocuments from "containers/sidebar/secretary/inReview/Documents";
 import Reviews from "containers/sidebar/secretary/inReview/Reviews";
 import Review from "containers/sidebar/secretary/inReview/Review";
@@ -40,10 +39,7 @@ const secretaryRoute = (
          <Route index element={<Proposals extraFields={{ pi: "Author" }} />} />
          <Route path=":pid">
             <Route index element={<UnassignedProposal />} />
-            <Route path="review">
-               <Route index element={<ChooseReviewType />} />
-               <Route path="assign" element={<AssignReviewers />} />
-            </Route>
+            <Route path="review" element={<ChooseReviewType />} />
             <Route path="versions">
                <Route index element={<Versions />} />
                <Route path=":vid">
