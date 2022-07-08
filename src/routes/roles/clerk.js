@@ -11,6 +11,7 @@ import Proposals from "components/proposals/Proposals";
 import Versions from "components/proposals/Versions";
 import Documents from "components/proposals/Documents";
 import Users from "components/users/users";
+import BaseUndergraduate from "components/users/undergraduate";
 
 import documentRoute from "routes/common/document";
 import routes from "config/routes";
@@ -43,7 +44,7 @@ const clerkRoute = (
          <Route path=":uid">
             <Route index element={<CurrentUser />} />
             <Route path="undergraduate">
-               <Route index element={<Undergraduate />} />
+               <Route index element={<BaseUndergraduate />} />
             </Route>
          </Route>
       </Route>

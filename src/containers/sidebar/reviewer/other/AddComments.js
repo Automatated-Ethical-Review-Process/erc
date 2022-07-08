@@ -39,6 +39,11 @@ export default function AddComments() {
                   ml="2"
                >
                   <FormControlLabel
+                     value="undecided"
+                     control={<Radio />}
+                     label="Undecided"
+                  />
+                  <FormControlLabel
                      value="approve"
                      control={<Radio />}
                      label="Approve"
