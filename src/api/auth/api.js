@@ -4,6 +4,7 @@ import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { AUTH } from "config/endpoints";
 import tokenService from "services/auth/tokenService";
 import userService from "services/auth/userService";
+import Roles from "config/roles";
 
 const authApi = createApi({
    reducerPath: "api/auth",
@@ -89,6 +90,13 @@ const initialState = {
    isAuthenticated: tokenService.getAccessToken() ? true : false,
 };
 
+const fixRoles = (roles) => {
+   if (roles.includes(Roles.e_reviewer) || roles.includes(Roles.i_reviewer)) {
+      return [...roles, Roles.reviewer];
+   }
+   return roles;
+};
+
 const authSlice = createSlice({
    name: "auth",
    initialState: initialState,
@@ -100,7 +108,7 @@ const authSlice = createSlice({
             auth.user = {
                id: payload.id,
                email: payload.email,
-               roles: payload.roles,
+               roles: fixRoles(payload.roles),
             };
          }
       );
@@ -109,7 +117,7 @@ const authSlice = createSlice({
          (auth, { payload }) => {
             auth.access = payload.access;
             auth.refresh = payload.refresh;
-            auth.user.roles = payload.roles;
+            auth.user.roles = fixRoles(payload.roles);
             auth.isAuthenticated = true;
             userService.setUser(payload);
          }

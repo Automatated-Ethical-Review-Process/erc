@@ -15,14 +15,14 @@ import BaseUndergraduate from "components/users/undergraduate";
 
 import documentRoute from "routes/common/document";
 import routes from "config/routes";
-import roles from "config/roles";
+import Roles from "config/roles";
 import { ProtectedDashboardRoute } from "routes/common/Protected";
 
 const clerkRoute = (
    <Route
       path={routes.clerk}
       element={
-         <ProtectedDashboardRoute role={roles.clerk}>
+         <ProtectedDashboardRoute role={Roles.clerk}>
             <ClerkLayout />
          </ProtectedDashboardRoute>
       }

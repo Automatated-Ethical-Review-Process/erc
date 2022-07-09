@@ -1,6 +1,6 @@
 import { nanoid } from "@reduxjs/toolkit";
 
-import roles from "config/roles";
+import Roles from "config/roles";
 
 const users = [
    {
@@ -10,11 +10,11 @@ const users = [
       access: "test-access-token",
       refresh: "test-refresh-token",
       roles: [
-         roles.admin,
-         roles.applicant,
-         roles.clerk,
-         roles.reviewer,
-         roles.secretary,
+         Roles.admin,
+         Roles.applicant,
+         Roles.clerk,
+         Roles.i_reviewer,
+         Roles.secretary,
       ],
    },
    {
@@ -23,7 +23,7 @@ const users = [
       password: "password",
       access: "admin-access-token",
       refresh: "admin-refresh-token",
-      roles: [roles.admin],
+      roles: [Roles.admin],
    },
    {
       id: nanoid(),
@@ -31,7 +31,7 @@ const users = [
       password: "password",
       access: "secretary-access-token",
       refresh: "secretary-refresh-token",
-      roles: [roles.secretary, roles.reviewer],
+      roles: [Roles.secretary, Roles.i_reviewer],
    },
    {
       id: nanoid(),
@@ -39,7 +39,7 @@ const users = [
       password: "password",
       access: "reviewer-access-token",
       refresh: "reviewer-refresh-token",
-      roles: [roles.reviewer, roles.applicant],
+      roles: [Roles.e_reviewer, Roles.applicant],
    },
    {
       id: nanoid(),
@@ -47,7 +47,7 @@ const users = [
       password: "password",
       access: "clerk-access-token",
       refresh: "clerk-refresh-token",
-      roles: [roles.clerk],
+      roles: [Roles.clerk],
    },
    {
       id: nanoid(),
@@ -55,7 +55,7 @@ const users = [
       password: "password",
       access: "applicant-access-token",
       refresh: "applicant-refresh-token",
-      roles: [roles.applicant],
+      roles: [Roles.applicant],
    },
 ];
 
@@ -68,7 +68,7 @@ export const createUser = (email, password) => {
       password,
       access: "user-access-token",
       refresh: "user-refresh-token",
-      roles: [roles.applicant],
+      roles: [Roles.applicant],
    };
    users.push(user);
    return user;

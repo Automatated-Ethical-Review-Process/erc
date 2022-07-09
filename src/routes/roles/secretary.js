@@ -20,7 +20,7 @@ import UpdateUser from "containers/sidebar/admin/UpdateUser";
 import Users from "components/users/users";
 
 import routes from "config/routes";
-import roles from "config/roles";
+import Roles from "config/roles";
 import { ProtectedDashboardRoute } from "routes/common/Protected";
 import documentRoute from "routes/common/document";
 
@@ -28,7 +28,7 @@ const secretaryRoute = (
    <Route
       path={routes.secretary}
       element={
-         <ProtectedDashboardRoute role={roles.secretary}>
+         <ProtectedDashboardRoute role={Roles.secretary}>
             <SecretaryLayout />
          </ProtectedDashboardRoute>
       }

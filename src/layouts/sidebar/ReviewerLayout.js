@@ -4,7 +4,8 @@ import GradingIcon from "@mui/icons-material/Grading";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 
 import SidebarLayout from "./SidebarLayout";
-import roles from "config/roles";
+import useRoles from "hooks/useRoles";
+import Roles from "config/roles";
 
 const sideBarItems = [
    {
@@ -30,5 +31,13 @@ const sideBarItems = [
 ];
 
 export default function ReviewerLayout() {
-   return <SidebarLayout role={roles.reviewer} sideBarItems={sideBarItems} />;
+   const roles = useRoles();
+   let items = sideBarItems;
+
+   if (!roles.includes(Roles.i_reviewer)) {
+      items = [...sideBarItems];
+      items.pop();
+   }
+
+   return <SidebarLayout role={Roles.reviewer} sideBarItems={items} />;
 }

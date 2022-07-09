@@ -2,7 +2,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
 import SidebarLayout from "./SidebarLayout";
-import roles from "config/roles";
+import Roles from "config/roles";
 
 const sideBarItems = [
    { path: "/admin/users", icon: <AccountBoxIcon />, text: "Current Users" },
@@ -10,5 +10,5 @@ const sideBarItems = [
 ];
 
 export default function AdminLayout() {
-   return <SidebarLayout role={roles.admin} sideBarItems={sideBarItems} />;
+   return <SidebarLayout role={Roles.admin} sideBarItems={sideBarItems} />;
 }

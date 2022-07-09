@@ -22,8 +22,13 @@ export const ProtectedNavigate = ({ rules, children }) => {
    return <Loading value={isLoading}>{children}</Loading>;
 };
 
-export const ProtectedRoute = ({ role, to = routes.home, children }) => {
-   const { user, isAuthenticated, isLoading } = useAuth();
+export const ProtectedRoute = ({
+   role,
+   to = routes.home,
+   init = true,
+   children,
+}) => {
+   const { user, isAuthenticated, isLoading } = useAuth(init);
 
    if (isLoading) {
       return <Loading value={isLoading} />;

@@ -7,7 +7,7 @@ import UpdateUser from "containers/sidebar/admin/UpdateUser";
 import AddUser from "containers/sidebar/admin/AddUser";
 import CurrentUser from "containers/sidebar/admin/CurrentUser";
 
-import roles from "config/roles";
+import Roles from "config/roles";
 import routes from "config/routes";
 import { ProtectedDashboardRoute } from "routes/common/Protected";
 
@@ -15,7 +15,7 @@ const adminRoute = (
    <Route
       path={routes.admin}
       element={
-         <ProtectedDashboardRoute role={roles.admin}>
+         <ProtectedDashboardRoute role={Roles.admin}>
             <AdminLayout />
          </ProtectedDashboardRoute>
       }
