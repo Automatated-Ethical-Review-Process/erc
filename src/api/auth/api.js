@@ -3,21 +3,20 @@ import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 
 import { AUTH } from "config/endpoints";
 import tokenService from "services/auth/tokenService";
-import userService from "services/auth/userService";
 import Roles from "config/roles";
 
 const authApi = createApi({
    reducerPath: "api/auth",
    tagTypes: ["authUser"],
-   baseQuery: fetchBaseQuery({ baseUrl: AUTH }),
+   baseQuery: fetchBaseQuery({
+      baseUrl: AUTH,
+      credentials: "include",
+   }),
    endpoints: (build) => ({
       getUser: build.query({
          query: () => ({
-            url: "/getUser",
+            url: "/current-user",
             method: "GET",
-            headers: {
-               Authorization: `Bearer ${tokenService.getAccessToken()}`,
-            },
          }),
          providesTags: ["authUser"],
       }),
@@ -31,7 +30,7 @@ const authApi = createApi({
       }),
       login: build.mutation({
          query: (body) => ({
-            url: "/login",
+            url: "/token/generate",
             method: "POST",
             body,
          }),
@@ -41,19 +40,13 @@ const authApi = createApi({
          query: () => ({
             url: "/logout",
             method: "POST",
-            headers: {
-               Authorization: `Bearer ${tokenService.getAccessToken()}`,
-            },
          }),
          invalidatesTags: ["authUser"],
       }),
       refresh: build.mutation({
          query: () => ({
-            url: "/refresh",
+            url: "/token/refresh",
             method: "POST",
-            headers: {
-               Authorization: `Bearer ${tokenService.getRefreshToken()}`,
-            },
          }),
       }),
    }),
@@ -66,11 +59,15 @@ export const {
    useLogoutMutation,
 } = authApi;
 
-const dispatch = (func) =>
-   import("store/store").then((store) => store.store.dispatch(func));
+const dispatch = (function () {
+   const dispatcher = import("store/store").then((store) => store.store);
 
-export const refreshToken = async () =>
-   await dispatch(authApi.endpoints.refresh.initiate());
+   return function (action) {
+      dispatcher.then((store) => store.dispatch(action.initiate()));
+   };
+})();
+
+export const refreshToken = () => dispatch(authApi.endpoints.refresh);
 
 export const waitAndDo = (callback) =>
    Promise.all(authApi.util.getRunningOperationPromises()).finally(callback);
@@ -84,9 +81,8 @@ const initialUser = {
 };
 
 const initialState = {
-   access: tokenService.getAccessToken(),
-   refresh: tokenService.getRefreshToken(),
    user: initialUser,
+   isBackOff: false,
    isAuthenticated: tokenService.getAccessToken() ? true : false,
 };
 
@@ -110,39 +106,54 @@ const authSlice = createSlice({
                email: payload.email,
                roles: fixRoles(payload.roles),
             };
+            auth.isBackOff = false;
          }
       );
+      builder.addMatcher(
+         authApi.endpoints.getUser.matchRejected,
+         (auth, { payload }) => {
+            if (payload !== undefined && !auth.isBackOff) {
+               auth.isBackOff = true;
+               dispatch(authApi.endpoints.refresh);
+            }
+         }
+      );
+
       builder.addMatcher(
          authApi.endpoints.login.matchFulfilled,
          (auth, { payload }) => {
-            auth.access = payload.access;
-            auth.refresh = payload.refresh;
             auth.user.roles = fixRoles(payload.roles);
             auth.isAuthenticated = true;
-            userService.setUser(payload);
+            tokenService.setAccessToken(payload.access);
          }
       );
+
       builder.addMatcher(
          isAnyOf(
             authApi.endpoints.logout.matchFulfilled,
-            // authApi.endpoints.getUser.matchRejected,
-            authApi.endpoints.refresh.matchRejected
+            authApi.endpoints.logout.matchRejected
          ),
          (auth) => {
-            auth.access = "";
-            auth.refresh = "";
             auth.user = initialUser;
+            auth.isBackOff = true;
             auth.isAuthenticated = false;
-            userService.removeUser();
+            tokenService.removeAccessToken();
          }
       );
+
       builder.addMatcher(
          authApi.endpoints.refresh.matchFulfilled,
          (auth, { payload }) => {
-            auth.access = payload.token;
-            tokenService.updateAccessToken(payload.token);
+            auth.isAuthenticated = true;
+            tokenService.setAccessToken(payload.access);
+            if (auth.isBackOff) {
+               dispatch(authApi.endpoints.getUser);
+            }
          }
       );
+      builder.addMatcher(authApi.endpoints.refresh.matchRejected, () => {
+         dispatch(authApi.endpoints.logout);
+      });
    },
 });
 
