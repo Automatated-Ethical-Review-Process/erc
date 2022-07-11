@@ -34,7 +34,7 @@ const authApi = createApi({
             method: "POST",
             body,
          }),
-         invalidatesTags: ["authUser"],
+         invalidatesTags: (res) => (res ? ["authUser"] : []),
       }),
       login: build.mutation({
          query: (body) => ({
@@ -42,14 +42,14 @@ const authApi = createApi({
             method: "POST",
             body,
          }),
-         invalidatesTags: ["authUser"],
+         invalidatesTags: (res) => (res ? ["authUser"] : []),
       }),
       logout: build.mutation({
          query: () => ({
             url: "/logout",
             method: "POST",
          }),
-         invalidatesTags: ["authUser"],
+         invalidatesTags: (res) => (res ? ["authUser"] : []),
       }),
       refresh: build.mutation({
          query: () => ({
