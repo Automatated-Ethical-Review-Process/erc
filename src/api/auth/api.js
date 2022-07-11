@@ -28,9 +28,16 @@ const authApi = createApi({
          },
          providesTags: ["authUser"],
       }),
+      signupVerify: build.mutation({
+         query: (body) => ({
+            url: "/create-user/token",
+            method: "POST",
+            body,
+         }),
+      }),
       signup: build.mutation({
          query: (body) => ({
-            url: "/signup",
+            url: "/create-user",
             method: "POST",
             body,
          }),
@@ -44,6 +51,12 @@ const authApi = createApi({
          }),
          invalidatesTags: (res) => (res ? ["authUser"] : []),
       }),
+      refresh: build.mutation({
+         query: () => ({
+            url: "/token/refresh",
+            method: "POST",
+         }),
+      }),
       logout: build.mutation({
          query: () => ({
             url: "/logout",
@@ -51,10 +64,80 @@ const authApi = createApi({
          }),
          invalidatesTags: (res) => (res ? ["authUser"] : []),
       }),
-      refresh: build.mutation({
-         query: () => ({
-            url: "/token/refresh",
+      validate: build.mutation({
+         query: (id) => ({
+            url: "/validate?id=" + id,
             method: "POST",
+         }),
+      }),
+      updateEmailVerify: build.mutation({
+         query: (body) => ({
+            url: "/update/email/send/token",
+            method: "POST",
+            body,
+         }),
+      }),
+      updateEmail: build.mutation({
+         query: (body) => ({
+            url: "/update/email",
+            method: "PUT",
+            body,
+         }),
+      }),
+      forgotPasswordVerify: build.mutation({
+         query: (body) => ({
+            url: "/update/password/forgot/token",
+            method: "POST",
+            body,
+         }),
+      }),
+      forgotPassword: build.mutation({
+         query: (body) => ({
+            url: "/update/password/forgot",
+            method: "POST",
+            body,
+         }),
+      }),
+      checkPassword: build.mutation({
+         query: (body) => ({
+            url: "/check/password",
+            method: "POST",
+            body,
+         }),
+      }),
+      updatePassword: build.mutation({
+         query: (body) => ({
+            url: "/update/password",
+            method: "PUT",
+            body,
+         }),
+      }),
+      updateRoles: build.mutation({
+         query: (body) => ({
+            url: "/update/roles",
+            method: "PUT",
+            body,
+         }),
+      }),
+      inviteReviewer: build.mutation({
+         query: (body) => ({
+            url: "/create-user/invite/reviewer/token",
+            method: "POST",
+            body,
+         }),
+      }),
+      inviteClerk: build.mutation({
+         query: (body) => ({
+            url: "/create-user/invite/clerk/token",
+            method: "POST",
+            body,
+         }),
+      }),
+      inviteSecretary: build.mutation({
+         query: (body) => ({
+            url: "/create-user/invite/secretary/token",
+            method: "POST",
+            body,
          }),
       }),
    }),
