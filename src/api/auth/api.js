@@ -3,7 +3,10 @@ import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 
 import { AUTH } from "config/endpoints";
 import tokenService from "services/auth/tokenService";
+import dispatchEndpoint from "store/dispatcher";
 import Roles from "config/roles";
+
+localStorage.setItem("access", "test");
 
 const authApi = createApi({
    reducerPath: "api/auth",
@@ -14,10 +17,15 @@ const authApi = createApi({
    }),
    endpoints: (build) => ({
       getUser: build.query({
-         query: () => ({
-            url: "/current-user",
-            method: "GET",
-         }),
+         queryFn(_, _api, __, _baseQuery) {
+            const {
+               auth: { isAuthenticated },
+            } = _api.getState();
+            if (isAuthenticated) {
+               return _baseQuery("/current-user");
+            }
+            return { error: {} };
+         },
          providesTags: ["authUser"],
       }),
       signup: build.mutation({
@@ -59,15 +67,7 @@ export const {
    useLogoutMutation,
 } = authApi;
 
-const dispatch = (function () {
-   const dispatcher = import("store/store").then((store) => store.store);
-
-   return function (action) {
-      dispatcher.then((store) => store.dispatch(action.initiate()));
-   };
-})();
-
-export const refreshToken = () => dispatch(authApi.endpoints.refresh);
+export const refreshToken = () => dispatchEndpoint(authApi.endpoints.refresh);
 
 export const waitAndDo = (callback) =>
    Promise.all(authApi.util.getRunningOperationPromises()).finally(callback);
@@ -112,9 +112,9 @@ const authSlice = createSlice({
       builder.addMatcher(
          authApi.endpoints.getUser.matchRejected,
          (auth, { payload }) => {
-            if (payload !== undefined && !auth.isBackOff) {
+            if (payload?.status && !auth.isBackOff) {
                auth.isBackOff = true;
-               dispatch(authApi.endpoints.refresh);
+               dispatchEndpoint(authApi.endpoints.refresh);
             }
          }
       );
@@ -135,7 +135,6 @@ const authSlice = createSlice({
          ),
          (auth) => {
             auth.user = initialUser;
-            auth.isBackOff = true;
             auth.isAuthenticated = false;
             tokenService.removeAccessToken();
          }
@@ -147,12 +146,12 @@ const authSlice = createSlice({
             auth.isAuthenticated = true;
             tokenService.setAccessToken(payload.access);
             if (auth.isBackOff) {
-               dispatch(authApi.endpoints.getUser);
+               dispatchEndpoint(authApi.endpoints.getUser);
             }
          }
       );
       builder.addMatcher(authApi.endpoints.refresh.matchRejected, () => {
-         dispatch(authApi.endpoints.logout);
+         dispatchEndpoint(authApi.endpoints.logout);
       });
    },
 });
