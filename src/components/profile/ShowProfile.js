@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import NavigationBar from "components/NavigationBar";
 
 import Image from "assests/baby.webp";
+import useAuth from "hooks/useAuth";
 
 function ImageAvatar() {
    return (
@@ -29,20 +30,13 @@ function EditButton() {
    );
 }
 
-function IsUndergraduateCheckbox() {
-   return (
-      <div>
-         <Checkbox />
-      </div>
-   );
-}
-
 const Item = styled(Paper)(({ theme }) => ({
    padding: theme.spacing(1),
    textAlign: "center",
 }));
 
 export function RowAndColumnSpacing() {
+   const { user } = useAuth();
    return (
       <Container maxWidth={"md"}>
          <Grid
@@ -69,7 +63,7 @@ export function RowAndColumnSpacing() {
                </Grid>
                <Grid item xs={6}>
                   <Item>
-                     <Typography>dpmmadhusankha@gmail.com</Typography>
+                     <Typography>{user.email}</Typography>
                   </Item>
                </Grid>
                <Grid item xs={6}>
@@ -100,13 +94,11 @@ export function RowAndColumnSpacing() {
                   <Typography variant="h6">Is Undergraduate</Typography>
                </Grid>
                <Grid item xs={6}>
-                  <IsUndergraduateCheckbox />
+                  <Checkbox disabled={true} checked={true} />
                </Grid>
                <Grid item xs={6}></Grid>
                <Grid item xs={6}>
-                  <Typography>
-                     <EditButton />
-                  </Typography>
+                  <EditButton />
                </Grid>
             </Grid>
          </Box>

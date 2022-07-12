@@ -83,6 +83,7 @@ const authApi = createApi({
             url: "/update/email",
             method: "PUT",
             body,
+            invalidatesTags: (res) => (res ? ["authUser"] : []),
          }),
       }),
       forgotPasswordVerify: build.mutation({
@@ -157,8 +158,8 @@ export const {
    useUpdateEmailMutation,
    useForgotPasswordVerifyMutation,
    useForgotPasswordMutation,
-   useCheckPasswordMutation,
-   useUpdatePasswordMutation,
+   useCheckPasswordMutation, //
+   useUpdatePasswordMutation, //
    useUpdateRolesMutation,
    useInviteReviewerMutation,
    useInviteClerkMutation,

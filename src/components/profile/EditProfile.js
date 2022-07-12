@@ -3,7 +3,7 @@ import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { Container } from "@mui/material";
+import { Container, Snackbar } from "@mui/material";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import { Stack } from "@mui/material";
@@ -12,13 +12,19 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useNavigate } from "react-router-dom";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 import NavigationBar from "components/NavigationBar";
 
 import Image from "assests/baby.webp";
-import { useUpdatePasswordMutation } from "api/auth/api";
+import {
+   useUpdateEmailVerifyMutation,
+   useUpdatePasswordMutation,
+} from "api/auth/api";
+import useAuth from "hooks/useAuth";
 
 function InputPassword({ params: { value, error }, onChange }) {
    const [showPassword, setShowPassword] = useState(true);
@@ -49,13 +55,16 @@ function InputPassword({ params: { value, error }, onChange }) {
    );
 }
 
-function TextFieldHiddenLabel({ defaultValue }) {
+function TextFieldHiddenLabel({ params: { value, error }, onChange }) {
    return (
       <TextField
          sx={{ width: "40ch" }}
          hiddenLabel
          id="filled-hidden-label-small"
-         defaultValue={defaultValue}
+         value={value}
+         onChange={onChange && ((e) => onChange(e.target.value))}
+         error={!!error}
+         helperText={error}
          variant="outlined"
          size="small"
       />
@@ -68,9 +77,19 @@ function ImageAvatar() {
    );
 }
 
-function RowAndColumnSpacing() {
+function Content() {
    const navigate = useNavigate();
-   const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
+   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+   const { user } = useAuth();
+
+   const [updateEmailVerify, { isLoadingUpdateEmail }] =
+      useUpdateEmailVerifyMutation();
+   const [updatePassword, { isLoadingUpdatePassword }] =
+      useUpdatePasswordMutation();
+
+   const isLoading = isLoadingUpdateEmail || isLoadingUpdatePassword;
+
+   const [email, setEmail] = useState({ value: user.email, error: null });
 
    const [oldPassword, setOldPassword] = useState({ value: "", error: null });
    const [newPassword, setNewPassword] = useState({ value: "", error: null });
@@ -78,6 +97,8 @@ function RowAndColumnSpacing() {
       value: "",
       error: null,
    });
+
+   const onEmailChange = (value) => setEmail({ value, error: "" });
 
    const onOldChange = (value) => {
       setOldPassword({
@@ -122,22 +143,77 @@ function RowAndColumnSpacing() {
                : "",
       });
 
-   const errors =
+   const pwdErrors =
       oldPassword.error || newPassword.error || confirmPassword.error;
 
-   const onUpdate = () => {
-      const oldPass = oldPassword.value;
-      const newPass = newPassword.value;
+   const canUpdateEmail = email.value !== user.email && email.error === "";
+   const canUpdatePassword = pwdErrors === "";
 
-      updatePassword({ oldPassword: oldPass, newPassword: newPass })
-         .unwrap()
-         .then(() => navigate("/profile", { replace: true }))
-         .catch(() =>
+   const canUpdate = !isLoading && (canUpdateEmail || canUpdatePassword);
+   let updateText = "Update";
+
+   if (canUpdateEmail && canUpdatePassword) {
+      updateText = "Update Email and Password";
+   } else if (canUpdateEmail) {
+      updateText = "Update Email";
+   } else if (canUpdatePassword) {
+      updateText = "Update Password";
+   }
+
+   const notify = (text, variant) =>
+      enqueueSnackbar(text, {
+         persist: true,
+         variant,
+         action: (id) => (
+            <IconButton
+               size="small"
+               color="inherit"
+               onClick={() => closeSnackbar(id)}
+            >
+               <CloseIcon fontSize="small" />
+            </IconButton>
+         ),
+      });
+
+   const onUpdate = async () => {
+      if (canUpdateEmail) {
+         try {
+            await updateEmailVerify({
+               oldEmail: user.email,
+               newEmail: email.value,
+            }).unwrap();
+            notify("Please verify your email", "info");
+            setEmail({ value: user.email, error: null });
+         } catch (err) {
+            setEmail((params) => ({
+               ...params,
+               error: err.data.message,
+            }));
+            notify(err.data.message, "error");
+         }
+      }
+
+      if (canUpdatePassword) {
+         const oldPass = oldPassword.value;
+         const newPass = newPassword.value;
+
+         try {
+            await updatePassword({
+               oldPassword: oldPass,
+               newPassword: newPass,
+            }).unwrap();
+            notify("Password updated", "success");
+            setOldPassword({ value: "", error: null });
+            setNewPassword({ value: "", error: null });
+            setConfirmPassword({ value: "", error: null });
+         } catch (err) {
             setOldPassword((params) => ({
                ...params,
                error: "did not match",
-            }))
-         );
+            }));
+            notify(JSON.parse(err.data).message, "error");
+         }
+      }
    };
 
    return (
@@ -157,19 +233,24 @@ function RowAndColumnSpacing() {
                   <Typography variant="h6">Name</Typography>
                </Grid>
                <Grid item xs={6}>
-                  <TextFieldHiddenLabel defaultValue="Malindu Madhusankha" />
+                  <TextFieldHiddenLabel
+                     params={{ value: "Malindu Madhusankha" }}
+                  />
                </Grid>
                <Grid item xs={6}>
                   <Typography variant="h6">Email</Typography>
                </Grid>
                <Grid item xs={6}>
-                  <TextFieldHiddenLabel defaultValue="dpmmadhusankha@gmail.com" />
+                  <TextFieldHiddenLabel
+                     params={email}
+                     onChange={onEmailChange}
+                  />
                </Grid>
                <Grid item xs={6}>
                   <Typography variant="h6">Phone Number</Typography>
                </Grid>
                <Grid item xs={6}>
-                  <TextFieldHiddenLabel defaultValue="0789101112" />
+                  <TextFieldHiddenLabel params={{ value: "0789101112" }} />
                </Grid>
                <Grid item xs={6}>
                   <Typography variant="h6">Old Password</Typography>
@@ -197,10 +278,10 @@ function RowAndColumnSpacing() {
                   <Stack direction="row" spacing={5}>
                      <Button
                         variant="contained"
-                        disabled={isLoading || errors !== ""}
+                        disabled={!canUpdate}
                         onClick={onUpdate}
                      >
-                        Update
+                        {updateText}
                      </Button>
                      <Button variant="contained" onClick={() => navigate(-1)}>
                         Cancel
@@ -216,7 +297,9 @@ function RowAndColumnSpacing() {
 export default function EditProfile() {
    return (
       <NavigationBar title="Profile">
-         <RowAndColumnSpacing />
+         <SnackbarProvider>
+            <Content />
+         </SnackbarProvider>
       </NavigationBar>
    );
 }
