@@ -4,16 +4,12 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import { Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
@@ -22,67 +18,38 @@ import { useNavigate } from "react-router-dom";
 import NavigationBar from "components/NavigationBar";
 
 import Image from "assests/baby.webp";
+import { useUpdatePasswordMutation } from "api/auth/api";
 
-export function InputPassword() {
-   const [values, setValues] = useState({
-      amount: "",
-      password: "",
-      weight: "",
-      weightRange: "",
-      showPassword: false,
-   });
-
-   const handleChange = (prop) => (event) => {
-      setValues({ ...values, [prop]: event.target.value });
-   };
-
-   const handleClickShowPassword = () => {
-      setValues({
-         ...values,
-         showPassword: !values.showPassword,
-      });
-   };
-
-   const handleMouseDownPassword = (event) => {
-      event.preventDefault();
-   };
+function InputPassword({ params: { value, error }, onChange }) {
+   const [showPassword, setShowPassword] = useState(true);
 
    return (
-      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-         <div>
-            <FormControl sx={{ width: "40ch" }} variant="outlined" size="small">
-               <InputLabel htmlFor="outlined-adornment-password">
-                  Password
-               </InputLabel>
-               <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={values.showPassword ? "text" : "password"}
-                  value={values.password}
-                  onChange={handleChange("password")}
-                  endAdornment={
-                     <InputAdornment position="end">
-                        <IconButton
-                           onClick={handleClickShowPassword}
-                           onMouseDown={handleMouseDownPassword}
-                           edge="end"
-                        >
-                           {values.showPassword ? (
-                              <VisibilityOff />
-                           ) : (
-                              <Visibility />
-                           )}
-                        </IconButton>
-                     </InputAdornment>
-                  }
-                  label="Password"
-               />
-            </FormControl>
-         </div>
-      </Box>
+      <TextField
+         label="Password"
+         variant="outlined"
+         type={showPassword ? "text" : "password"}
+         value={value}
+         onChange={(e) => onChange(e.target.value)}
+         error={!!error}
+         helperText={error}
+         InputProps={{
+            endAdornment: (
+               <InputAdornment position="end">
+                  <IconButton
+                     onClick={() => setShowPassword((v) => !v)}
+                     onMouseDown={(e) => e.preventDefault()}
+                     edge="end"
+                  >
+                     {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+               </InputAdornment>
+            ),
+         }}
+      />
    );
 }
 
-export function TextFieldHiddenLabel({ defaultValue }) {
+function TextFieldHiddenLabel({ defaultValue }) {
    return (
       <TextField
          sx={{ width: "40ch" }}
@@ -95,35 +62,84 @@ export function TextFieldHiddenLabel({ defaultValue }) {
    );
 }
 
-export function ImageAvatar() {
+function ImageAvatar() {
    return (
       <Avatar alt="Remy Sharp" src={Image} sx={{ width: 200, height: 200 }} />
    );
 }
 
-export function EditButton() {
+function RowAndColumnSpacing() {
    const navigate = useNavigate();
-   return (
-      <Stack direction="row" spacing={5}>
-         <Button variant="contained" onClick={() => navigate("/profile")}>
-            Update
-         </Button>
-         <Button variant="contained" onClick={() => navigate("/profile")}>
-            Cancel
-         </Button>
-      </Stack>
-   );
-}
+   const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
 
-export function IsUndergraduateCheckbox() {
-   return (
-      <div>
-         <Checkbox />
-      </div>
-   );
-}
+   const [oldPassword, setOldPassword] = useState({ value: "", error: null });
+   const [newPassword, setNewPassword] = useState({ value: "", error: null });
+   const [confirmPassword, setConfirmPassword] = useState({
+      value: "",
+      error: null,
+   });
 
-export function RowAndColumnSpacing() {
+   const onOldChange = (value) => {
+      setOldPassword({
+         value,
+         error: value.length < 8 ? "min size 8 characters" : "",
+      });
+      if (newPassword.value.length >= 8 && value.length >= 8) {
+         setNewPassword((params) => ({
+            ...params,
+            error: value === params.value ? "same as old password" : "",
+         }));
+      }
+   };
+
+   const onNewChange = (value) => {
+      setNewPassword({
+         value,
+         error:
+            value.length < 8
+               ? "min size 8 characters"
+               : value === oldPassword.value
+               ? "same as old password"
+               : "",
+      });
+      if (confirmPassword.value.length >= 8 && value.length >= 8) {
+         setConfirmPassword((params) => ({
+            ...params,
+            error:
+               value !== params.value ? "did not match with new password" : "",
+         }));
+      }
+   };
+
+   const onConfirmChange = (value) =>
+      setConfirmPassword({
+         value,
+         error:
+            value.length < 8
+               ? "min size 8 characters"
+               : value !== newPassword.value
+               ? "did not match with new password"
+               : "",
+      });
+
+   const errors =
+      oldPassword.error || newPassword.error || confirmPassword.error;
+
+   const onUpdate = () => {
+      const oldPass = oldPassword.value;
+      const newPass = newPassword.value;
+
+      updatePassword({ oldPassword: oldPass, newPassword: newPass })
+         .unwrap()
+         .then(() => navigate("/profile", { replace: true }))
+         .catch(() =>
+            setOldPassword((params) => ({
+               ...params,
+               error: "did not match",
+            }))
+         );
+   };
+
    return (
       <Container maxWidth={"md"}>
          <Grid
@@ -159,25 +175,37 @@ export function RowAndColumnSpacing() {
                   <Typography variant="h6">Old Password</Typography>
                </Grid>
                <Grid item xs={6}>
-                  <InputPassword />
+                  <InputPassword params={oldPassword} onChange={onOldChange} />
                </Grid>
                <Grid item xs={6}>
                   <Typography variant="h6">New Password</Typography>
                </Grid>
                <Grid item xs={6}>
-                  <InputPassword />
+                  <InputPassword params={newPassword} onChange={onNewChange} />
                </Grid>
                <Grid item xs={6}>
                   <Typography variant="h6">Re-entry new password</Typography>
                </Grid>
                <Grid item xs={6}>
-                  <InputPassword />
+                  <InputPassword
+                     params={confirmPassword}
+                     onChange={onConfirmChange}
+                  />
                </Grid>
                <Grid item xs={6}></Grid>
                <Grid item xs={6}>
-                  <Typography>
-                     <EditButton />
-                  </Typography>
+                  <Stack direction="row" spacing={5}>
+                     <Button
+                        variant="contained"
+                        disabled={isLoading || errors !== ""}
+                        onClick={onUpdate}
+                     >
+                        Update
+                     </Button>
+                     <Button variant="contained" onClick={() => navigate(-1)}>
+                        Cancel
+                     </Button>
+                  </Stack>
                </Grid>
             </Grid>
          </Box>

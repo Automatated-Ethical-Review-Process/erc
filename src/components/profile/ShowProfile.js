@@ -14,13 +14,13 @@ import NavigationBar from "components/NavigationBar";
 
 import Image from "assests/baby.webp";
 
-export function ImageAvatar() {
+function ImageAvatar() {
    return (
       <Avatar alt="Remy Sharp" src={Image} sx={{ width: 200, height: 200 }} />
    );
 }
 
-export function EditButton() {
+function EditButton() {
    const navigate = useNavigate();
    return (
       <Button onClick={() => navigate("/profile/edit")} variant="contained">
@@ -29,7 +29,7 @@ export function EditButton() {
    );
 }
 
-export function IsUndergraduateCheckbox() {
+function IsUndergraduateCheckbox() {
    return (
       <div>
          <Checkbox />
@@ -100,9 +100,7 @@ export function RowAndColumnSpacing() {
                   <Typography variant="h6">Is Undergraduate</Typography>
                </Grid>
                <Grid item xs={6}>
-                  <Typography>
-                     <IsUndergraduateCheckbox />
-                  </Typography>
+                  <IsUndergraduateCheckbox />
                </Grid>
                <Grid item xs={6}></Grid>
                <Grid item xs={6}>

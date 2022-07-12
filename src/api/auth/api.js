@@ -66,8 +66,9 @@ const authApi = createApi({
       }),
       validate: build.mutation({
          query: (id) => ({
-            url: "/validate?id=" + id,
+            url: "/validate",
             method: "POST",
+            params: { id },
          }),
       }),
       updateEmailVerify: build.mutation({
@@ -110,6 +111,7 @@ const authApi = createApi({
             url: "/update/password",
             method: "PUT",
             body,
+            responseHandler: "text",
          }),
       }),
       updateRoles: build.mutation({
@@ -117,6 +119,7 @@ const authApi = createApi({
             url: "/update/roles",
             method: "PUT",
             body,
+            responseHandler: "text",
          }),
       }),
       inviteReviewer: build.mutation({
@@ -144,10 +147,22 @@ const authApi = createApi({
 });
 
 export const {
-   useLazyGetUserQuery,
+   useLazyGetUserQuery, //
+   useSignupVerifyMutation,
    useSignupMutation,
-   useLoginMutation,
-   useLogoutMutation,
+   useLoginMutation, //
+   useLogoutMutation, //
+   useValidateMutation,
+   useUpdateEmailVerifyMutation,
+   useUpdateEmailMutation,
+   useForgotPasswordVerifyMutation,
+   useForgotPasswordMutation,
+   useCheckPasswordMutation,
+   useUpdatePasswordMutation,
+   useUpdateRolesMutation,
+   useInviteReviewerMutation,
+   useInviteClerkMutation,
+   useInviteSecretaryMutation,
 } = authApi;
 
 export const refreshToken = () => dispatchEndpoint(authApi.endpoints.refresh);
