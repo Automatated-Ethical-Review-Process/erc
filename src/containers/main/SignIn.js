@@ -31,9 +31,7 @@ const loginSchema = Yup.object().shape({
 
 export default function SignIn() {
    const navigate = useNavigate();
-   const {
-      state: { from },
-   } = useLocation();
+   const { state } = useLocation();
 
    const [login, { isLoading }] = useLoginMutation();
 
@@ -47,7 +45,7 @@ export default function SignIn() {
       setSubmitError(null);
       login(data)
          .unwrap()
-         .then(() => navigate(from ? from.pathname : "/"))
+         .then(() => navigate(state && state.from ? state.from.pathname : "/"))
          .catch((err) => setSubmitError(err.data.message));
    };
 
