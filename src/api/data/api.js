@@ -6,16 +6,7 @@ import { refreshToken } from "api/auth/api";
 
 const mutex = new Mutex();
 
-const baseQuery = fetchBaseQuery({
-   baseUrl: DATA,
-   prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.access;
-      if (token) {
-         headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-   },
-});
+const baseQuery = fetchBaseQuery({ baseUrl: DATA });
 
 const baseQueryWithReAuth = async (args, api, extraOptions) => {
    await mutex.waitForUnlock();

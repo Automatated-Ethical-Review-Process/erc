@@ -4,7 +4,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 import SidebarLayout from "./SidebarLayout";
-import roles from "config/roles";
+import Roles from "config/roles";
 
 const sideBarItems = [
    {
@@ -30,5 +30,5 @@ const sideBarItems = [
 ];
 
 export default function ClerkLayout() {
-   return <SidebarLayout role={roles.clerk} sideBarItems={sideBarItems} />;
+   return <SidebarLayout role={Roles.clerk} sideBarItems={sideBarItems} />;
 }

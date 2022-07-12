@@ -1,21 +1,23 @@
-const roles = {
-   clerk: "ROLE_CLERK",
-   applicant: "ROLE_APPLICANT",
-   secretary: "ROLE_SECRETARY",
-   reviewer: "ROLE_REVIEWER",
-   admin: "ROLE_ADMIN",
+const Roles = {
+   clerk: "clerk",
+   applicant: "applicant",
+   secretary: "secretary",
+   i_reviewer: "internal_reviewer",
+   e_reviewer: "external_reviewer",
+   reviewer: "reviewer",
+   admin: "admin",
 };
 
-export default roles;
+export default Roles;
 
 export const toRole = (name) => {
-   let parsed = "ROLE_" + name.toUpperCase();
+   let parsed = name.toLowerCase();
    switch (parsed) {
-      case roles.admin:
-      case roles.secretary:
-      case roles.reviewer:
-      case roles.clerk:
-      case roles.applicant:
+      case Roles.admin:
+      case Roles.secretary:
+      case Roles.reviewer:
+      case Roles.clerk:
+      case Roles.applicant:
          break;
       default:
          parsed = null;

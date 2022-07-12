@@ -5,14 +5,12 @@ import Stack from "@mui/material/Stack";
 import Modal from "@mui/material/Modal";
 
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
-import { selectCurrentUser } from "api/auth/api";
 import Roles, { toRole } from "config/roles";
+import useRoles from "hooks/useRoles";
 
 const RoleNavigationBar = ({ role }) => {
-   const { roles } = useSelector(selectCurrentUser);
-
+   const roles = useRoles();
    const navigate = useNavigate();
 
    const [btnValueInRoleMobile, setBtnValueInRoleMobile] =

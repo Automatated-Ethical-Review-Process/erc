@@ -3,10 +3,11 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 
 import authApi, { reducer as authReducer } from "api/auth/api";
 import dataApi from "api/data/api";
+import { setStore } from "./dispatcher";
 
 import notificationReducer from "./notificationSlice";
 
-export const store = configureStore({
+const store = configureStore({
    reducer: {
       [authApi.reducerPath]: authApi.reducer,
       [dataApi.reducerPath]: dataApi.reducer,
@@ -19,4 +20,7 @@ export const store = configureStore({
          .concat(dataApi.middleware),
 });
 
+setStore(store);
 setupListeners(store.dispatch);
+
+export default store;

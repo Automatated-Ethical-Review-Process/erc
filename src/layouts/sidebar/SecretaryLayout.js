@@ -5,7 +5,7 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
 import SidebarLayout from "./SidebarLayout";
-import roles from "config/roles";
+import Roles from "config/roles";
 
 const sideBarItems = [
    {
@@ -36,5 +36,5 @@ const sideBarItems = [
 ];
 
 export default function SecretaryLayout() {
-   return <SidebarLayout role={roles.secretary} sideBarItems={sideBarItems} />;
+   return <SidebarLayout role={Roles.secretary} sideBarItems={sideBarItems} />;
 }

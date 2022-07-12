@@ -8,13 +8,13 @@ import {
    selectCurrentUser,
 } from "api/auth/api";
 
-const useAuth = () => {
+const useAuth = (init = true) => {
    const user = useSelector(selectCurrentUser);
    const isAuthenticated = useSelector(selectIsAuthenticated);
 
    const [initGetUser, { isUninitialized, isLoading }] = useLazyGetUserQuery();
 
-   const isInitializing = isAuthenticated && isUninitialized;
+   const isInitializing = init && isAuthenticated && isUninitialized;
 
    useEffect(() => {
       if (isInitializing) {

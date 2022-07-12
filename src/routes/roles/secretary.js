@@ -4,7 +4,6 @@ import SecretaryLayout from "layouts/sidebar/SecretaryLayout";
 import SecretaryDashboard from "containers/dashboard/SecretaryDashboard";
 import UnassignedProposal from "containers/sidebar/secretary/unassigned/Proposal";
 import ChooseReviewType from "containers/sidebar/secretary/unassigned/ChooseReviewType";
-import AssignReviewers from "containers/sidebar/secretary/unassigned/AssignReviewers";
 import InReviewDocuments from "containers/sidebar/secretary/inReview/Documents";
 import Reviews from "containers/sidebar/secretary/inReview/Reviews";
 import Review from "containers/sidebar/secretary/inReview/Review";
@@ -21,7 +20,7 @@ import UpdateUser from "containers/sidebar/admin/UpdateUser";
 import Users from "components/users/users";
 
 import routes from "config/routes";
-import roles from "config/roles";
+import Roles from "config/roles";
 import { ProtectedDashboardRoute } from "routes/common/Protected";
 import documentRoute from "routes/common/document";
 
@@ -29,7 +28,7 @@ const secretaryRoute = (
    <Route
       path={routes.secretary}
       element={
-         <ProtectedDashboardRoute role={roles.secretary}>
+         <ProtectedDashboardRoute role={Roles.secretary}>
             <SecretaryLayout />
          </ProtectedDashboardRoute>
       }
@@ -40,10 +39,7 @@ const secretaryRoute = (
          <Route index element={<Proposals extraFields={{ pi: "Author" }} />} />
          <Route path=":pid">
             <Route index element={<UnassignedProposal />} />
-            <Route path="review">
-               <Route index element={<ChooseReviewType />} />
-               <Route path="assign" element={<AssignReviewers />} />
-            </Route>
+            <Route path="review" element={<ChooseReviewType />} />
             <Route path="versions">
                <Route index element={<Versions />} />
                <Route path=":vid">

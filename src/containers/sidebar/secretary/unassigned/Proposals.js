@@ -1,5 +1,5 @@
-function Proposal() {
+function Proposals() {
    return "";
 }
 
-export default Proposal;
+export default Proposals;

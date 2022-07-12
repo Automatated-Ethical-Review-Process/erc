@@ -15,15 +15,18 @@ import Versions from "components/proposals/Versions";
 import Documents from "components/proposals/Documents";
 
 import routes from "config/routes";
-import roles from "config/roles";
-import { ProtectedDashboardRoute } from "routes/common/Protected";
+import Roles from "config/roles";
+import {
+   ProtectedDashboardRoute,
+   ProtectedRoute,
+} from "routes/common/Protected";
 import documentRoute from "routes/common/document";
 
 const reviewerRoute = (
    <Route
       path={routes.reviewer}
       element={
-         <ProtectedDashboardRoute role={roles.reviewer}>
+         <ProtectedDashboardRoute role={Roles.reviewer}>
             <ReviewerLayout />
          </ProtectedDashboardRoute>
       }
@@ -74,7 +77,10 @@ const reviewerRoute = (
          </Route>
       </Route>
 
-      <Route path="other">
+      <Route
+         path="other"
+         element={<ProtectedRoute role={Roles.i_reviewer} init={false} />}
+      >
          <Route index element={<Proposals extraFields={null} />} />
          <Route path=":pid">
             <Route index element={<Proposal extraFields={null} />} />

@@ -6,16 +6,16 @@ import VerifyEmail from "containers/main/signup/EmailVerify";
 import SignUp from "containers/main/signup/SignUp";
 import ForgotPassword from "containers/main/forgotPassword/ForgotPassword";
 
-import roles from "config/roles";
+import Roles from "config/roles";
 import routes from "config/routes";
 import { ProtectedNavigate } from "routes/common/Protected";
 
 const rules = [
-   { role: roles.admin, to: routes.admin },
-   { role: roles.secretary, to: routes.secretary },
-   { role: roles.reviewer, to: routes.reviewer },
-   { role: roles.clerk, to: routes.clerk },
-   { role: roles.applicant, to: routes.applicant },
+   { role: Roles.admin, to: routes.admin },
+   { role: Roles.secretary, to: routes.secretary },
+   { role: Roles.reviewer, to: routes.reviewer },
+   { role: Roles.clerk, to: routes.clerk },
+   { role: Roles.applicant, to: routes.applicant },
 ];
 
 const mainRoute = (
