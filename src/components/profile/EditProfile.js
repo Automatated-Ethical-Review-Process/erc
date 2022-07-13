@@ -211,7 +211,7 @@ function Content() {
                ...params,
                error: "did not match",
             }));
-            notify(JSON.parse(err.data).message, "error");
+            notify(err.data.message, "error");
          }
       }
    };

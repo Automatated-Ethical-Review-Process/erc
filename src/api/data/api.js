@@ -1,32 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Mutex } from "async-mutex";
+import { createApi } from "@reduxjs/toolkit/query/react";
 
-import { DATA } from "config/endpoints";
-import { refreshToken } from "api/auth/api";
-
-const mutex = new Mutex();
-
-const baseQuery = fetchBaseQuery({ baseUrl: DATA });
-
-const baseQueryWithReAuth = async (args, api, extraOptions) => {
-   await mutex.waitForUnlock();
-   let result = await baseQuery(args, api, extraOptions);
-
-   if (result.error && result.error.status === 401) {
-      if (mutex.isLocked()) {
-         await mutex.waitForUnlock();
-      } else {
-         const release = await mutex.acquire();
-         await refreshToken();
-         release();
-      }
-      result = await baseQuery(args, api, extraOptions);
-   }
-   return result;
-};
+import { dataQuery } from "api/base";
 
 export default createApi({
    reducerPath: "api/data",
-   baseQuery: baseQueryWithReAuth,
+   baseQuery: dataQuery,
    endpoints: () => ({}),
 });

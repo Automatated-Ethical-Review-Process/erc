@@ -1,27 +1,19 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 
-import { AUTH } from "config/endpoints";
+import { authQuery, initRefreshActions } from "api/base";
 import tokenService from "services/auth/tokenService";
-import dispatchEndpoint from "store/dispatcher";
 import Roles from "config/roles";
-
-localStorage.setItem("access", "test");
 
 const authApi = createApi({
    reducerPath: "api/auth",
    tagTypes: ["authUser"],
-   baseQuery: fetchBaseQuery({
-      baseUrl: AUTH,
-      credentials: "include",
-   }),
+   baseQuery: authQuery,
    endpoints: (build) => ({
       getUser: build.query({
          queryFn(_, _api, __, _baseQuery) {
-            const {
-               auth: { isAuthenticated },
-            } = _api.getState();
-            if (isAuthenticated) {
+            const { auth } = _api.getState();
+            if (auth.isAuthenticated) {
                return _baseQuery("/current-user");
             }
             return { error: {} };
@@ -50,12 +42,6 @@ const authApi = createApi({
             body,
          }),
          invalidatesTags: (res) => (res ? ["authUser"] : []),
-      }),
-      refresh: build.mutation({
-         query: () => ({
-            url: "/token/refresh",
-            method: "POST",
-         }),
       }),
       logout: build.mutation({
          query: () => ({
@@ -112,7 +98,6 @@ const authApi = createApi({
             url: "/update/password",
             method: "PUT",
             body,
-            responseHandler: "text",
          }),
       }),
       updateRoles: build.mutation({
@@ -120,7 +105,6 @@ const authApi = createApi({
             url: "/update/roles",
             method: "PUT",
             body,
-            responseHandler: "text",
          }),
       }),
       inviteReviewer: build.mutation({
@@ -154,7 +138,7 @@ export const {
    useLoginMutation, //
    useLogoutMutation, //
    useValidateMutation,
-   useUpdateEmailVerifyMutation,
+   useUpdateEmailVerifyMutation, //
    useUpdateEmailMutation,
    useForgotPasswordVerifyMutation,
    useForgotPasswordMutation,
@@ -166,11 +150,6 @@ export const {
    useInviteSecretaryMutation,
 } = authApi;
 
-export const refreshToken = () => dispatchEndpoint(authApi.endpoints.refresh);
-
-export const waitAndDo = (callback) =>
-   Promise.all(authApi.util.getRunningOperationPromises()).finally(callback);
-
 export default authApi;
 
 const initialUser = {
@@ -181,7 +160,6 @@ const initialUser = {
 
 const initialState = {
    user: initialUser,
-   isBackOff: false,
    isAuthenticated: tokenService.getAccessToken() ? true : false,
 };
 
@@ -192,10 +170,22 @@ const fixRoles = (roles) => {
    return roles;
 };
 
+const reset = (auth) => {
+   auth.user = initialUser;
+   auth.isAuthenticated = false;
+   tokenService.removeAccessToken();
+};
+
 const authSlice = createSlice({
    name: "auth",
    initialState: initialState,
-   reducers: {},
+   reducers: {
+      refreshFulfilled(auth, { payload }) {
+         auth.isAuthenticated = true;
+         tokenService.setAccessToken(payload.access);
+      },
+      refreshRejected: reset,
+   },
    extraReducers: (builder) => {
       builder.addMatcher(
          authApi.endpoints.getUser.matchFulfilled,
@@ -205,17 +195,11 @@ const authSlice = createSlice({
                email: payload.email,
                roles: fixRoles(payload.roles),
             };
-            auth.isBackOff = false;
          }
       );
       builder.addMatcher(
          authApi.endpoints.getUser.matchRejected,
-         (auth, { payload }) => {
-            if (payload?.status && !auth.isBackOff) {
-               auth.isBackOff = true;
-               dispatchEndpoint(authApi.endpoints.refresh);
-            }
-         }
+         (auth, { payload }) => (payload?.status ? reset(auth) : void 0)
       );
 
       builder.addMatcher(
@@ -232,28 +216,15 @@ const authSlice = createSlice({
             authApi.endpoints.logout.matchFulfilled,
             authApi.endpoints.logout.matchRejected
          ),
-         (auth) => {
-            auth.user = initialUser;
-            auth.isAuthenticated = false;
-            tokenService.removeAccessToken();
-         }
+         reset
       );
-
-      builder.addMatcher(
-         authApi.endpoints.refresh.matchFulfilled,
-         (auth, { payload }) => {
-            auth.isAuthenticated = true;
-            tokenService.setAccessToken(payload.access);
-            if (auth.isBackOff) {
-               dispatchEndpoint(authApi.endpoints.getUser);
-            }
-         }
-      );
-      builder.addMatcher(authApi.endpoints.refresh.matchRejected, () => {
-         dispatchEndpoint(authApi.endpoints.logout);
-      });
    },
 });
+
+initRefreshActions(
+   authSlice.actions.refreshFulfilled,
+   authSlice.actions.refreshRejected
+);
 
 export const { reducer } = authSlice;
 
