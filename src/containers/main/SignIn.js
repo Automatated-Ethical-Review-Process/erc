@@ -39,13 +39,15 @@ export default function SignIn() {
       resolver: yupResolver(loginSchema),
    });
 
-   const [submitError, setSubmitError] = useState(null);
+   const [submitError, setSubmitError] = useState(
+      state?.auto ? "Session was expired" : null
+   );
 
    const onSubmit = (data) => {
       setSubmitError(null);
       login(data)
          .unwrap()
-         .then(() => navigate(state && state.from ? state.from.pathname : "/"))
+         .then(() => navigate(state?.from ? state.from.pathname : "/"))
          .catch((err) => setSubmitError(err.data.message));
    };
 

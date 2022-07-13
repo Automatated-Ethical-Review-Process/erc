@@ -4,6 +4,7 @@ import mainRoute from "./main";
 import rolesRoutes from "./roles";
 import profileRoute from "./profile";
 import notificationRoute from "./notification";
+import NotFound from "./NotFound";
 
 import Test from "components/common/Test";
 
@@ -21,7 +22,7 @@ const AppRoutes = () => (
 
       <Route path="/test" element={<Test />} />
 
-      <Route path="*" element={<h4>{"Oops, page not found :("}</h4>} />
+      <Route path="*" element={<NotFound />} />
    </Routes>
 );
 
