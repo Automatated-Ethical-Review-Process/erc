@@ -35,7 +35,7 @@ const Item = styled(Paper)(({ theme }) => ({
    textAlign: "center",
 }));
 
-export function RowAndColumnSpacing() {
+export function Content() {
    const { user } = useAuth();
    return (
       <Container maxWidth={"md"}>
@@ -51,7 +51,7 @@ export function RowAndColumnSpacing() {
          <Box sx={{ width: "100%" }}>
             <Grid container rowSpacing={2}>
                <Grid item xs={6}>
-                  <Typography variant="h6">Name</Typography>
+                  <Typography variant="h7">Name</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Item>
@@ -59,7 +59,7 @@ export function RowAndColumnSpacing() {
                   </Item>
                </Grid>
                <Grid item xs={6}>
-                  <Typography variant="h6">Email</Typography>
+                  <Typography variant="h7">Email</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Item>
@@ -67,7 +67,7 @@ export function RowAndColumnSpacing() {
                   </Item>
                </Grid>
                <Grid item xs={6}>
-                  <Typography variant="h6">Phone Number</Typography>
+                  <Typography variant="h7">Phone Number</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Item>
@@ -75,15 +75,15 @@ export function RowAndColumnSpacing() {
                   </Item>
                </Grid>
                <Grid item xs={6}>
-                  <Typography variant="h6">Address</Typography>
+                  <Typography variant="h7">Address</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Item>
-                     <Typography>No.10,ABC road,Matara</Typography>
+                     <Typography>No.10, ABC road, Matara</Typography>
                   </Item>
                </Grid>
                <Grid item xs={6}>
-                  <Typography variant="h6">NIC/Passport</Typography>
+                  <Typography variant="h7">NIC/Passport</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Item>
@@ -91,7 +91,7 @@ export function RowAndColumnSpacing() {
                   </Item>
                </Grid>
                <Grid item xs={6}>
-                  <Typography variant="h6">Is Undergraduate</Typography>
+                  <Typography variant="h7">Is Undergraduate</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Checkbox disabled={true} checked={true} />
@@ -106,10 +106,10 @@ export function RowAndColumnSpacing() {
    );
 }
 
-export default function Checkout() {
+export default function ShowProfile() {
    return (
       <NavigationBar title="Profile">
-         <RowAndColumnSpacing />
+         <Content />
       </NavigationBar>
    );
 }
