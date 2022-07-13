@@ -35,11 +35,17 @@ const refresh = (function () {
 
 export const { init: initRefreshActions } = refresh;
 
+const doNotRefresh = ["login"];
+
 const withReAuth = (baseQuery) => async (args, api, extraOptions) => {
    await mutex.waitForUnlock();
    let result = await baseQuery(args, api, extraOptions);
 
-   if (result.error && result.error.status === 401) {
+   if (
+      result.error &&
+      result.error.status === 401 &&
+      !doNotRefresh.includes(api.endpoint)
+   ) {
       if (mutex.isLocked()) {
          await mutex.waitForUnlock();
          result = await baseQuery(args, api, extraOptions);
