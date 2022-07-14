@@ -23,7 +23,6 @@ const PdfViewer = ({ link }) => {
    const handlePageChange = (e) => {
       let page = e.currentPage > 0 ? e.currentPage : 0;
       localStorage.setItem("current-page", page);
-      console.log("Current page >> ", localStorage.getItem("current-page"));
    };
 
    const renderPage = (props) => (

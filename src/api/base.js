@@ -3,7 +3,6 @@ import { Mutex } from "async-mutex";
 
 import { AUTH, DATA } from "config/endpoints";
 
-localStorage.setItem("access", "test");
 const mutex = new Mutex();
 
 const authBaseQuery = fetchBaseQuery({
