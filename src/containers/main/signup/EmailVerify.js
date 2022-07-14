@@ -22,8 +22,8 @@ export default function EmailVerify() {
                </Grid>
                <Grid item xs={12} md={12}>
                   <Typography variant="body1" textAlign={"center"}>
-                     You need to verify your email acount.Enter the email
-                     address and press the button below.It will send you an
+                     You need to verify your email account. Enter the email
+                     address and press the button below. It will send you an
                      email to your email account.
                   </Typography>
                </Grid>
@@ -68,8 +68,8 @@ export default function EmailVerify() {
                </Grid>
                <Grid item xs={12} md={12}>
                   <Typography variant="body1" textAlign={"center"}>
-                     You need to verify your email acount.Enter the email
-                     address and press the button below.It will send you an
+                     You need to verify your email account. Enter the email
+                     address and press the button below. It will send you an
                      email to your email account.
                   </Typography>
                </Grid>

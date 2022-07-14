@@ -21,7 +21,6 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
 
 import NavigationBar from "components/NavigationBar";
 import LoadingCircle from "components/common/LoadingCircle";
@@ -34,6 +33,7 @@ import {
    useUpdatePasswordMutation,
 } from "api/auth/api";
 import useAuth from "hooks/useAuth";
+import { isEmail } from "utils/yup";
 
 function InputPassword({ params: { value, error }, onChange, label }) {
    const [showPassword, setShowPassword] = useState(false);
@@ -110,9 +110,6 @@ function EditDetails() {
    );
 }
 
-const schema = yup.string().email().required();
-const isEmail = (value) => schema.isValidSync(value);
-
 function EditEmail({ setIsLoading }) {
    const { user } = useAuth();
    const { notify } = useNotify(true);
@@ -168,9 +165,12 @@ function EditEmail({ setIsLoading }) {
                newEmail: email.value,
             })
                .unwrap()
-               .then(() => {
+               .then(({ token }) => {
                   setEmail({ value: user.email, error: null });
                   notify("Please verify your email", "info");
+                  console.log(
+                     `https://localhost:3000/update/email?token=${token}`
+                  );
                })
                .catch((err) =>
                   notify(err.data?.message || "Bad request", "error", {

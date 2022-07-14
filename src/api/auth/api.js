@@ -52,7 +52,7 @@ const authApi = createApi({
       }),
       validate: build.mutation({
          query: (id) => ({
-            url: "/validate",
+            url: "/request/validate",
             method: "POST",
             params: { id },
          }),
@@ -65,10 +65,10 @@ const authApi = createApi({
          }),
       }),
       updateEmail: build.mutation({
-         query: (body) => ({
+         query: (id) => ({
             url: "/update/email",
             method: "PUT",
-            body,
+            params: { id },
             invalidatesTags: (res) => (res ? ["authUser"] : []),
          }),
       }),
