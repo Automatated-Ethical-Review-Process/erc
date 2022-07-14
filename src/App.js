@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 
 import { useMediaQuery } from "@mui/material";
 import { ThemeProvider } from "styled-components";
+import { SnackbarProvider } from "notistack";
 import {
    createTheme,
    ThemeProvider as MuiThemeProvider,
@@ -38,7 +39,9 @@ function App() {
       <MuiThemeProvider theme={theme}>
          <ThemeProvider theme={theme}>
             <CssBaseline />
-            <AppRoutes />
+            <SnackbarProvider maxSnack={5} preventDuplicate={true}>
+               <AppRoutes />
+            </SnackbarProvider>
          </ThemeProvider>
       </MuiThemeProvider>
    );

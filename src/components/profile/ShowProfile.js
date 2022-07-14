@@ -13,14 +13,15 @@ import { useNavigate } from "react-router-dom";
 import NavigationBar from "components/NavigationBar";
 
 import Image from "assests/baby.webp";
+import useAuth from "hooks/useAuth";
 
-export function ImageAvatar() {
+function ImageAvatar() {
    return (
       <Avatar alt="Remy Sharp" src={Image} sx={{ width: 200, height: 200 }} />
    );
 }
 
-export function EditButton() {
+function EditButton() {
    const navigate = useNavigate();
    return (
       <Button onClick={() => navigate("/profile/edit")} variant="contained">
@@ -29,20 +30,13 @@ export function EditButton() {
    );
 }
 
-export function IsUndergraduateCheckbox() {
-   return (
-      <div>
-         <Checkbox />
-      </div>
-   );
-}
-
 const Item = styled(Paper)(({ theme }) => ({
    padding: theme.spacing(1),
    textAlign: "center",
 }));
 
-export function RowAndColumnSpacing() {
+export function Content() {
+   const { user } = useAuth();
    return (
       <Container maxWidth={"md"}>
          <Grid
@@ -57,7 +51,7 @@ export function RowAndColumnSpacing() {
          <Box sx={{ width: "100%" }}>
             <Grid container rowSpacing={2}>
                <Grid item xs={6}>
-                  <Typography variant="h6">Name</Typography>
+                  <Typography variant="h7">Name</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Item>
@@ -65,15 +59,15 @@ export function RowAndColumnSpacing() {
                   </Item>
                </Grid>
                <Grid item xs={6}>
-                  <Typography variant="h6">Email</Typography>
+                  <Typography variant="h7">Email</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Item>
-                     <Typography>dpmmadhusankha@gmail.com</Typography>
+                     <Typography>{user.email}</Typography>
                   </Item>
                </Grid>
                <Grid item xs={6}>
-                  <Typography variant="h6">Phone Number</Typography>
+                  <Typography variant="h7">Phone Number</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Item>
@@ -81,15 +75,15 @@ export function RowAndColumnSpacing() {
                   </Item>
                </Grid>
                <Grid item xs={6}>
-                  <Typography variant="h6">Address</Typography>
+                  <Typography variant="h7">Address</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Item>
-                     <Typography>No.10,ABC road,Matara</Typography>
+                     <Typography>No.10, ABC road, Matara</Typography>
                   </Item>
                </Grid>
                <Grid item xs={6}>
-                  <Typography variant="h6">NIC/Passport</Typography>
+                  <Typography variant="h7">NIC/Passport</Typography>
                </Grid>
                <Grid item xs={6}>
                   <Item>
@@ -97,18 +91,14 @@ export function RowAndColumnSpacing() {
                   </Item>
                </Grid>
                <Grid item xs={6}>
-                  <Typography variant="h6">Is Undergraduate</Typography>
+                  <Typography variant="h7">Is Undergraduate</Typography>
                </Grid>
                <Grid item xs={6}>
-                  <Typography>
-                     <IsUndergraduateCheckbox />
-                  </Typography>
+                  <Checkbox disabled={true} checked={true} />
                </Grid>
                <Grid item xs={6}></Grid>
                <Grid item xs={6}>
-                  <Typography>
-                     <EditButton />
-                  </Typography>
+                  <EditButton />
                </Grid>
             </Grid>
          </Box>
@@ -116,10 +106,10 @@ export function RowAndColumnSpacing() {
    );
 }
 
-export default function Checkout() {
+export default function ShowProfile() {
    return (
       <NavigationBar title="Profile">
-         <RowAndColumnSpacing />
+         <Content />
       </NavigationBar>
    );
 }

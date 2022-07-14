@@ -7,7 +7,7 @@ import routes from "config/routes";
 
 const Redirect = ({ to }) => {
    const location = useLocation();
-   return <Navigate to={to} replace state={{ from: location }} />;
+   return <Navigate to={to} replace state={{ from: location, auto: true }} />;
 };
 
 export const ProtectedNavigate = ({ rules, children }) => {
