@@ -80,10 +80,11 @@ const authApi = createApi({
          }),
       }),
       forgotPassword: build.mutation({
-         query: (body) => ({
+         query: ({ id, password }) => ({
             url: "/update/password/forgot",
             method: "POST",
-            body,
+            params: { id },
+            body: { password },
          }),
       }),
       checkPassword: build.mutation({
@@ -137,11 +138,11 @@ export const {
    useSignupMutation,
    useLoginMutation, //
    useLogoutMutation, //
-   useValidateMutation,
+   useValidateMutation, //
    useUpdateEmailVerifyMutation, //
-   useUpdateEmailMutation,
-   useForgotPasswordVerifyMutation,
-   useForgotPasswordMutation,
+   useUpdateEmailMutation, //
+   useForgotPasswordVerifyMutation, //
+   useForgotPasswordMutation, //
    useCheckPasswordMutation, //
    useUpdatePasswordMutation, //
    useUpdateRolesMutation,

@@ -25,7 +25,7 @@ const loginSchema = Yup.object().shape({
    email: Yup.string().required("Email is required").email("Email is invalid"),
    password: Yup.string()
       .required("Password is required")
-      .min(6, "Password must be at least 6 characters")
+      .min(8, "Password must be at least 8 characters")
       .max(40, "Password must not exceed 40 characters"),
 });
 

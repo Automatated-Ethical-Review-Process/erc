@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import MainLayout from "layouts/MainLayout";
 import SignIn from "containers/main/SignIn";
 import SignUp from "containers/main/signup/SignUp";
-import ForgotPassword from "containers/main/forgotPassword/ForgotPassword";
+import ForgotPassword from "containers/main/ForgotPassword";
 import Update from "containers/main/Update";
 
 import Roles from "config/roles";
