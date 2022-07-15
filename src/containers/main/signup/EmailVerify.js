@@ -2,105 +2,112 @@ import * as React from "react";
 
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import useNotify from "hooks/useNotify";
+import { useSignupVerifyMutation } from "api/auth/api";
+
+const emailSchema = Yup.object().shape({
+   email: Yup.string().required("Email is required").email("Email is invalid"),
+});
 
 export default function EmailVerify() {
+   const navigate = useNavigate();
+   const { notify } = useNotify();
+
+   const [signupVerify, { isLoading }] = useSignupVerifyMutation();
+
+   const { control, handleSubmit } = useForm({
+      resolver: yupResolver(emailSchema),
+   });
+
+   const onSubmit = (data) => {
+      signupVerify(data)
+         .unwrap()
+         .then(({ token }) => {
+            console.log(
+               `${window.location.href
+                  .split("/")
+                  .slice(0, 3)
+                  .join("/")}/signup?token=${token}`
+            );
+            notify("Please verify your email", "info", { persist: true });
+            navigate("/", { replace: true });
+         })
+         .catch(({ data }) =>
+            notify(data?.message || "Something went wrong", "error")
+         );
+   };
+
    return (
-      <Container>
-         <Paper
-            variant="outlined"
-            sx={{ my: 2, display: { xs: "none", md: "block" } }}
-         >
-            <Grid container space={3} sx={{ mt: 4 }}>
-               <Grid item xs={12} md={12}>
-                  <Typography variant="h3" textAlign={"center"}>
-                     Welcome!
-                  </Typography>
+      <Container component="main" maxWidth="md">
+         <Paper variant="outlined" sx={{ mt: 4, p: 4 }}>
+            <Box
+               component="form"
+               onSubmit={handleSubmit(onSubmit)}
+               noValidate
+               sx={{ mt: 1 }}
+            >
+               <Grid container space={3}>
+                  <Grid item xs={12} md={12}>
+                     <Typography variant="h3" textAlign={"center"}>
+                        Welcome!
+                     </Typography>
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                     <Typography variant="body1" textAlign={"center"}>
+                        You need to verify your email account. Enter the email
+                        address and press the button below. It will send you an
+                        email to your email account.
+                     </Typography>
+                  </Grid>
+                  <Grid item xs={12} md={4}></Grid>
+                  <Grid item xs={12} md={4}>
+                     <Controller
+                        name="email"
+                        control={control}
+                        defaultValue=""
+                        render={({ field, fieldState: { error } }) => (
+                           <TextField
+                              {...field}
+                              margin="normal"
+                              required
+                              fullWidth
+                              label="Email Address"
+                              autoComplete="email"
+                              error={!!error}
+                              helperText={error && error.message}
+                              sx={{
+                                 mt: 4,
+                              }}
+                           />
+                        )}
+                     />
+                  </Grid>
+                  <Grid item xs={12} md={4}></Grid>
+                  <Grid item xs={12} md={4}></Grid>
+                  <Grid item xs={12} md={4} align="center">
+                     <Button
+                        sx={{
+                           mt: 2,
+                        }}
+                        type="submit"
+                        variant="contained"
+                        disabled={isLoading}
+                        color="success"
+                     >
+                        Verify Email
+                     </Button>
+                  </Grid>
+                  <Grid item xs={12} md={4}></Grid>
                </Grid>
-               <Grid item xs={12} md={12}>
-                  <Typography variant="body1" textAlign={"center"}>
-                     You need to verify your email account. Enter the email
-                     address and press the button below. It will send you an
-                     email to your email account.
-                  </Typography>
-               </Grid>
-               <Grid item xs={12} md={4}></Grid>
-               <Grid item xs={12} md={4}>
-                  <TextField
-                     id="email-1"
-                     fullWidth
-                     label="Input Email Address"
-                     variant="outlined"
-                     required
-                     sx={{
-                        mt: 4,
-                     }}
-                  />
-               </Grid>
-               <Grid item xs={12} md={4}></Grid>
-               <Grid item xs={12} md={4}></Grid>
-               <Grid item xs={12} md={4} align="center">
-                  <Button
-                     sx={{
-                        mt: 2,
-                     }}
-                     variant="contained"
-                     color="success"
-                  >
-                     Verify Email
-                  </Button>
-               </Grid>
-               <Grid item xs={12} md={4}></Grid>
-            </Grid>
-         </Paper>
-         <Paper
-            variant="elavatino"
-            sx={{ my: 2, display: { xs: "block", md: "none" } }}
-         >
-            <Grid container space={3} sx={{ mt: 4 }}>
-               <Grid item xs={12} md={12}>
-                  <Typography variant="h3" textAlign={"center"}>
-                     Welcome!
-                  </Typography>
-               </Grid>
-               <Grid item xs={12} md={12}>
-                  <Typography variant="body1" textAlign={"center"}>
-                     You need to verify your email account. Enter the email
-                     address and press the button below. It will send you an
-                     email to your email account.
-                  </Typography>
-               </Grid>
-               <Grid item xs={12} md={4}></Grid>
-               <Grid item xs={12} md={4}>
-                  <TextField
-                     id="email-1"
-                     fullWidth
-                     label="Input Email Address"
-                     variant="outlined"
-                     required
-                     sx={{
-                        mt: 4,
-                     }}
-                  />
-               </Grid>
-               <Grid item xs={12} md={4}></Grid>
-               <Grid item xs={12} md={4}></Grid>
-               <Grid item xs={12} md={4} align="center">
-                  <Button
-                     sx={{
-                        mt: 2,
-                     }}
-                     variant="contained"
-                     color="success"
-                  >
-                     Verify Email
-                  </Button>
-               </Grid>
-               <Grid item xs={12} md={4}></Grid>
-            </Grid>
+            </Box>
          </Paper>
       </Container>
    );

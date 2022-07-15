@@ -27,7 +27,7 @@ function UpdateEmail({ token }) {
 
    const isLoading = isLoadingValidate || isLoadingUpdate;
 
-   const [msg, setMsg] = useState("verifying your token ...");
+   const [msg, setMsg] = useState("Verifying token ...");
    const [checked, setChecked] = useState(false);
 
    const setResult = (res) => {

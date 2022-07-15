@@ -40,7 +40,7 @@ export default function SignIn() {
    });
 
    const [submitError, setSubmitError] = useState(
-      state?.auto ? "Session was expired" : null
+      state?.auto ? "Session was expired or unauthorized" : null
    );
 
    const onSubmit = (data) => {

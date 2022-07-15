@@ -28,9 +28,10 @@ const authApi = createApi({
          }),
       }),
       signup: build.mutation({
-         query: (body) => ({
+         query: ({ id, body }) => ({
             url: "/create-user",
             method: "POST",
+            params: { id },
             body,
          }),
          invalidatesTags: (res) => (res ? ["authUser"] : []),
@@ -134,7 +135,7 @@ const authApi = createApi({
 
 export const {
    useLazyGetUserQuery, //
-   useSignupVerifyMutation,
+   useSignupVerifyMutation, //
    useSignupMutation,
    useLoginMutation, //
    useLogoutMutation, //

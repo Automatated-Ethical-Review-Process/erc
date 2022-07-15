@@ -1,42 +1,73 @@
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
+import { Controller } from "react-hook-form";
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-export default function Step3() {
+const schema = Yup.object().shape({
+   password: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters")
+      .max(40, "Password must not exceed 40 characters"),
+   confirmPassword: Yup.string()
+      .required("Password is required")
+      .oneOf([Yup.ref("password")], "Your passwords do not match"),
+});
+
+export default function Step3({ setHandleSubmit, data }) {
+   const { control, handleSubmit } = useForm({
+      resolver: yupResolver(schema),
+      defaultValues: data,
+   });
+
+   setHandleSubmit(handleSubmit);
+
    return (
       <>
          <Typography variant="h6" gutterBottom>
             Sign Up
          </Typography>
          <Grid container spacing={3}>
-            <Grid item xs={12}>
-               <TextField
-                  required
-                  id="email"
-                  name="email"
-                  label="Email"
-                  fullWidth
-                  variant="standard"
-               />
-            </Grid>
             <Grid item xs={12} sm={6}>
-               <TextField
-                  required
-                  id="password"
+               <Controller
                   name="password"
-                  label="Password"
-                  fullWidth
-                  variant="standard"
+                  control={control}
+                  defaultValue=""
+                  render={({ field, fieldState: { error } }) => (
+                     <TextField
+                        {...field}
+                        margin="normal"
+                        required
+                        fullWidth
+                        type="password"
+                        label="New password"
+                        variant="standard"
+                        error={!!error}
+                        helperText={error && error.message}
+                     />
+                  )}
                />
             </Grid>
             <Grid item xs={12} sm={6}>
-               <TextField
-                  required
-                  id="confirmPassword"
+               <Controller
                   name="confirmPassword"
-                  label="Confirm Password"
-                  fullWidth
-                  variant="standard"
+                  control={control}
+                  defaultValue=""
+                  render={({ field, fieldState: { error } }) => (
+                     <TextField
+                        {...field}
+                        margin="normal"
+                        required
+                        fullWidth
+                        type="password"
+                        label="Confirm password"
+                        variant="standard"
+                        error={!!error}
+                        helperText={error && error.message}
+                     />
+                  )}
                />
             </Grid>
          </Grid>
