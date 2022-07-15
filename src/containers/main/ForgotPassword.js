@@ -39,7 +39,10 @@ function Step1({ handleNext }) {
          .then(({ token }) => {
             handleNext();
             console.log(
-               `https://localhost:3000/forgot-password?token=${token}`
+               `${window.location.href
+                  .split("/")
+                  .slice(0, 3)
+                  .join("/")}/forgot-password?token=${token}`
             );
          })
          .catch(() => notify("Email not registered", "error"));

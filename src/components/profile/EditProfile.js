@@ -169,7 +169,10 @@ function EditEmail({ setIsLoading }) {
                   setEmail({ value: user.email, error: null });
                   notify("Please verify your email", "info");
                   console.log(
-                     `https://localhost:3000/update/email?token=${token}`
+                     `${window.location.href
+                        .split("/")
+                        .slice(0, 3)
+                        .join("/")}/update/email?token=${token}`
                   );
                })
                .catch((err) =>
