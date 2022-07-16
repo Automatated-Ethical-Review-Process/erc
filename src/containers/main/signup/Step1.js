@@ -1,21 +1,20 @@
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import { Controller } from "react-hook-form";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+
 const schema = Yup.object().shape({
    name: Yup.string().required("Full name is required"),
    mobileNumber: Yup.string()
       .required("Mobile number is required")
-      .min(10, "Mobile number must be at least 10 characters"),
-   landNumber: Yup.string()
-      .required("Land number is required")
-      .min(10, "Land number must be at least 10 characters"),
+      .matches(/^\d{10}$/, "Invalid number"),
+   landNumber: Yup.string().matches(/^(\d{10})?$/, "Invalid number"),
    nicPassport: Yup.string(),
    address: Yup.string().required("Address is required"),
    educationalQualifications: Yup.string().required(
@@ -42,7 +41,6 @@ export default function Step1({ setHandleSubmit, data }) {
                <Controller
                   name="name"
                   control={control}
-                  defaultValue=""
                   render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}
@@ -62,7 +60,6 @@ export default function Step1({ setHandleSubmit, data }) {
                <Controller
                   name="mobileNumber"
                   control={control}
-                  defaultValue=""
                   render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}
@@ -81,7 +78,6 @@ export default function Step1({ setHandleSubmit, data }) {
                <Controller
                   name="landNumber"
                   control={control}
-                  defaultValue=""
                   render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}
@@ -99,7 +95,6 @@ export default function Step1({ setHandleSubmit, data }) {
                <Controller
                   name="nicPassport"
                   control={control}
-                  defaultValue=""
                   render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}
@@ -117,7 +112,6 @@ export default function Step1({ setHandleSubmit, data }) {
                <Controller
                   name="address"
                   control={control}
-                  defaultValue=""
                   render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}
@@ -137,7 +131,6 @@ export default function Step1({ setHandleSubmit, data }) {
                <Controller
                   name="educationalQualifications"
                   control={control}
-                  defaultValue=""
                   render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}
@@ -155,17 +148,21 @@ export default function Step1({ setHandleSubmit, data }) {
                />
             </Grid>
             <Grid item xs={12}>
-               <FormControlLabel
-                  control={
-                     <Controller
-                        name="isUnderGraduate"
-                        control={control}
-                        render={({ field }) => (
-                           <Checkbox {...field} color="secondary" />
-                        )}
+               <Controller
+                  name="isUnderGraduate"
+                  control={control}
+                  render={({ field: { value, ...rest } }) => (
+                     <FormControlLabel
+                        control={
+                           <Checkbox
+                              {...rest}
+                              checked={value}
+                              color="secondary"
+                           />
+                        }
+                        label="Undergraduate"
                      />
-                  }
-                  label="Undergraduate"
+                  )}
                />
             </Grid>
          </Grid>

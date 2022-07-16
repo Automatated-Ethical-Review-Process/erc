@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -12,23 +13,22 @@ import Typography from "@mui/material/Typography";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { isUuid } from "utils/yup";
+import LoadingCircle from "components/common/LoadingCircle";
 import EmailVerify from "./EmailVerify";
+import { isUuid } from "utils/yup";
 import { useSignupMutation, useValidateMutation } from "api/auth/api";
 import useNotify from "hooks/useNotify";
-import LoadingCircle from "components/common/LoadingCircle";
 
 const steps = ["Step 1", "Step 2", "Step 3"];
 
-function getStepContent(step, setHandleSubmit, data) {
+function getStepContent(step, params) {
    switch (step) {
       case 0:
-         return <Step1 setHandleSubmit={setHandleSubmit} data={data} />;
+         return <Step1 {...params} />;
       case 1:
-         return <Step2 setHandleSubmit={setHandleSubmit} data={data} />;
+         return <Step2 {...params} />;
       case 2:
-         return <Step3 setHandleSubmit={setHandleSubmit} data={data} />;
+         return <Step3 {...params} />;
       default:
          throw new Error("Unknown step");
    }
@@ -48,23 +48,22 @@ const initialState = {
    faculty: "",
    year: "",
    registrationNumber: "",
-   IdImg: "",
+   idImg: null,
    password: "",
+   confirmPassword: "",
 };
 
 function Content({ token, activeStep, handleNext, handleReset, children }) {
    const [data, setData] = useState(initialState);
 
-   useEffect(() => {
-      if (activeStep !== 0 && data === initialState) {
-         handleReset();
-      }
-   }, [activeStep, data, handleReset]);
+   if (activeStep !== 0 && data === initialState) {
+      Promise.resolve().then(handleReset);
+   }
 
    const [signup, { isLoading }] = useSignupMutation();
    const { notify } = useNotify();
 
-   const doRegister = (body) =>
+   const onRegister = (body) =>
       signup({ id: token, body })
          .unwrap()
          .then(handleNext)
@@ -72,46 +71,47 @@ function Content({ token, activeStep, handleNext, handleReset, children }) {
             notify(data?.message || "Something went wrong", "error")
          );
 
-   const onRegister = (finalData) => {
+   const onParse = (finalData) => {
       const {
          nicPassport,
-         educationalQualifications,
+         position,
+         educationalQualifications: eq,
          confirmPassword,
-         ...other
+         idImg,
+         ...data
       } = finalData;
 
       let nic = "",
          passport = "";
 
-      if (nicPassport.toLowerCase().endsWith("v")) {
+      if (Number(nicPassport.charAt(0))) {
          nic = nicPassport;
       } else {
          passport = nicPassport;
       }
 
       const parsed = {
-         ...other,
+         ...data,
          nic,
          passport,
-         educationalQualifications: [educationalQualifications],
+         possition: position,
+         educationalQualifications: eq.split("\n").filter((i) => i),
+         idImg: `https://file.com/${idImg.name}`,
       };
 
-      doRegister(parsed);
+      console.log(parsed);
+      onRegister(parsed);
    };
 
    let handleSubmit;
    const setHandleSubmit = (callback) => (handleSubmit = callback);
 
-   const content = getStepContent(activeStep, setHandleSubmit, data);
+   const content = getStepContent(activeStep, { setHandleSubmit, data });
 
-   const onSubmit = (d) => {
-      const newData = { ...data, ...d };
+   const onSubmit = (_data) => {
+      const newData = { ...data, ..._data };
       setData(newData);
-      if (activeStep === 2) {
-         onRegister(newData);
-      } else {
-         handleNext();
-      }
+      activeStep === 2 ? onParse(newData) : handleNext();
    };
 
    return (

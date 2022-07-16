@@ -1,17 +1,17 @@
-import * as React from "react";
-
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import { Box, Container } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
-import useNotify from "hooks/useNotify";
+
+import { Box, Container } from "@mui/material";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+
 import { useSignupVerifyMutation } from "api/auth/api";
+import useNotify from "hooks/useNotify";
 
 const emailSchema = Yup.object().shape({
    email: Yup.string().required("Email is required").email("Email is invalid"),

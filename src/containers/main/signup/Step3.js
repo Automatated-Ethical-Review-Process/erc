@@ -1,10 +1,10 @@
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import { Controller } from "react-hook-form";
-import * as Yup from "yup";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm } from "react-hook-form";
+import * as Yup from "yup";
+
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 
 const schema = Yup.object().shape({
    password: Yup.string()
@@ -34,7 +34,6 @@ export default function Step3({ setHandleSubmit, data }) {
                <Controller
                   name="password"
                   control={control}
-                  defaultValue=""
                   render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}
@@ -54,7 +53,6 @@ export default function Step3({ setHandleSubmit, data }) {
                <Controller
                   name="confirmPassword"
                   control={control}
-                  defaultValue=""
                   render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}

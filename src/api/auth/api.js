@@ -136,7 +136,7 @@ const authApi = createApi({
 export const {
    useLazyGetUserQuery, //
    useSignupVerifyMutation, //
-   useSignupMutation,
+   useSignupMutation, //
    useLoginMutation, //
    useLogoutMutation, //
    useValidateMutation, //

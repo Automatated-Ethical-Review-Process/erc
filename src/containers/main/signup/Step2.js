@@ -1,25 +1,75 @@
+import { Controller } from "react-hook-form";
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import { Controller } from "react-hook-form";
-import * as Yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 const Input = styled("input")({
    display: "none",
 });
+
+const schemaFile = Yup.mixed((o) => o instanceof File)
+   .nullable()
+   .required("Id photo is required");
 
 const schemaU = Yup.object().shape({
    university: Yup.string().required("University is required"),
    faculty: Yup.string().required("Faculty is required"),
    year: Yup.string(),
    registrationNumber: Yup.string().required("Registration Number is required"),
-   IdImg: Yup.string(),
+   idImg: schemaFile,
 });
+
+function FileController({ control }) {
+   return (
+      <Controller
+         name="idImg"
+         control={control}
+         render={({
+            field: { value, onChange, ...rest },
+            fieldState: { error },
+         }) => (
+            <label htmlFor="idImg">
+               <Input
+                  {...rest}
+                  id="idImg"
+                  accept="image/*"
+                  type="file"
+                  files={[value]}
+                  onChange={({ target: t }) =>
+                     onChange({
+                        target: { ...t, value: t.files[0] },
+                     })
+                  }
+               />
+               <Button component="span" startIcon={<PhotoCamera />}>
+                  Upload
+               </Button>
+               {value && (
+                  <Typography
+                     component="span"
+                     variant="body2"
+                     color="secondary"
+                  >
+                     {value.name}
+                  </Typography>
+               )}
+               {error && (
+                  <Typography component="span" variant="body2" color="error">
+                     {error.message}
+                  </Typography>
+               )}
+            </label>
+         )}
+      />
+   );
+}
 
 function Undergraduate({ setHandleSubmit, data }) {
    const { control, handleSubmit } = useForm({
@@ -35,7 +85,6 @@ function Undergraduate({ setHandleSubmit, data }) {
             <Controller
                name="university"
                control={control}
-               defaultValue=""
                render={({ field, fieldState: { error } }) => (
                   <TextField
                      {...field}
@@ -54,7 +103,6 @@ function Undergraduate({ setHandleSubmit, data }) {
             <Controller
                name="faculty"
                control={control}
-               defaultValue=""
                render={({ field, fieldState: { error } }) => (
                   <TextField
                      {...field}
@@ -73,7 +121,6 @@ function Undergraduate({ setHandleSubmit, data }) {
             <Controller
                name="registrationNumber"
                control={control}
-               defaultValue=""
                render={({ field, fieldState: { error } }) => (
                   <TextField
                      {...field}
@@ -92,7 +139,6 @@ function Undergraduate({ setHandleSubmit, data }) {
             <Controller
                name="year"
                control={control}
-               defaultValue=""
                render={({ field, fieldState: { error } }) => (
                   <TextField
                      {...field}
@@ -108,25 +154,7 @@ function Undergraduate({ setHandleSubmit, data }) {
          </Grid>
          <Grid item xs={12} sm={6}>
             <Typography>
-               University Id{" "}
-               <Controller
-                  name="IdImg"
-                  control={control}
-                  render={({ field }) => (
-                     <label htmlFor="idImg">
-                        <Input
-                           {...field}
-                           id="idImg"
-                           accept="image/*"
-                           multiple
-                           type="file"
-                        />
-                        <Button component="span" startIcon={<PhotoCamera />}>
-                           Upload
-                        </Button>
-                     </label>
-                  )}
-               />
+               University Id <FileController control={control} />
             </Typography>
          </Grid>
       </>
@@ -136,7 +164,7 @@ function Undergraduate({ setHandleSubmit, data }) {
 const schemaNU = Yup.object().shape({
    occupation: Yup.string().required("Occupation is required"),
    position: Yup.string().required("Position is required"),
-   IdImg: Yup.string(),
+   idImg: schemaFile,
 });
 
 function NonUndergraduate({ setHandleSubmit, data }) {
@@ -153,7 +181,6 @@ function NonUndergraduate({ setHandleSubmit, data }) {
             <Controller
                name="occupation"
                control={control}
-               defaultValue=""
                render={({ field, fieldState: { error } }) => (
                   <TextField
                      {...field}
@@ -172,7 +199,6 @@ function NonUndergraduate({ setHandleSubmit, data }) {
             <Controller
                name="position"
                control={control}
-               defaultValue=""
                render={({ field, fieldState: { error } }) => (
                   <TextField
                      {...field}
@@ -189,25 +215,7 @@ function NonUndergraduate({ setHandleSubmit, data }) {
          </Grid>
          <Grid item xs={12} sm={6}>
             <Typography>
-               National Id{" "}
-               <Controller
-                  name="IdImg"
-                  control={control}
-                  render={({ field }) => (
-                     <label htmlFor="idImg">
-                        <Input
-                           {...field}
-                           id="idImg"
-                           accept="image/*"
-                           multiple
-                           type="file"
-                        />
-                        <Button component="span" startIcon={<PhotoCamera />}>
-                           Upload
-                        </Button>
-                     </label>
-                  )}
-               />
+               National Id <FileController control={control} />
             </Typography>
          </Grid>
       </>
