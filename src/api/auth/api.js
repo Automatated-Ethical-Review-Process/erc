@@ -130,6 +130,30 @@ const authApi = createApi({
             body,
          }),
       }),
+      toggleEnabled: build.mutation({
+         query: () => ({
+            url: "/user/enable",
+            method: "PUT",
+         }),
+      }),
+      toggleUserEnabled: build.mutation({
+         query: (id) => ({
+            url: `/user/enable/${id}`,
+            method: "PUT",
+         }),
+      }),
+      toggleUserLocked: build.mutation({
+         query: (id) => ({
+            url: `/user/lock/${id}`,
+            method: "PUT",
+         }),
+      }),
+      toggleUserVerified: build.mutation({
+         query: (id) => ({
+            url: `/user/verified/${id}`,
+            method: "PUT",
+         }),
+      }),
    }),
 });
 
@@ -150,6 +174,10 @@ export const {
    useInviteReviewerMutation,
    useInviteClerkMutation,
    useInviteSecretaryMutation,
+   useToggleEnabledMutation,
+   useToggleUserEnabledMutation,
+   useToggleUserLockedMutation,
+   useToggleUserVerifiedMutation,
 } = authApi;
 
 export default authApi;
