@@ -18,6 +18,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 import { useLoginMutation } from "api/auth/api";
+import authService from "services/auth";
 
 import Image from "assests/meetings.jpg";
 
@@ -43,7 +44,8 @@ export default function SignIn() {
       state?.auto ? "Session was expired or unauthorized" : null
    );
 
-   const onSubmit = (data) => {
+   const onSubmit = ({ rememberMe, ...data }) => {
+      authService.email = rememberMe ? data.email : null;
       setSubmitError(null);
       login(data)
          .unwrap()
@@ -76,7 +78,7 @@ export default function SignIn() {
                <Controller
                   name="email"
                   control={control}
-                  defaultValue=""
+                  defaultValue={authService.email ?? ""}
                   render={({ field, fieldState: { error } }) => (
                      <TextField
                         {...field}
@@ -108,9 +110,22 @@ export default function SignIn() {
                      />
                   )}
                />
-               <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
+               <Controller
+                  name="rememberMe"
+                  control={control}
+                  defaultValue={authService.hasEmail}
+                  render={({ field: { value, ...rest } }) => (
+                     <FormControlLabel
+                        control={
+                           <Checkbox
+                              {...rest}
+                              checked={value}
+                              color="primary"
+                           />
+                        }
+                        label="Remember me"
+                     />
+                  )}
                />
                {submitError && <Alert severity="error">{submitError}</Alert>}
                <Button
