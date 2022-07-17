@@ -2,7 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 
 import { authQuery, initRefreshActions } from "api/base";
-import tokenService from "services/auth/tokenService";
+import authService from "services/auth";
 import Roles from "config/roles";
 
 const authApi = createApi({
@@ -188,11 +188,6 @@ const initialUser = {
    roles: [],
 };
 
-const initialState = {
-   user: initialUser,
-   isAuthenticated: tokenService.getAccessToken() ? true : false,
-};
-
 const fixRoles = (roles) => {
    if (roles.includes(Roles.e_reviewer) || roles.includes(Roles.i_reviewer)) {
       return [...roles, Roles.reviewer];
@@ -203,16 +198,19 @@ const fixRoles = (roles) => {
 const reset = (auth) => {
    auth.user = initialUser;
    auth.isAuthenticated = false;
-   tokenService.removeAccessToken();
+   authService.reset();
 };
 
 const authSlice = createSlice({
    name: "auth",
-   initialState: initialState,
+   initialState: {
+      user: initialUser,
+      isAuthenticated: authService.hasAccess,
+   },
    reducers: {
       refreshFulfilled(auth, { payload }) {
          auth.isAuthenticated = true;
-         tokenService.setAccessToken(payload.access);
+         authService.access = payload.access;
       },
       refreshRejected: reset,
    },
@@ -234,10 +232,10 @@ const authSlice = createSlice({
 
       builder.addMatcher(
          authApi.endpoints.login.matchFulfilled,
-         (auth, { payload }) => {
-            auth.user.roles = fixRoles(payload.roles);
+         (auth, { payload: { roles, access, refresh } }) => {
+            auth.user.roles = fixRoles(roles);
             auth.isAuthenticated = true;
-            tokenService.setAccessToken(payload.access);
+            authService.update({ access, refresh });
          }
       );
 

@@ -74,7 +74,6 @@ function Content({ token, activeStep, handleNext, handleReset, children }) {
    const onParse = (finalData) => {
       const {
          nicPassport,
-         position,
          educationalQualifications: eq,
          confirmPassword,
          idImg,
@@ -94,12 +93,10 @@ function Content({ token, activeStep, handleNext, handleReset, children }) {
          ...data,
          nic,
          passport,
-         possition: position,
          educationalQualifications: eq.split("\n").filter((i) => i),
          idImg: `https://file.com/${idImg.name}`,
       };
 
-      console.log(parsed);
       onRegister(parsed);
    };
 

@@ -2,17 +2,37 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Mutex } from "async-mutex";
 
 import { AUTH, DATA } from "config/endpoints";
+import authService from "services/auth";
 
-const mutex = new Mutex();
+const doNotAuth = [
+   "signupVerify",
+   "signup",
+   "login",
+   "validate",
+   "updateEmailVerify",
+   "updateEmail",
+   "forgotPasswordVerify",
+   "forgotPassword",
+];
 
 const authBaseQuery = fetchBaseQuery({
    baseUrl: AUTH,
-   credentials: "include",
+   prepareHeaders: (headers, { endpoint }) => {
+      if (authService.hasAccess && !doNotAuth.includes(endpoint)) {
+         headers.set("Authorization", `Bearer ${authService.access}`);
+      }
+      return headers;
+   },
 });
 
 const dataBaseQuery = fetchBaseQuery({
    baseUrl: DATA,
-   credentials: "include",
+   prepareHeaders: (headers) => {
+      if (authService.hasAccess) {
+         headers.set("Authorization", `Bearer ${authService.access}`);
+      }
+      return headers;
+   },
 });
 
 const refresh = (function () {
@@ -34,7 +54,7 @@ const refresh = (function () {
 
 export const { init: initRefreshActions } = refresh;
 
-const doNotRefresh = ["login"];
+const mutex = new Mutex();
 
 const withReAuth = (baseQuery) => async (args, api, extraOptions) => {
    await mutex.waitForUnlock();
@@ -43,7 +63,8 @@ const withReAuth = (baseQuery) => async (args, api, extraOptions) => {
    if (
       result.error &&
       result.error.status === 401 &&
-      !doNotRefresh.includes(api.endpoint)
+      authService.hasRefresh &&
+      (baseQuery === dataBaseQuery || !doNotAuth.includes(api.endpoint))
    ) {
       if (mutex.isLocked()) {
          await mutex.waitForUnlock();
@@ -54,6 +75,7 @@ const withReAuth = (baseQuery) => async (args, api, extraOptions) => {
             {
                url: "/token/refresh",
                method: "POST",
+               body: { token: authService.refresh },
             },
             api,
             extraOptions
