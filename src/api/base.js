@@ -9,8 +9,6 @@ const doNotAuth = [
    "signup",
    "login",
    "validate",
-   "updateEmailVerify",
-   "updateEmail",
    "forgotPasswordVerify",
    "forgotPassword",
 ];

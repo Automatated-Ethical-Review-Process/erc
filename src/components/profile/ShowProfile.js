@@ -3,10 +3,10 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import { Container } from "@mui/material";
+import { Container, Fab } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
+import EditIcon from "@mui/icons-material/Edit";
 
 import { useNavigate } from "react-router-dom";
 
@@ -14,31 +14,54 @@ import NavigationBar from "components/NavigationBar";
 
 import Image from "assests/baby.webp";
 import useAuth from "hooks/useAuth";
+import { useGetMeQuery } from "api/data/user";
+import LoadingCircle from "components/common/LoadingCircle";
 
 function ImageAvatar() {
    return (
-      <Avatar alt="Remy Sharp" src={Image} sx={{ width: 200, height: 200 }} />
-   );
-}
-
-function EditButton() {
-   const navigate = useNavigate();
-   return (
-      <Button onClick={() => navigate("/profile/edit")} variant="contained">
-         Edit
-      </Button>
+      <Avatar
+         alt="Profile Image"
+         src={Image}
+         sx={{ width: 200, height: 200 }}
+      />
    );
 }
 
 const Item = styled(Paper)(({ theme }) => ({
    padding: theme.spacing(1),
    textAlign: "center",
+   minHeight: theme.spacing(5),
 }));
 
+function GridTitle({ title }) {
+   return (
+      <Grid item xs={6} justifyContent="center">
+         <Typography variant="h7">{title}</Typography>
+      </Grid>
+   );
+}
+
+function GridItem({ title, body }) {
+   return (
+      <>
+         <GridTitle title={title} />
+         <Grid item xs={6}>
+            <Item>
+               <Typography>{body}</Typography>
+            </Item>
+         </Grid>
+      </>
+   );
+}
+
 export function Content() {
+   const navigate = useNavigate();
    const { user } = useAuth();
+   const { data = {}, isLoading } = useGetMeQuery();
+
    return (
       <Container maxWidth={"md"}>
+         <LoadingCircle isLoading={isLoading} />
          <Grid
             container
             direction="column"
@@ -50,58 +73,64 @@ export function Content() {
          </Grid>
          <Box sx={{ width: "100%" }}>
             <Grid container rowSpacing={2}>
-               <Grid item xs={6}>
-                  <Typography variant="h7">Name</Typography>
-               </Grid>
-               <Grid item xs={6}>
-                  <Item>
-                     <Typography>Malindu Madhusankha</Typography>
-                  </Item>
-               </Grid>
-               <Grid item xs={6}>
-                  <Typography variant="h7">Email</Typography>
-               </Grid>
-               <Grid item xs={6}>
-                  <Item>
-                     <Typography>{user.email}</Typography>
-                  </Item>
-               </Grid>
-               <Grid item xs={6}>
-                  <Typography variant="h7">Phone Number</Typography>
-               </Grid>
-               <Grid item xs={6}>
-                  <Item>
-                     <Typography>0789101112</Typography>
-                  </Item>
-               </Grid>
-               <Grid item xs={6}>
-                  <Typography variant="h7">Address</Typography>
-               </Grid>
-               <Grid item xs={6}>
-                  <Item>
-                     <Typography>No.10, ABC road, Matara</Typography>
-                  </Item>
-               </Grid>
-               <Grid item xs={6}>
-                  <Typography variant="h7">NIC/Passport</Typography>
-               </Grid>
-               <Grid item xs={6}>
-                  <Item>
-                     <Typography>123456789V</Typography>
-                  </Item>
-               </Grid>
-               <Grid item xs={6}>
-                  <Typography variant="h7">Is Undergraduate</Typography>
-               </Grid>
-               <Grid item xs={6}>
-                  <Checkbox disabled={true} checked={true} />
-               </Grid>
-               <Grid item xs={6}></Grid>
-               <Grid item xs={6}>
-                  <EditButton />
-               </Grid>
+               <GridItem title="Name" body={data.name} />
+               <GridItem title="Email" body={user.email} />
+               <GridItem title="Phone Number" body={data.mobileNumber} />
+               <GridItem title="Land Number" body={data.landNumber} />
+               <GridItem
+                  title="NIC / Passport"
+                  body={data.nic || data.passport}
+               />
+               <GridItem title="Address" body={data.address} />
+               <GridItem
+                  title="Educational Qualifications"
+                  body={(data.educationalQualifications || []).join("\n")}
+               />
+               {data.isUnderGraduate && (
+                  <>
+                     <GridTitle title="Is Undergraduate" />
+                     <Grid item xs={6}>
+                        <Checkbox checked={data.isUnderGraduate} />
+                     </Grid>
+                     {data.isUnderGraduate ? (
+                        <>
+                           <GridItem
+                              title="University"
+                              body={data.university}
+                           />
+                           <GridItem title="Faculty" body={data.faculty} />
+                           <GridItem
+                              title="Registration Number"
+                              body={data.registrationNumber}
+                           />
+                           <GridItem title="Year" body={data.year} />
+                        </>
+                     ) : (
+                        <>
+                           <GridItem
+                              title="Occupation"
+                              body={data.occupation}
+                           />
+                           <GridItem title="Position" body={data.position} />
+                        </>
+                     )}
+                  </>
+               )}
             </Grid>
          </Box>
+         <Fab
+            variant="extended"
+            color="secondary"
+            sx={(t) => ({
+               position: "fixed",
+               right: t.spacing(4),
+               bottom: t.spacing(4),
+            })}
+            onClick={() => navigate("/profile/edit")}
+         >
+            <EditIcon sx={{ mr: 1 }} />
+            Edit
+         </Fab>
       </Container>
    );
 }

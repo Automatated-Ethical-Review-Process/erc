@@ -50,7 +50,9 @@ export default function SignIn() {
       login(data)
          .unwrap()
          .then(() => navigate(state?.from ? state.from.pathname : "/"))
-         .catch((err) => setSubmitError(err.data.message));
+         .catch((err) =>
+            setSubmitError(err.data?.message || "Something went wrong")
+         );
    };
 
    const formView = (

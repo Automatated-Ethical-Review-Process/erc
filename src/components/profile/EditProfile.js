@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -10,15 +10,17 @@ import {
    DialogContent,
    DialogContentText,
    DialogTitle,
+   Fab,
+   Stack,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import { Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useNavigate } from "react-router-dom";
 
@@ -33,21 +35,47 @@ import {
    useUpdatePasswordMutation,
 } from "api/auth/api";
 import useAuth from "hooks/useAuth";
-import { isEmail } from "utils/yup";
+import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
-function InputPassword({ params: { value, error }, onChange, label }) {
+function ImageAvatar() {
+   return (
+      <Avatar
+         alt="Profile Image"
+         src={Image}
+         sx={{ width: 200, height: 200 }}
+      />
+   );
+}
+
+function TextFieldController({ name, control, ...rest }) {
+   return (
+      <Controller
+         name={name}
+         control={control}
+         render={({ field, fieldState: { error } }) => (
+            <TextField
+               {...field}
+               fullWidth
+               variant="outlined"
+               size="small"
+               error={!!error}
+               helperText={error && error.message}
+               {...rest}
+            />
+         )}
+      />
+   );
+}
+
+function PasswordFieldController({ label, ...rest }) {
    const [showPassword, setShowPassword] = useState(false);
    return (
-      <TextField
-         fullWidth
+      <TextFieldController
          label={label}
-         variant="outlined"
-         size="small"
          type={showPassword ? "text" : "password"}
-         value={value}
-         onChange={(e) => onChange(e.target.value)}
-         error={!!error}
-         helperText={error}
          InputProps={{
             endAdornment: (
                <InputAdornment position="end">
@@ -61,56 +89,117 @@ function InputPassword({ params: { value, error }, onChange, label }) {
                </InputAdornment>
             ),
          }}
+         {...rest}
       />
    );
 }
 
-function TextFieldHiddenLabel({ params: { value, error }, onChange }) {
-   return (
-      <TextField
-         fullWidth
-         value={value}
-         onChange={onChange && ((e) => onChange(e.target.value))}
-         error={!!error}
-         helperText={error}
-         variant="outlined"
-         size="small"
-      />
-   );
-}
-
-function ImageAvatar() {
-   return (
-      <Avatar alt="Remy Sharp" src={Image} sx={{ width: 200, height: 200 }} />
-   );
-}
-
-function EditDetails() {
+function GridItem({ title, isPassword, ...rest }) {
    return (
       <>
          <Grid item xs={6}>
-            <Typography variant="h7">Name</Typography>
+            <Typography variant="h7">{title}</Typography>
          </Grid>
          <Grid item xs={6}>
-            <TextFieldHiddenLabel params={{ value: "Malindu Madhusankha" }} />
-         </Grid>
-         <Grid item xs={6}>
-            <Typography variant="h7">Phone Number</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <TextFieldHiddenLabel params={{ value: "0789101112" }} />
-         </Grid>
-         <Grid item xs={6}></Grid>
-         <Grid item xs={6}>
-            <Button variant="contained" disabled={true}>
-               Update Details
-            </Button>
+            {isPassword ? (
+               <PasswordFieldController {...rest} />
+            ) : (
+               <TextFieldController {...rest} />
+            )}
          </Grid>
       </>
    );
 }
 
-function EditEmail({ setIsLoading }) {
+const schemaDetails = Yup.object().shape({
+   mobileNumber: Yup.string()
+      .required("Mobile number is required")
+      .matches(/^\d{10}$/, "Invalid number"),
+   landNumber: Yup.string().matches(/^(\d{10})?$/, "Invalid number"),
+   address: Yup.string().required("Address is required"),
+   educationalQualifications: Yup.string().required(
+      "Education qualifications are required"
+   ),
+});
+
+function EditDetails() {
+   const { data = {}, isLoading: isLoadingGet } = useGetMeQuery();
+   const [updateMe, { isLoading: isLoadingUpdate }] = useUpdateMeMutation();
+
+   const isLoading = isLoadingGet || isLoadingUpdate;
+
+   const { notify } = useNotify();
+
+   const {
+      control,
+      handleSubmit,
+      formState: { isDirty },
+   } = useForm({
+      resolver: yupResolver(schemaDetails),
+      defaultValues: {
+         ...data,
+         educationalQualifications: (data.educationalQualifications || []).join(
+            "\n"
+         ),
+      },
+      shouldUnregister: true,
+   });
+
+   const onSubmit = ({ educationalQualifications, ...data }) => {
+      const finalData = {
+         ...data,
+         educationalQualifications: educationalQualifications
+            .split("\n")
+            .filter((i) => i),
+      };
+
+      updateMe(finalData)
+         .unwrap()
+         .then(() => notify("Account details updated", "success"))
+         .catch(() => notify("Something went wrong", "error"));
+   };
+
+   return (
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+         <LoadingCircle isLoading={isLoading} />
+         <Grid container rowSpacing={2}>
+            <GridItem
+               title="Phone Number"
+               name="mobileNumber"
+               control={control}
+            />
+            <GridItem title="Land Number" name="landNumber" control={control} />
+            <GridItem title="Address" name="address" control={control} />
+            <GridItem
+               title="Educational Qualifications"
+               name="educationalQualifications"
+               control={control}
+               multiline
+               rows={4}
+            />
+            <Grid item xs={6} />
+            <Grid item xs={6}>
+               <Button variant="contained" type="submit" disabled={!isDirty}>
+                  Update Details
+               </Button>
+            </Grid>
+         </Grid>
+      </Box>
+   );
+}
+
+const schemaEmail = Yup.object().shape({
+   email: Yup.string().required("Email is required").email("Invalid email"),
+});
+
+const schemaPassword = Yup.object().shape({
+   password: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters")
+      .max(40, "Password must not exceed 40 characters"),
+});
+
+function EditEmail() {
    const { user } = useAuth();
    const { notify } = useNotify(true);
 
@@ -119,54 +208,48 @@ function EditEmail({ setIsLoading }) {
    const [updateEmailVerify, { isLoading: updateIsLoading }] =
       useUpdateEmailVerifyMutation();
 
-   const [email, setEmail] = useState({ value: user.email, error: null });
-
    const isLoading = checkIsLoading || updateIsLoading;
 
-   const ref = useRef(false);
-   useEffect(() => {
-      if (ref.current) {
-         setIsLoading(isLoading);
-      } else {
-         ref.current = true;
-      }
-   }, [setIsLoading, isLoading]);
+   const {
+      control: controlEmail,
+      handleSubmit: handleSubmitEmail,
+      formState: { isDirty },
+      getValues,
+      reset: resetEmail,
+   } = useForm({
+      resolver: yupResolver(schemaEmail),
+      defaultValues: { email: user.email ?? "" },
+   });
 
-   const onEmailChange = (value) =>
-      setEmail({
-         value,
-         error: isEmail(value) ? "" : "invalid email address",
-      });
+   const onSubmitEmail = () => setOpen(true);
 
-   const canUpdate =
-      !isLoading && email.value !== user.email && email.error === "";
+   const {
+      control: controlPassword,
+      handleSubmit: handleSubmitPassword,
+      setError,
+      reset: resetPassword,
+   } = useForm({
+      resolver: yupResolver(schemaPassword),
+      defaultValues: { password: "" },
+   });
 
    const [open, setOpen] = useState(false);
 
-   const initial = { value: "", error: null };
-   const [password, setPassword] = useState(initial);
-
-   const onUpdate = () => setOpen(true);
    const onCancel = () => setOpen(false);
-   const onChange = (value) =>
-      setPassword({
-         value,
-         error: value.length < 8 ? "min size 8 characters" : "",
-      });
 
-   const onConfirm = () => {
-      checkPassword({ password: password.value })
+   const onSubmitPassword = ({ password }) => {
+      checkPassword({ password })
          .unwrap()
          .then(() => {
-            setPassword(initial);
             setOpen(false);
             updateEmailVerify({
                oldEmail: user.email,
-               newEmail: email.value,
+               newEmail: getValues("email"),
             })
                .unwrap()
                .then(({ token }) => {
-                  setEmail({ value: user.email, error: null });
+                  resetEmail();
+                  resetPassword();
                   notify("Please verify your email", "info");
                   console.log(
                      `${window.location.href
@@ -181,203 +264,142 @@ function EditEmail({ setIsLoading }) {
                   })
                );
          })
-         .catch(() => setPassword({ ...password, error: "invalid password" }));
+         .catch(() => setError("password", { message: "invalid password" }));
    };
 
    return (
       <>
-         <Grid item xs={6}>
-            <Typography variant="h7">Email</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <TextFieldHiddenLabel params={email} onChange={onEmailChange} />
-         </Grid>
-         <Grid item xs={6}></Grid>
-         <Grid item xs={6}>
-            <Button
-               variant="contained"
-               disabled={!canUpdate}
-               onClick={onUpdate}
-            >
-               Update Email
-            </Button>
-         </Grid>
+         <LoadingCircle isLoading={isLoading} />
+         <Box
+            component="form"
+            onSubmit={handleSubmitEmail(onSubmitEmail)}
+            noValidate
+         >
+            <Grid container rowSpacing={2}>
+               <GridItem title="Email" name="email" control={controlEmail} />
+               <Grid item xs={6} />
+               <Grid item xs={6}>
+                  <Button variant="contained" disabled={!isDirty} type="submit">
+                     Update Email
+                  </Button>
+               </Grid>
+            </Grid>
+         </Box>
          <Dialog open={open} onClose={onCancel}>
             <DialogTitle>Update Email</DialogTitle>
-            <DialogContent>
-               <DialogContentText>
-                  Please enter your password.
-               </DialogContentText>
-               <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="password"
-                  type="password"
-                  fullWidth
-                  variant="standard"
-                  onChange={(e) => onChange(e.target.value)}
-                  value={password.value}
-                  error={!!password.error}
-                  helperText={password.error}
-               />
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={onCancel}>Cancel</Button>
-               <Button onClick={onConfirm} disabled={!!password.error}>
-                  Confirm
-               </Button>
-            </DialogActions>
+            <Box
+               component="form"
+               onSubmit={handleSubmitPassword(onSubmitPassword)}
+               noValidate
+            >
+               <DialogContent>
+                  <DialogContentText>
+                     Please enter your password.
+                  </DialogContentText>
+                  <PasswordFieldController
+                     autoFocus
+                     margin="dense"
+                     variant="standard"
+                     label="Password"
+                     name="password"
+                     control={controlPassword}
+                  />
+               </DialogContent>
+               <DialogActions>
+                  <Button onClick={onCancel}>Cancel</Button>
+                  <Button type="submit">Confirm</Button>
+               </DialogActions>
+            </Box>
          </Dialog>
       </>
    );
 }
 
-function EditPassword({ setIsLoading }) {
-   const navigate = useNavigate();
-   const { notify } = useNotify(true);
+const schemaConfirmPassword = Yup.object().shape({
+   oldPassword: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters")
+      .max(40, "Password must not exceed 40 characters")
+      .default(""),
+   newPassword: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters")
+      .max(40, "Password must not exceed 40 characters")
+      .notOneOf([Yup.ref("oldPassword")], "New password same as old")
+      .default(""),
+   confirmPassword: Yup.string()
+      .required("Password is required")
+      .oneOf([Yup.ref("newPassword")], "Your passwords do not match")
+      .default(""),
+});
 
+function EditPassword() {
+   const { notify } = useNotify(true);
    const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
 
-   const ref = useRef(false);
-   useEffect(() => {
-      if (ref.current) {
-         setIsLoading(isLoading);
-      } else {
-         ref.current = true;
-      }
-   }, [setIsLoading, isLoading]);
+   const {
+      control,
+      handleSubmit,
+      formState: { isDirty },
+      reset,
+      setError,
+   } = useForm({
+      resolver: yupResolver(schemaConfirmPassword),
+      defaultValues: schemaConfirmPassword.getDefault(),
+   });
 
-   const initialValue = { value: "", error: null };
-
-   const [oldPassword, setOldPassword] = useState(initialValue);
-   const [newPassword, setNewPassword] = useState(initialValue);
-   const [confirmPassword, setConfirmPassword] = useState(initialValue);
-
-   const onOldChange = (value) => {
-      setOldPassword({
-         value,
-         error: value.length < 8 ? "min size 8 characters" : "",
-      });
-      if (newPassword.value.length >= 8 && value.length >= 8) {
-         setNewPassword((params) => ({
-            ...params,
-            error: value === params.value ? "same as old password" : "",
-         }));
-      }
-   };
-
-   const onNewChange = (value) => {
-      setNewPassword({
-         value,
-         error:
-            value.length < 8
-               ? "min size 8 characters"
-               : value === oldPassword.value
-               ? "same as old password"
-               : "",
-      });
-      if (confirmPassword.value.length >= 8 && value.length >= 8) {
-         setConfirmPassword((params) => ({
-            ...params,
-            error:
-               value !== params.value ? "did not match with new password" : "",
-         }));
-      }
-   };
-
-   const onConfirmChange = (value) =>
-      setConfirmPassword({
-         value,
-         error:
-            value.length < 8
-               ? "min size 8 characters"
-               : value !== newPassword.value
-               ? "did not match with new password"
-               : "",
-      });
-
-   const canUpdate =
-      !isLoading &&
-      oldPassword.error === "" &&
-      newPassword.error === "" &&
-      confirmPassword.error === "";
-
-   const onUpdate = () =>
+   const onSubmit = ({ oldPassword, newPassword }) =>
       updatePassword({
-         oldPassword: oldPassword.value,
-         newPassword: newPassword.value,
+         oldPassword,
+         newPassword,
       })
          .unwrap()
          .then(() => {
-            setOldPassword(initialValue);
-            setNewPassword(initialValue);
-            setConfirmPassword(initialValue);
+            reset();
             notify("Password updated", "success");
          })
-         .catch(() =>
-            setOldPassword((params) => ({
-               ...params,
-               error: "did not match",
-            }))
-         );
+         .catch(() => setError("oldPassword", { message: "did not match" }));
 
    return (
-      <>
-         <Grid item xs={6}>
-            <Typography variant="h7">Old Password</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <InputPassword
-               params={oldPassword}
-               onChange={onOldChange}
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+         <LoadingCircle isLoading={isLoading} />
+         <Grid container rowSpacing={2}>
+            <GridItem
+               title="Old Password"
+               name="oldPassword"
                label="Old"
+               isPassword={true}
+               control={control}
             />
-         </Grid>
-         <Grid item xs={6}>
-            <Typography variant="h7">New Password</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <InputPassword
-               params={newPassword}
-               onChange={onNewChange}
+            <GridItem
+               title="New Password"
+               name="newPassword"
                label="New"
+               isPassword={true}
+               control={control}
             />
-         </Grid>
-         <Grid item xs={6}>
-            <Typography variant="h7">Re-entry new password</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <InputPassword
-               params={confirmPassword}
-               onChange={onConfirmChange}
+            <GridItem
+               title="Confirm Password"
+               name="confirmPassword"
                label="Confirm"
+               isPassword={true}
+               control={control}
             />
-         </Grid>
-         <Grid item xs={6}></Grid>
-         <Grid item xs={6}>
-            <Stack direction="row" spacing={2}>
-               <Button
-                  variant="contained"
-                  disabled={!canUpdate}
-                  onClick={onUpdate}
-               >
+            <Grid item xs={6} />
+            <Grid item xs={6}>
+               <Button variant="contained" disabled={!isDirty} type="submit">
                   Update Password
                </Button>
-               <Button variant="contained" onClick={() => navigate(-1)}>
-                  Cancel
-               </Button>
-            </Stack>
+            </Grid>
          </Grid>
-      </>
+      </Box>
    );
 }
 
 function Content() {
-   const [isLoading, setIsLoading] = useState(false);
+   const navigate = useNavigate();
    return (
       <Container maxWidth={"md"}>
-         <LoadingCircle isLoading={isLoading} />
          <Grid
             container
             direction="column"
@@ -388,12 +410,25 @@ function Content() {
             <ImageAvatar />
          </Grid>
          <Box sx={{ width: "100%" }}>
-            <Grid container rowSpacing={2}>
-               <EditDetails setIsLoading={setIsLoading} />
-               <EditEmail setIsLoading={setIsLoading} />
-               <EditPassword setIsLoading={setIsLoading} />
-            </Grid>
+            <Stack spacing={2}>
+               <EditDetails />
+               <EditEmail />
+               <EditPassword />
+            </Stack>
          </Box>
+         <Fab
+            variant="extended"
+            color="secondary"
+            sx={(t) => ({
+               position: "fixed",
+               right: t.spacing(4),
+               bottom: t.spacing(4),
+            })}
+            onClick={() => navigate(-1)}
+         >
+            <CloseIcon sx={{ mr: 1 }} />
+            Cancel
+         </Fab>
       </Container>
    );
 }
