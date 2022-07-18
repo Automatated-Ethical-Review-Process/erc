@@ -2,9 +2,6 @@ import { useState } from "react";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -13,7 +10,6 @@ import Container from "@mui/material/Container";
 import Alert from "@mui/material/Alert";
 
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Controller } from "react-hook-form";
 
 import { useLoginMutation } from "api/auth/api";
 import authService from "services/auth";
@@ -21,6 +17,12 @@ import authService from "services/auth";
 import Image from "assets/meetings.jpg";
 import { yEmail, yObject, yPassword } from "utils/yup";
 import useForm from "hooks/useForm";
+import Form from "components/common/Form";
+import {
+   CheckboxController,
+   PasswordFieldController,
+   TextFieldController,
+} from "components/controllers";
 
 const schema = yObject({
    email: yEmail,
@@ -66,58 +68,28 @@ export default function SignIn() {
             <Typography component="h1" variant="h5">
                Sign In
             </Typography>
-            <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-               <Controller
+            <Form onSubmit={handleSubmit(onSubmit)}>
+               <TextFieldController
                   name="email"
+                  label="Email Address"
                   control={control}
                   defaultValue={authService.email ?? ""}
-                  render={({ field, fieldState: { error } }) => (
-                     <TextField
-                        {...field}
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Email Address"
-                        autoComplete="email"
-                        error={!!error}
-                        helperText={error && error.message}
-                     />
-                  )}
+                  required
+                  autoComplete="email"
                />
-               <Controller
+               <PasswordFieldController
                   name="password"
+                  label="Password"
                   control={control}
                   defaultValue=""
-                  render={({ field, fieldState: { error } }) => (
-                     <TextField
-                        {...field}
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Password"
-                        type="password"
-                        autoComplete="current-password"
-                        error={!!error}
-                        helperText={error && error.message}
-                     />
-                  )}
+                  required
+                  autoComplete="current-password"
                />
-               <Controller
+               <CheckboxController
                   name="rememberMe"
+                  label="Remember me"
                   control={control}
                   defaultValue={authService.hasEmail}
-                  render={({ field: { value, ...rest } }) => (
-                     <FormControlLabel
-                        control={
-                           <Checkbox
-                              {...rest}
-                              checked={value}
-                              color="primary"
-                           />
-                        }
-                        label="Remember me"
-                     />
-                  )}
                />
                {submitError && <Alert severity="error">{submitError}</Alert>}
                <Button
@@ -143,7 +115,7 @@ export default function SignIn() {
                      </Typography>
                   </Grid>
                </Grid>
-            </Box>
+            </Form>
          </Box>
       </Container>
    );

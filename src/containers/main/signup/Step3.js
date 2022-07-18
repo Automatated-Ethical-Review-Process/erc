@@ -1,10 +1,8 @@
-import { Controller } from "react-hook-form";
-
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { yObject, yPassword, yRef } from "utils/yup";
 import useForm from "hooks/useForm";
+import { PasswordFieldController } from "components/controllers";
 
 const schema = yObject({
    password: yPassword,
@@ -26,41 +24,21 @@ export default function Step3({ setHandleSubmit, data }) {
          </Typography>
          <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
-               <Controller
+               <PasswordFieldController
                   name="password"
+                  label="New password"
                   control={control}
-                  render={({ field, fieldState: { error } }) => (
-                     <TextField
-                        {...field}
-                        margin="normal"
-                        required
-                        fullWidth
-                        type="password"
-                        label="New password"
-                        variant="standard"
-                        error={!!error}
-                        helperText={error && error.message}
-                     />
-                  )}
+                  required
+                  variant="standard"
                />
             </Grid>
             <Grid item xs={12} sm={6}>
-               <Controller
+               <PasswordFieldController
                   name="confirmPassword"
+                  label="Confirm password"
                   control={control}
-                  render={({ field, fieldState: { error } }) => (
-                     <TextField
-                        {...field}
-                        margin="normal"
-                        required
-                        fullWidth
-                        type="password"
-                        label="Confirm password"
-                        variant="standard"
-                        error={!!error}
-                        helperText={error && error.message}
-                     />
-                  )}
+                  required
+                  variant="standard"
                />
             </Grid>
          </Grid>

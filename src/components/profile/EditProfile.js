@@ -15,11 +15,6 @@ import {
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useNavigate } from "react-router-dom";
@@ -36,7 +31,6 @@ import {
 } from "api/auth/api";
 import useAuth from "hooks/useAuth";
 import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
-import { Controller } from "react-hook-form";
 import {
    yAddress,
    yEducationalQualifications,
@@ -49,6 +43,11 @@ import {
    yRef,
 } from "utils/yup";
 import useForm from "hooks/useForm";
+import {
+   PasswordFieldController,
+   TextPasswordFieldController,
+} from "components/controllers";
+import Form from "components/common/Form";
 
 function ImageAvatar() {
    return (
@@ -60,50 +59,6 @@ function ImageAvatar() {
    );
 }
 
-function TextFieldController({ name, control, ...rest }) {
-   return (
-      <Controller
-         name={name}
-         control={control}
-         render={({ field, fieldState: { error } }) => (
-            <TextField
-               {...field}
-               fullWidth
-               variant="outlined"
-               size="small"
-               error={!!error}
-               helperText={error && error.message}
-               {...rest}
-            />
-         )}
-      />
-   );
-}
-
-function PasswordFieldController({ label, ...rest }) {
-   const [showPassword, setShowPassword] = useState(false);
-   return (
-      <TextFieldController
-         label={label}
-         type={showPassword ? "text" : "password"}
-         InputProps={{
-            endAdornment: (
-               <InputAdornment position="end">
-                  <IconButton
-                     onClick={() => setShowPassword((v) => !v)}
-                     onMouseDown={(e) => e.preventDefault()}
-                     edge="end"
-                  >
-                     {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-               </InputAdornment>
-            ),
-         }}
-         {...rest}
-      />
-   );
-}
-
 function GridItem({ title, isPassword, ...rest }) {
    return (
       <>
@@ -111,11 +66,7 @@ function GridItem({ title, isPassword, ...rest }) {
             <Typography variant="h7">{title}</Typography>
          </Grid>
          <Grid item xs={6}>
-            {isPassword ? (
-               <PasswordFieldController {...rest} />
-            ) : (
-               <TextFieldController {...rest} />
-            )}
+            <TextPasswordFieldController isPassword={isPassword} {...rest} />
          </Grid>
       </>
    );
@@ -169,7 +120,7 @@ function EditDetails() {
    };
 
    return (
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <Form onSubmit={handleSubmit(onSubmit)}>
          <LoadingCircle isLoading={isLoading} />
          <Grid container rowSpacing={2}>
             <GridItem
@@ -193,7 +144,7 @@ function EditDetails() {
                </Button>
             </Grid>
          </Grid>
-      </Box>
+      </Form>
    );
 }
 
@@ -262,11 +213,7 @@ function EditEmail() {
    return (
       <>
          <LoadingCircle isLoading={isLoading} />
-         <Box
-            component="form"
-            onSubmit={handleSubmitEmail(onSubmitEmail)}
-            noValidate
-         >
+         <Form onSubmit={handleSubmitEmail(onSubmitEmail)}>
             <Grid container rowSpacing={2}>
                <GridItem title="Email" name="email" control={controlEmail} />
                <Grid item xs={6} />
@@ -276,32 +223,27 @@ function EditEmail() {
                   </Button>
                </Grid>
             </Grid>
-         </Box>
+         </Form>
          <Dialog open={open} onClose={onCancel}>
             <DialogTitle>Update Email</DialogTitle>
-            <Box
-               component="form"
-               onSubmit={handleSubmitPassword(onSubmitPassword)}
-               noValidate
-            >
+            <Form onSubmit={handleSubmitPassword(onSubmitPassword)}>
                <DialogContent>
                   <DialogContentText>
                      Please enter your password.
                   </DialogContentText>
                   <PasswordFieldController
-                     autoFocus
-                     margin="dense"
-                     variant="standard"
-                     label="Password"
                      name="password"
+                     label="Password"
                      control={controlPassword}
+                     autoFocus
+                     variant="standard"
                   />
                </DialogContent>
                <DialogActions>
                   <Button onClick={onCancel}>Cancel</Button>
                   <Button type="submit">Confirm</Button>
                </DialogActions>
-            </Box>
+            </Form>
          </Dialog>
       </>
    );
@@ -344,7 +286,7 @@ function EditPassword() {
          .catch(() => setError("oldPassword", { message: "Did not match" }));
 
    return (
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <Form onSubmit={handleSubmit(onSubmit)}>
          <LoadingCircle isLoading={isLoading} />
          <Grid container rowSpacing={2}>
             <GridItem
@@ -375,7 +317,7 @@ function EditPassword() {
                </Button>
             </Grid>
          </Grid>
-      </Box>
+      </Form>
    );
 }
 
@@ -401,7 +343,7 @@ function Content() {
          </Box>
          <Fab
             variant="extended"
-            color="secondary"
+            color="warning"
             sx={(t) => ({
                position: "fixed",
                right: t.spacing(4),

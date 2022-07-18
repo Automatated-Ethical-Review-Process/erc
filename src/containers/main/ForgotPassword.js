@@ -5,10 +5,8 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { TextField } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { isUuid, yEmailSchema, yObject, yPassword, yRef } from "utils/yup";
-import { Controller } from "react-hook-form";
 import {
    useForgotPasswordMutation,
    useForgotPasswordVerifyMutation,
@@ -16,6 +14,11 @@ import {
 } from "api/auth/api";
 import useNotify from "hooks/useNotify";
 import useForm from "hooks/useForm";
+import {
+   PasswordFieldController,
+   TextFieldController,
+} from "components/controllers";
+import Form from "components/common/Form";
 
 function Step1({ handleNext }) {
    const navigate = useNavigate();
@@ -47,22 +50,13 @@ function Step1({ handleNext }) {
             Just enter your email address, and we will send you a link to reset
             your password.
          </Typography>
-         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-            <Controller
+         <Form onSubmit={handleSubmit(onSubmit)}>
+            <TextFieldController
                name="email"
+               label="Email Address"
                control={control}
-               render={({ field, fieldState: { error } }) => (
-                  <TextField
-                     {...field}
-                     margin="normal"
-                     required
-                     fullWidth
-                     label="Email Address"
-                     autoComplete="email"
-                     error={!!error}
-                     helperText={error && error.message}
-                  />
-               )}
+               required
+               autoComplete="email"
             />
             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                <Button sx={{ mt: 3, ml: 1 }} onClick={() => navigate(-1)}>
@@ -77,7 +71,7 @@ function Step1({ handleNext }) {
                   Continue
                </Button>
             </Box>
-         </Box>
+         </Form>
       </>
    );
 }
@@ -146,38 +140,18 @@ function ForgotPasswordInput({ token }) {
          <Typography align="center" variant="h5">
             Reset your password
          </Typography>
-         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-            <Controller
+         <Form onSubmit={handleSubmit(onSubmit)}>
+            <PasswordFieldController
                name="password"
+               label="New password"
                control={control}
-               render={({ field, fieldState: { error } }) => (
-                  <TextField
-                     {...field}
-                     margin="normal"
-                     required
-                     fullWidth
-                     type="password"
-                     label="New password"
-                     error={!!error}
-                     helperText={error && error.message}
-                  />
-               )}
+               required
             />
-            <Controller
+            <PasswordFieldController
                name="confirmPassword"
+               label="Confirm password"
                control={control}
-               render={({ field, fieldState: { error } }) => (
-                  <TextField
-                     {...field}
-                     margin="normal"
-                     required
-                     fullWidth
-                     type="password"
-                     label="Confirm password"
-                     error={!!error}
-                     helperText={error && error.message}
-                  />
-               )}
+               required
             />
             <Button
                type="submit"
@@ -188,7 +162,7 @@ function ForgotPasswordInput({ token }) {
             >
                Reset
             </Button>
-         </Box>
+         </Form>
       </>
    );
 }

@@ -18,6 +18,7 @@ import EmailVerify from "./EmailVerify";
 import { isUuid } from "utils/yup";
 import { useSignupMutation, useValidateMutation } from "api/auth/api";
 import useNotify from "hooks/useNotify";
+import Form from "components/common/Form";
 
 const steps = ["Step 1", "Step 2", "Step 3"];
 
@@ -114,15 +115,10 @@ function Content({ token, activeStep, handleNext, handleReset, children }) {
    return (
       <>
          <LoadingCircle isLoading={isLoading} />
-         <Box
-            component="form"
-            onSubmit={(e) => handleSubmit(onSubmit)(e)}
-            noValidate
-            sx={{ mt: 1 }}
-         >
+         <Form onSubmit={(e) => handleSubmit(onSubmit)(e)}>
             {content}
             {children}
-         </Box>
+         </Form>
       </>
    );
 }

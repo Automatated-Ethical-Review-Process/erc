@@ -1,17 +1,17 @@
-import { Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
 import { useSignupVerifyMutation } from "api/auth/api";
 import useNotify from "hooks/useNotify";
 import { yEmailSchema } from "utils/yup";
 import useForm from "hooks/useForm";
+import Form from "components/common/Form";
+import { TextFieldController } from "components/controllers";
 
 export default function EmailVerify() {
    const navigate = useNavigate();
@@ -42,7 +42,7 @@ export default function EmailVerify() {
    return (
       <Container component="main" maxWidth="md">
          <Paper variant="outlined" sx={{ mt: 4, p: 4 }}>
-            <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+            <Form onSubmit={handleSubmit(onSubmit)}>
                <Grid container space={3}>
                   <Grid item xs={12} md={12}>
                      <Typography variant="h3" textAlign={"center"}>
@@ -56,35 +56,20 @@ export default function EmailVerify() {
                         email to your email account.
                      </Typography>
                   </Grid>
-                  <Grid item xs={12} md={4}></Grid>
-                  <Grid item xs={12} md={4}>
-                     <Controller
+                  <Grid item xs={12} md={4} />
+                  <Grid item xs={12} md={4} mt={3}>
+                     <TextFieldController
                         name="email"
+                        label="Email Address"
                         control={control}
-                        render={({ field, fieldState: { error } }) => (
-                           <TextField
-                              {...field}
-                              margin="normal"
-                              required
-                              fullWidth
-                              label="Email Address"
-                              autoComplete="email"
-                              error={!!error}
-                              helperText={error && error.message}
-                              sx={{
-                                 mt: 4,
-                              }}
-                           />
-                        )}
+                        required
+                        autoComplete="email"
                      />
                   </Grid>
-                  <Grid item xs={12} md={4}></Grid>
-                  <Grid item xs={12} md={4}></Grid>
-                  <Grid item xs={12} md={4} align="center">
+                  <Grid item xs={12} md={4} />
+                  <Grid item xs={12} md={4} />
+                  <Grid item xs={12} md={4} align="center" mt={2}>
                      <Button
-                        sx={{
-                           mt: 2,
-                        }}
                         type="submit"
                         variant="contained"
                         disabled={isLoading}
@@ -93,9 +78,9 @@ export default function EmailVerify() {
                         Verify Email
                      </Button>
                   </Grid>
-                  <Grid item xs={12} md={4}></Grid>
+                  <Grid item xs={12} md={4} />
                </Grid>
-            </Box>
+            </Form>
          </Paper>
       </Container>
    );
