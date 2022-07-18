@@ -9,7 +9,7 @@ import {
 
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
-import tLink from "assests/(V2)_Lecture_11_2021.pdf";
+import tLink from "assets/(V2)_Lecture_11_2021.pdf";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";

@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 import NavigationBar from "components/NavigationBar";
 
-import Image from "assests/baby.webp";
+import Image from "assets/baby.webp";
 import useAuth from "hooks/useAuth";
 import { useGetMeQuery } from "api/data/user";
 import LoadingCircle from "components/common/LoadingCircle";
@@ -47,7 +47,11 @@ function GridItem({ title, body }) {
          <GridTitle title={title} />
          <Grid item xs={6}>
             <Item>
-               <Typography>{body}</Typography>
+               <Typography
+                  sx={{ wordWrap: "break-word", whiteSpace: "pre-line" }}
+               >
+                  {body}
+               </Typography>
             </Item>
          </Grid>
       </>
@@ -60,7 +64,7 @@ export function Content() {
    const { data = {}, isLoading } = useGetMeQuery();
 
    return (
-      <Container maxWidth={"md"}>
+      <Container maxWidth={"md"} sx={{ pb: 10 }}>
          <LoadingCircle isLoading={isLoading} />
          <Grid
             container

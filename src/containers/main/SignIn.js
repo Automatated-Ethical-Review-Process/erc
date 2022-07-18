@@ -20,7 +20,7 @@ import * as Yup from "yup";
 import { useLoginMutation } from "api/auth/api";
 import authService from "services/auth";
 
-import Image from "assests/meetings.jpg";
+import Image from "assets/meetings.jpg";
 
 const loginSchema = Yup.object().shape({
    email: Yup.string().required("Email is required").email("Email is invalid"),

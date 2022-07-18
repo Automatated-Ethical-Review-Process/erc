@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -28,7 +28,7 @@ import NavigationBar from "components/NavigationBar";
 import LoadingCircle from "components/common/LoadingCircle";
 import useNotify from "hooks/useNotify";
 
-import Image from "assests/baby.webp";
+import Image from "assets/baby.webp";
 import {
    useCheckPasswordMutation,
    useUpdateEmailVerifyMutation,
@@ -114,16 +114,19 @@ function GridItem({ title, isPassword, ...rest }) {
 const schemaDetails = Yup.object().shape({
    mobileNumber: Yup.string()
       .required("Mobile number is required")
-      .matches(/^\d{10}$/, "Invalid number"),
-   landNumber: Yup.string().matches(/^(\d{10})?$/, "Invalid number"),
-   address: Yup.string().required("Address is required"),
-   educationalQualifications: Yup.string().required(
-      "Education qualifications are required"
-   ),
+      .matches(/^\d{10}$/, "Invalid number")
+      .default(""),
+   landNumber: Yup.string()
+      .matches(/^(\d{10})?$/, "Invalid number")
+      .default(""),
+   address: Yup.string().required("Address is required").default(""),
+   educationalQualifications: Yup.string()
+      .required("Education qualifications are required")
+      .default(""),
 });
 
 function EditDetails() {
-   const { data = {}, isLoading: isLoadingGet } = useGetMeQuery();
+   const { data, isLoading: isLoadingGet, isSuccess } = useGetMeQuery();
    const [updateMe, { isLoading: isLoadingUpdate }] = useUpdateMeMutation();
 
    const isLoading = isLoadingGet || isLoadingUpdate;
@@ -134,16 +137,22 @@ function EditDetails() {
       control,
       handleSubmit,
       formState: { isDirty },
+      reset,
    } = useForm({
       resolver: yupResolver(schemaDetails),
-      defaultValues: {
-         ...data,
-         educationalQualifications: (data.educationalQualifications || []).join(
-            "\n"
-         ),
-      },
-      shouldUnregister: true,
+      defaultValues: schemaDetails.getDefault(),
    });
+
+   useEffect(() => {
+      if (isSuccess && data) {
+         reset({
+            ...data,
+            educationalQualifications: (
+               data.educationalQualifications || []
+            ).join("\n"),
+         });
+      }
+   }, [isSuccess, reset, data]);
 
    const onSubmit = ({ educationalQualifications, ...data }) => {
       const finalData = {
@@ -201,7 +210,7 @@ const schemaPassword = Yup.object().shape({
 
 function EditEmail() {
    const { user } = useAuth();
-   const { notify } = useNotify(true);
+   const { notify } = useNotify();
 
    const [checkPassword, { isLoading: checkIsLoading }] =
       useCheckPasswordMutation();
@@ -250,7 +259,9 @@ function EditEmail() {
                .then(({ token }) => {
                   resetEmail();
                   resetPassword();
-                  notify("Please verify your email", "info");
+                  notify("Please verify your email", "info", {
+                     persist: true,
+                  });
                   console.log(
                      `${window.location.href
                         .split("/")
@@ -259,9 +270,7 @@ function EditEmail() {
                   );
                })
                .catch((err) =>
-                  notify(err.data?.message || "Bad request", "error", {
-                     persist: false,
-                  })
+                  notify(err.data?.message || "Bad request", "error")
                );
          })
          .catch(() => setError("password", { message: "invalid password" }));
@@ -399,7 +408,7 @@ function EditPassword() {
 function Content() {
    const navigate = useNavigate();
    return (
-      <Container maxWidth={"md"}>
+      <Container maxWidth={"md"} sx={{ pb: 10 }}>
          <Grid
             container
             direction="column"

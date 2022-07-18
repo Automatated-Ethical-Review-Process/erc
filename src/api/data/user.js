@@ -18,7 +18,7 @@ const userApi = dataApi.injectEndpoints({
             method: "PUT",
             body,
          }),
-         invalidatesTags: (res) => (res ? ["me"] : []),
+         invalidatesTags: (_, e) => (e ? [] : ["me"]),
       }),
    }),
 });
