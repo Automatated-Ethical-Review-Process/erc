@@ -13,14 +13,14 @@ import Container from "@mui/material/Container";
 import Alert from "@mui/material/Alert";
 
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller } from "react-hook-form";
 
 import { useLoginMutation } from "api/auth/api";
 import authService from "services/auth";
 
 import Image from "assets/meetings.jpg";
 import { yEmail, yObject, yPassword } from "utils/yup";
+import useForm from "hooks/useForm";
 
 const schema = yObject({
    email: yEmail,
@@ -33,9 +33,7 @@ export default function SignIn() {
 
    const [login, { isLoading }] = useLoginMutation();
 
-   const { control, handleSubmit } = useForm({
-      resolver: yupResolver(schema),
-   });
+   const { control, handleSubmit } = useForm(schema, null);
 
    const [submitError, setSubmitError] = useState(
       state?.auto ? "Session was expired or unauthorized" : null

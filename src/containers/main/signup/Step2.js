@@ -1,6 +1,4 @@
 import { Controller } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -9,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { yFile, yObject, yString } from "utils/yup";
+import useForm from "hooks/useForm";
 
 const Input = styled("input")({
    display: "none",
@@ -68,10 +67,7 @@ function FileController({ control }) {
 }
 
 function Undergraduate({ setHandleSubmit, data }) {
-   const { control, handleSubmit } = useForm({
-      resolver: yupResolver(schemaU),
-      defaultValues: data,
-   });
+   const { control, handleSubmit } = useForm(schemaU, data);
 
    setHandleSubmit(handleSubmit);
 
@@ -164,10 +160,7 @@ const schemaNU = yObject({
 });
 
 function NonUndergraduate({ setHandleSubmit, data }) {
-   const { control, handleSubmit } = useForm({
-      resolver: yupResolver(schemaNU),
-      defaultValues: data,
-   });
+   const { control, handleSubmit } = useForm(schemaNU, data);
 
    setHandleSubmit(handleSubmit);
 

@@ -1,10 +1,10 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { yObject, yPassword, yRef } from "utils/yup";
+import useForm from "hooks/useForm";
 
 const schema = yObject({
    password: yPassword,
@@ -15,10 +15,7 @@ const schema = yObject({
 });
 
 export default function Step3({ setHandleSubmit, data }) {
-   const { control, handleSubmit } = useForm({
-      resolver: yupResolver(schema),
-      defaultValues: data,
-   });
+   const { control, handleSubmit } = useForm(schema, data);
 
    setHandleSubmit(handleSubmit);
 

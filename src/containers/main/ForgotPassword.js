@@ -8,14 +8,14 @@ import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { isUuid, yEmailSchema, yObject, yPassword, yRef } from "utils/yup";
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller } from "react-hook-form";
 import {
    useForgotPasswordMutation,
    useForgotPasswordVerifyMutation,
    useValidateMutation,
 } from "api/auth/api";
 import useNotify from "hooks/useNotify";
+import useForm from "hooks/useForm";
 
 function Step1({ handleNext }) {
    const navigate = useNavigate();
@@ -24,9 +24,7 @@ function Step1({ handleNext }) {
    const [forgotPasswordVerify, { isLoading }] =
       useForgotPasswordVerifyMutation();
 
-   const { control, handleSubmit } = useForm({
-      resolver: yupResolver(yEmailSchema),
-   });
+   const { control, handleSubmit } = useForm(yEmailSchema);
 
    const onSubmit = (data) => {
       forgotPasswordVerify(data)
@@ -49,16 +47,10 @@ function Step1({ handleNext }) {
             Just enter your email address, and we will send you a link to reset
             your password.
          </Typography>
-         <Box
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate
-            sx={{ mt: 1 }}
-         >
+         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
             <Controller
                name="email"
                control={control}
-               defaultValue=""
                render={({ field, fieldState: { error } }) => (
                   <TextField
                      {...field}
@@ -133,9 +125,7 @@ const passwordSchema = yObject({
 function ForgotPasswordInput({ token }) {
    const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
-   const { control, handleSubmit } = useForm({
-      resolver: yupResolver(passwordSchema),
-   });
+   const { control, handleSubmit } = useForm(passwordSchema);
 
    const navigate = useNavigate();
    const { notify } = useNotify();
@@ -156,16 +146,10 @@ function ForgotPasswordInput({ token }) {
          <Typography align="center" variant="h5">
             Reset your password
          </Typography>
-         <Box
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate
-            sx={{ mt: 1 }}
-         >
+         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
             <Controller
                name="password"
                control={control}
-               defaultValue=""
                render={({ field, fieldState: { error } }) => (
                   <TextField
                      {...field}
@@ -182,7 +166,6 @@ function ForgotPasswordInput({ token }) {
             <Controller
                name="confirmPassword"
                control={control}
-               defaultValue=""
                render={({ field, fieldState: { error } }) => (
                   <TextField
                      {...field}

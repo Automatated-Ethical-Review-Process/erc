@@ -1,6 +1,4 @@
 import { Controller } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -17,6 +15,7 @@ import {
    yObject,
    yString,
 } from "utils/yup";
+import useForm from "hooks/useForm";
 
 const schema = yObject({
    name: yString().required("Full name is required"),
@@ -29,10 +28,7 @@ const schema = yObject({
 });
 
 export default function Step1({ setHandleSubmit, data }) {
-   const { control, handleSubmit } = useForm({
-      resolver: yupResolver(schema),
-      defaultValues: data,
-   });
+   const { control, handleSubmit } = useForm(schema, data);
 
    setHandleSubmit(handleSubmit);
 

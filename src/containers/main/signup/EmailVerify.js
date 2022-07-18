@@ -1,6 +1,5 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Box, Container } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -12,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import { useSignupVerifyMutation } from "api/auth/api";
 import useNotify from "hooks/useNotify";
 import { yEmailSchema } from "utils/yup";
+import useForm from "hooks/useForm";
 
 export default function EmailVerify() {
    const navigate = useNavigate();
@@ -19,9 +19,7 @@ export default function EmailVerify() {
 
    const [signupVerify, { isLoading }] = useSignupVerifyMutation();
 
-   const { control, handleSubmit } = useForm({
-      resolver: yupResolver(yEmailSchema),
-   });
+   const { control, handleSubmit } = useForm(yEmailSchema);
 
    const onSubmit = (data) => {
       signupVerify(data)
@@ -44,12 +42,7 @@ export default function EmailVerify() {
    return (
       <Container component="main" maxWidth="md">
          <Paper variant="outlined" sx={{ mt: 4, p: 4 }}>
-            <Box
-               component="form"
-               onSubmit={handleSubmit(onSubmit)}
-               noValidate
-               sx={{ mt: 1 }}
-            >
+            <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                <Grid container space={3}>
                   <Grid item xs={12} md={12}>
                      <Typography variant="h3" textAlign={"center"}>
@@ -68,7 +61,6 @@ export default function EmailVerify() {
                      <Controller
                         name="email"
                         control={control}
-                        defaultValue=""
                         render={({ field, fieldState: { error } }) => (
                            <TextField
                               {...field}

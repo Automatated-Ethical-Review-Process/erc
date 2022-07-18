@@ -36,8 +36,7 @@ import {
 } from "api/auth/api";
 import useAuth from "hooks/useAuth";
 import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller } from "react-hook-form";
 import {
    yAddress,
    yEducationalQualifications,
@@ -49,6 +48,7 @@ import {
    yPasswordSchema,
    yRef,
 } from "utils/yup";
+import useForm from "hooks/useForm";
 
 function ImageAvatar() {
    return (
@@ -141,10 +141,7 @@ function EditDetails() {
       handleSubmit,
       formState: { isDirty },
       reset,
-   } = useForm({
-      resolver: yupResolver(schemaDetails),
-      defaultValues: schemaDetails.getDefault(),
-   });
+   } = useForm(schemaDetails);
 
    useEffect(() => {
       if (isSuccess && data) {
@@ -217,10 +214,7 @@ function EditEmail() {
       formState: { isDirty },
       getValues,
       reset: resetEmail,
-   } = useForm({
-      resolver: yupResolver(yEmailSchema),
-      defaultValues: { email: user.email ?? "" },
-   });
+   } = useForm(yEmailSchema, { email: user.email ?? "" });
 
    const onSubmitEmail = () => setOpen(true);
 
@@ -229,10 +223,7 @@ function EditEmail() {
       handleSubmit: handleSubmitPassword,
       setError,
       reset: resetPassword,
-   } = useForm({
-      resolver: yupResolver(yPasswordSchema),
-      defaultValues: yPasswordSchema.getDefault(),
-   });
+   } = useForm(yPasswordSchema);
 
    const [open, setOpen] = useState(false);
 
@@ -265,7 +256,7 @@ function EditEmail() {
                   notify(err.data?.message || "Bad request", "error")
                );
          })
-         .catch(() => setError("password", { message: "invalid password" }));
+         .catch(() => setError("password", { message: "Invalid password" }));
    };
 
    return (
@@ -338,10 +329,7 @@ function EditPassword() {
       formState: { isDirty },
       reset,
       setError,
-   } = useForm({
-      resolver: yupResolver(schemaConfirmPassword),
-      defaultValues: schemaConfirmPassword.getDefault(),
-   });
+   } = useForm(schemaConfirmPassword);
 
    const onSubmit = ({ oldPassword, newPassword }) =>
       updatePassword({
@@ -353,7 +341,7 @@ function EditPassword() {
             reset();
             notify("Password updated", "success");
          })
-         .catch(() => setError("oldPassword", { message: "did not match" }));
+         .catch(() => setError("oldPassword", { message: "Did not match" }));
 
    return (
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
