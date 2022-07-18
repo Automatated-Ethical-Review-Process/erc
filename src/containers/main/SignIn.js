@@ -2,9 +2,6 @@ import { useState } from "react";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -13,20 +10,23 @@ import Container from "@mui/material/Container";
 import Alert from "@mui/material/Alert";
 
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 
 import { useLoginMutation } from "api/auth/api";
+import authService from "services/auth";
 
-import Image from "assests/meetings.jpg";
+import Image from "assets/meetings.jpg";
+import { yEmail, yObject, yPassword } from "utils/yup";
+import useForm from "hooks/useForm";
+import Form from "components/common/Form";
+import {
+   CheckboxController,
+   PasswordFieldController,
+   TextFieldController,
+} from "components/controllers";
 
-const loginSchema = Yup.object().shape({
-   email: Yup.string().required("Email is required").email("Email is invalid"),
-   password: Yup.string()
-      .required("Password is required")
-      .min(6, "Password must be at least 6 characters")
-      .max(40, "Password must not exceed 40 characters"),
+const schema = yObject({
+   email: yEmail,
+   password: yPassword,
 });
 
 export default function SignIn() {
@@ -35,20 +35,21 @@ export default function SignIn() {
 
    const [login, { isLoading }] = useLoginMutation();
 
-   const { control, handleSubmit } = useForm({
-      resolver: yupResolver(loginSchema),
-   });
+   const { control, handleSubmit } = useForm(schema, null);
 
    const [submitError, setSubmitError] = useState(
-      state?.auto ? "Session was expired" : null
+      state?.auto ? "Session was expired or unauthorized" : null
    );
 
-   const onSubmit = (data) => {
+   const onSubmit = ({ rememberMe, ...data }) => {
+      authService.email = rememberMe ? data.email : null;
       setSubmitError(null);
       login(data)
          .unwrap()
          .then(() => navigate(state?.from ? state.from.pathname : "/"))
-         .catch((err) => setSubmitError(err.data.message));
+         .catch((err) =>
+            setSubmitError(err.data?.message || "Something went wrong")
+         );
    };
 
    const formView = (
@@ -67,50 +68,30 @@ export default function SignIn() {
             <Typography component="h1" variant="h5">
                Sign In
             </Typography>
-            <Box
-               component="form"
-               onSubmit={handleSubmit(onSubmit)}
-               noValidate
-               sx={{ mt: 1 }}
-            >
-               <Controller
+            <Form onSubmit={handleSubmit(onSubmit)}>
+               <TextFieldController
                   name="email"
+                  label="Email Address"
                   control={control}
-                  defaultValue=""
-                  render={({ field, fieldState: { error } }) => (
-                     <TextField
-                        {...field}
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Email Address"
-                        autoComplete="email"
-                        error={!!error}
-                        helperText={error && error.message}
-                     />
-                  )}
+                  defaultValue={authService.email ?? ""}
+                  required
+                  autoComplete="email"
+                  size="medium"
                />
-               <Controller
+               <PasswordFieldController
                   name="password"
+                  label="Password"
                   control={control}
                   defaultValue=""
-                  render={({ field, fieldState: { error } }) => (
-                     <TextField
-                        {...field}
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Password"
-                        type="password"
-                        autoComplete="current-password"
-                        error={!!error}
-                        helperText={error && error.message}
-                     />
-                  )}
+                  required
+                  autoComplete="current-password"
+                  size="medium"
                />
-               <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
+               <CheckboxController
+                  name="rememberMe"
                   label="Remember me"
+                  control={control}
+                  defaultValue={authService.hasEmail}
                />
                {submitError && <Alert severity="error">{submitError}</Alert>}
                <Button
@@ -136,7 +117,7 @@ export default function SignIn() {
                      </Typography>
                   </Grid>
                </Grid>
-            </Box>
+            </Form>
          </Box>
       </Container>
    );

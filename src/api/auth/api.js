@@ -2,7 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 
 import { authQuery, initRefreshActions } from "api/base";
-import tokenService from "services/auth/tokenService";
+import authService from "services/auth";
 import Roles from "config/roles";
 
 const authApi = createApi({
@@ -28,12 +28,13 @@ const authApi = createApi({
          }),
       }),
       signup: build.mutation({
-         query: (body) => ({
+         query: ({ id, body }) => ({
             url: "/create-user",
             method: "POST",
+            params: { id },
             body,
          }),
-         invalidatesTags: (res) => (res ? ["authUser"] : []),
+         invalidatesTags: (_, e) => (e ? [] : ["authUser"]),
       }),
       login: build.mutation({
          query: (body) => ({
@@ -41,18 +42,18 @@ const authApi = createApi({
             method: "POST",
             body,
          }),
-         invalidatesTags: (res) => (res ? ["authUser"] : []),
+         invalidatesTags: (_, e) => (e ? [] : ["authUser"]),
       }),
       logout: build.mutation({
          query: () => ({
             url: "/logout",
             method: "POST",
          }),
-         invalidatesTags: (res) => (res ? ["authUser"] : []),
+         invalidatesTags: (_, e) => (e ? [] : ["authUser"]),
       }),
       validate: build.mutation({
          query: (id) => ({
-            url: "/validate",
+            url: "/request/validate",
             method: "POST",
             params: { id },
          }),
@@ -65,11 +66,11 @@ const authApi = createApi({
          }),
       }),
       updateEmail: build.mutation({
-         query: (body) => ({
+         query: (id) => ({
             url: "/update/email",
             method: "PUT",
-            body,
-            invalidatesTags: (res) => (res ? ["authUser"] : []),
+            params: { id },
+            invalidatesTags: (_, e) => (e ? [] : ["authUser"]),
          }),
       }),
       forgotPasswordVerify: build.mutation({
@@ -80,10 +81,11 @@ const authApi = createApi({
          }),
       }),
       forgotPassword: build.mutation({
-         query: (body) => ({
+         query: ({ id, password }) => ({
             url: "/update/password/forgot",
             method: "POST",
-            body,
+            params: { id },
+            body: { password },
          }),
       }),
       checkPassword: build.mutation({
@@ -128,26 +130,54 @@ const authApi = createApi({
             body,
          }),
       }),
+      toggleEnabled: build.mutation({
+         query: () => ({
+            url: "/user/enable",
+            method: "PUT",
+         }),
+      }),
+      toggleUserEnabled: build.mutation({
+         query: (id) => ({
+            url: `/user/enable/${id}`,
+            method: "PUT",
+         }),
+      }),
+      toggleUserLocked: build.mutation({
+         query: (id) => ({
+            url: `/user/lock/${id}`,
+            method: "PUT",
+         }),
+      }),
+      toggleUserVerified: build.mutation({
+         query: (id) => ({
+            url: `/user/verified/${id}`,
+            method: "PUT",
+         }),
+      }),
    }),
 });
 
 export const {
    useLazyGetUserQuery, //
-   useSignupVerifyMutation,
-   useSignupMutation,
+   useSignupVerifyMutation, //
+   useSignupMutation, //
    useLoginMutation, //
    useLogoutMutation, //
-   useValidateMutation,
+   useValidateMutation, //
    useUpdateEmailVerifyMutation, //
-   useUpdateEmailMutation,
-   useForgotPasswordVerifyMutation,
-   useForgotPasswordMutation,
+   useUpdateEmailMutation, //
+   useForgotPasswordVerifyMutation, //
+   useForgotPasswordMutation, //
    useCheckPasswordMutation, //
    useUpdatePasswordMutation, //
    useUpdateRolesMutation,
    useInviteReviewerMutation,
    useInviteClerkMutation,
    useInviteSecretaryMutation,
+   useToggleEnabledMutation,
+   useToggleUserEnabledMutation,
+   useToggleUserLockedMutation,
+   useToggleUserVerifiedMutation,
 } = authApi;
 
 export default authApi;
@@ -156,11 +186,6 @@ const initialUser = {
    id: "",
    email: "",
    roles: [],
-};
-
-const initialState = {
-   user: initialUser,
-   isAuthenticated: tokenService.getAccessToken() ? true : false,
 };
 
 const fixRoles = (roles) => {
@@ -173,16 +198,19 @@ const fixRoles = (roles) => {
 const reset = (auth) => {
    auth.user = initialUser;
    auth.isAuthenticated = false;
-   tokenService.removeAccessToken();
+   authService.reset();
 };
 
 const authSlice = createSlice({
    name: "auth",
-   initialState: initialState,
+   initialState: {
+      user: initialUser,
+      isAuthenticated: authService.hasAccess,
+   },
    reducers: {
       refreshFulfilled(auth, { payload }) {
          auth.isAuthenticated = true;
-         tokenService.setAccessToken(payload.access);
+         authService.access = payload.access;
       },
       refreshRejected: reset,
    },
@@ -204,10 +232,10 @@ const authSlice = createSlice({
 
       builder.addMatcher(
          authApi.endpoints.login.matchFulfilled,
-         (auth, { payload }) => {
-            auth.user.roles = fixRoles(payload.roles);
+         (auth, { payload: { roles, access, refresh } }) => {
+            auth.user.roles = fixRoles(roles);
             auth.isAuthenticated = true;
-            tokenService.setAccessToken(payload.access);
+            authService.update({ access, refresh });
          }
       );
 

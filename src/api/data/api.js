@@ -2,8 +2,11 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { dataQuery } from "api/base";
 
-export default createApi({
+const dataApi = createApi({
    reducerPath: "api/data",
    baseQuery: dataQuery,
+   tagTypes: ["me"],
    endpoints: () => ({}),
 });
+
+export default dataApi;
