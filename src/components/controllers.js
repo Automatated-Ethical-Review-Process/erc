@@ -29,7 +29,7 @@ export function TextFieldController({
                fullWidth
                variant="outlined"
                margin="normal"
-               size="small"
+               size="medium"
                error={!!error}
                helperText={error && error.message}
                {...rest}

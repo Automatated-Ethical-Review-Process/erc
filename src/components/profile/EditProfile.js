@@ -69,6 +69,7 @@ function GridItem({ title, isPassword, ...rest }) {
             <TextPasswordFieldController
                isPassword={isPassword}
                margin="none"
+               size="small"
                {...rest}
             />
          </Grid>
