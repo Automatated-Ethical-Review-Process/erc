@@ -12,11 +12,17 @@ import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 
-export function TextFieldController({ name, control, ...rest }) {
+export function TextFieldController({
+   name,
+   control,
+   defaultValue = "",
+   ...rest
+}) {
    return (
       <Controller
          name={name}
          control={control}
+         defaultValue={defaultValue}
          render={({ field, fieldState: { error } }) => (
             <TextField
                {...field}
@@ -65,11 +71,18 @@ export function TextPasswordFieldController({ isPassword, ...rest }) {
    );
 }
 
-export function CheckboxController({ name, label, control, ...args }) {
+export function CheckboxController({
+   name,
+   label,
+   control,
+   defaultValue = false,
+   ...args
+}) {
    return (
       <Controller
          name={name}
          control={control}
+         defaultValue={defaultValue}
          render={({ field: { value, ...rest } }) => (
             <FormControlLabel
                control={

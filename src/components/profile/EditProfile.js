@@ -66,7 +66,11 @@ function GridItem({ title, isPassword, ...rest }) {
             <Typography variant="h7">{title}</Typography>
          </Grid>
          <Grid item xs={6}>
-            <TextPasswordFieldController isPassword={isPassword} {...rest} />
+            <TextPasswordFieldController
+               isPassword={isPassword}
+               margin="none"
+               {...rest}
+            />
          </Grid>
       </>
    );

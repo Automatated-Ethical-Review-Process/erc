@@ -76,6 +76,7 @@ export default function SignIn() {
                   defaultValue={authService.email ?? ""}
                   required
                   autoComplete="email"
+                  size="medium"
                />
                <PasswordFieldController
                   name="password"
@@ -84,6 +85,7 @@ export default function SignIn() {
                   defaultValue=""
                   required
                   autoComplete="current-password"
+                  size="medium"
                />
                <CheckboxController
                   name="rememberMe"

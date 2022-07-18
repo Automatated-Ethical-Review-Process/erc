@@ -23,7 +23,7 @@ const schema = yObject({
    nicPassport: yNicPassport,
    address: yAddress,
    educationalQualifications: yEducationalQualifications,
-   isUnderGraduate: yBoolean,
+   isUnderGraduate: yBoolean(),
 });
 
 export default function Step1({ setHandleSubmit, data }) {
