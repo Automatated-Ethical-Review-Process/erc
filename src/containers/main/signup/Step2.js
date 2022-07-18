@@ -1,5 +1,4 @@
 import { Controller } from "react-hook-form";
-import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -9,21 +8,18 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { yFile, yObject, yString } from "utils/yup";
 
 const Input = styled("input")({
    display: "none",
 });
 
-const schemaFile = Yup.mixed((o) => o instanceof File)
-   .nullable()
-   .required("Id photo is required");
-
-const schemaU = Yup.object().shape({
-   university: Yup.string().required("University is required"),
-   faculty: Yup.string().required("Faculty is required"),
-   year: Yup.string(),
-   registrationNumber: Yup.string().required("Registration Number is required"),
-   idImg: schemaFile,
+const schemaU = yObject({
+   university: yString().required("University is required"),
+   faculty: yString().required("Faculty is required"),
+   year: yString(),
+   registrationNumber: yString().required("Registration number is required"),
+   idImg: yFile.required("Id photo is required"),
 });
 
 function FileController({ control }) {
@@ -161,10 +157,10 @@ function Undergraduate({ setHandleSubmit, data }) {
    );
 }
 
-const schemaNU = Yup.object().shape({
-   occupation: Yup.string().required("Occupation is required"),
-   position: Yup.string().required("Position is required"),
-   idImg: schemaFile,
+const schemaNU = yObject({
+   occupation: yString().required("Occupation is required"),
+   position: yString().required("Position is required"),
+   idImg: yFile.required("Id photo is required"),
 });
 
 function NonUndergraduate({ setHandleSubmit, data }) {

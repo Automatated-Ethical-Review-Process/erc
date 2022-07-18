@@ -15,19 +15,16 @@ import Alert from "@mui/material/Alert";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 
 import { useLoginMutation } from "api/auth/api";
 import authService from "services/auth";
 
 import Image from "assets/meetings.jpg";
+import { yEmail, yObject, yPassword } from "utils/yup";
 
-const loginSchema = Yup.object().shape({
-   email: Yup.string().required("Email is required").email("Email is invalid"),
-   password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .max(40, "Password must not exceed 40 characters"),
+const schema = yObject({
+   email: yEmail,
+   password: yPassword,
 });
 
 export default function SignIn() {
@@ -37,7 +34,7 @@ export default function SignIn() {
    const [login, { isLoading }] = useLoginMutation();
 
    const { control, handleSubmit } = useForm({
-      resolver: yupResolver(loginSchema),
+      resolver: yupResolver(schema),
    });
 
    const [submitError, setSubmitError] = useState(
@@ -71,12 +68,7 @@ export default function SignIn() {
             <Typography component="h1" variant="h5">
                Sign In
             </Typography>
-            <Box
-               component="form"
-               onSubmit={handleSubmit(onSubmit)}
-               noValidate
-               sx={{ mt: 1 }}
-            >
+            <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                <Controller
                   name="email"
                   control={control}

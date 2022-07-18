@@ -1,7 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 
 import { Box, Container } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -12,10 +11,7 @@ import Typography from "@mui/material/Typography";
 
 import { useSignupVerifyMutation } from "api/auth/api";
 import useNotify from "hooks/useNotify";
-
-const emailSchema = Yup.object().shape({
-   email: Yup.string().required("Email is required").email("Email is invalid"),
-});
+import { yEmailSchema } from "utils/yup";
 
 export default function EmailVerify() {
    const navigate = useNavigate();
@@ -24,7 +20,7 @@ export default function EmailVerify() {
    const [signupVerify, { isLoading }] = useSignupVerifyMutation();
 
    const { control, handleSubmit } = useForm({
-      resolver: yupResolver(emailSchema),
+      resolver: yupResolver(yEmailSchema),
    });
 
    const onSubmit = (data) => {

@@ -1,5 +1,4 @@
 import { Controller } from "react-hook-form";
-import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -8,19 +7,25 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import {
+   yAddress,
+   yBoolean,
+   yEducationalQualifications,
+   yLandNumber,
+   yMobileNumber,
+   yNicPassport,
+   yObject,
+   yString,
+} from "utils/yup";
 
-const schema = Yup.object().shape({
-   name: Yup.string().required("Full name is required"),
-   mobileNumber: Yup.string()
-      .required("Mobile number is required")
-      .matches(/^\d{10}$/, "Invalid number"),
-   landNumber: Yup.string().matches(/^(\d{10})?$/, "Invalid number"),
-   nicPassport: Yup.string(),
-   address: Yup.string().required("Address is required"),
-   educationalQualifications: Yup.string().required(
-      "Education qualifications are required"
-   ),
-   isUnderGraduate: Yup.boolean(),
+const schema = yObject({
+   name: yString().required("Full name is required"),
+   mobileNumber: yMobileNumber,
+   landNumber: yLandNumber,
+   nicPassport: yNicPassport,
+   address: yAddress,
+   educationalQualifications: yEducationalQualifications,
+   isUnderGraduate: yBoolean,
 });
 
 export default function Step1({ setHandleSubmit, data }) {

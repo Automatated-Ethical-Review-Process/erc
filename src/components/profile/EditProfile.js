@@ -38,7 +38,17 @@ import useAuth from "hooks/useAuth";
 import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
+import {
+   yAddress,
+   yEducationalQualifications,
+   yEmailSchema,
+   yLandNumber,
+   yMobileNumber,
+   yObject,
+   yPassword,
+   yPasswordSchema,
+   yRef,
+} from "utils/yup";
 
 function ImageAvatar() {
    return (
@@ -111,18 +121,11 @@ function GridItem({ title, isPassword, ...rest }) {
    );
 }
 
-const schemaDetails = Yup.object().shape({
-   mobileNumber: Yup.string()
-      .required("Mobile number is required")
-      .matches(/^\d{10}$/, "Invalid number")
-      .default(""),
-   landNumber: Yup.string()
-      .matches(/^(\d{10})?$/, "Invalid number")
-      .default(""),
-   address: Yup.string().required("Address is required").default(""),
-   educationalQualifications: Yup.string()
-      .required("Education qualifications are required")
-      .default(""),
+const schemaDetails = yObject({
+   mobileNumber: yMobileNumber,
+   landNumber: yLandNumber,
+   address: yAddress,
+   educationalQualifications: yEducationalQualifications,
 });
 
 function EditDetails() {
@@ -197,17 +200,6 @@ function EditDetails() {
    );
 }
 
-const schemaEmail = Yup.object().shape({
-   email: Yup.string().required("Email is required").email("Invalid email"),
-});
-
-const schemaPassword = Yup.object().shape({
-   password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .max(40, "Password must not exceed 40 characters"),
-});
-
 function EditEmail() {
    const { user } = useAuth();
    const { notify } = useNotify();
@@ -226,7 +218,7 @@ function EditEmail() {
       getValues,
       reset: resetEmail,
    } = useForm({
-      resolver: yupResolver(schemaEmail),
+      resolver: yupResolver(yEmailSchema),
       defaultValues: { email: user.email ?? "" },
    });
 
@@ -238,8 +230,8 @@ function EditEmail() {
       setError,
       reset: resetPassword,
    } = useForm({
-      resolver: yupResolver(schemaPassword),
-      defaultValues: { password: "" },
+      resolver: yupResolver(yPasswordSchema),
+      defaultValues: yPasswordSchema.getDefault(),
    });
 
    const [open, setOpen] = useState(false);
@@ -324,22 +316,16 @@ function EditEmail() {
    );
 }
 
-const schemaConfirmPassword = Yup.object().shape({
-   oldPassword: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .max(40, "Password must not exceed 40 characters")
-      .default(""),
-   newPassword: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .max(40, "Password must not exceed 40 characters")
-      .notOneOf([Yup.ref("oldPassword")], "New password same as old")
-      .default(""),
-   confirmPassword: Yup.string()
-      .required("Password is required")
-      .oneOf([Yup.ref("newPassword")], "Your passwords do not match")
-      .default(""),
+const schemaConfirmPassword = yObject({
+   oldPassword: yPassword,
+   newPassword: yPassword.notOneOf(
+      [yRef("oldPassword")],
+      "New password same as old"
+   ),
+   confirmPassword: yPassword.oneOf(
+      [yRef("newPassword")],
+      "Do not match with new password"
+   ),
 });
 
 function EditPassword() {

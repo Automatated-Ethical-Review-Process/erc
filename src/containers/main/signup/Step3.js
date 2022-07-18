@@ -1,19 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
-import * as Yup from "yup";
 
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { yObject, yPassword, yRef } from "utils/yup";
 
-const schema = Yup.object().shape({
-   password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .max(40, "Password must not exceed 40 characters"),
-   confirmPassword: Yup.string()
-      .required("Password is required")
-      .oneOf([Yup.ref("password")], "Your passwords do not match"),
+const schema = yObject({
+   password: yPassword,
+   confirmPassword: yPassword.oneOf(
+      [yRef("password")],
+      "Your passwords do not match"
+   ),
 });
 
 export default function Step3({ setHandleSubmit, data }) {

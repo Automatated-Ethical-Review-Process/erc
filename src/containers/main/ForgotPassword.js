@@ -7,20 +7,15 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { isUuid } from "utils/yup";
+import { isUuid, yEmailSchema, yObject, yPassword, yRef } from "utils/yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 import {
    useForgotPasswordMutation,
    useForgotPasswordVerifyMutation,
    useValidateMutation,
 } from "api/auth/api";
 import useNotify from "hooks/useNotify";
-
-const emailSchema = Yup.object().shape({
-   email: Yup.string().required("Email is required").email("Email is invalid"),
-});
 
 function Step1({ handleNext }) {
    const navigate = useNavigate();
@@ -30,7 +25,7 @@ function Step1({ handleNext }) {
       useForgotPasswordVerifyMutation();
 
    const { control, handleSubmit } = useForm({
-      resolver: yupResolver(emailSchema),
+      resolver: yupResolver(yEmailSchema),
    });
 
    const onSubmit = (data) => {
@@ -127,14 +122,12 @@ function ForgotPasswordVerify() {
    );
 }
 
-const passwordSchema = Yup.object().shape({
-   password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .max(40, "Password must not exceed 40 characters"),
-   confirmPassword: Yup.string()
-      .required("Password is required")
-      .oneOf([Yup.ref("password")], "Your passwords do not match"),
+const passwordSchema = yObject({
+   password: yPassword,
+   confirmPassword: yPassword.oneOf(
+      [yRef("password")],
+      "Your passwords do not match"
+   ),
 });
 
 function ForgotPasswordInput({ token }) {
