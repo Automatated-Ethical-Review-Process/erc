@@ -146,14 +146,12 @@ function ForgotPasswordInput({ token }) {
                label="New password"
                control={control}
                required
-               size="medium"
             />
             <PasswordFieldController
                name="confirmPassword"
                label="Confirm password"
                control={control}
                required
-               size="medium"
             />
             <Button
                type="submit"
