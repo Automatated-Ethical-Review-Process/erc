@@ -212,7 +212,10 @@ const authSlice = createSlice({
       auth.isAuthenticated = true;
       authService.access = payload.access;
     },
-    refreshRejected: reset,
+    refreshRejected(auth) {
+      window._msg = "Session was expired. Please login again.";
+      reset(auth);
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(

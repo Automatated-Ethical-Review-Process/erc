@@ -19,127 +19,125 @@ import { yEmail, yObject, yPassword } from "utils/yup";
 import useForm from "hooks/useForm";
 import Form from "components/common/Form";
 import {
-   CheckboxController,
-   PasswordFieldController,
-   TextFieldController,
+  CheckboxController,
+  PasswordFieldController,
+  TextFieldController,
 } from "components/controllers";
 
 const schema = yObject({
-   email: yEmail,
-   password: yPassword,
+  email: yEmail,
+  password: yPassword,
 });
 
 export default function SignIn() {
-   const navigate = useNavigate();
-   const { state } = useLocation();
+  const navigate = useNavigate();
+  const { state } = useLocation();
 
-   const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
-   const { control, handleSubmit } = useForm(schema, null);
+  const { control, handleSubmit } = useForm(schema, null);
 
-   const [submitError, setSubmitError] = useState(
-      state?.auto ? "Session was expired or unauthorized" : null
-   );
+  const [submitError, setSubmitError] = useState(window._msg);
 
-   const onSubmit = ({ rememberMe, ...data }) => {
-      authService.email = rememberMe ? data.email : null;
-      setSubmitError(null);
-      login(data)
-         .unwrap()
-         .then(() => navigate(state?.from ? state.from.pathname : "/"))
-         .catch((err) =>
-            setSubmitError(err.data?.message || "Something went wrong")
-         );
-   };
+  const onSubmit = ({ rememberMe, ...data }) => {
+    authService.email = rememberMe ? data.email : null;
+    setSubmitError(null);
+    login(data)
+      .unwrap()
+      .then(() => navigate(state?.from ? state.from.pathname : "/"))
+      .catch((err) =>
+        setSubmitError(err.data?.message || "Something went wrong")
+      );
+  };
 
-   const formView = (
-      <Container component="main" maxWidth="xs">
-         <Box
-            sx={{
-               marginTop: 8,
-               display: "flex",
-               flexDirection: "column",
-               alignItems: "center",
-            }}
-         >
-            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-               <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-               Sign In
-            </Typography>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-               <TextFieldController
-                  name="email"
-                  label="Email Address"
-                  control={control}
-                  defaultValue={authService.email ?? ""}
-                  required
-                  autoComplete="email"
-               />
-               <PasswordFieldController
-                  name="password"
-                  label="Password"
-                  control={control}
-                  defaultValue=""
-                  required
-                  autoComplete="current-password"
-               />
-               <CheckboxController
-                  name="rememberMe"
-                  label="Remember me"
-                  control={control}
-                  defaultValue={authService.hasEmail}
-               />
-               {submitError && <Alert severity="error">{submitError}</Alert>}
-               <Button
-                  type="submit"
-                  fullWidth
-                  disabled={isLoading}
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-               >
-                  Sign In
-               </Button>
-               <Grid container>
-                  <Grid item xs>
-                     <Typography variant="body2">
-                        <Link to="/forgot-password">Forgot password?</Link>
-                     </Typography>
-                  </Grid>
-                  <Grid item>
-                     <Typography variant="body2">
-                        <Link to="/signup" variant="body2">
-                           {"Don't have an account? Sign Up"}
-                        </Link>
-                     </Typography>
-                  </Grid>
-               </Grid>
-            </Form>
-         </Box>
-      </Container>
-   );
-
-   return (
-      <Grid
-         container
-         spacing={0}
-         columns={{ xs: 4, md: 12 }}
-         sx={{ mt: 1, pl: 2 }}
+  const formView = (
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
-         <Grid item xs={4} md={7}>
-            <Container
-               sx={{
-                  backgroundImage: `url(${Image})`,
-                  height: "100%",
-                  width: "100%",
-                  opacity: 1,
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-               }}
-            >
-               {/* {<Typography
+        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign In
+        </Typography>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <TextFieldController
+            name="email"
+            label="Email Address"
+            control={control}
+            defaultValue={authService.email ?? ""}
+            required
+            autoComplete="email"
+          />
+          <PasswordFieldController
+            name="password"
+            label="Password"
+            control={control}
+            defaultValue=""
+            required
+            autoComplete="current-password"
+          />
+          <CheckboxController
+            name="rememberMe"
+            label="Remember me"
+            control={control}
+            defaultValue={authService.hasEmail}
+          />
+          {submitError && <Alert severity="error">{submitError}</Alert>}
+          <Button
+            type="submit"
+            fullWidth
+            disabled={isLoading}
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Typography variant="body2">
+                <Link to="/forgot-password">Forgot password?</Link>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body2">
+                <Link to="/signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Typography>
+            </Grid>
+          </Grid>
+        </Form>
+      </Box>
+    </Container>
+  );
+
+  return (
+    <Grid
+      container
+      spacing={0}
+      columns={{ xs: 4, md: 12 }}
+      sx={{ mt: 1, pl: 2 }}
+    >
+      <Grid item xs={4} md={7}>
+        <Container
+          sx={{
+            backgroundImage: `url(${Image})`,
+            height: "100%",
+            width: "100%",
+            opacity: 1,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+          }}
+        >
+          {/* {<Typography
                      align="justify"
                      sx={{ fontFamily: "monospace", letterSpacing: 2 }}
                   >
@@ -167,11 +165,11 @@ export default function SignIn() {
                      Gung Memorial Hospital,Taoyuan City, Taiwan 18th -21st
                      November 2018.
                   </Typography>} */}
-            </Container>
-         </Grid>
-         <Grid item xs={4}>
-            {formView}
-         </Grid>
+        </Container>
       </Grid>
-   );
+      <Grid item xs={4}>
+        {formView}
+      </Grid>
+    </Grid>
+  );
 }
