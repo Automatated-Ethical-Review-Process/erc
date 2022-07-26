@@ -35,7 +35,9 @@ function GridItem({ title, body, textAlign = "center" }) {
     <>
       <GridTitle title={title} />
       <Grid item xs={6}>
-        <Paper sx={{ p: 1, minHeight: 5, textAlign }}>
+        <Paper
+          sx={(t) => ({ p: t.spacing(1), minHeight: t.spacing(5), textAlign })}
+        >
           <Typography sx={{ wordWrap: "break-word", whiteSpace: "pre-line" }}>
             {body}
           </Typography>
