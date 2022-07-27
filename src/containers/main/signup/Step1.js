@@ -1,22 +1,35 @@
-import { useState } from "react";
-
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import {
+   yAddress,
+   yBoolean,
+   yEducationalQualifications,
+   yLandNumber,
+   yMobileNumber,
+   yNicPassport,
+   yObject,
+   yString,
+} from "utils/yup";
+import useForm from "hooks/useForm";
+import {
+   CheckboxController,
+   TextFieldController,
+} from "components/controllers";
 
-export default function Step1() {
-   const [nationality, setNationality] = useState("");
+const schema = yObject({
+   name: yString().required("Full name is required"),
+   mobileNumber: yMobileNumber,
+   landNumber: yLandNumber,
+   nicPassport: yNicPassport,
+   address: yAddress,
+   educationalQualifications: yEducationalQualifications,
+   isUnderGraduate: yBoolean(),
+});
 
-   const handleChange = (event) => {
-      setNationality(event.target.value);
-   };
+export default function Step1({ setHandleSubmit, data }) {
+   const { control, handleSubmit } = useForm(schema, data);
+
+   setHandleSubmit(handleSubmit);
 
    return (
       <>
@@ -25,158 +38,64 @@ export default function Step1() {
          </Typography>
          <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
-               <TextField
+               <TextFieldController
+                  name="name"
+                  label="Full name"
+                  control={control}
                   required
-                  id="firstName"
-                  name="firstName"
-                  label="First name"
-                  fullWidth
                   autoComplete="given-name"
                   variant="standard"
                />
             </Grid>
             <Grid item xs={12} sm={6}>
-               <TextField
+               <TextFieldController
+                  name="mobileNumber"
+                  label="Mobile number"
+                  control={control}
                   required
-                  id="lastName"
-                  name="lastName"
-                  label="Last name"
-                  fullWidth
-                  autoComplete="family-name"
                   variant="standard"
                />
             </Grid>
             <Grid item xs={12} sm={6}>
-               <TextField
-                  required
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  label="Phone number"
-                  fullWidth
-                  variant="standard"
-               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-               <TextField
-                  id="landNumber"
+               <TextFieldController
                   name="landNumber"
                   label="Land number"
-                  fullWidth
+                  control={control}
                   variant="standard"
                />
             </Grid>
             <Grid item xs={12} sm={6}>
-               <TextField
-                  id="nicPassport"
+               <TextFieldController
                   name="nicPassport"
                   label="NIC / Passport"
-                  fullWidth
+                  control={control}
                   variant="standard"
                />
             </Grid>
-            <Grid item xs={12} sm={6}>
-               <Box sx={{ minWidth: 120 }}>
-                  <FormControl fullWidth>
-                     <InputLabel id="demo-simple-select-label">
-                        Nationality
-                     </InputLabel>
-                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={nationality}
-                        label="Nationality"
-                        onChange={handleChange}
-                     >
-                        <MenuItem value={"lanka"}>Sri Lanka</MenuItem>
-                        <MenuItem value={"other"}>Other</MenuItem>
-                     </Select>
-                  </FormControl>
-               </Box>
+            <Grid item xs={12}>
+               <TextFieldController
+                  name="address"
+                  label="Address"
+                  control={control}
+                  required
+                  variant="standard"
+               />
             </Grid>
             <Grid item xs={12}>
-               <TextField
-                  required
-                  id="qualifications"
-                  name="qualifications"
+               <TextFieldController
+                  name="educationalQualifications"
                   label="Educational qualifications"
+                  control={control}
+                  required
                   multiline
-                  fullWidth
                   rows={4}
                   variant="standard"
                />
             </Grid>
             <Grid item xs={12}>
-               <TextField
-                  required
-                  id="address1"
-                  name="address1"
-                  label="Address line 1"
-                  fullWidth
-                  autoComplete="shipping address-line1"
-                  variant="standard"
-               />
-            </Grid>
-            <Grid item xs={12}>
-               <TextField
-                  id="address2"
-                  name="address2"
-                  label="Address line 2"
-                  fullWidth
-                  autoComplete="shipping address-line2"
-                  variant="standard"
-               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-               <TextField
-                  required
-                  id="city"
-                  name="city"
-                  label="City"
-                  fullWidth
-                  autoComplete="shipping address-level2"
-                  variant="standard"
-               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-               <TextField
-                  id="state"
-                  name="state"
-                  label="State/Province/Region"
-                  fullWidth
-                  variant="standard"
-               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-               <TextField
-                  required
-                  id="zip"
-                  name="zip"
-                  label="Zip / Postal code"
-                  fullWidth
-                  autoComplete="shipping postal-code"
-                  variant="standard"
-               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-               <TextField
-                  required
-                  id="country"
-                  name="country"
-                  label="Country"
-                  fullWidth
-                  autoComplete="shipping country"
-                  variant="standard"
-               />
-            </Grid>
-            <Grid item xs={12}>
-               <FormControlLabel
-                  control={
-                     <Checkbox
-                        color="secondary"
-                        name="undergraduate"
-                        value="yes"
-                     />
-                  }
+               <CheckboxController
+                  name="isUnderGraduate"
+                  control={control}
                   label="Undergraduate"
                />
             </Grid>

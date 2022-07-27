@@ -2,9 +2,9 @@ import { Route } from "react-router-dom";
 
 import MainLayout from "layouts/MainLayout";
 import SignIn from "containers/main/SignIn";
-import VerifyEmail from "containers/main/signup/EmailVerify";
 import SignUp from "containers/main/signup/SignUp";
-import ForgotPassword from "containers/main/forgotPassword/ForgotPassword";
+import ForgotPassword from "containers/main/ForgotPassword";
+import Update from "containers/main/Update";
 
 import Roles from "config/roles";
 import routes from "config/routes";
@@ -29,11 +29,13 @@ const mainRoute = (
          }
       />
 
-      <Route path="verify" element={<VerifyEmail />} />
-
       <Route path="signup" element={<SignUp />} />
 
       <Route path="forgot-password" element={<ForgotPassword />} />
+
+      <Route path="update">
+         <Route path=":entry" element={<Update />} />
+      </Route>
    </Route>
 );
 

@@ -1,76 +1,128 @@
-import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { yFile, yObject, yString } from "utils/yup";
+import useForm from "hooks/useForm";
+import {
+   FileInputController,
+   TextFieldController,
+} from "components/controllers";
 
-const Input = styled("input")({
-   display: "none",
+const schemaU = yObject({
+   university: yString().required("University is required"),
+   faculty: yString().required("Faculty is required"),
+   year: yString(),
+   registrationNumber: yString().required("Registration number is required"),
+   idImg: yFile.required("Id photo is required"),
 });
 
-export default function Step2() {
+function Undergraduate({ setHandleSubmit, data }) {
+   const { control, handleSubmit } = useForm(schemaU, data);
+
+   setHandleSubmit(handleSubmit);
+
+   return (
+      <>
+         <Grid item xs={12} sm={6}>
+            <TextFieldController
+               name="university"
+               label="University"
+               control={control}
+               required
+               variant="standard"
+            />
+         </Grid>
+         <Grid item xs={12} sm={6}>
+            <TextFieldController
+               name="faculty"
+               label="Faculty"
+               control={control}
+               required
+               variant="standard"
+            />
+         </Grid>
+         <Grid item xs={12} sm={6}>
+            <TextFieldController
+               name="registrationNumber"
+               label="Registration number"
+               control={control}
+               required
+               variant="standard"
+            />
+         </Grid>
+         <Grid item xs={12} sm={6}>
+            <TextFieldController
+               name="year"
+               label="Academic Year"
+               control={control}
+               variant="standard"
+            />
+         </Grid>
+         <Grid item xs={12} sm={6}>
+            <Typography>
+               University Id{" "}
+               <FileInputController name="idImg" control={control} />
+            </Typography>
+         </Grid>
+      </>
+   );
+}
+
+const schemaNU = yObject({
+   occupation: yString().required("Occupation is required"),
+   position: yString().required("Position is required"),
+   idImg: yFile.required("Id photo is required"),
+});
+
+function NonUndergraduate({ setHandleSubmit, data }) {
+   const { control, handleSubmit } = useForm(schemaNU, data);
+
+   setHandleSubmit(handleSubmit);
+
+   return (
+      <>
+         <Grid item xs={12} sm={6}>
+            <TextFieldController
+               name="occupation"
+               label="Occupation"
+               control={control}
+               required
+               variant="standard"
+            />
+         </Grid>
+         <Grid item xs={12} sm={6}>
+            <TextFieldController
+               name="position"
+               label="Position"
+               control={control}
+               required
+               variant="standard"
+            />
+         </Grid>
+         <Grid item xs={12} sm={6}>
+            <Typography>
+               National Id{" "}
+               <FileInputController name="idImg" control={control} />
+            </Typography>
+         </Grid>
+      </>
+   );
+}
+
+export default function Step2({ setHandleSubmit, data }) {
    return (
       <>
          <Typography variant="h6" gutterBottom>
-            Undergraduate
+            {data.isUnderGraduate ? "Undergraduate" : "Academic Stuff"}
          </Typography>
          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-               <TextField
-                  required
-                  id="university"
-                  name="university"
-                  label="University"
-                  fullWidth
-                  variant="standard"
+            {data.isUnderGraduate ? (
+               <Undergraduate setHandleSubmit={setHandleSubmit} data={data} />
+            ) : (
+               <NonUndergraduate
+                  setHandleSubmit={setHandleSubmit}
+                  data={data}
                />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-               <TextField
-                  required
-                  id="faculty"
-                  name="faculty"
-                  label="Faculty"
-                  fullWidth
-                  variant="standard"
-               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-               <TextField
-                  required
-                  id="regNumber"
-                  name="regNumber"
-                  label="Registration number"
-                  fullWidth
-                  variant="standard"
-               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-               <TextField
-                  id="academicYear"
-                  name="academicYear"
-                  label="Academic Year"
-                  fullWidth
-                  variant="standard"
-               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-               <Typography>
-                  University Id{" "}
-                  <label htmlFor="contained-button-file">
-                     <Input
-                        accept="image/*"
-                        id="contained-button-file"
-                        multiple
-                        type="file"
-                     />
-                     <Button component="span" startIcon={<PhotoCamera />}>
-                        Upload
-                     </Button>
-                  </label>
-               </Typography>
-            </Grid>
+            )}
          </Grid>
       </>
    );

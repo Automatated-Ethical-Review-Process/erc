@@ -35,7 +35,7 @@ const NavigationBar = () => {
             navigate("/");
             break;
          case pages[1]:
-            navigate("/verify");
+            navigate("/signup");
             break;
          case pages[2]:
             alert("Not Implemented !");

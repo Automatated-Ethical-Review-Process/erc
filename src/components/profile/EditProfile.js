@@ -1,404 +1,363 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import {
-   Container,
-   Dialog,
-   DialogActions,
-   DialogContent,
-   DialogContentText,
-   DialogTitle,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  Fab,
+  Stack,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import { Stack } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
 
 import NavigationBar from "components/NavigationBar";
 import LoadingCircle from "components/common/LoadingCircle";
 import useNotify from "hooks/useNotify";
 
-import Image from "assests/baby.webp";
+import Image from "assets/baby.webp";
 import {
-   useCheckPasswordMutation,
-   useUpdateEmailVerifyMutation,
-   useUpdatePasswordMutation,
+  useCheckPasswordMutation,
+  useUpdateEmailVerifyMutation,
+  useUpdatePasswordMutation,
 } from "api/auth/api";
 import useAuth from "hooks/useAuth";
-
-function InputPassword({ params: { value, error }, onChange, label }) {
-   const [showPassword, setShowPassword] = useState(false);
-   return (
-      <TextField
-         fullWidth
-         label={label}
-         variant="outlined"
-         size="small"
-         type={showPassword ? "text" : "password"}
-         value={value}
-         onChange={(e) => onChange(e.target.value)}
-         error={!!error}
-         helperText={error}
-         InputProps={{
-            endAdornment: (
-               <InputAdornment position="end">
-                  <IconButton
-                     onClick={() => setShowPassword((v) => !v)}
-                     onMouseDown={(e) => e.preventDefault()}
-                     edge="end"
-                  >
-                     {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-               </InputAdornment>
-            ),
-         }}
-      />
-   );
-}
-
-function TextFieldHiddenLabel({ params: { value, error }, onChange }) {
-   return (
-      <TextField
-         fullWidth
-         value={value}
-         onChange={onChange && ((e) => onChange(e.target.value))}
-         error={!!error}
-         helperText={error}
-         variant="outlined"
-         size="small"
-      />
-   );
-}
+import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
+import {
+  yAddress,
+  yEducationalQualifications,
+  yEmailSchema,
+  yLandNumber,
+  yMobileNumber,
+  yObject,
+  yPassword,
+  yPasswordSchema,
+  yRef,
+} from "utils/yup";
+import useForm from "hooks/useForm";
+import {
+  PasswordFieldController,
+  TextPasswordFieldController,
+} from "components/controllers";
+import Form from "components/common/Form";
 
 function ImageAvatar() {
-   return (
-      <Avatar alt="Remy Sharp" src={Image} sx={{ width: 200, height: 200 }} />
-   );
+  return (
+    <Avatar alt="Profile Image" src={Image} sx={{ width: 200, height: 200 }} />
+  );
 }
+
+function GridItem({ title, isPassword, ...rest }) {
+  return (
+    <>
+      <Grid item xs={6}>
+        <Typography variant="h7">{title}</Typography>
+      </Grid>
+      <Grid item xs={6}>
+        <TextPasswordFieldController
+          isPassword={isPassword}
+          margin="none"
+          size="small"
+          {...rest}
+        />
+      </Grid>
+    </>
+  );
+}
+
+const schemaDetails = yObject({
+  mobileNumber: yMobileNumber,
+  landNumber: yLandNumber,
+  address: yAddress,
+  educationalQualifications: yEducationalQualifications,
+});
 
 function EditDetails() {
-   return (
-      <>
-         <Grid item xs={6}>
-            <Typography variant="h7">Name</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <TextFieldHiddenLabel params={{ value: "Malindu Madhusankha" }} />
-         </Grid>
-         <Grid item xs={6}>
-            <Typography variant="h7">Phone Number</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <TextFieldHiddenLabel params={{ value: "0789101112" }} />
-         </Grid>
-         <Grid item xs={6}></Grid>
-         <Grid item xs={6}>
-            <Button variant="contained" disabled={true}>
-               Update Details
-            </Button>
-         </Grid>
-      </>
-   );
+  const { data, isLoading: isLoadingGet, isSuccess } = useGetMeQuery();
+  const [updateMe, { isLoading: isLoadingUpdate }] = useUpdateMeMutation();
+
+  const isLoading = isLoadingGet || isLoadingUpdate;
+
+  const { notify } = useNotify();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isDirty },
+    reset,
+  } = useForm(schemaDetails);
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      reset({
+        ...data,
+        educationalQualifications: (data.educationalQualifications || []).join(
+          "\n"
+        ),
+      });
+    }
+  }, [isSuccess, reset, data]);
+
+  const onSubmit = ({ educationalQualifications, ...data }) => {
+    const finalData = {
+      ...data,
+      educationalQualifications: educationalQualifications
+        .split("\n")
+        .filter((i) => i),
+    };
+
+    updateMe(finalData)
+      .unwrap()
+      .then(() => notify("Account details updated", "success"))
+      .catch(() => notify("Something went wrong", "error"));
+  };
+
+  return (
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <LoadingCircle isLoading={isLoading} />
+      <Grid container rowSpacing={2}>
+        <GridItem title="Phone Number" name="mobileNumber" control={control} />
+        <GridItem title="Land Number" name="landNumber" control={control} />
+        <GridItem title="Address" name="address" control={control} />
+        <GridItem
+          title="Educational Qualifications"
+          name="educationalQualifications"
+          control={control}
+          multiline
+          rows={4}
+        />
+        <Grid item xs={6} />
+        <Grid item xs={6}>
+          <Button variant="contained" type="submit" disabled={!isDirty}>
+            Update Details
+          </Button>
+        </Grid>
+      </Grid>
+    </Form>
+  );
 }
 
-const schema = yup.string().email().required();
-const isEmail = (value) => schema.isValidSync(value);
+function EditEmail() {
+  const { user } = useAuth();
+  const { notify } = useNotify();
 
-function EditEmail({ setIsLoading }) {
-   const { user } = useAuth();
-   const { notify } = useNotify(true);
+  const [checkPassword, { isLoading: checkIsLoading }] =
+    useCheckPasswordMutation();
+  const [updateEmailVerify, { isLoading: updateIsLoading }] =
+    useUpdateEmailVerifyMutation();
 
-   const [checkPassword, { isLoading: checkIsLoading }] =
-      useCheckPasswordMutation();
-   const [updateEmailVerify, { isLoading: updateIsLoading }] =
-      useUpdateEmailVerifyMutation();
+  const isLoading = checkIsLoading || updateIsLoading;
 
-   const [email, setEmail] = useState({ value: user.email, error: null });
+  const {
+    control: controlEmail,
+    handleSubmit: handleSubmitEmail,
+    formState: { isDirty },
+    getValues,
+    reset: resetEmail,
+  } = useForm(yEmailSchema, { email: user.email ?? "" });
 
-   const isLoading = checkIsLoading || updateIsLoading;
+  const onSubmitEmail = () => setOpen(true);
 
-   const ref = useRef(false);
-   useEffect(() => {
-      if (ref.current) {
-         setIsLoading(isLoading);
-      } else {
-         ref.current = true;
-      }
-   }, [setIsLoading, isLoading]);
+  const {
+    control: controlPassword,
+    handleSubmit: handleSubmitPassword,
+    setError,
+    reset: resetPassword,
+  } = useForm(yPasswordSchema);
 
-   const onEmailChange = (value) =>
-      setEmail({
-         value,
-         error: isEmail(value) ? "" : "invalid email address",
-      });
+  const [open, setOpen] = useState(false);
 
-   const canUpdate =
-      !isLoading && email.value !== user.email && email.error === "";
+  const onCancel = () => setOpen(false);
 
-   const [open, setOpen] = useState(false);
-
-   const initial = { value: "", error: null };
-   const [password, setPassword] = useState(initial);
-
-   const onUpdate = () => setOpen(true);
-   const onCancel = () => setOpen(false);
-   const onChange = (value) =>
-      setPassword({
-         value,
-         error: value.length < 8 ? "min size 8 characters" : "",
-      });
-
-   const onConfirm = () => {
-      checkPassword({ password: password.value })
-         .unwrap()
-         .then(() => {
-            setPassword(initial);
-            setOpen(false);
-            updateEmailVerify({
-               oldEmail: user.email,
-               newEmail: email.value,
-            })
-               .unwrap()
-               .then(() => {
-                  setEmail({ value: user.email, error: null });
-                  notify("Please verify your email", "info");
-               })
-               .catch((err) =>
-                  notify(err.data?.message || "Bad request", "error", {
-                     persist: false,
-                  })
-               );
-         })
-         .catch(() => setPassword({ ...password, error: "invalid password" }));
-   };
-
-   return (
-      <>
-         <Grid item xs={6}>
-            <Typography variant="h7">Email</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <TextFieldHiddenLabel params={email} onChange={onEmailChange} />
-         </Grid>
-         <Grid item xs={6}></Grid>
-         <Grid item xs={6}>
-            <Button
-               variant="contained"
-               disabled={!canUpdate}
-               onClick={onUpdate}
-            >
-               Update Email
-            </Button>
-         </Grid>
-         <Dialog open={open} onClose={onCancel}>
-            <DialogTitle>Update Email</DialogTitle>
-            <DialogContent>
-               <DialogContentText>
-                  Please enter your password.
-               </DialogContentText>
-               <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="password"
-                  type="password"
-                  fullWidth
-                  variant="standard"
-                  onChange={(e) => onChange(e.target.value)}
-                  value={password.value}
-                  error={!!password.error}
-                  helperText={password.error}
-               />
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={onCancel}>Cancel</Button>
-               <Button onClick={onConfirm} disabled={!!password.error}>
-                  Confirm
-               </Button>
-            </DialogActions>
-         </Dialog>
-      </>
-   );
-}
-
-function EditPassword({ setIsLoading }) {
-   const navigate = useNavigate();
-   const { notify } = useNotify(true);
-
-   const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
-
-   const ref = useRef(false);
-   useEffect(() => {
-      if (ref.current) {
-         setIsLoading(isLoading);
-      } else {
-         ref.current = true;
-      }
-   }, [setIsLoading, isLoading]);
-
-   const initialValue = { value: "", error: null };
-
-   const [oldPassword, setOldPassword] = useState(initialValue);
-   const [newPassword, setNewPassword] = useState(initialValue);
-   const [confirmPassword, setConfirmPassword] = useState(initialValue);
-
-   const onOldChange = (value) => {
-      setOldPassword({
-         value,
-         error: value.length < 8 ? "min size 8 characters" : "",
-      });
-      if (newPassword.value.length >= 8 && value.length >= 8) {
-         setNewPassword((params) => ({
-            ...params,
-            error: value === params.value ? "same as old password" : "",
-         }));
-      }
-   };
-
-   const onNewChange = (value) => {
-      setNewPassword({
-         value,
-         error:
-            value.length < 8
-               ? "min size 8 characters"
-               : value === oldPassword.value
-               ? "same as old password"
-               : "",
-      });
-      if (confirmPassword.value.length >= 8 && value.length >= 8) {
-         setConfirmPassword((params) => ({
-            ...params,
-            error:
-               value !== params.value ? "did not match with new password" : "",
-         }));
-      }
-   };
-
-   const onConfirmChange = (value) =>
-      setConfirmPassword({
-         value,
-         error:
-            value.length < 8
-               ? "min size 8 characters"
-               : value !== newPassword.value
-               ? "did not match with new password"
-               : "",
-      });
-
-   const canUpdate =
-      !isLoading &&
-      oldPassword.error === "" &&
-      newPassword.error === "" &&
-      confirmPassword.error === "";
-
-   const onUpdate = () =>
-      updatePassword({
-         oldPassword: oldPassword.value,
-         newPassword: newPassword.value,
+  const onSubmitPassword = ({ password }) => {
+    checkPassword({ password })
+      .unwrap()
+      .then(() => {
+        setOpen(false);
+        updateEmailVerify({
+          oldEmail: user.email,
+          newEmail: getValues("email"),
+        })
+          .unwrap()
+          .then(({ token }) => {
+            resetEmail();
+            resetPassword();
+            notify("Please verify your email", "info", {
+              persist: true,
+            });
+            console.log(
+              `${window.location.href
+                .split("/")
+                .slice(0, 3)
+                .join("/")}/update/email?token=${token}`
+            );
+          })
+          .catch((err) => notify(err.data?.message || "Bad request", "error"));
       })
-         .unwrap()
-         .then(() => {
-            setOldPassword(initialValue);
-            setNewPassword(initialValue);
-            setConfirmPassword(initialValue);
-            notify("Password updated", "success");
-         })
-         .catch(() =>
-            setOldPassword((params) => ({
-               ...params,
-               error: "did not match",
-            }))
-         );
+      .catch(() => setError("password", { message: "Invalid password" }));
+  };
 
-   return (
-      <>
-         <Grid item xs={6}>
-            <Typography variant="h7">Old Password</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <InputPassword
-               params={oldPassword}
-               onChange={onOldChange}
-               label="Old"
+  return (
+    <>
+      <LoadingCircle isLoading={isLoading} />
+      <Form onSubmit={handleSubmitEmail(onSubmitEmail)}>
+        <Grid container rowSpacing={2}>
+          <GridItem title="Email" name="email" control={controlEmail} />
+          <Grid item xs={6} />
+          <Grid item xs={6}>
+            <Button variant="contained" disabled={!isDirty} type="submit">
+              Update Email
+            </Button>
+          </Grid>
+        </Grid>
+      </Form>
+      <Dialog open={open} onClose={onCancel}>
+        <DialogTitle>Update Email</DialogTitle>
+        <Form onSubmit={handleSubmitPassword(onSubmitPassword)}>
+          <DialogContent>
+            <DialogContentText>Please enter your password.</DialogContentText>
+            <PasswordFieldController
+              name="password"
+              label="Password"
+              control={controlPassword}
+              autoFocus
+              variant="standard"
             />
-         </Grid>
-         <Grid item xs={6}>
-            <Typography variant="h7">New Password</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <InputPassword
-               params={newPassword}
-               onChange={onNewChange}
-               label="New"
-            />
-         </Grid>
-         <Grid item xs={6}>
-            <Typography variant="h7">Re-entry new password</Typography>
-         </Grid>
-         <Grid item xs={6}>
-            <InputPassword
-               params={confirmPassword}
-               onChange={onConfirmChange}
-               label="Confirm"
-            />
-         </Grid>
-         <Grid item xs={6}></Grid>
-         <Grid item xs={6}>
-            <Stack direction="row" spacing={2}>
-               <Button
-                  variant="contained"
-                  disabled={!canUpdate}
-                  onClick={onUpdate}
-               >
-                  Update Password
-               </Button>
-               <Button variant="contained" onClick={() => navigate(-1)}>
-                  Cancel
-               </Button>
-            </Stack>
-         </Grid>
-      </>
-   );
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={onCancel}>Cancel</Button>
+            <Button type="submit">Confirm</Button>
+          </DialogActions>
+        </Form>
+      </Dialog>
+    </>
+  );
+}
+
+const schemaConfirmPassword = yObject({
+  oldPassword: yPassword,
+  newPassword: yPassword.notOneOf(
+    [yRef("oldPassword")],
+    "New password same as old"
+  ),
+  confirmPassword: yPassword.oneOf(
+    [yRef("newPassword")],
+    "Do not match with new password"
+  ),
+});
+
+function EditPassword() {
+  const { notify } = useNotify(true);
+  const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isDirty },
+    reset,
+    setError,
+  } = useForm(schemaConfirmPassword);
+
+  const onSubmit = ({ oldPassword, newPassword }) =>
+    updatePassword({
+      oldPassword,
+      newPassword,
+    })
+      .unwrap()
+      .then(() => {
+        reset();
+        notify("Password updated", "success");
+      })
+      .catch(() => setError("oldPassword", { message: "Did not match" }));
+
+  return (
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <LoadingCircle isLoading={isLoading} />
+      <Grid container rowSpacing={2}>
+        <GridItem
+          title="Old Password"
+          name="oldPassword"
+          label="Old"
+          isPassword={true}
+          control={control}
+        />
+        <GridItem
+          title="New Password"
+          name="newPassword"
+          label="New"
+          isPassword={true}
+          control={control}
+        />
+        <GridItem
+          title="Confirm Password"
+          name="confirmPassword"
+          label="Confirm"
+          isPassword={true}
+          control={control}
+        />
+        <Grid item xs={6} />
+        <Grid item xs={6}>
+          <Button variant="contained" disabled={!isDirty} type="submit">
+            Update Password
+          </Button>
+        </Grid>
+      </Grid>
+    </Form>
+  );
 }
 
 function Content() {
-   const [isLoading, setIsLoading] = useState(false);
-   return (
-      <Container maxWidth={"md"}>
-         <LoadingCircle isLoading={isLoading} />
-         <Grid
-            container
-            direction="column"
-            alignItems="center"
-            marginTop={2}
-            marginBottom={2}
-         >
-            <ImageAvatar />
-         </Grid>
-         <Box sx={{ width: "100%" }}>
-            <Grid container rowSpacing={2}>
-               <EditDetails setIsLoading={setIsLoading} />
-               <EditEmail setIsLoading={setIsLoading} />
-               <EditPassword setIsLoading={setIsLoading} />
-            </Grid>
-         </Box>
-      </Container>
-   );
+  const navigate = useNavigate();
+  return (
+    <Container maxWidth={"md"} sx={{ pb: 10 }}>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        marginTop={2}
+        marginBottom={2}
+      >
+        <ImageAvatar />
+      </Grid>
+      <Box sx={{ width: "100%" }}>
+        <Stack spacing={2}>
+          <EditDetails />
+          <Divider />
+          <EditEmail />
+          <Divider />
+          <EditPassword />
+        </Stack>
+      </Box>
+      <Fab
+        variant="extended"
+        color="warning"
+        sx={(t) => ({
+          position: "fixed",
+          right: t.spacing(4),
+          bottom: t.spacing(4),
+        })}
+        onClick={() => navigate(-1)}
+      >
+        <CloseIcon sx={{ mr: 1 }} />
+        Cancel
+      </Fab>
+    </Container>
+  );
 }
 
 export default function EditProfile() {
-   return (
-      <NavigationBar title="Profile">
-         <Content />
-      </NavigationBar>
-   );
+  return (
+    <NavigationBar title="Profile">
+      <Content />
+    </NavigationBar>
+  );
 }
