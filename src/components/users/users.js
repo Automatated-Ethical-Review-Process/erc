@@ -1,28 +1,30 @@
 import DataGrid from "components/common/DataGrid";
-import { getUsers } from "services/data/userService";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useGetUsersQuery } from "api/data/user";
 
 export default function Users({
-   extraFields = {
-      createdDate: "Registered",
-   },
+  extraFields = {
+    createdDate: "Registered",
+  },
 }) {
-   const navigate = useNavigate();
-   const { pathname } = useLocation();
-   const users = getUsers();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-   const fields = {
-      name: "Name",
-      email: "Email",
-      ...extraFields,
-   };
+  const { data = [], isLoading } = useGetUsersQuery();
 
-   return (
-      <DataGrid
-         fields={Object.keys(fields)}
-         headerNames={Object.values(fields)}
-         rows={users}
-         onRowClick={(row) => navigate(`${pathname}/${row.id}`)}
-      />
-   );
+  const fields = {
+    name: "Name",
+    email: "Email",
+    ...extraFields,
+  };
+
+  return (
+    <DataGrid
+      fields={Object.keys(fields)}
+      headerNames={Object.values(fields)}
+      rows={data}
+      onRowClick={(row) => navigate(`${pathname}/${row.id}`)}
+      loading={isLoading}
+    />
+  );
 }
