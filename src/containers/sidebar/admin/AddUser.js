@@ -1,10 +1,8 @@
-import * as React from "react";
+import { forwardRef, useState } from "react";
 
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import { Container } from "@mui/material";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Dialog from "@mui/material/Dialog";
@@ -13,105 +11,147 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import useForm from "hooks/useForm";
+import { yEmailSchema } from "utils/yup";
+import Form from "components/common/Form";
+import { TextFieldController } from "components/controllers";
+import Roles from "config/roles";
+import {
+  useInviteClerkMutation,
+  useInviteReviewerMutation,
+  useInviteSecretaryMutation,
+} from "api/auth/api";
+import useNotify from "hooks/useNotify";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-   return <Slide direction="down" ref={ref} {...props} />;
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
 });
+
 export default function AddReviewer() {
-   const [open1, setOpenAccept] = React.useState(false);
+  const [data, setData] = useState(null);
 
-   const handleClickOpen1 = () => {
-      setOpenAccept(true);
-   };
-   const handleClose1 = () => {
-      setOpenAccept(false);
-   };
+  const [inviteClerk, { isLoading: isLoadingClerk }] = useInviteClerkMutation();
+  const [inviteSecretary, { isLoading: isLoadingSecretary }] =
+    useInviteSecretaryMutation();
+  const [inviteReviewer, { isLoading: isLoadingReviewer }] =
+    useInviteReviewerMutation();
 
-   const [role, setRole] = React.useState("");
+  const isLoading = isLoadingClerk || isLoadingSecretary || isLoadingReviewer;
 
-   const handleChange = (event) => {
-      setRole(event.target.value);
-   };
+  const { notify } = useNotify();
 
-   return (
-      <Container maxWidth="md" sx={{ mt: 4 }}>
-         <Paper
-            variant="outlined"
-            sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-         >
-            <Grid container space={3} sx={{ mt: 2 }}>
-               <Grid item xs={12} md={12}>
-                  <Typography variant="body1">
-                     Enter the email address and select the role of user to add
-                     to the system.
-                  </Typography>
-               </Grid>
+  const handleClose = () => setData(null);
+  const handleSend = () => {
+    const { email, role } = data;
+    let method = null;
 
-               <Grid item xs={12} md={6} sx={{ my: 2 }}>
-                  <TextField
-                     id="email-1"
-                     label="Enter Email Address"
-                     variant="outlined"
-                     sx={{
-                        width: 250,
-                     }}
-                  />
-               </Grid>
-               <Grid item xs={12} md={3} sx={{ my: 2 }}>
-                  <Box sx={{ minWidth: 150 }}>
-                     <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                           Role
-                        </InputLabel>
-                        <Select
-                           sx={{ width: 120 }}
-                           labelId="demo-simple-select-label"
-                           id="demo-simple-select"
-                           value={role}
-                           label="Role"
-                           onChange={handleChange}
-                        >
-                           <MenuItem value={10}>Secratary</MenuItem>
-                           <MenuItem value={20}>Clerk</MenuItem>
-                           <MenuItem value={30}>Reviewer</MenuItem>
-                        </Select>
-                     </FormControl>
-                  </Box>
-               </Grid>
-               <Grid item xs={12} md={3}></Grid>
-               <Grid item xs={12} md={12}>
-                  <Button
-                     variant="contained"
-                     color="success"
-                     onClick={handleClickOpen1}
-                  >
-                     Send Invitaion
-                  </Button>
-               </Grid>
+    switch (role) {
+      case Roles.clerk:
+        method = inviteClerk;
+        break;
+      case Roles.secretary:
+        method = inviteSecretary;
+        break;
+      case Roles.reviewer:
+        method = inviteReviewer;
+        break;
+      default:
+        throw new Error("Invalid role");
+    }
+
+    if (method) {
+      method({ email })
+        .unwrap()
+        .then(({ token }) => {
+          console.log(
+            `${window.location.href
+              .split("/")
+              .slice(0, 3)
+              .join("/")}/signup?token=${token}`
+          );
+          notify("Successfully invited", "success");
+        })
+        .catch(({ data }) => {
+          notify(data?.message || "Something went wrong", "error");
+        });
+    }
+
+    setData(null);
+  };
+
+  const { control, handleSubmit } = useForm(yEmailSchema);
+
+  const onSubmit = (data) => setData(data);
+
+  return (
+    <Container maxWidth="md" sx={{ mt: 4 }}>
+      <Paper
+        variant="outlined"
+        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+      >
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={12}>
+              <Typography variant="body1" textAlign="center">
+                Enter the email address and select the role of user to add to
+                the system.
+              </Typography>
             </Grid>
-         </Paper>
-         <Dialog
-            open={open1}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleClose1}
-         >
-            <DialogTitle>{"Send Invitation"}</DialogTitle>
-            <DialogContent>
-               <DialogContentText id="alert-dialog-slide-description">
-                  Do you want to send invitation to user for sign up in to the
-                  system?
-               </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={handleClose1}>Cancel</Button>
-               <Button onClick={handleClose1}>Send</Button>
-            </DialogActions>
-         </Dialog>
-      </Container>
-   );
+
+            <Grid item xs={12} md={6}>
+              <TextFieldController
+                name="email"
+                label="Email Address"
+                control={control}
+                autoComplete="email"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextFieldController
+                name="role"
+                label="Role"
+                control={control}
+                fullWidth
+                select
+                defaultValue={Roles.reviewer}
+              >
+                <MenuItem value={Roles.clerk}>Clerk</MenuItem>
+                <MenuItem value={Roles.secretary}>Secretary</MenuItem>
+                <MenuItem value={Roles.reviewer}>Reviewer</MenuItem>
+              </TextFieldController>
+            </Grid>
+            <Grid item xs={12} md={12} textAlign="center">
+              <Button
+                disabled={isLoading}
+                variant="contained"
+                color="success"
+                type="submit"
+              >
+                Send Invitation
+              </Button>
+            </Grid>
+          </Grid>
+        </Form>
+      </Paper>
+      <Dialog
+        open={!!data}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+      >
+        <DialogTitle>{"Send Invitation"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Do you want to send invitation to user for sign up in to the system?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSend}>Send</Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
+  );
 }
