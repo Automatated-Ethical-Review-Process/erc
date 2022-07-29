@@ -1,5 +1,5 @@
 import DataGrid from "components/common/DataGrid";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useGetUsersQuery } from "api/data/user";
 
 export default function Users({
@@ -8,7 +8,6 @@ export default function Users({
   },
 }) {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   const { data = [], isLoading } = useGetUsersQuery();
 
@@ -23,7 +22,7 @@ export default function Users({
       fields={Object.keys(fields)}
       headerNames={Object.values(fields)}
       rows={data}
-      onRowClick={(row) => navigate(`${pathname}/${row.id}`)}
+      onRowClick={(row) => navigate(String(row.id))}
       loading={isLoading}
     />
   );
