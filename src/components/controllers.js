@@ -6,6 +6,7 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -68,9 +69,13 @@ export function TextPasswordFieldController({ isPassword, ...rest }) {
   );
 }
 
-export function SelectController({ options, defaultIndex = 0, ...rest }) {
+export function SelectController({
+  options,
+  defaultValue = options[0].value,
+  ...rest
+}) {
   return (
-    <TextFieldController select defaultValue={options[0].value} {...rest}>
+    <TextFieldController select defaultValue={defaultValue} {...rest}>
       {options.map((option, key) => (
         <MenuItem key={key} value={option.value}>
           {option.label}
@@ -98,6 +103,31 @@ export function CheckboxController({
             <Checkbox {...rest} checked={value} color="secondary" {...args} />
           }
           label={label}
+        />
+      )}
+    />
+  );
+}
+
+export function SwitchController({
+  name,
+  trueLabel,
+  falseLabel,
+  defaultValue = false,
+  ...args
+}) {
+  const control = useControl();
+  return (
+    <Controller
+      name={name}
+      control={control}
+      defaultValue={true}
+      render={({ field: { value, ...rest } }) => (
+        <FormControlLabel
+          control={
+            <Switch {...rest} checked={value} color="secondary" {...args} />
+          }
+          label={value ? trueLabel : falseLabel}
         />
       )}
     />

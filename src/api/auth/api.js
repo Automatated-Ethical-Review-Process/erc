@@ -4,10 +4,12 @@ import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { authQuery, initRefreshActions } from "api/base";
 import authService from "services/auth";
 import Roles from "config/roles";
+import dataApi from "api/data/api";
+import dispatch from "store/dispatcher";
 
 const authApi = createApi({
   reducerPath: "api/auth",
-  tagTypes: ["authUser"],
+  tagTypes: ["authUser", "status"],
   baseQuery: authQuery,
   endpoints: (build) => ({
     getUser: build.query({
@@ -70,8 +72,8 @@ const authApi = createApi({
         url: "/update/email",
         method: "PUT",
         params: { id },
-        invalidatesTags: (_, e) => (e ? [] : ["authUser"]),
       }),
+      invalidatesTags: (_, e) => (e ? [] : ["authUser"]),
     }),
     forgotPasswordVerify: build.mutation({
       query: (body) => ({
@@ -108,6 +110,12 @@ const authApi = createApi({
         method: "PUT",
         body,
       }),
+      invalidatesTags: (_, e, a) => {
+        if (!e) {
+          dispatch(dataApi.util.invalidateTags([{ type: "user", id: a.id }]));
+        }
+        return [];
+      },
     }),
     inviteReviewer: build.mutation({
       query: (body) => ({
@@ -130,29 +138,41 @@ const authApi = createApi({
         body,
       }),
     }),
+    getStatus: build.query({
+      query: "/auth-user/status",
+      providesTags: [{ type: "status", id: 0 }],
+    }),
+    getStatusById: build.query({
+      query: (id) => `/auth-user/status/${id}`,
+      providesTags: (_, __, id) => [{ type: "status", id }],
+    }),
     toggleEnabled: build.mutation({
       query: () => ({
         url: "/user/enable",
         method: "PUT",
       }),
+      invalidatesTags: (_, e) => (e ? [] : [{ type: "status", id: 0 }]),
     }),
     toggleUserEnabled: build.mutation({
       query: (id) => ({
         url: `/user/enable/${id}`,
         method: "PUT",
       }),
+      invalidatesTags: (_, e, id) => (e ? [] : [{ type: "status", id }]),
     }),
     toggleUserLocked: build.mutation({
       query: (id) => ({
         url: `/user/lock/${id}`,
         method: "PUT",
       }),
+      invalidatesTags: (_, e, id) => (e ? [] : [{ type: "status", id }]),
     }),
     setUserVerified: build.mutation({
       query: (id) => ({
         url: `/user/verified/${id}`,
         method: "PUT",
       }),
+      invalidatesTags: (_, e, id) => (e ? [] : [{ type: "status", id }]),
     }),
   }),
 });
@@ -170,13 +190,15 @@ export const {
   useForgotPasswordMutation, //
   useCheckPasswordMutation, //
   useUpdatePasswordMutation, //
-  useUpdateRolesMutation,
-  useInviteReviewerMutation,
-  useInviteClerkMutation,
-  useInviteSecretaryMutation,
+  useUpdateRolesMutation, //
+  useInviteReviewerMutation, //
+  useInviteClerkMutation, //
+  useInviteSecretaryMutation, //
+  useGetStatusQuery,
+  useGetStatusByIdQuery, //
   useToggleEnabledMutation,
-  useToggleUserEnabledMutation,
-  useToggleUserLockedMutation,
+  useToggleUserEnabledMutation, //
+  useToggleUserLockedMutation, //
   useSetUserVerifiedMutation,
 } = authApi;
 

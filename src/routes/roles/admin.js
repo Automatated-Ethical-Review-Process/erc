@@ -29,7 +29,7 @@ const adminRoute = (
           <Users
             extraFields={{
               isUnderGraduate: "is UnderGraduate",
-              mobileNumber: "Mobile number",
+              roles: "Roles",
             }}
           />
         }

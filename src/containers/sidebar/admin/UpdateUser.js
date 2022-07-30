@@ -1,13 +1,9 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
 import { Container, Grid, Stack, Typography } from "@mui/material";
 
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
 
 import Button from "@mui/material/Button";
 
@@ -16,154 +12,218 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-
-export function AlertDialog() {
-   const [open, setOpen] = React.useState(false);
-
-   const handleClickOpen = () => {
-      setOpen(true);
-   };
-
-   const handleClose = () => {
-      setOpen(false);
-   };
-
-   return (
-      <div>
-         <Button variant="contained" onClick={handleClickOpen}>
-            Confirm
-         </Button>
-         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle id="alert-dialog-title">
-               {"User Management of the ERC system"}
-            </DialogTitle>
-            <DialogContent>
-               <DialogContentText id="alert-dialog-description">
-                  Are you sure?
-               </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={handleClose}>No</Button>
-               <Button onClick={handleClose} autoFocus>
-                  Yes
-               </Button>
-            </DialogActions>
-         </Dialog>
-      </div>
-   );
-}
+import {
+  useGetStatusByIdQuery,
+  useToggleUserEnabledMutation,
+  useToggleUserLockedMutation,
+  useUpdateRolesMutation,
+} from "api/auth/api";
+import { useGetUserQuery } from "api/data/user";
+import Form from "components/common/Form";
+import LoadingCircle from "components/common/LoadingCircle";
+import { SelectController, SwitchController } from "components/controllers";
+import Roles, { getRoles } from "config/roles";
+import useForm from "hooks/useForm";
+import useNotify from "hooks/useNotify";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+import { yEmptySchema } from "utils/yup";
 
 export function ControlledRadioButtonsGroup() {
-   const [value, setValue] = React.useState("activate");
+  const [value, setValue] = useState("activate");
 
-   const handleChange = (event) => {
-      setValue(event.target.value);
-   };
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
-   return (
-      <FormControl sx={{ mt: 0 }}>
-         <RadioGroup
-            name="controlled-radio-buttons-group"
-            value={value}
-            onChange={handleChange}
-         >
-            <Stack direction="row" spacing={2}>
-               <FormControlLabel
-                  value="activate"
-                  control={<Radio />}
-                  label="Activate"
-               />
-               <FormControlLabel
-                  value="deactivate"
-                  control={<Radio />}
-                  label="Deactivate"
-               />
-            </Stack>
-         </RadioGroup>
-      </FormControl>
-   );
-}
-
-const currencies = [
-   {
-      value: "Applicant",
-      label: "Applicant",
-   },
-   {
-      value: "Secretary",
-      label: "Secretary",
-   },
-   {
-      value: "Reviewer",
-      label: "Reviewer",
-   },
-   {
-      value: "Clerk",
-      label: "Clerk",
-   },
-];
-
-export function SelectTextFields() {
-   const [role, setRole] = React.useState("Applicant");
-
-   const handleChange = (event) => {
-      setRole(event.target.value);
-   };
-
-   return (
-      <Box
-         component="form"
-         sx={{
-            "& .MuiTextField-root": { width: "100%" },
-         }}
-         noValidate
-         autoComplete="off"
+  return (
+    <FormControl>
+      <RadioGroup
+        name="controlled-radio-buttons-group"
+        value={value}
+        onChange={handleChange}
       >
-         <div>
-            <TextField
-               id="outlined-select-role"
-               select
-               label="User role"
-               value={role}
-               onChange={handleChange}
-            >
-               {currencies.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                     {option.label}
-                  </MenuItem>
-               ))}
-            </TextField>
-         </div>
-      </Box>
-   );
+        <Stack direction="row" spacing={2}>
+          <FormControlLabel
+            value="activate"
+            control={<Radio />}
+            label="Activate"
+          />
+          <FormControlLabel
+            value="deactivate"
+            control={<Radio />}
+            label="Deactivate"
+          />
+        </Stack>
+      </RadioGroup>
+    </FormControl>
+  );
 }
 
 export default function UpdateUser() {
-   return (
-      <Container sx={{ mt: 2 }}>
-         <Box>
-            <Grid>
-               <Grid>
-                  <Typography>
-                     <h3>Change the user role</h3>
-                  </Typography>
-               </Grid>
-               <Grid>
-                  <SelectTextFields />
-               </Grid>
-               <Grid>
-                  <Typography sx={{ mt: 4 }}>
-                     <h3>Activate or deactivate the user</h3>
-                  </Typography>
-               </Grid>
-               <Grid>
-                  <ControlledRadioButtonsGroup />
-               </Grid>
-               <Grid sx={{ mt: 4 }}>
-                  <AlertDialog />
-               </Grid>
-            </Grid>
-         </Box>
-      </Container>
-   );
+  const [data, setData] = useState(null);
+  const { uid: userId } = useParams();
+
+  const { data: user = {}, isLoading: isLoadingUser } = useGetUserQuery(userId);
+  const { data: status = {}, isLoading: isLoadingStatus } =
+    useGetStatusByIdQuery(userId);
+
+  const [toggleEnable, { isLoading: isLoadingEnable }] =
+    useToggleUserEnabledMutation();
+  const [toggleLock, { isLoading: isLoadingLock }] =
+    useToggleUserLockedMutation();
+  const [updateRoles, { isLoading: isLoadingRoles }] = useUpdateRolesMutation();
+
+  const isLoading =
+    isLoadingUser ||
+    isLoadingStatus ||
+    isLoadingEnable ||
+    isLoadingLock ||
+    isLoadingRoles;
+
+  const role = user.roles?.includes(Roles.secretary)
+    ? Roles.secretary
+    : user.roles?.includes(Roles.e_reviewer)
+    ? Roles.e_reviewer
+    : user.roles?.includes(Roles.i_reviewer)
+    ? Roles.i_reviewer
+    : user.roles?.includes(Roles.clerk)
+    ? Roles.clerk
+    : Roles.applicant;
+
+  const onSubmit = (data) => {
+    const obj = {};
+    if (data.enabled !== status.isEnable) {
+      obj.toggleEnable = true;
+    }
+    if (data.locked !== status.isLocked) {
+      obj.toggleLocked = true;
+    }
+    if (data.role !== role) {
+      obj.roles = getRoles(data.role);
+    }
+    if (Object.keys(obj).length > 0) {
+      setData(obj);
+    } else {
+      alert("No changes detected");
+    }
+  };
+
+  const { notify } = useNotify();
+
+  const handleClose = () => setData(null);
+
+  const handleYes = () => {
+    const promises = [];
+    if (data.toggleEnable) {
+      promises.push(toggleEnable(userId).unwrap());
+    }
+    if (data.toggleLocked) {
+      promises.push(toggleLock(userId).unwrap());
+    }
+    if (data.roles) {
+      promises.push(updateRoles({ id: userId, roles: data.roles }).unwrap());
+    }
+    Promise.all(promises)
+      .then(() => notify("Successfully updated", "success"))
+      .catch(({ data }) =>
+        notify(data?.message || "Something went wrong", "error")
+      );
+    handleClose();
+  };
+
+  const defaultValues = useMemo(
+    () => ({
+      role,
+      enabled: status.isEnable ?? false,
+      locked: status.isLocked ?? false,
+    }),
+    [status, role]
+  );
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isDirty },
+    reset,
+  } = useForm(yEmptySchema);
+
+  useEffect(() => {
+    if (Object.keys(user).length > 0 && Object.keys(status).length > 0) {
+      reset(defaultValues);
+    }
+  }, [user, status, defaultValues, reset]);
+
+  return (
+    <Container sx={{ mt: 2 }}>
+      <LoadingCircle isLoading={isLoading} />
+      <Form
+        schema={yEmptySchema}
+        defaultValues={defaultValues}
+        control={control}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h6">Change the user role</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <SelectController
+              name="role"
+              label="Role"
+              fullWidth
+              options={[
+                { label: "Applicant", value: Roles.applicant },
+                { label: "Clerk", value: Roles.clerk },
+                { label: "Internal Reviewer", value: Roles.i_reviewer },
+                { label: "External Reviewer", value: Roles.e_reviewer },
+                { label: "Secretary", value: Roles.secretary },
+              ]}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6">Enable or Disable the user</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <SwitchController
+              name="enabled"
+              trueLabel="Enabled"
+              falseLabel="Disabled"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6">Lock or Unlock the user</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <SwitchController
+              name="locked"
+              trueLabel="Locked"
+              falseLabel="Unlocked"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" type="submit" disabled={!isDirty}>
+              Confirm
+            </Button>
+          </Grid>
+        </Grid>
+      </Form>
+      <Dialog open={!!data} onClose={handleClose}>
+        <DialogTitle id="alert-dialog-title">
+          {"User Management of the ERC system"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>No</Button>
+          <Button onClick={handleYes} autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
+  );
 }

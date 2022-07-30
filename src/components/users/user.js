@@ -16,7 +16,7 @@ export default function User({ children }) {
   const { data: user = {}, isLoading } = useGetUserQuery(userId);
 
   if (!user) {
-    return "Invalid user id" + userId;
+    return "Invalid user id " + userId;
   }
 
   const data = [
@@ -26,10 +26,31 @@ export default function User({ children }) {
     { label: "Land Number", value: user.landNumber ?? "" },
     { label: "Email", value: user.email ?? "" },
     { label: "Nic/Passport", value: user.nic ?? user.passport ?? "" },
-    { label: "Highest Education", value: user.educationalQualifications ?? "" },
-    { label: "Create Date", value: user.createdDate ?? "" },
-    { label: "Roles", value: user.roles ?? "" },
+    {
+      label: "Educational Qualifications",
+      value: user.educationalQualifications?.join("\n") ?? "",
+      multiline: true,
+      rows: 4,
+    },
+    { label: "Roles", value: user.roles?.join(", ") ?? "" },
+    { label: "Created Date", value: user.createdDate ?? "" },
   ];
+
+  if (typeof user.isUnderGraduate === "boolean") {
+    if (user.isUnderGraduate) {
+      data.push(
+        { label: "University", value: user.university ?? "" },
+        { label: "Faculty", value: user.faculty ?? "" },
+        { label: "Registration Number", value: user.registrationNumber ?? "" },
+        { label: "Year", value: user.year ?? "" }
+      );
+    } else {
+      data.push(
+        { label: "Occupation", value: user.occupation ?? "" },
+        { label: "Position", value: user.position ?? "" }
+      );
+    }
+  }
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
@@ -43,7 +64,7 @@ export default function User({ children }) {
         <Grid item xs={12}>
           <FormControlLabel
             control={<Checkbox checked={!!user.isUnderGraduate} />}
-            label="Undergraduate"
+            label="is Undergraduate"
           />
         </Grid>
         <Grid item md={10}></Grid>

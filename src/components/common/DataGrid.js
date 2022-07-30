@@ -12,7 +12,11 @@ class ColumnDefinition {
     this.width = 150;
     this.flex = flex;
     this.renderCell = ({ value }) =>
-      isValidElement(value) ? value : String(value);
+      Array.isArray(value)
+        ? value.slice().sort().join(", ")
+        : !isValidElement(value)
+        ? String(value)
+        : value;
   }
 }
 
