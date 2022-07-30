@@ -1,41 +1,39 @@
-import * as React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import Grid from "@mui/material/Grid";
+import { Checkbox, Container } from "@mui/material";
 import Button from "@mui/material/Button";
-import { Container } from "@mui/material";
-import { getUser } from "services/data/userService";
-import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
 
+import { useGetUserQuery } from "api/data/user";
 import TextField from "components/common/TextField";
-import RadioGroup from "@mui/material/RadioGroup";
+import LoadingCircle from "components/common/LoadingCircle";
 
 export default function User({ children }) {
   const navigate = useNavigate();
   const { uid: userId } = useParams();
-  const user = getUser(userId);
+
+  const { data: user = {}, isLoading } = useGetUserQuery(userId);
 
   if (!user) {
     return "Invalid user id" + userId;
   }
 
   const data = [
-    { label: "ID", value: user.id },
-    { label: "Name", value: user.name },
-    { label: "Address", value: user.address },
-    { label: "Phone Number", value: user.phoneNum },
-    { label: "Land Number", value: user.landNum },
-    { label: "Email", value: user.email },
-    { label: "Nic/Passport", value: user.nic },
-    { label: "Highest Education", value: user.highestEducation },
-    { label: "Create Date", value: user.createdDate },
-    { label: "Roles", value: user.roles },
+    { label: "Name", value: user.name ?? "" },
+    { label: "Address", value: user.address ?? "" },
+    { label: "Phone Number", value: user.mobileNumber ?? "" },
+    { label: "Land Number", value: user.landNumber ?? "" },
+    { label: "Email", value: user.email ?? "" },
+    { label: "Nic/Passport", value: user.nic ?? user.passport ?? "" },
+    { label: "Highest Education", value: user.educationalQualifications ?? "" },
+    { label: "Create Date", value: user.createdDate ?? "" },
+    { label: "Roles", value: user.roles ?? "" },
   ];
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
+      <LoadingCircle isLoading={isLoading} />
       <Grid container spacing={4}>
         {data.map((item, id) => (
           <Grid key={id} item xs={12}>
@@ -43,16 +41,10 @@ export default function User({ children }) {
           </Grid>
         ))}
         <Grid item xs={12}>
-          <FormControl>
-            <RadioGroup defaultValue="Undergraduate">
-              <FormControlLabel
-                value="Undergraduate"
-                control={<Radio />}
-                label="Undergraduate"
-                defaultValue="Undergraduate"
-              />
-            </RadioGroup>
-          </FormControl>
+          <FormControlLabel
+            control={<Checkbox checked={!!user.isUnderGraduate} />}
+            label="Undergraduate"
+          />
         </Grid>
         <Grid item md={10}></Grid>
         {!children && (

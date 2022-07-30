@@ -1,28 +1,27 @@
 import { useState } from "react";
 
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import Alert from "@mui/material/Alert";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useLoginMutation } from "api/auth/api";
 import authService from "services/auth";
 
 import Image from "assets/meetings.jpg";
-import { yEmail, yObject, yPassword } from "utils/yup";
-import useForm from "hooks/useForm";
-import Form from "components/common/Form";
+import { BasicForm } from "components/common/Form";
 import {
   CheckboxController,
   PasswordFieldController,
   TextFieldController,
 } from "components/controllers";
+import { yEmail, yObject, yPassword } from "utils/yup";
 
 const schema = yObject({
   email: yEmail,
@@ -34,8 +33,6 @@ export default function SignIn() {
   const { state } = useLocation();
 
   const [login, { isLoading }] = useLoginMutation();
-
-  const { control, handleSubmit } = useForm(schema, null);
 
   const [submitError, setSubmitError] = useState(window._msg);
 
@@ -66,11 +63,10 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign In
         </Typography>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <BasicForm schema={schema} defaultValues={null} onSubmit={onSubmit}>
           <TextFieldController
             name="email"
             label="Email Address"
-            control={control}
             defaultValue={authService.email ?? ""}
             required
             autoComplete="email"
@@ -78,7 +74,6 @@ export default function SignIn() {
           <PasswordFieldController
             name="password"
             label="Password"
-            control={control}
             defaultValue=""
             required
             autoComplete="current-password"
@@ -86,7 +81,6 @@ export default function SignIn() {
           <CheckboxController
             name="rememberMe"
             label="Remember me"
-            control={control}
             defaultValue={authService.hasEmail}
           />
           {submitError && <Alert severity="error">{submitError}</Alert>}
@@ -113,7 +107,7 @@ export default function SignIn() {
               </Typography>
             </Grid>
           </Grid>
-        </Form>
+        </BasicForm>
       </Box>
     </Container>
   );

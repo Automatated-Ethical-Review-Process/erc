@@ -1,28 +1,26 @@
 import { forwardRef, useState } from "react";
 
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import { Container } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 import Slide from "@mui/material/Slide";
-import MenuItem from "@mui/material/MenuItem";
-import useForm from "hooks/useForm";
-import { yEmailSchema } from "utils/yup";
-import Form from "components/common/Form";
-import { TextFieldController } from "components/controllers";
-import Roles from "config/roles";
+import Typography from "@mui/material/Typography";
 import {
   useInviteClerkMutation,
   useInviteReviewerMutation,
   useInviteSecretaryMutation,
 } from "api/auth/api";
+import { BasicForm } from "components/common/Form";
+import { SelectController, TextFieldController } from "components/controllers";
+import Roles from "config/roles";
 import useNotify from "hooks/useNotify";
+import { yEmailSchema } from "utils/yup";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -80,8 +78,6 @@ export default function AddReviewer() {
     setData(null);
   };
 
-  const { control, handleSubmit } = useForm(yEmailSchema);
-
   const onSubmit = (data) => setData(data);
 
   return (
@@ -90,7 +86,7 @@ export default function AddReviewer() {
         variant="outlined"
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
       >
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <BasicForm schema={yEmailSchema} onSubmit={onSubmit}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={12}>
               <Typography variant="body1" textAlign="center">
@@ -103,24 +99,21 @@ export default function AddReviewer() {
               <TextFieldController
                 name="email"
                 label="Email Address"
-                control={control}
                 autoComplete="email"
                 fullWidth
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextFieldController
+              <SelectController
                 name="role"
                 label="Role"
-                control={control}
                 fullWidth
-                select
-                defaultValue={Roles.reviewer}
-              >
-                <MenuItem value={Roles.clerk}>Clerk</MenuItem>
-                <MenuItem value={Roles.secretary}>Secretary</MenuItem>
-                <MenuItem value={Roles.reviewer}>Reviewer</MenuItem>
-              </TextFieldController>
+                options={[
+                  { value: Roles.clerk, label: "Clerk" },
+                  { value: Roles.secretary, label: "Secretary" },
+                  { value: Roles.reviewer, label: "Reviewer" },
+                ]}
+              />
             </Grid>
             <Grid item xs={12} md={12} textAlign="center">
               <Button
@@ -133,7 +126,7 @@ export default function AddReviewer() {
               </Button>
             </Grid>
           </Grid>
-        </Form>
+        </BasicForm>
       </Paper>
       <Dialog
         open={!!data}

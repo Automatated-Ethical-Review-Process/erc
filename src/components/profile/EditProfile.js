@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Container,
   Dialog,
@@ -14,24 +12,32 @@ import {
   Fab,
   Stack,
 } from "@mui/material";
-import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import CloseIcon from "@mui/icons-material/Close";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 import { useNavigate } from "react-router-dom";
 
-import NavigationBar from "components/NavigationBar";
 import LoadingCircle from "components/common/LoadingCircle";
+import NavigationBar from "components/NavigationBar";
 import useNotify from "hooks/useNotify";
 
-import Image from "assets/baby.webp";
 import {
   useCheckPasswordMutation,
   useUpdateEmailVerifyMutation,
   useUpdatePasswordMutation,
 } from "api/auth/api";
-import useAuth from "hooks/useAuth";
 import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
+import Image from "assets/baby.webp";
+import Form from "components/common/Form";
+import {
+  PasswordFieldController,
+  TextPasswordFieldController,
+} from "components/controllers";
+import useAuth from "hooks/useAuth";
+import useForm from "hooks/useForm";
 import {
   yAddress,
   yEducationalQualifications,
@@ -43,12 +49,6 @@ import {
   yPasswordSchema,
   yRef,
 } from "utils/yup";
-import useForm from "hooks/useForm";
-import {
-  PasswordFieldController,
-  TextPasswordFieldController,
-} from "components/controllers";
-import Form from "components/common/Form";
 
 function ImageAvatar() {
   return (
@@ -122,16 +122,15 @@ function EditDetails() {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)} control={control}>
       <LoadingCircle isLoading={isLoading} />
       <Grid container rowSpacing={2}>
-        <GridItem title="Phone Number" name="mobileNumber" control={control} />
-        <GridItem title="Land Number" name="landNumber" control={control} />
-        <GridItem title="Address" name="address" control={control} />
+        <GridItem title="Phone Number" name="mobileNumber" />
+        <GridItem title="Land Number" name="landNumber" />
+        <GridItem title="Address" name="address" />
         <GridItem
           title="Educational Qualifications"
           name="educationalQualifications"
-          control={control}
           multiline
           rows={4}
         />
@@ -209,9 +208,9 @@ function EditEmail() {
   return (
     <>
       <LoadingCircle isLoading={isLoading} />
-      <Form onSubmit={handleSubmitEmail(onSubmitEmail)}>
+      <Form control={controlEmail} onSubmit={handleSubmitEmail(onSubmitEmail)}>
         <Grid container rowSpacing={2}>
-          <GridItem title="Email" name="email" control={controlEmail} />
+          <GridItem title="Email" name="email" />
           <Grid item xs={6} />
           <Grid item xs={6}>
             <Button variant="contained" disabled={!isDirty} type="submit">
@@ -222,13 +221,15 @@ function EditEmail() {
       </Form>
       <Dialog open={open} onClose={onCancel}>
         <DialogTitle>Update Email</DialogTitle>
-        <Form onSubmit={handleSubmitPassword(onSubmitPassword)}>
+        <Form
+          control={controlPassword}
+          onSubmit={handleSubmitPassword(onSubmitPassword)}
+        >
           <DialogContent>
             <DialogContentText>Please enter your password.</DialogContentText>
             <PasswordFieldController
               name="password"
               label="Password"
-              control={controlPassword}
               autoFocus
               variant="standard"
             />
@@ -280,7 +281,7 @@ function EditPassword() {
       .catch(() => setError("oldPassword", { message: "Did not match" }));
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form control={control} onSubmit={handleSubmit(onSubmit)}>
       <LoadingCircle isLoading={isLoading} />
       <Grid container rowSpacing={2}>
         <GridItem
@@ -288,21 +289,18 @@ function EditPassword() {
           name="oldPassword"
           label="Old"
           isPassword={true}
-          control={control}
         />
         <GridItem
           title="New Password"
           name="newPassword"
           label="New"
           isPassword={true}
-          control={control}
         />
         <GridItem
           title="Confirm Password"
           name="confirmPassword"
           label="Confirm"
           isPassword={true}
-          control={control}
         />
         <Grid item xs={6} />
         <Grid item xs={6}>
