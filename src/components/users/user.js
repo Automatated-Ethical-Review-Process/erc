@@ -1,16 +1,14 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { Checkbox, Container } from "@mui/material";
-import Button from "@mui/material/Button";
+import { Button, Checkbox, Container, Link } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 
 import { useGetUserQuery } from "api/data/user";
-import TextField from "components/common/TextField";
 import LoadingCircle from "components/common/LoadingCircle";
+import TextField from "components/common/TextField";
 
 export default function User({ children }) {
-  const navigate = useNavigate();
   const { uid: userId } = useParams();
 
   const { data: user = {}, isLoading } = useGetUserQuery(userId);
@@ -61,26 +59,17 @@ export default function User({ children }) {
             <TextField {...item} readOnly />
           </Grid>
         ))}
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={6}>
           <FormControlLabel
             control={<Checkbox checked={!!user.isUnderGraduate} />}
             label="is Undergraduate"
           />
         </Grid>
-        <Grid item md={10}></Grid>
-        {!children && (
-          <Grid item xs={12} md={2}>
-            <Button
-              variant="contained"
-              onClick={() => navigate("undergraduate")}
-              sx={{ width: 120 }}
-            >
-              Next
-            </Button>
-          </Grid>
-        )}
+        <Grid item xs={12} sm={6} textAlign="right">
+          <Button variant="contained">View ID Photo</Button>
+        </Grid>
+        {children}
       </Grid>
-      {children}
     </Container>
   );
 }

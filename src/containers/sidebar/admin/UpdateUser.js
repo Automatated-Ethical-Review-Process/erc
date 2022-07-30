@@ -1,9 +1,4 @@
-import { Container, Grid, Stack, Typography } from "@mui/material";
-
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
+import { Container, Grid, Typography } from "@mui/material";
 
 import Button from "@mui/material/Button";
 
@@ -28,37 +23,6 @@ import useNotify from "hooks/useNotify";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { yEmptySchema } from "utils/yup";
-
-export function ControlledRadioButtonsGroup() {
-  const [value, setValue] = useState("activate");
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-
-  return (
-    <FormControl>
-      <RadioGroup
-        name="controlled-radio-buttons-group"
-        value={value}
-        onChange={handleChange}
-      >
-        <Stack direction="row" spacing={2}>
-          <FormControlLabel
-            value="activate"
-            control={<Radio />}
-            label="Activate"
-          />
-          <FormControlLabel
-            value="deactivate"
-            control={<Radio />}
-            label="Deactivate"
-          />
-        </Stack>
-      </RadioGroup>
-    </FormControl>
-  );
-}
 
 export default function UpdateUser() {
   const [data, setData] = useState(null);
