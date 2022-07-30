@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -10,21 +8,33 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Slide from "@mui/material/Slide";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { useInviteReviewerMutation } from "api/auth/api";
+import { BasicForm } from "components/common/Form";
+import { TextFieldController } from "components/controllers";
+import useNotify from "hooks/useNotify";
+import { forwardRef, useState } from "react";
+import { yEmailSchema } from "utils/yup";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
 export default function AddReviewer() {
-  const [open1, setOpenAccept] = React.useState(false);
+  const [data, setData] = useState(null);
 
-  const handleClickOpen1 = () => {
-    setOpenAccept(true);
-  };
-  const handleClose1 = () => {
-    setOpenAccept(false);
+  const handleClose = () => setData(null);
+  const onSubmit = (data) => setData(data);
+
+  const [invite, { isLoading }] = useInviteReviewerMutation();
+  const { notify } = useNotify();
+
+  const handleAdd = () => {
+    invite(data)
+      .unwrap()
+      .then(() => notify("Successfully invited", "success"))
+      .catch(({ data }) => notify(data?.message || "Error inviting", "error"));
+    handleClose();
   };
 
   return (
@@ -33,47 +43,51 @@ export default function AddReviewer() {
         variant="outlined"
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
       >
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Typography variant="body1" textAlign="center">
-              Enter the email address of reviewer to add to the system
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Email Address"
-              variant="outlined"
-              required
-            />
-          </Grid>
-          <Grid item xs={12} textAlign="center">
-            <Button
-              variant="contained"
-              color="success"
-              onClick={handleClickOpen1}
+        <BasicForm schema={yEmailSchema} onSubmit={onSubmit}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="body1" textAlign="center">
+                Enter the email address of reviewer to add to the system
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <TextFieldController
+                name="email"
+                label="Email Address"
+                autoComplete="email"
+                required
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} textAlign="center">
+              <Button
+                disabled={isLoading}
+                variant="contained"
+                color="success"
+                type="submit"
+              >
+                Add Reviewer
+              </Button>
+            </Grid>
+            <Dialog
+              open={!!data}
+              TransitionComponent={Transition}
+              keepMounted
+              onClose={handleClose}
             >
-              Add Reviewer
-            </Button>
+              <DialogTitle>{"Add Reviewer"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-slide-description">
+                  Do you want to add this reviewer to the system?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleAdd}>Add</Button>
+              </DialogActions>
+            </Dialog>
           </Grid>
-          <Dialog
-            open={open1}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleClose1}
-          >
-            <DialogTitle>{"Add Reviewer"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                Do you want to add this reviewer to the system?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose1}>Cancel</Button>
-              <Button onClick={handleClose1}>Add</Button>
-            </DialogActions>
-          </Dialog>
-        </Grid>
+        </BasicForm>
       </Paper>
     </Container>
   );
