@@ -32,7 +32,15 @@ export default function AddReviewer() {
   const handleAdd = () => {
     invite(data)
       .unwrap()
-      .then(() => notify("Successfully invited", "success"))
+      .then(({ token }) => {
+        console.log(
+          `${window.location.href
+            .split("/")
+            .slice(0, 3)
+            .join("/")}/signup?token=${token}`
+        );
+        notify("Successfully invited", "success");
+      })
       .catch(({ data }) => notify(data?.message || "Error inviting", "error"));
     handleClose();
   };
