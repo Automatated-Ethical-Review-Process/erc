@@ -127,9 +127,9 @@ export default function UpdateUser() {
         control={control}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Grid container spacing={2}>
+        <Grid container>
           <Grid item xs={12}>
-            <Typography variant="h6">Change the user role</Typography>
+            <Typography variant="subtitle1">Change user role</Typography>
           </Grid>
           <Grid item xs={12}>
             <SelectController
@@ -145,8 +145,8 @@ export default function UpdateUser() {
               ]}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6">Enable or Disable the user</Typography>
+          <Grid item xs={12} mt={3}>
+            <Typography variant="subtitle1">Enable or Disable user</Typography>
           </Grid>
           <Grid item xs={12}>
             <SwitchController
@@ -155,8 +155,8 @@ export default function UpdateUser() {
               falseLabel="Disabled"
             />
           </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6">Lock or Unlock the user</Typography>
+          <Grid item xs={12} mt={3}>
+            <Typography variant="subtitle1">Lock or Unlock user</Typography>
           </Grid>
           <Grid item xs={12}>
             <SwitchController
@@ -165,7 +165,7 @@ export default function UpdateUser() {
               falseLabel="Unlocked"
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} mt={3}>
             <Button variant="contained" type="submit" disabled={!isDirty}>
               Confirm
             </Button>
