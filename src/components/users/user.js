@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-import { Button, Checkbox, Container, Link } from "@mui/material";
+import { Button, Checkbox, Container } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 

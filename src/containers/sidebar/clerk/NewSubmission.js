@@ -1,16 +1,15 @@
-import { useState, forwardRef } from "react";
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Grid from "@mui/material/Grid";
 import Slide from "@mui/material/Slide";
+import { forwardRef, useState } from "react";
 
-import BaseProposal from "components/proposals/Proposal";
 import DeclineComments from "components/common/DeclineComment";
+import BaseProposal from "components/proposals/Proposal";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
