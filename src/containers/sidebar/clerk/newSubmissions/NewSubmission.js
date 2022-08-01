@@ -16,19 +16,28 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 export default function NewSubmission() {
-  const [open, setOpenAccept] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpenAccept(true);
+  const handleOpen = () => {
+    setOpen(true);
   };
 
   const handleClose = () => {
-    setOpenAccept(false);
+    setOpen(false);
+  };
+
+  const handleAccept = () => {
+    // TODO: endpoint required
+    handleClose();
+  };
+
+  const handleDecline = (reason) => {
+    // TODO: endpoint required
   };
 
   return (
     <BaseProposal
-      extraFields={{ pi: "PI", coInvestigators: "Co-Investigators" }}
+      extraFields={{ user: "PI", coInvestigators: "Co-Investigators" }}
     >
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -36,12 +45,15 @@ export default function NewSubmission() {
         </Grid>
         <Grid item xs={12} md={4} />
         <Grid item xs={12} md={4} textAlign="right">
-          <Button variant="contained" color="success" onClick={handleClickOpen}>
+          <Button variant="contained" color="success" onClick={handleOpen}>
             Complete Submission
           </Button>
         </Grid>
         <Grid item xs={12} md={4} textAlign="right">
-          <DeclineComments label="Incomplete submission" />
+          <DeclineComments
+            label="Incomplete submission"
+            onClick={handleDecline}
+          />
         </Grid>
       </Grid>
       <Dialog
@@ -59,7 +71,7 @@ export default function NewSubmission() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Accept</Button>
+          <Button onClick={handleAccept}>Accept</Button>
         </DialogActions>
       </Dialog>
     </BaseProposal>

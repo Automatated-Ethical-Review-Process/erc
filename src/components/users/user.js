@@ -66,7 +66,9 @@ export default function User({ children }) {
           />
         </Grid>
         <Grid item xs={12} sm={6} textAlign="right">
-          <Button variant="contained">View ID Photo</Button>
+          <Button variant="contained" color="warning">
+            View ID Photo
+          </Button>
         </Grid>
         {children}
       </Grid>

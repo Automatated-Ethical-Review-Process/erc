@@ -139,12 +139,16 @@ const authApi = createApi({
       }),
     }),
     getStatus: build.query({
-      query: "/auth-user/status",
+      query: () => "/auth-user/status",
       providesTags: [{ type: "status", id: 0 }],
     }),
     getStatusById: build.query({
       query: (id) => `/auth-user/status/${id}`,
       providesTags: (_, __, id) => [{ type: "status", id }],
+    }),
+    getAllStatus: build.query({
+      query: () => "/auth-user/all",
+      // TODO: providesTags
     }),
     toggleEnabled: build.mutation({
       query: () => ({
@@ -196,6 +200,7 @@ export const {
   useInviteSecretaryMutation, //
   useGetStatusQuery,
   useGetStatusByIdQuery, //
+  useGetAllStatusQuery,
   useToggleEnabledMutation,
   useToggleUserEnabledMutation, //
   useToggleUserLockedMutation, //

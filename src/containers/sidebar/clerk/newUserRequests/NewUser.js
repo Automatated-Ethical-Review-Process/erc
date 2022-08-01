@@ -11,32 +11,63 @@ import Slide from "@mui/material/Slide";
 
 import DeclineComments from "components/common/DeclineComment";
 import User from "components/users/user";
+import { useSetUserVerifiedMutation } from "api/auth/api";
+import { useNavigate, useParams } from "react-router-dom";
+import useNotify from "hooks/useNotify";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
 export default function NewUser() {
-  const [open, setOpenAccept] = useState(false);
+  const navigate = useNavigate();
+  const { uid: userId } = useParams();
 
-  const handleClickOpen = () => {
-    setOpenAccept(true);
+  const [open, setOpen] = useState(false);
+
+  const [verify, { isLoading }] = useSetUserVerifiedMutation();
+  const { notify } = useNotify();
+
+  const handleOpen = () => {
+    setOpen(true);
   };
 
   const handleClose = () => {
-    setOpenAccept(false);
+    setOpen(false);
+  };
+
+  const handleAccept = () => {
+    verify(userId)
+      .unwrap()
+      .then(() => {
+        navigate(-1, { replace: true });
+        notify("User verified", "success");
+      })
+      .catch(({ data }) =>
+        notify(data?.message || "Something went wrong", "error")
+      );
+    handleClose();
+  };
+
+  const handleDecline = (reason) => {
+    // TODO: endpoint required
   };
 
   return (
     <User>
       <Grid item xs={12} md={6} />
       <Grid item xs={12} md={3} textAlign="right">
-        <Button variant="contained" color="success" onClick={handleClickOpen}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={handleOpen}
+          disabled={isLoading}
+        >
           Accept Request
         </Button>
       </Grid>
       <Grid item xs={12} md={3} textAlign="right">
-        <DeclineComments label="Decline Request" />
+        <DeclineComments label="Decline Request" onClick={handleDecline} />
       </Grid>
       <Dialog
         open={open}
@@ -52,7 +83,7 @@ export default function NewUser() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Accept</Button>
+          <Button onClick={handleAccept}>Accept</Button>
         </DialogActions>
       </Dialog>
     </User>
