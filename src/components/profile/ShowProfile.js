@@ -15,6 +15,29 @@ import Image from "assets/baby.webp";
 import useAuth from "hooks/useAuth";
 import { useGetMeQuery } from "api/data/user";
 import LoadingCircle from "components/common/LoadingCircle";
+import { useGetStatusQuery } from "api/auth/api";
+
+import Chip from "@mui/material/Chip";
+import DoneIcon from "@mui/icons-material/Done";
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+
+export function CustomDeleteIconChips() {
+  const { data: status = {} } = useGetStatusQuery();
+  if (status.isVerified) {
+    return (
+      <Chip label="Verified Account" icon={<DoneIcon />} color="success" />
+    );
+  } else {
+    return (
+      <Chip
+        label="Not Verified Account"
+        icon={<PriorityHighIcon />}
+        color="error"
+        variant="outlined"
+      />
+    );
+  }
+}
 
 function ImageAvatar() {
   return (
@@ -51,6 +74,8 @@ export function Content() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { data = {}, isLoading } = useGetMeQuery();
+
+  const { data: status = {} } = useGetStatusQuery();
 
   return (
     <Container maxWidth={"md"} sx={{ pb: 10 }}>
@@ -101,6 +126,15 @@ export function Content() {
               )}
             </>
           )}
+        </Grid>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          marginTop={2}
+          marginBottom={2}
+        >
+          <CustomDeleteIconChips />
         </Grid>
       </Box>
       <Fab
