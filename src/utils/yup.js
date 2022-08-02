@@ -7,45 +7,46 @@ export const isUuid = isValid(string().uuid().required());
 export const isUrl = isValid(string().url().required());
 
 export const yEmail = string()
-   .required("Email is required")
-   .email("Invalid email")
-   .default("");
+  .required("Email is required")
+  .email("Invalid email")
+  .default("");
 
 export const yPassword = string()
-   .required("Password is required")
-   .min(8, "Password must be at least 8 characters")
-   .max(40, "Password must not exceed 40 characters")
-   .default("");
+  .required("Password is required")
+  .min(8, "Password must be at least 8 characters")
+  .max(40, "Password must not exceed 40 characters")
+  .default("");
 
 export const yMobileNumber = string()
-   .required("Mobile number is required")
-   .matches(/^\d{10}$/, "Invalid number")
-   .default("");
+  .required("Mobile number is required")
+  .matches(/^\d{10}$/, "Invalid number")
+  .default("");
 
 export const yLandNumber = string()
-   .matches(/^(\d{10})?$/, "Invalid number")
-   .default("");
+  .matches(/^(\d{10})?$/, "Invalid number")
+  .default("");
 
 export const yAddress = string().required("Address is required").default("");
 
 export const yEducationalQualifications = string()
-   .required("Education qualifications are required")
-   .default("");
+  .required("Education qualifications are required")
+  .default("");
 
 export const yFile = mixed((o) => o instanceof File)
-   .nullable()
-   .required("File is required");
+  .nullable()
+  .required("File is required");
 
 export const yNicPassport = string();
 
+export const yEmptySchema = object();
 export const yEmailSchema = object({ email: yEmail });
 export const yPasswordSchema = object({ password: yPassword });
 
 export {
-   object as yObject,
-   string as yString,
-   number as yNumber,
-   boolean as yBoolean,
-   mixed as yMixed,
-   ref as yRef,
+  object as yObject,
+  string as yString,
+  number as yNumber,
+  boolean as yBoolean,
+  mixed as yMixed,
+  ref as yRef,
 };

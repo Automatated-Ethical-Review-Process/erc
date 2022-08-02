@@ -12,35 +12,38 @@ import routes from "config/routes";
 import { ProtectedDashboardRoute } from "routes/common/Protected";
 
 const adminRoute = (
-   <Route
-      path={routes.admin}
-      element={
-         <ProtectedDashboardRoute role={Roles.admin}>
-            <AdminLayout />
-         </ProtectedDashboardRoute>
-      }
-   >
-      <Route index element={<AdminDashboard />} />
+  <Route
+    path={routes.admin}
+    element={
+      <ProtectedDashboardRoute role={Roles.admin}>
+        <AdminLayout />
+      </ProtectedDashboardRoute>
+    }
+  >
+    <Route index element={<AdminDashboard />} />
 
-      <Route path="users">
-         <Route
-            index
-            element={
-               <Users
-                  extraFields={{ createdDate: "Registered", roles: "Roles" }}
-               />
-            }
-         />
-         <Route path=":uid">
-            <Route index element={<CurrentUser />} />
-            <Route path="update">
-               <Route index element={<UpdateUser />} />
-            </Route>
-         </Route>
+    <Route path="users">
+      <Route
+        index
+        element={
+          <Users
+            extraFields={{
+              isUnderGraduate: "is UnderGraduate",
+              roles: "Roles",
+            }}
+          />
+        }
+      />
+      <Route path=":uid">
+        <Route index element={<CurrentUser />} />
+        <Route path="update">
+          <Route index element={<UpdateUser />} />
+        </Route>
       </Route>
+    </Route>
 
-      <Route path="add-user" element={<AddUser />} />
-   </Route>
+    <Route path="add-user" element={<AddUser />} />
+  </Route>
 );
 
 export default adminRoute;

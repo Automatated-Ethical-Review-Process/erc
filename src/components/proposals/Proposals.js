@@ -1,29 +1,30 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import DataGrid from "components/common/DataGrid";
 import { getProposals } from "services/data/proposalService";
 
 export default function Proposals({
-   extraFields = {
-      deadline: "Deadline",
-   },
+  proposals = getProposals(), // TODO remove this
+  isLoading,
+  extraFields = {
+    deadline: "Deadline",
+  },
 }) {
-   const navigate = useNavigate();
-   const { pathname } = useLocation();
-   const proposals = getProposals();
+  const navigate = useNavigate();
 
-   const fields = {
-      name: "Proposal Name",
-      category: "Category",
-      ...extraFields,
-   };
+  const fields = {
+    name: "Name",
+    type: "Type",
+    ...extraFields,
+  };
 
-   return (
-      <DataGrid
-         fields={Object.keys(fields)}
-         headerNames={Object.values(fields)}
-         rows={proposals}
-         onRowClick={(row) => navigate(`${pathname}/${row.id}`)}
-      />
-   );
+  return (
+    <DataGrid
+      fields={Object.keys(fields)}
+      headerNames={Object.values(fields)}
+      rows={proposals}
+      onRowClick={(row) => navigate(String(row.id))}
+      loading={isLoading}
+    />
+  );
 }

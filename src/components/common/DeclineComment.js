@@ -1,4 +1,3 @@
-import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -6,42 +5,54 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useRef, useState } from "react";
 
-export default function FormDialog(props) {
-   const [open, setOpen] = React.useState(false);
+export default function FormDialog({ label, onClick, disabled }) {
+  const [open, setOpen] = useState(false);
 
-   const handleClickOpen = () => {
-      setOpen(true);
-   };
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-   const handleClose = () => {
-      setOpen(false);
-   };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-   return (
-      <div>
-         <Button variant="contained" color="error" onClick={handleClickOpen}>
-            {props.label}
-         </Button>
-         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Reason for the decision</DialogTitle>
-            <DialogContent>
-               <DialogContentText>
-                  Enter your reasons here ...
-               </DialogContentText>
-               <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  fullWidth
-                  variant="standard"
-               />
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={handleClose}>Cancel</Button>
-               <Button onClick={handleClose}>Submit</Button>
-            </DialogActions>
-         </Dialog>
-      </div>
-   );
+  const handleSubmit = () => {
+    onClick(ref.current.value);
+    handleClose();
+  };
+
+  const ref = useRef();
+
+  return (
+    <div>
+      <Button
+        variant="contained"
+        color="error"
+        onClick={handleOpen}
+        disabled={disabled}
+      >
+        {label}
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Reason for the decision</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Enter your reasons here ...</DialogContentText>
+          <TextField
+            ref={ref}
+            autoFocus
+            margin="dense"
+            id="name"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }

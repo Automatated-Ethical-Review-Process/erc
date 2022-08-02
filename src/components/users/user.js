@@ -1,74 +1,77 @@
-import * as React from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import { Container } from "@mui/material";
-import { getUser } from "services/data/userService";
-import Radio from "@mui/material/Radio";
+import { Button, Checkbox, Container } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
 
+import { useGetUserQuery } from "api/data/user";
+import LoadingCircle from "components/common/LoadingCircle";
 import TextField from "components/common/TextField";
-import RadioGroup from "@mui/material/RadioGroup";
 
 export default function User({ children }) {
-   const navigate = useNavigate();
-   const { pathname } = useLocation();
-   const { uid: userId } = useParams();
-   const user = getUser(userId);
+  const { uid: userId } = useParams();
 
-   if (!user) {
-      return "Invalid user id" + userId;
-   }
+  const { data: user = {}, isLoading } = useGetUserQuery(userId);
 
-   const data = [
-      { label: "ID", value: user.id },
-      { label: "Name", value: user.name },
-      { label: "Address", value: user.address },
-      { label: "Phone Number", value: user.phoneNum },
-      { label: "Land Number", value: user.landNum },
-      { label: "Email", value: user.email },
-      { label: "Nic/Passport", value: user.nic },
-      { label: "Highest Education", value: user.highestEducation },
-      { label: "Create Date", value: user.createdDate },
-      { label: "Roles", value: user.roles },
-   ];
+  if (!user) {
+    return "Invalid user id " + userId;
+  }
 
-   return (
-      <Container maxWidth="md" sx={{ mt: 4 }}>
-         <Grid container spacing={4}>
-            {data.map((item, id) => (
-               <Grid key={id} item xs={12}>
-                  <TextField {...item} readOnly />
-               </Grid>
-            ))}
-            <Grid item xs={12}>
-               <FormControl>
-                  <RadioGroup defaultValue="Undergraduate">
-                     <FormControlLabel
-                        value="Undergraduate"
-                        control={<Radio />}
-                        label="Undergraduate"
-                        defaultValue="Undergraduate"
-                     />
-                  </RadioGroup>
-               </FormControl>
-            </Grid>
-            <Grid item md={10}></Grid>
-            {!children && (
-               <Grid item xs={12} md={2}>
-                  <Button
-                     variant="contained"
-                     onClick={() => navigate(`${pathname}/undergraduate`)}
-                     sx={{ width: 120 }}
-                  >
-                     Next
-                  </Button>
-               </Grid>
-            )}
-         </Grid>
-         {children}
-      </Container>
-   );
+  const data = [
+    { label: "Name", value: user.name ?? "" },
+    { label: "Address", value: user.address ?? "" },
+    { label: "Phone Number", value: user.mobileNumber ?? "" },
+    { label: "Land Number", value: user.landNumber ?? "" },
+    { label: "Email", value: user.email ?? "" },
+    { label: "Nic/Passport", value: user.nic ?? user.passport ?? "" },
+    {
+      label: "Educational Qualifications",
+      value: user.educationalQualifications?.join("\n") ?? "",
+      multiline: true,
+      rows: 4,
+    },
+    { label: "Roles", value: user.roles?.join(", ") ?? "" },
+    { label: "Created Date", value: user.createdDate ?? "" },
+  ];
+
+  if (typeof user.isUnderGraduate === "boolean") {
+    if (user.isUnderGraduate) {
+      data.push(
+        { label: "University", value: user.university ?? "" },
+        { label: "Faculty", value: user.faculty ?? "" },
+        { label: "Registration Number", value: user.registrationNumber ?? "" },
+        { label: "Year", value: user.year ?? "" }
+      );
+    } else {
+      data.push(
+        { label: "Occupation", value: user.occupation ?? "" },
+        { label: "Position", value: user.position ?? "" }
+      );
+    }
+  }
+
+  return (
+    <Container maxWidth="md" sx={{ mt: 4 }}>
+      <LoadingCircle isLoading={isLoading} />
+      <Grid container spacing={4}>
+        {data.map((item, id) => (
+          <Grid key={id} item xs={12}>
+            <TextField {...item} readOnly />
+          </Grid>
+        ))}
+        <Grid item xs={12} sm={6}>
+          <FormControlLabel
+            control={<Checkbox checked={!!user.isUnderGraduate} />}
+            label="is Undergraduate"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} textAlign="right">
+          <Button variant="contained" color="warning">
+            View ID Photo
+          </Button>
+        </Grid>
+        {children}
+      </Grid>
+    </Container>
+  );
 }
