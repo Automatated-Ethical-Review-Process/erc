@@ -6,6 +6,10 @@ import { Container, Fab } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Avatar from "@mui/material/Avatar";
 import EditIcon from "@mui/icons-material/Edit";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import Stack from "@mui/material/Stack";
 
 import { useNavigate } from "react-router-dom";
 
@@ -21,21 +25,54 @@ import Chip from "@mui/material/Chip";
 import DoneIcon from "@mui/icons-material/Done";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 
-export function CustomDeleteIconChips() {
+function UploadButtons() {
+  return (
+    <Stack direction="row" alignItems="center" spacing={2} mt={1}>
+      <Button variant="outlined">
+        Upload the photo
+        <input hidden accept="image/*" multiple type="file" />
+      </Button>
+    </Stack>
+  );
+}
+
+function VerifyStatus({ verificationImage }) {
+  // verificationImage = 1;
   const { data: status = {} } = useGetStatusQuery();
   if (status.isVerified) {
     return (
       <Chip label="Verified Account" icon={<DoneIcon />} color="success" />
     );
   } else {
-    return (
-      <Chip
-        label="Not Verified Account"
-        icon={<PriorityHighIcon />}
-        color="error"
-        variant="outlined"
-      />
-    );
+    if (verificationImage == null) {
+      return (
+        <>
+          <Chip
+            label="Account Not Verified"
+            icon={<PriorityHighIcon />}
+            color="error"
+            variant="outlined"
+          />
+          <Chip
+            label="Please upload the ID Picture or Passport Picture"
+            icon={<PriorityHighIcon />}
+            color="warning"
+            variant="outlined"
+            sx={{ mt: 1 }}
+          />
+          <UploadButtons />
+        </>
+      );
+    } else {
+      return (
+        <Chip
+          label="Account is not Verified.Still progressing"
+          icon={<PriorityHighIcon />}
+          color="error"
+          variant="outlined"
+        />
+      );
+    }
   }
 }
 
@@ -74,7 +111,7 @@ export function Content() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { data = {}, isLoading } = useGetMeQuery();
-
+  console.log(data);
   const { data: status = {} } = useGetStatusQuery();
 
   return (
@@ -88,6 +125,15 @@ export function Content() {
         marginBottom={2}
       >
         <ImageAvatar />
+      </Grid>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        marginTop={2}
+        marginBottom={2}
+      >
+        <VerifyStatus verificationImage={data.verificationImage} />
       </Grid>
       <Box sx={{ width: "100%" }}>
         <Grid container rowSpacing={2}>
@@ -126,15 +172,6 @@ export function Content() {
               )}
             </>
           )}
-        </Grid>
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          marginTop={2}
-          marginBottom={2}
-        >
-          <CustomDeleteIconChips />
         </Grid>
       </Box>
       <Fab
