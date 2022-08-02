@@ -10,13 +10,8 @@ import { useRef, useState } from "react";
 export default function FormDialog({ label, onClick, disabled }) {
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleSubmit = () => {
     onClick(ref.current.value);
@@ -40,7 +35,7 @@ export default function FormDialog({ label, onClick, disabled }) {
         <DialogContent>
           <DialogContentText>Enter your reasons here ...</DialogContentText>
           <TextField
-            ref={ref}
+            inputRef={ref}
             autoFocus
             margin="dense"
             id="name"

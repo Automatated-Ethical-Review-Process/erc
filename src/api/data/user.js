@@ -22,6 +22,14 @@ const userApi = dataApi.injectEndpoints({
       query: () => "/user/all",
       providesTags: (r) => provideTags(r, "user"),
     }),
+    getUsersByIds: build.mutation({
+      query: (ids) => ({
+        url: "/user/all/ids",
+        method: "POST",
+        body: { ids },
+      }),
+      providesTags: (r) => provideTags(r, "user"),
+    }),
     getApplicants: build.query({
       query: () => "/user/all/applicant",
       providesTags: (r) => provideTags(r, "user"),
@@ -50,7 +58,8 @@ export const {
   useGetMeQuery, //
   useUpdateMeMutation, //
   useGetUserQuery, //
-  useGetUsersQuery, //
+  useLazyGetUsersQuery,
+  useGetUsersByIdsMutation,
   useGetApplicantsQuery,
   useGetReviewersQuery,
   useUserExistsMutation,

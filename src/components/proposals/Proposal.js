@@ -9,6 +9,7 @@ import { useGetProposalQuery } from "api/data/proposal";
 import LoadingCircle from "components/common/LoadingCircle";
 
 export default function Proposal({
+  loading,
   extraFields = { deadline: "Deadline" },
   children,
 }) {
@@ -31,7 +32,7 @@ export default function Proposal({
   // TODO: add co-investigator
 
   const data = {
-    name: "Proposal Name",
+    name: "Name",
     type: "Type",
     date: "Date",
     time: "Time",
@@ -40,7 +41,7 @@ export default function Proposal({
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
-      <LoadingCircle isLoading={isLoading} />
+      <LoadingCircle isLoading={isLoading || loading} />
       <Grid container spacing={4}>
         {Object.entries(data).map(([key, label], id) => (
           <Grid key={id} item xs={12}>

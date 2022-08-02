@@ -8,7 +8,7 @@ const NewSubmissions = () => {
     id,
     name,
     type,
-    user: user.name,
+    user: user?.name,
   }));
 
   return (

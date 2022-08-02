@@ -15,7 +15,7 @@ const proposalApi = dataApi.injectEndpoints({
       // TODO: provideTags
     }),
     getPendingProposals: build.query({
-      query: () => "/proposal/pending",
+      query: () => "/proposal/all", // FIXME: pending
       // TODO: provideTags
     }),
     getUnassignedProposals: build.query({
