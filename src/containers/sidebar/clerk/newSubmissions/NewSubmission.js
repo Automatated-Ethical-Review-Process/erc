@@ -39,7 +39,7 @@ export default function NewSubmission() {
   const isLoading = isAcceptLoading || isRejectLoading;
 
   const handleAccept = () => {
-    accept({ pid, vid: 1 })
+    accept({ pid, vid: 1 }) // FIXME: vid
       .unwrap()
       .then(() => {
         notify("Successfully accepted", "success");
@@ -55,7 +55,7 @@ export default function NewSubmission() {
     if (!message) {
       alert("Reason is required!");
     } else {
-      reject({ pid, vid: 1, message })
+      reject({ pid, vid: 1, message }) // FIXME: vid
         .unwrap()
         .then(() => {
           notify("Successfully declined", "success");
