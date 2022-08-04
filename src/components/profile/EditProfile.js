@@ -34,6 +34,8 @@ import {
   useCheckPasswordMutation,
   useUpdateEmailVerifyMutation,
   useUpdatePasswordMutation,
+  useToggleEnabledMutation,
+  useGetStatusQuery,
 } from "api/auth/api";
 import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
 import Image from "assets/profile-pic.jpg";
@@ -235,6 +237,9 @@ function RequestForReviewer() {
 }
 function DisableAccount() {
   const [open, setOpen] = React.useState(false);
+  const { data } = useGetStatusQuery();
+  const [disableAccount, { isLoading }] = useToggleEnabledMutation();
+  const { notify } = useNotify();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -244,13 +249,27 @@ function DisableAccount() {
     setOpen(false);
   };
   const handleSubmit = () => {
-    // onClick(ref.current.value);
+    disableAccount()
+      .unwrap()
+      .then(() => notify("Your Account has disabled", "success"))
+      .catch(({ data }) =>
+        notify(
+          data?.message || "Something Went Wrong! Please Try Again.",
+          "error"
+        )
+      );
     handleClose();
   };
   return (
     <div>
+      <LoadingCircle isLoading={isLoading} />
       <Stack direction="row" spacing={2}>
-        <Button variant="outlined" color="error" onClick={handleClickOpen}>
+        <Button
+          disabled={!data?.isEnable}
+          variant="outlined"
+          color="error"
+          onClick={handleClickOpen}
+        >
           Disable Account
         </Button>
       </Stack>
