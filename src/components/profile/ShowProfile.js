@@ -7,15 +7,13 @@ import Checkbox from "@mui/material/Checkbox";
 import Avatar from "@mui/material/Avatar";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Stack from "@mui/material/Stack";
 
 import { useNavigate } from "react-router-dom";
 
 import NavigationBar from "components/NavigationBar";
 
-import Image from "assets/baby.webp";
+import Image from "assets/profile-pic.jpg";
 import useAuth from "hooks/useAuth";
 import { useGetMeQuery } from "api/data/user";
 import LoadingCircle from "components/common/LoadingCircle";

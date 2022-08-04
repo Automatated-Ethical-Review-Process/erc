@@ -22,6 +22,9 @@ import { useNavigate } from "react-router-dom";
 import SendIcon from "@mui/icons-material/Send";
 import Slide from "@mui/material/Slide";
 import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { styled } from "@mui/material/styles";
 
 import LoadingCircle from "components/common/LoadingCircle";
 import NavigationBar from "components/NavigationBar";
@@ -33,7 +36,7 @@ import {
   useUpdatePasswordMutation,
 } from "api/auth/api";
 import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
-import Image from "assets/baby.webp";
+import Image from "assets/profile-pic.jpg";
 import Form from "components/common/Form";
 import {
   PasswordFieldController,
@@ -53,9 +56,29 @@ import {
   yRef,
 } from "utils/yup";
 
+const Input = styled("input")({
+  display: "none",
+});
 function ImageAvatar() {
   return (
-    <Avatar alt="Profile Image" src={Image} sx={{ width: 200, height: 200 }} />
+    <>
+      <Avatar
+        alt="Profile Image"
+        src={Image}
+        sx={{ width: 200, height: 200 }}
+      />
+      <label htmlFor="icon-button-file">
+        <Input accept="image/*" id="icon-button-file" type="file" />
+        <IconButton
+          // color="primary"
+          aria-label="upload picture"
+          component="span"
+          sx={{ mt: -6, ml: 18, color: "white" }}
+        >
+          <PhotoCamera />
+        </IconButton>
+      </label>
+    </>
   );
 }
 
