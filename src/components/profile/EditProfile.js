@@ -73,7 +73,7 @@ function ImageAvatar() {
           // color="primary"
           aria-label="upload picture"
           component="span"
-          sx={{ mt: -6, ml: 18, color: "white" }}
+          sx={{ mt: -6, ml: 18, color: "proIconColor.main" }}
         >
           <PhotoCamera />
         </IconButton>

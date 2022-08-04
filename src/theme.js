@@ -11,6 +11,9 @@ const getLightPalette = () => ({
     main: cyan[700],
     dark: cyan[900],
   },
+  proIconColor: {
+    main: "balck",
+  },
 });
 
 const getDarkPalette = () => ({
@@ -23,6 +26,9 @@ const getDarkPalette = () => ({
     light: cyan[600],
     main: cyan[700],
     dark: cyan[900],
+  },
+  proIconColor: {
+    main: "white",
   },
 });
 
