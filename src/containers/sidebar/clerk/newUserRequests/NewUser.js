@@ -28,13 +28,9 @@ export default function NewUser() {
   const [verify, { isLoading }] = useSetUserVerifiedMutation();
   const { notify } = useNotify();
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const handleOpen = () => setOpen(true);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
   const handleAccept = () => {
     verify(userId)

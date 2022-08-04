@@ -1,14 +1,14 @@
-import { useGetPendingProposalsQuery } from "api/data/proposal";
+import { useGetClerkNewProposalsQuery } from "api/data/proposal";
 import Proposals from "components/proposals/Proposals";
 
 const NewSubmissions = () => {
-  const { data = [], isLoading } = useGetPendingProposalsQuery();
+  const { data = [], isLoading } = useGetClerkNewProposalsQuery();
 
   const proposals = data?.map(({ id, name, type, user }) => ({
     id,
     name,
     type,
-    user: user.name,
+    user: user?.name,
   }));
 
   return (

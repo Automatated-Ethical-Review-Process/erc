@@ -10,33 +10,66 @@ import { forwardRef, useState } from "react";
 
 import DeclineComments from "components/common/DeclineComment";
 import BaseProposal from "components/proposals/Proposal";
+import {
+  useSetVersionRejectedMutation,
+  useSetVersionSubmittedMutation,
+} from "api/data/version";
+import { useNavigate, useParams } from "react-router-dom";
+import useNotify from "hooks/useNotify";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
 export default function NewSubmission() {
+  const { pid } = useParams();
+  const { notify } = useNotify();
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [accept, { isLoading: isAcceptLoading }] =
+    useSetVersionSubmittedMutation();
+  const [reject, { isLoading: isRejectLoading }] =
+    useSetVersionRejectedMutation();
+
+  const isLoading = isAcceptLoading || isRejectLoading;
 
   const handleAccept = () => {
-    // TODO: endpoint required
+    accept({ pid, vid: 1 }) // FIXME: vid
+      .unwrap()
+      .then(() => {
+        notify("Successfully accepted", "success");
+        navigate(-1, { replace: true });
+      })
+      .catch(({ data }) =>
+        notify(data?.message ?? "Failed to accept", "error")
+      );
     handleClose();
   };
 
-  const handleDecline = (reason) => {
-    // TODO: endpoint required
+  const handleDecline = (message) => {
+    if (!message) {
+      alert("Reason is required!");
+    } else {
+      reject({ pid, vid: 1, message }) // FIXME: vid
+        .unwrap()
+        .then(() => {
+          notify("Successfully declined", "success");
+          navigate(-1, { replace: true });
+        })
+        .catch(({ data }) =>
+          notify(data?.message || "Failed to decline", "error")
+        );
+    }
   };
 
   return (
     <BaseProposal
+      loading={isLoading}
       extraFields={{ user: "PI", coInvestigators: "Co-Investigators" }}
     >
       <Grid container spacing={2}>

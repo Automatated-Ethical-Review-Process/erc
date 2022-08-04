@@ -14,12 +14,52 @@ const proposalApi = dataApi.injectEndpoints({
       query: (id) => `/proposal/${id}/versions`,
       // TODO: provideTags
     }),
-    getPendingProposals: build.query({
-      query: () => "/proposal/pending",
+    getClerkNewProposals: build.query({
+      query: () => "/proposal/all", // FIXME: pending
       // TODO: provideTags
     }),
-    getUnassignedProposals: build.query({
+    getSecretaryUnassignedProposals: build.query({
       query: () => "/proposal/unassign",
+      // TODO: provideTags
+    }),
+    getSecretaryReviewingProposals: build.query({
+      query: () => "/proposal/reviewing",
+      // TODO: provideTags
+    }),
+    getSecretaryReviewedProposals: build.query({
+      query: () => "/proposal/reviewed",
+      // TODO: provideTags
+    }),
+    getSecretaryArchivedProposals: build.query({
+      query: () => "/proposal/archived",
+      // TODO: provideTags
+    }),
+    getReviewerPendingProposals: build.query({
+      query: (rid) => `/proposal/all/reviewer/${rid}/pending`,
+      // TODO: provideTags
+    }),
+    getReviewerInReviewProposals: build.query({
+      query: (rid) => `/proposal/all/reviewer/${rid}/confirm`,
+      // TODO: provideTags
+    }),
+    getReviewerReviewedProposals: build.query({
+      query: (rid) => `/proposal/all/reviewer/${rid}/complete`,
+      // TODO: provideTags
+    }),
+    getReviewerOtherProposals: build.query({
+      query: (rid) => `/proposal/all/reviewer/${rid}/other`,
+      // TODO: provideTags
+    }),
+    getUserPendingProposals: build.query({
+      query: () => "/proposal/user/pending",
+      // TODO: provideTags
+    }),
+    getUserActiveProposals: build.query({
+      query: () => "/proposal/user/active",
+      // TODO: provideTags
+    }),
+    getUserOldProposals: build.query({
+      query: () => "/proposal/user/old",
       // TODO: provideTags
     }),
   }),
@@ -29,8 +69,18 @@ export const {
   useGetProposalsQuery,
   useGetProposalQuery,
   useGetVersionsQuery,
-  useGetPendingProposalsQuery,
-  useGetUnassignedProposalsQuery,
+  useGetClerkNewProposalsQuery,
+  useGetSecretaryUnassignedProposalsQuery,
+  useGetSecretaryReviewingProposalsQuery,
+  useGetSecretaryReviewedProposalsQuery,
+  useGetSecretaryArchivedProposalsQuery,
+  useGetReviewerPendingProposalsQuery,
+  useGetReviewerInReviewProposalsQuery,
+  useGetReviewerReviewedProposalsQuery,
+  useGetReviewerOtherProposalsQuery,
+  useGetUserPendingProposalsQuery,
+  useGetUserActiveProposalsQuery,
+  useGetUserOldProposalsQuery,
 } = proposalApi;
 
 export default proposalApi;

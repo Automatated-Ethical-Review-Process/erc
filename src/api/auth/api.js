@@ -150,6 +150,10 @@ const authApi = createApi({
       query: () => "/auth-user/all",
       // TODO: providesTags
     }),
+    getUnverifiedUsers: build.query({
+      query: () => "/auth-user/un-verified",
+      // TODO: providesTags
+    }),
     toggleEnabled: build.mutation({
       query: () => ({
         url: "/user/enable",
@@ -201,6 +205,7 @@ export const {
   useGetStatusQuery,
   useGetStatusByIdQuery, //
   useGetAllStatusQuery,
+  useGetUnverifiedUsersQuery,
   useToggleEnabledMutation,
   useToggleUserEnabledMutation, //
   useToggleUserLockedMutation, //
