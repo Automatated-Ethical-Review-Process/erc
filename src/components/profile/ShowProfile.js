@@ -110,7 +110,6 @@ export function Content() {
   const { user } = useAuth();
   const { data = {}, isLoading } = useGetMeQuery();
   console.log(data);
-  const { data: status = {} } = useGetStatusQuery();
 
   return (
     <Container maxWidth={"md"} sx={{ pb: 10 }}>

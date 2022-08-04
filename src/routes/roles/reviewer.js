@@ -22,6 +22,7 @@ import {
 } from "routes/common/Protected";
 import documentRoute from "routes/common/document";
 import ReviewerPendingProposals from "containers/sidebar/reviewer/pending/Proposals";
+import ReviewerReviewingProposals from "containers/sidebar/reviewer/reviewing/Proposals";
 
 const reviewerRoute = (
   <Route
@@ -49,7 +50,7 @@ const reviewerRoute = (
     </Route>
 
     <Route path="reviewing">
-      <Route index element={<Proposals />} />
+      <Route index element={<ReviewerReviewingProposals />} />
       <Route path=":pid">
         <Route index element={<Proposal />} />
         <Route path="versions">
