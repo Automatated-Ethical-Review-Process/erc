@@ -17,84 +17,85 @@ import Documents from "components/proposals/Documents";
 import routes from "config/routes";
 import Roles from "config/roles";
 import {
-   ProtectedDashboardRoute,
-   ProtectedRoute,
+  ProtectedDashboardRoute,
+  ProtectedRoute,
 } from "routes/common/Protected";
 import documentRoute from "routes/common/document";
+import ReviewerPendingProposals from "containers/sidebar/reviewer/pending/Proposals";
 
 const reviewerRoute = (
-   <Route
-      path={routes.reviewer}
-      element={
-         <ProtectedDashboardRoute role={Roles.reviewer}>
-            <ReviewerLayout />
-         </ProtectedDashboardRoute>
-      }
-   >
-      <Route index element={<ReviewerDashboard />} />
+  <Route
+    path={routes.reviewer}
+    element={
+      <ProtectedDashboardRoute role={Roles.reviewer}>
+        <ReviewerLayout />
+      </ProtectedDashboardRoute>
+    }
+  >
+    <Route index element={<ReviewerDashboard />} />
 
-      <Route path="pending">
-         <Route index element={<Proposals />} />
-         <Route path=":pid">
-            <Route index element={<PendingProposal />} />
-            <Route path="versions">
-               <Route index element={<Versions />} />
-               <Route path=":vid">
-                  <Route index element={<Documents />} />
-                  {documentRoute}
-               </Route>
-            </Route>
-         </Route>
+    <Route path="pending">
+      <Route index element={<ReviewerPendingProposals />} />
+      <Route path=":pid">
+        <Route index element={<PendingProposal />} />
+        <Route path="versions">
+          <Route index element={<Versions />} />
+          <Route path=":vid">
+            <Route index element={<Documents />} />
+            {documentRoute}
+          </Route>
+        </Route>
       </Route>
+    </Route>
 
-      <Route path="reviewing">
-         <Route index element={<Proposals />} />
-         <Route path=":pid">
-            <Route index element={<Proposal />} />
-            <Route path="versions">
-               <Route index element={<Versions />} />
-               <Route path=":vid">
-                  <Route index element={<ReviewingDocuments />} />
-                  <Route path="evaluation" element={<SubmitEvaluation />} />
-                  {documentRoute}
-               </Route>
-            </Route>
-         </Route>
+    <Route path="reviewing">
+      <Route index element={<Proposals />} />
+      <Route path=":pid">
+        <Route index element={<Proposal />} />
+        <Route path="versions">
+          <Route index element={<Versions />} />
+          <Route path=":vid">
+            <Route index element={<ReviewingDocuments />} />
+            <Route path="evaluation" element={<SubmitEvaluation />} />
+            {documentRoute}
+          </Route>
+        </Route>
       </Route>
+    </Route>
 
-      <Route path="reviewed">
-         <Route index element={<Proposals extraFields={null} />} />
-         <Route path=":pid">
-            <Route index element={<Proposal extraFields={null} />} />
-            <Route path="versions">
-               <Route index element={<Versions />} />
-               <Route path=":vid">
-                  <Route index element={<ReviewedDocuments />} />
-                  <Route path="evaluation" element={<ViewEvaluation />} />
-                  {documentRoute}
-               </Route>
-            </Route>
-         </Route>
+    <Route path="reviewed">
+      <Route index element={<Proposals extraFields={null} />} />
+      <Route path=":pid">
+        <Route index element={<Proposal extraFields={null} />} />
+        <Route path="versions">
+          <Route index element={<Versions />} />
+          <Route path=":vid">
+            <Route index element={<ReviewedDocuments />} />
+            <Route path="evaluation" element={<ViewEvaluation />} />
+            {documentRoute}
+          </Route>
+        </Route>
       </Route>
+    </Route>
 
-      <Route
-         path="other"
-         element={<ProtectedRoute role={Roles.i_reviewer} init={false} />}
-      >
-         <Route index element={<Proposals extraFields={null} />} />
-         <Route path=":pid">
-            <Route index element={<Proposal extraFields={null} />} />
-            <Route path="versions">
-               <Route index element={<Versions />} />
-               <Route path=":vid">
-                  <Route index element={<OtherDocuments />} />
-                  <Route path="comments" element={<AddComments />} />
-                  {documentRoute}
-               </Route>
-            </Route>
-         </Route>
+    <Route
+      path="other"
+      element={<ProtectedRoute role={Roles.i_reviewer} init={false} />}
+    >
+      <Route index element={<Proposals extraFields={null} />} />
+      <Route path=":pid">
+        <Route index element={<Proposal extraFields={null} />} />
+        <Route path="versions">
+          <Route index element={<Versions />} />
+          <Route path=":vid">
+            <Route index element={<OtherDocuments />} />
+            <Route path="comments" element={<AddComments />} />
+            {documentRoute}
+          </Route>
+        </Route>
       </Route>
-   </Route>
+    </Route>
+  </Route>
 );
 
 export default reviewerRoute;
