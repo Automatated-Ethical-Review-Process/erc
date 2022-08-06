@@ -19,7 +19,7 @@ export default function Proposal({
 
   const {
     data: rawData = {},
-    error,
+    // error,
     isLoading,
   } = useGetProposalQuery(proposalId);
 

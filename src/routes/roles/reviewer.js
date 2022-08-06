@@ -22,7 +22,8 @@ import {
 } from "routes/common/Protected";
 import documentRoute from "routes/common/document";
 import ReviewerPendingProposals from "containers/sidebar/reviewer/pending/Proposals";
-
+import ReviewerReviewingProposals from "containers/sidebar/reviewer/reviewing/Proposals";
+import ReviwerReviewedProposals from "containers/sidebar/reviewer/reviewed/Proposals";
 const reviewerRoute = (
   <Route
     path={routes.reviewer}
@@ -49,7 +50,7 @@ const reviewerRoute = (
     </Route>
 
     <Route path="reviewing">
-      <Route index element={<Proposals />} />
+      <Route index element={<ReviewerReviewingProposals />} />
       <Route path=":pid">
         <Route index element={<Proposal />} />
         <Route path="versions">
@@ -64,7 +65,7 @@ const reviewerRoute = (
     </Route>
 
     <Route path="reviewed">
-      <Route index element={<Proposals extraFields={null} />} />
+      <Route index element={<ReviwerReviewedProposals />} />
       <Route path=":pid">
         <Route index element={<Proposal extraFields={null} />} />
         <Route path="versions">

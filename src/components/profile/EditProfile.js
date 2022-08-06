@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import * as React from "react";
+import { useEffect, useState, useRef } from "react";
 
-import CloseIcon from "@mui/icons-material/Close";
 import {
   Container,
   Dialog,
@@ -17,8 +17,14 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-
+import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
+import SendIcon from "@mui/icons-material/Send";
+import Slide from "@mui/material/Slide";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { styled } from "@mui/material/styles";
 
 import LoadingCircle from "components/common/LoadingCircle";
 import NavigationBar from "components/NavigationBar";
@@ -28,9 +34,11 @@ import {
   useCheckPasswordMutation,
   useUpdateEmailVerifyMutation,
   useUpdatePasswordMutation,
+  useToggleEnabledMutation,
+  useGetStatusQuery,
 } from "api/auth/api";
 import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
-import Image from "assets/baby.webp";
+import Image from "assets/profile-pic.jpg";
 import Form from "components/common/Form";
 import {
   PasswordFieldController,
@@ -50,9 +58,29 @@ import {
   yRef,
 } from "utils/yup";
 
+const Input = styled("input")({
+  display: "none",
+});
 function ImageAvatar() {
   return (
-    <Avatar alt="Profile Image" src={Image} sx={{ width: 200, height: 200 }} />
+    <>
+      <Avatar
+        alt="Profile Image"
+        src={Image}
+        sx={{ width: 200, height: 200 }}
+      />
+      <label htmlFor="icon-button-file">
+        <Input accept="image/*" id="icon-button-file" type="file" />
+        <IconButton
+          // color="primary"
+          aria-label="upload picture"
+          component="span"
+          sx={{ mt: -6, ml: 18, color: "proIconColor.main" }}
+        >
+          <PhotoCamera />
+        </IconButton>
+      </label>
+    </>
   );
 }
 
@@ -142,6 +170,124 @@ function EditDetails() {
         </Grid>
       </Grid>
     </Form>
+  );
+}
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+function RequestForReviewer() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleSubmit = () => {
+    // onClick(ref.current.value);
+    handleClose();
+  };
+  const ref = useRef();
+  return (
+    <div>
+      <Stack direction="row" spacing={2}>
+        <Button
+          variant="contained"
+          endIcon={<SendIcon />}
+          onClick={handleClickOpen}
+        >
+          Send Request to switch Reviewer
+        </Button>
+      </Stack>
+
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>
+          {"Do you want to switch this account to Reviewr?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Enter your reason for hear ...
+          </DialogContentText>
+          <TextField
+            inputRef={ref}
+            autoFocus
+            margin="dense"
+            id="name"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSubmit}>Send</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+function DisableAccount() {
+  const [open, setOpen] = React.useState(false);
+  const { data } = useGetStatusQuery();
+  const [disableAccount, { isLoading }] = useToggleEnabledMutation();
+  const { notify } = useNotify();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleSubmit = () => {
+    disableAccount()
+      .unwrap()
+      .then(() => notify("Your Account has disabled", "success"))
+      .catch(({ data }) =>
+        notify(
+          data?.message || "Something Went Wrong! Please Try Again.",
+          "error"
+        )
+      );
+    handleClose();
+  };
+  return (
+    <div>
+      <LoadingCircle isLoading={isLoading} />
+      <Stack direction="row" spacing={2}>
+        <Button
+          disabled={!data?.isEnable}
+          variant="outlined"
+          color="error"
+          onClick={handleClickOpen}
+        >
+          Disable Account
+        </Button>
+      </Stack>
+
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Do you want to disable this account?"}</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSubmit}>Okay</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }
 
@@ -333,6 +479,9 @@ function Content() {
           <EditEmail />
           <Divider />
           <EditPassword />
+          <Divider />
+          <RequestForReviewer />
+          <DisableAccount />
         </Stack>
       </Box>
       <Fab

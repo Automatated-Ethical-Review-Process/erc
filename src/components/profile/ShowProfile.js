@@ -6,15 +6,73 @@ import { Container, Fab } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Avatar from "@mui/material/Avatar";
 import EditIcon from "@mui/icons-material/Edit";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 import { useNavigate } from "react-router-dom";
 
 import NavigationBar from "components/NavigationBar";
 
-import Image from "assets/baby.webp";
+import Image from "assets/profile-pic.jpg";
 import useAuth from "hooks/useAuth";
 import { useGetMeQuery } from "api/data/user";
 import LoadingCircle from "components/common/LoadingCircle";
+import { useGetStatusQuery } from "api/auth/api";
+
+import Chip from "@mui/material/Chip";
+import DoneIcon from "@mui/icons-material/Done";
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+
+function UploadButtons() {
+  return (
+    <Stack direction="row" alignItems="center" spacing={2} mt={1}>
+      <Button variant="outlined">
+        Upload the photo
+        <input hidden accept="image/*" multiple type="file" />
+      </Button>
+    </Stack>
+  );
+}
+
+function VerifyStatus({ verificationImage }) {
+  // verificationImage = 1;
+  const { data: status = {} } = useGetStatusQuery();
+  if (status.isVerified) {
+    return (
+      <Chip label="Verified Account" icon={<DoneIcon />} color="success" />
+    );
+  } else {
+    if (verificationImage == null) {
+      return (
+        <>
+          <Chip
+            label="Account Not Verified"
+            icon={<PriorityHighIcon />}
+            color="error"
+            variant="outlined"
+          />
+          <Chip
+            label="Please upload the ID Picture or Passport Picture"
+            icon={<PriorityHighIcon />}
+            color="warning"
+            variant="outlined"
+            sx={{ mt: 1 }}
+          />
+          <UploadButtons />
+        </>
+      );
+    } else {
+      return (
+        <Chip
+          label="Account is not Verified.Still progressing"
+          icon={<PriorityHighIcon />}
+          color="error"
+          variant="outlined"
+        />
+      );
+    }
+  }
+}
 
 function ImageAvatar() {
   return (
@@ -51,6 +109,7 @@ export function Content() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { data = {}, isLoading } = useGetMeQuery();
+  console.log(data);
 
   return (
     <Container maxWidth={"md"} sx={{ pb: 10 }}>
@@ -63,6 +122,15 @@ export function Content() {
         marginBottom={2}
       >
         <ImageAvatar />
+      </Grid>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        marginTop={2}
+        marginBottom={2}
+      >
+        <VerifyStatus verificationImage={data.verificationImage} />
       </Grid>
       <Box sx={{ width: "100%" }}>
         <Grid container rowSpacing={2}>
