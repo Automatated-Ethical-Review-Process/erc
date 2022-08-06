@@ -178,22 +178,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function RequestForReviewer() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
   const handleSubmit = () => {
     // onClick(ref.current.value);
     handleClose();
   };
+
   const ref = useRef();
   return (
-    <div>
+    <>
       <Stack direction="row" spacing={2}>
         <Button
           variant="contained"
@@ -212,11 +209,11 @@ function RequestForReviewer() {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>
-          {"Do you want to switch this account to Reviewr?"}
+          Do you want to switch this account to Reviewer?
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Enter your reason for hear ...
+            Enter your reason hear ...
           </DialogContentText>
           <TextField
             inputRef={ref}
@@ -232,22 +229,21 @@ function RequestForReviewer() {
           <Button onClick={handleSubmit}>Send</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
+
 function DisableAccount() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
   const { data } = useGetStatusQuery();
   const [disableAccount, { isLoading }] = useToggleEnabledMutation();
+
   const { notify } = useNotify();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
   const handleSubmit = () => {
     disableAccount()
       .unwrap()
@@ -260,8 +256,9 @@ function DisableAccount() {
       );
     handleClose();
   };
+
   return (
-    <div>
+    <>
       <LoadingCircle isLoading={isLoading} />
       <Stack direction="row" spacing={2}>
         <Button
@@ -287,7 +284,7 @@ function DisableAccount() {
           <Button onClick={handleSubmit}>Okay</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
 
