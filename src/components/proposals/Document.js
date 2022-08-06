@@ -19,15 +19,15 @@ export default function Document() {
     isLoading,
   } = useGetVersionQuery({ pid, vid });
 
-  if (error) {
-    return "invalid proposal id: " + pid + " or version id: " + vid;
-  }
+  // if (error) {
+  //   return "invalid proposal id: " + pid + " or version id: " + vid;
+  // } // TODO: handle error
 
   const document = rawData.documents?.find((d) => d.id === parseInt(did));
 
-  if (!document) {
-    return "invalid document id: " + did;
-  }
+  // if (!document) {
+  //   return "invalid document id: " + did;
+  // } // TODO: handle error
 
   const parts = document.file.split(".");
 

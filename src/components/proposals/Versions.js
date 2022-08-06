@@ -13,9 +13,9 @@ export default function Versions({ children }) {
 
   const { data = [], error, isLoading } = useGetVersionsQuery(proposalId);
 
-  if (error) {
-    return "invalid proposal id: " + proposalId;
-  }
+  // if (error) {
+  //   return "invalid proposal id: " + proposalId;
+  // } // TODO: handle error
 
   const versions = data.map((i) => ({ ...i, documents: i.documents?.length }));
 
