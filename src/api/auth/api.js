@@ -140,7 +140,7 @@ const authApi = createApi({
     }),
     getStatus: build.query({
       query: () => "/auth-user/status",
-      providesTags: [{ type: "status", id: 0 }],
+      providesTags: [{ type: "status", id: "SELF" }],
     }),
     getStatusById: build.query({
       query: (id) => `/auth-user/status/${id}`,
@@ -159,7 +159,7 @@ const authApi = createApi({
         url: "/user/enable",
         method: "PUT",
       }),
-      invalidatesTags: (_, e) => (e ? [] : [{ type: "status", id: 0 }]),
+      invalidatesTags: (_, e) => (e ? [] : [{ type: "status", id: "SELF" }]),
     }),
     toggleUserEnabled: build.mutation({
       query: (id) => ({
@@ -179,6 +179,14 @@ const authApi = createApi({
       query: (id) => ({
         url: `/user/verified/${id}`,
         method: "PUT",
+      }),
+      invalidatesTags: (_, e, id) => (e ? [] : [{ type: "status", id }]),
+    }),
+    setUserUnverified: build.mutation({
+      query: ({ id, message }) => ({
+        url: `/user/reject/${id}`,
+        method: "PUT",
+        body: { message },
       }),
       invalidatesTags: (_, e, id) => (e ? [] : [{ type: "status", id }]),
     }),
@@ -202,14 +210,15 @@ export const {
   useInviteReviewerMutation, //
   useInviteClerkMutation, //
   useInviteSecretaryMutation, //
-  useGetStatusQuery,
+  useGetStatusQuery, //
   useGetStatusByIdQuery, //
   useGetAllStatusQuery,
-  useGetUnverifiedUsersQuery,
-  useToggleEnabledMutation,
+  useGetUnverifiedUsersQuery, //
+  useToggleEnabledMutation, //
   useToggleUserEnabledMutation, //
   useToggleUserLockedMutation, //
-  useSetUserVerifiedMutation,
+  useSetUserVerifiedMutation, //
+  useSetUserUnverifiedMutation,
 } = authApi;
 
 export default authApi;
@@ -218,6 +227,8 @@ const initialUser = {
   id: "",
   email: "",
   roles: [],
+  state: true,
+  userMessage: null,
 };
 
 const fixRoles = (roles) => {
@@ -253,11 +264,7 @@ const authSlice = createSlice({
     builder.addMatcher(
       authApi.endpoints.getUser.matchFulfilled,
       (auth, { payload }) => {
-        auth.user = {
-          id: payload.id,
-          email: payload.email,
-          roles: fixRoles(payload.roles),
-        };
+        auth.user = { ...payload, roles: fixRoles(payload.roles) };
       }
     );
     builder.addMatcher(
@@ -267,8 +274,9 @@ const authSlice = createSlice({
 
     builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
-      (auth, { payload: { roles, access, refresh } }) => {
+      (auth, { payload: { roles, verified, access, refresh } }) => {
         auth.user.roles = fixRoles(roles);
+        auth.user.state = verified;
         auth.isAuthenticated = true;
         authService.update({ access, refresh });
       }

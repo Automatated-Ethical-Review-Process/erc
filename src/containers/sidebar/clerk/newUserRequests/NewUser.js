@@ -11,7 +11,10 @@ import Slide from "@mui/material/Slide";
 
 import DeclineComments from "components/common/DeclineComment";
 import User from "components/users/user";
-import { useSetUserVerifiedMutation } from "api/auth/api";
+import {
+  useSetUserUnverifiedMutation,
+  useSetUserVerifiedMutation,
+} from "api/auth/api";
 import { useNavigate, useParams } from "react-router-dom";
 import useNotify from "hooks/useNotify";
 
@@ -25,11 +28,15 @@ export default function NewUser() {
 
   const [open, setOpen] = useState(false);
 
-  const [verify, { isLoading }] = useSetUserVerifiedMutation();
+  const [verify, { isLoading: isLoadingVerify }] = useSetUserVerifiedMutation();
+  const [unVerify, { isLoading: isLoadingUnVerify }] =
+    useSetUserUnverifiedMutation();
+
+  const isLoading = isLoadingVerify || isLoadingUnVerify;
+
   const { notify } = useNotify();
 
   const handleOpen = () => setOpen(true);
-
   const handleClose = () => setOpen(false);
 
   const handleAccept = () => {
@@ -45,8 +52,20 @@ export default function NewUser() {
     handleClose();
   };
 
-  const handleDecline = (reason) => {
-    // TODO: endpoint required
+  const handleDecline = (message) => {
+    if (!message) {
+      alert("Reason is required!");
+    } else {
+      unVerify({ id: userId, message })
+        .unwrap()
+        .then(() => {
+          notify("Successfully declined", "success");
+          navigate(-1, { replace: true });
+        })
+        .catch(({ data }) =>
+          notify(data?.message || "Failed to decline", "error")
+        );
+    }
   };
 
   return (
@@ -63,7 +82,11 @@ export default function NewUser() {
         </Button>
       </Grid>
       <Grid item xs={12} md={3} textAlign="right">
-        <DeclineComments label="Decline Request" onClick={handleDecline} />
+        <DeclineComments
+          label="Decline Request"
+          onClick={handleDecline}
+          disabled={isLoading}
+        />
       </Grid>
       <Dialog
         open={open}

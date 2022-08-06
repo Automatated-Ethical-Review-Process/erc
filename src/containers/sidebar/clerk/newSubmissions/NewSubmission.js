@@ -16,6 +16,7 @@ import {
 } from "api/data/version";
 import { useNavigate, useParams } from "react-router-dom";
 import useNotify from "hooks/useNotify";
+import { useGetVersionsQuery } from "api/data/proposal";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -35,11 +36,13 @@ export default function NewSubmission() {
     useSetVersionSubmittedMutation();
   const [reject, { isLoading: isRejectLoading }] =
     useSetVersionRejectedMutation();
+  const { data = [], isLoading: isVersionsLoading } = useGetVersionsQuery(pid);
 
-  const isLoading = isAcceptLoading || isRejectLoading;
+  const isLoading = isAcceptLoading || isRejectLoading || isVersionsLoading;
+  const vid = data.at(-1)?.id;
 
   const handleAccept = () => {
-    accept({ pid, vid: 1 }) // FIXME: vid
+    accept({ pid, vid })
       .unwrap()
       .then(() => {
         notify("Successfully accepted", "success");
@@ -55,7 +58,7 @@ export default function NewSubmission() {
     if (!message) {
       alert("Reason is required!");
     } else {
-      reject({ pid, vid: 1, message }) // FIXME: vid
+      reject({ pid, vid, message })
         .unwrap()
         .then(() => {
           notify("Successfully declined", "success");
@@ -70,7 +73,7 @@ export default function NewSubmission() {
   return (
     <BaseProposal
       loading={isLoading}
-      extraFields={{ user: "PI", coInvestigators: "Co-Investigators" }}
+      extraFields={{ pi: "PI", coInvestigators: "Co-Investigators" }}
     >
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -86,6 +89,7 @@ export default function NewSubmission() {
           <DeclineComments
             label="Incomplete submission"
             onClick={handleDecline}
+            disabled={isLoading}
           />
         </Grid>
       </Grid>

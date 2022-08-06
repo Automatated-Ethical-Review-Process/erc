@@ -6,8 +6,8 @@ const data = [
     weight: 6,
     path: "/clerk/new-user-requests",
   },
-  { value: "Current Users", weight: 6, path: "/clerk/current-users" },
   { value: "New Submissions", weight: 6, path: "/clerk/new-submissions" },
+  { value: "Current Users", weight: 6, path: "/clerk/current-users" },
   {
     value: "Add reviewer",
     weight: 6,

@@ -28,8 +28,10 @@ export default function Proposal({
   // }
   // TODO: handle error
 
-  const proposal = { ...rawData, user: rawData.user?.name };
-  // TODO: add co-investigator
+  const proposal = {
+    ...rawData,
+    cis: rawData.cis?.map((i) => i.name).join(", "),
+  };
 
   const data = {
     name: "Name",

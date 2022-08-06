@@ -1,6 +1,6 @@
 import { useGetUsersByIdsMutation, useLazyGetUsersQuery } from "api/data/user";
 import DataGrid from "components/common/DataGrid";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Users({
@@ -26,10 +26,15 @@ export default function Users({
 
   const isLoading = loading || isUsersLoading || isIdsLoading;
 
+  const ref = useRef();
+
   useEffect(() => {
     if (ids) {
       if (ids.length > 0) {
-        loadUsersByIds(ids);
+        if (!ref.current) {
+          ref.current = true;
+          loadUsersByIds(ids);
+        }
       }
     } else {
       loadUsers(undefined, true);

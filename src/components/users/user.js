@@ -11,9 +11,9 @@ import TextField from "components/common/TextField";
 export default function User({ children }) {
   const { uid: userId } = useParams();
 
-  const { data: user = {}, isLoading } = useGetUserQuery(userId);
+  const { data: user = {}, error, isLoading } = useGetUserQuery(userId);
 
-  if (!user) {
+  if (error) {
     return "Invalid user id " + userId;
   }
 
@@ -31,7 +31,7 @@ export default function User({ children }) {
       rows: 4,
     },
     { label: "Roles", value: user.roles?.join(", ") ?? "" },
-    { label: "Created Date", value: user.createdDate ?? "" },
+    { label: "Created Date", value: user.createdDate ?? "" }, // TODO: need date from backend
   ];
 
   if (typeof user.isUnderGraduate === "boolean") {

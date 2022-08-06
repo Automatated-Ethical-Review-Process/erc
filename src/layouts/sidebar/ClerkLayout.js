@@ -7,28 +7,28 @@ import SidebarLayout from "./SidebarLayout";
 import Roles from "config/roles";
 
 const sideBarItems = [
-   {
-      path: "/clerk/new-user-requests",
-      icon: <GroupAddIcon />,
-      text: "New user requests",
-   },
-   {
-      path: "/clerk/current-users",
-      icon: <AccountBoxIcon />,
-      text: "Current users",
-   },
-   {
-      path: "/clerk/new-submissions",
-      icon: <NewReleasesIcon />,
-      text: "New submissions",
-   },
-   {
-      path: "/clerk/add-reviewer",
-      icon: <PersonAddIcon />,
-      text: "Add reviewer",
-   },
+  {
+    path: "/clerk/new-user-requests",
+    icon: <GroupAddIcon />,
+    text: "New user requests",
+  },
+  {
+    path: "/clerk/new-submissions",
+    icon: <NewReleasesIcon />,
+    text: "New submissions",
+  },
+  {
+    path: "/clerk/current-users",
+    icon: <AccountBoxIcon />,
+    text: "Current users",
+  },
+  {
+    path: "/clerk/add-reviewer",
+    icon: <PersonAddIcon />,
+    text: "Add reviewer",
+  },
 ];
 
 export default function ClerkLayout() {
-   return <SidebarLayout role={Roles.clerk} sideBarItems={sideBarItems} />;
+  return <SidebarLayout role={Roles.clerk} sideBarItems={sideBarItems} />;
 }
