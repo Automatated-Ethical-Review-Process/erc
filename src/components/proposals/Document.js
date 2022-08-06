@@ -1,35 +1,48 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
 
 import TextField from "components/common/TextField";
 
-import { getDocument } from "services/data/documentService";
+import { useGetVersionQuery } from "api/data/version";
+import LoadingCircle from "components/common/LoadingCircle";
 
 export default function Document() {
   const navigate = useNavigate();
-  const { pid: proposalId, vid: versionId, did: documentId } = useParams();
+  const { pid, vid, did } = useParams();
 
-  const document = getDocument(proposalId, versionId, documentId);
+  const {
+    data: rawData = {},
+    error,
+    isLoading,
+  } = useGetVersionQuery({ pid, vid });
 
-  if (!document) {
-    return "invalid link";
+  if (error) {
+    return "invalid proposal id: " + pid + " or version id: " + vid;
   }
 
-  const docType = document.title.split(".").pop().toUpperCase();
+  const document = rawData.documents?.find((d) => d.id === parseInt(did));
+
+  if (!document) {
+    return "invalid document id: " + did;
+  }
+
+  const parts = document.file.split(".");
+
+  const docType = parts.pop().toUpperCase();
+  const docName = parts.join(".");
 
   const data = [
-    { label: "Title", value: document.title },
+    { label: "Name", value: docName },
     { label: "Type", value: docType },
-    { label: "Size", value: document.size + "KB" },
-    { label: "Date", value: document.date },
-    { label: "Time", value: document.time },
+    { label: "File", value: document.file },
   ];
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
+      <LoadingCircle isLoading={isLoading} />
       <Grid container rowSpacing={4}>
         {data.map((item, id) => (
           <Grid key={id} item xs={12}>
