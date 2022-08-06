@@ -5,7 +5,7 @@ function ApplicantPendingSubmissions() {
   const { data = [], isLoading } = useGetUserPendingProposalsQuery();
   return (
     <Proposals
-      proposals={data}
+      data={data}
       isLoading={isLoading}
       extraFields={{ status: "Status" }}
     />

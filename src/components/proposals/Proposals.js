@@ -4,7 +4,7 @@ import DataGrid from "components/common/DataGrid";
 import { getProposals } from "services/data/proposalService";
 
 export default function Proposals({
-  proposals = getProposals(), // TODO remove this
+  data = getProposals(), // TODO remove this
   isLoading,
   extraFields = {
     deadline: "Deadline",
@@ -22,7 +22,7 @@ export default function Proposals({
     <DataGrid
       fields={Object.keys(fields)}
       headerNames={Object.values(fields)}
-      rows={proposals}
+      rows={data}
       onRowClick={(row) => navigate(String(row.id))}
       loading={isLoading}
     />

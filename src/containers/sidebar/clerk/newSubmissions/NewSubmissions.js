@@ -6,7 +6,7 @@ const NewSubmissions = () => {
 
   return (
     <Proposals
-      proposals={data}
+      data={data}
       isLoading={isLoading}
       extraFields={{ pi: "PI", status: "Status" }}
     />

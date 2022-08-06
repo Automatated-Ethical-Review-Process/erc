@@ -5,7 +5,7 @@ function ApplicantOldSubmissions() {
   const { data = [], isLoading } = useGetUserOldProposalsQuery();
   return (
     <Proposals
-      proposals={data}
+      data={data}
       isLoading={isLoading}
       extraFields={{ status: "Status" }}
     />

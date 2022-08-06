@@ -2,11 +2,11 @@ import { useGetReviewerReviewedProposalsQuery } from "api/data/proposal";
 import Proposals from "components/proposals/Proposals";
 import useUser from "hooks/useUser";
 
-const ReviwerReviewedProposals = () => {
+const ReviewerReviewedProposals = () => {
   const { id: rid } = useUser();
   const { data = [], isLoading } = useGetReviewerReviewedProposalsQuery(rid);
   console.log(data);
-  return <Proposals proposals={data} isLoading={isLoading} />;
+  return <Proposals data={data} isLoading={isLoading} extraFields={null} />;
 };
 
-export default ReviwerReviewedProposals;
+export default ReviewerReviewedProposals;

@@ -1,30 +1,33 @@
 import { Route } from "react-router-dom";
 
-import SecretaryLayout from "layouts/sidebar/SecretaryLayout";
-import SecretaryDashboard from "containers/dashboard/SecretaryDashboard";
-import UnassignedProposal from "containers/sidebar/secretary/unassigned/Proposal";
-import ChooseReviewType from "containers/sidebar/secretary/unassigned/ChooseReviewType";
-import InReviewDocuments from "containers/sidebar/secretary/inReview/Documents";
-import Reviews from "containers/sidebar/secretary/inReview/Reviews";
-import Review from "containers/sidebar/secretary/inReview/Review";
-import Comments from "containers/sidebar/secretary/inReview/Comments";
-import Comment from "containers/sidebar/secretary/inReview/Comment";
-import ReviewedProposal from "containers/sidebar/secretary/reviewed/Proposal";
-import NotifyAuthor from "containers/sidebar/secretary/reviewed/NotifyAuthor";
-import Proposals from "components/proposals/Proposals";
+import Documents from "components/proposals/Documents";
 import Proposal from "components/proposals/Proposal";
 import Versions from "components/proposals/Versions";
-import Documents from "components/proposals/Documents";
+import Users from "components/users/users";
+import SecretaryDashboard from "containers/dashboard/SecretaryDashboard";
 import CurrentUser from "containers/sidebar/admin/CurrentUser";
 import UpdateUser from "containers/sidebar/admin/UpdateUser";
-import Users from "components/users/users";
+import Comment from "containers/sidebar/secretary/inReview/Comment";
+import Comments from "containers/sidebar/secretary/inReview/Comments";
+import InReviewDocuments from "containers/sidebar/secretary/inReview/Documents";
+import Review from "containers/sidebar/secretary/inReview/Review";
+import Reviews from "containers/sidebar/secretary/inReview/Reviews";
+import NotifyAuthor from "containers/sidebar/secretary/reviewed/NotifyAuthor";
+import ReviewedProposal from "containers/sidebar/secretary/reviewed/Proposal";
+import ChooseReviewType from "containers/sidebar/secretary/unassigned/ChooseReviewType";
+import UnassignedProposal from "containers/sidebar/secretary/unassigned/Proposal";
+import SecretaryLayout from "layouts/sidebar/SecretaryLayout";
 
 import UserData from "containers/sidebar/secretary/reviewer-requests/UserDetails";
 
-import routes from "config/routes";
 import Roles from "config/roles";
-import { ProtectedDashboardRoute } from "routes/common/Protected";
+import routes from "config/routes";
+import SecretaryArchivedProposals from "containers/sidebar/secretary/archived/Proposals";
+import SecretaryInReviewProposals from "containers/sidebar/secretary/inReview/Proposals";
+import SecretaryReviewedProposals from "containers/sidebar/secretary/reviewed/Proposals";
+import SecretaryUnassignedProposals from "containers/sidebar/secretary/unassigned/Proposals";
 import documentRoute from "routes/common/document";
+import { ProtectedDashboardRoute } from "routes/common/Protected";
 
 const secretaryRoute = (
   <Route
@@ -38,7 +41,7 @@ const secretaryRoute = (
     <Route index element={<SecretaryDashboard />} />
 
     <Route path="unassigned">
-      <Route index element={<Proposals extraFields={{ pi: "Author" }} />} />
+      <Route index element={<SecretaryUnassignedProposals />} />
       <Route path=":pid">
         <Route index element={<UnassignedProposal />} />
         <Route path="review" element={<ChooseReviewType />} />
@@ -53,17 +56,7 @@ const secretaryRoute = (
     </Route>
 
     <Route path="in-review">
-      <Route
-        index
-        element={
-          <Proposals
-            extraFields={{
-              reviewType: "Review Type",
-              reviewers: "Reviewers",
-            }}
-          />
-        }
-      />
+      <Route index element={<SecretaryInReviewProposals />} />
       <Route path=":pid">
         <Route
           index
@@ -97,17 +90,7 @@ const secretaryRoute = (
     </Route>
 
     <Route path="reviewed">
-      <Route
-        index
-        element={
-          <Proposals
-            extraFields={{
-              reviewType: "Review Type",
-              reviewers: "Reviewers",
-            }}
-          />
-        }
-      />
+      <Route index element={<SecretaryReviewedProposals />} />
       <Route path=":pid">
         <Route index element={<ReviewedProposal />} />
         <Route path="notify" element={<NotifyAuthor />} />
@@ -130,7 +113,7 @@ const secretaryRoute = (
     </Route>
 
     <Route path="archived">
-      <Route index element={<Proposals extraFields={{ pi: "Author" }} />} />
+      <Route index element={<SecretaryArchivedProposals />} />
       <Route path=":pid">
         <Route
           index

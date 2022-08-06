@@ -5,7 +5,7 @@ function ApplicantOngoingSubmissions() {
   const { data = [], isLoading } = useGetUserActiveProposalsQuery();
   return (
     <Proposals
-      proposals={data}
+      data={data}
       isLoading={isLoading}
       extraFields={{ status: "Status" }}
     />
