@@ -37,7 +37,7 @@ export default function Proposal({
     name: "Name",
     type: "Type",
     date: "Date",
-    time: "Time",
+    time: "Time", // TODO: need to get time from data
     ...extraFields,
   };
 

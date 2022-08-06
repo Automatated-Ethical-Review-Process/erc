@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
 import DataGrid from "components/common/DataGrid";
-import { getProposals } from "services/data/proposalService";
 
 export default function Proposals({
-  data = getProposals(), // TODO remove this
+  data,
   isLoading,
   extraFields = {
     deadline: "Deadline",
