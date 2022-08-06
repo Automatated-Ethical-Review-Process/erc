@@ -36,42 +36,47 @@ function UploadButtons() {
 
 function VerifyStatus({ verificationImage }) {
   // verificationImage = 1;
-  const { data: status = {} } = useGetStatusQuery();
+  const { data: status = {}, isLoading } = useGetStatusQuery();
+
+  if (isLoading) {
+    return null;
+  }
+
   if (status.isVerified) {
     return (
       <Chip label="Verified Account" icon={<DoneIcon />} color="success" />
     );
-  } else {
-    if (verificationImage == null) {
-      return (
-        <>
-          <Chip
-            label="Account Not Verified"
-            icon={<PriorityHighIcon />}
-            color="error"
-            variant="outlined"
-          />
-          <Chip
-            label="Please upload the ID Picture or Passport Picture"
-            icon={<PriorityHighIcon />}
-            color="warning"
-            variant="outlined"
-            sx={{ mt: 1 }}
-          />
-          <UploadButtons />
-        </>
-      );
-    } else {
-      return (
+  }
+
+  if (verificationImage == null) {
+    return (
+      <>
         <Chip
-          label="Account is not Verified.Still progressing"
+          label="Account Not Verified"
           icon={<PriorityHighIcon />}
           color="error"
           variant="outlined"
         />
-      );
-    }
+        <Chip
+          label="Please upload the ID Picture or Passport Picture"
+          icon={<PriorityHighIcon />}
+          color="warning"
+          variant="outlined"
+          sx={{ mt: 1 }}
+        />
+        <UploadButtons />
+      </>
+    );
   }
+
+  return (
+    <Chip
+      label="Account is not Verified.Still progressing"
+      icon={<PriorityHighIcon />}
+      color="error"
+      variant="outlined"
+    />
+  );
 }
 
 function ImageAvatar() {
