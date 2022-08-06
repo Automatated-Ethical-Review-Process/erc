@@ -218,7 +218,7 @@ export const {
   useToggleUserEnabledMutation, //
   useToggleUserLockedMutation, //
   useSetUserVerifiedMutation, //
-  useSetUserUnverifiedMutation,
+  useSetUserUnverifiedMutation, //
 } = authApi;
 
 export default authApi;

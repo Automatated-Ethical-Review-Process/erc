@@ -67,20 +67,20 @@ const proposalApi = dataApi.injectEndpoints({
 
 export const {
   useGetProposalsQuery,
-  useGetProposalQuery,
-  useGetVersionsQuery,
-  useGetClerkNewProposalsQuery,
-  useGetSecretaryUnassignedProposalsQuery,
-  useGetSecretaryReviewingProposalsQuery,
-  useGetSecretaryReviewedProposalsQuery,
-  useGetSecretaryArchivedProposalsQuery,
-  useGetReviewerPendingProposalsQuery,
-  useGetReviewerInReviewProposalsQuery,
-  useGetReviewerReviewedProposalsQuery,
-  useGetReviewerOtherProposalsQuery,
-  useGetUserPendingProposalsQuery,
-  useGetUserActiveProposalsQuery,
-  useGetUserOldProposalsQuery,
+  useGetProposalQuery, //
+  useGetVersionsQuery, //
+  useGetClerkNewProposalsQuery, //
+  useGetSecretaryUnassignedProposalsQuery, //
+  useGetSecretaryReviewingProposalsQuery, //
+  useGetSecretaryReviewedProposalsQuery, //
+  useGetSecretaryArchivedProposalsQuery, //
+  useGetReviewerPendingProposalsQuery, //
+  useGetReviewerInReviewProposalsQuery, //
+  useGetReviewerReviewedProposalsQuery, //
+  useGetReviewerOtherProposalsQuery, //
+  useGetUserPendingProposalsQuery, //
+  useGetUserActiveProposalsQuery, //
+  useGetUserOldProposalsQuery, //
 } = proposalApi;
 
 export default proposalApi;

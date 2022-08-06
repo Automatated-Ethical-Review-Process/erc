@@ -26,8 +26,8 @@ const versionApi = dataApi.injectEndpoints({
 
 export const {
   useGetVersionQuery,
-  useSetVersionSubmittedMutation,
-  useSetVersionRejectedMutation,
+  useSetVersionSubmittedMutation, //
+  useSetVersionRejectedMutation, //
 } = versionApi;
 
 export default versionApi;

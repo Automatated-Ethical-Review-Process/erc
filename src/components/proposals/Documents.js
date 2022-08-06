@@ -1,32 +1,33 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Container } from "@mui/material";
 
 import DataGrid from "components/common/DataGrid";
 
-import { getDocuments } from "services/data/documentService";
+import { useGetVersionQuery } from "api/data/version";
 
-export default function Documents(props) {
+export default function Documents({ children }) {
   const navigate = useNavigate();
 
-  const { pid: proposalId, vid: versionId } = useParams();
+  const { pid, vid } = useParams();
 
-  const documents = getDocuments(proposalId, versionId);
+  const { data = {}, error, isLoading } = useGetVersionQuery({ pid, vid });
 
-  if (!documents) {
-    return "invalid link";
+  if (error) {
+    return "invalid proposal id: " + pid + " or version id: " + vid;
   }
 
   return (
     <>
       <DataGrid
-        fields={["title", "size"]}
-        headerNames={["Title", "Size (KiB)"]}
-        rows={documents}
+        fields={["file", "type"]}
+        headerNames={["File", "Type"]}
+        rows={data.documents}
         onRowClick={(row) => navigate(`doc-${row.id}`)}
+        loading={isLoading}
       />
       <Container maxWidth="md" sx={{ mt: 4 }}>
-        {props.children}
+        {children}
       </Container>
     </>
   );

@@ -58,8 +58,8 @@ export const {
   useGetMeQuery, //
   useUpdateMeMutation, //
   useGetUserQuery, //
-  useLazyGetUsersQuery,
-  useGetUsersByIdsMutation,
+  useLazyGetUsersQuery, //
+  useGetUsersByIdsMutation, //
   useGetApplicantsQuery,
   useGetReviewersQuery,
   useUserExistsMutation,
