@@ -11,7 +11,11 @@ export default function Documents({ children }) {
 
   const { pid, vid } = useParams();
 
-  const { data = {}, error, isLoading } = useGetVersionQuery({ pid, vid });
+  const {
+    data = { documents: [] },
+    error,
+    isLoading,
+  } = useGetVersionQuery({ pid, vid });
 
   // if (error) {
   //   return "invalid proposal id: " + pid + " or version id: " + vid;
