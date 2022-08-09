@@ -8,28 +8,16 @@ const commentApi = dataApi.injectEndpoints({
       // TODO: provideTags
     }),
     addComment: build.mutation({
-      query: ({ pid, vid, rid, content }) => ({
+      query: ({ pid, vid, rid, body }) => ({
         url: `/proposal/${pid}/version/${vid}/${rid}/general-comment`,
         method: "POST",
-        body: { content },
-      }),
-      // TODO: invalidateTags
-    }),
-    updateComment: build.mutation({
-      query: ({ pid, vid, rid, content }) => ({
-        url: `/proposal/${pid}/version/${vid}/${rid}/general-comment`,
-        method: "PUT",
-        body: { content },
+        body,
       }),
       // TODO: invalidateTags
     }),
   }),
 });
 
-export const {
-  useGetCommentQuery,
-  useAddCommentMutation,
-  useUpdateCommentMutation,
-} = commentApi;
+export const { useGetCommentQuery, useAddCommentMutation } = commentApi;
 
 export default commentApi;

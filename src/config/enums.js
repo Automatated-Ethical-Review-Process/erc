@@ -9,4 +9,12 @@ const VersionStatus = {
   rejected: "REJECTED",
 };
 
-export { VersionStatus };
+const DecisionTypes = {
+  approved: "APPROVED",
+  disapproved: "DISAPPROVED",
+  major: "MAJOR",
+  minor: "MINOR",
+  undecided: "UNDECIDED",
+};
+
+export { VersionStatus, DecisionTypes };
