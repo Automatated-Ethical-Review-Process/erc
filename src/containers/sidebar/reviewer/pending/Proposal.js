@@ -43,7 +43,11 @@ export default function Proposal() {
 
   const { data = [], isLoading: isVersionLoading } = useGetVersionsQuery(pid);
 
+  // TODO: handle error
+
   const vid = data.at(-1)?.id;
+
+  // TODO: what if no version?
 
   const isLoading = isAcceptLoading || isRejectLoading || isVersionLoading;
 

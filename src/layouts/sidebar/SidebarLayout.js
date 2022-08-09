@@ -16,7 +16,7 @@ export default function SidebarLayout({ role, sideBarItems }) {
     () =>
       pathname
         .split("/")
-        .slice(1)
+        .filter((i) => i)
         .reduce(
           (data, curPath, index) => {
             data.push({
