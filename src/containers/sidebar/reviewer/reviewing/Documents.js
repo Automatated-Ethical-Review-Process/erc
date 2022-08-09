@@ -10,7 +10,7 @@ export default function Documents() {
   return (
     <BaseDocuments>
       <Button variant="contained" onClick={() => navigate("evaluation")}>
-        Go to evaluation
+        Submit evaluation
       </Button>
     </BaseDocuments>
   );
