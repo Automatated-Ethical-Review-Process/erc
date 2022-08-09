@@ -28,16 +28,20 @@ export default function Proposal({
   // }
   // TODO: handle error
 
+  const date = new Date(rawData.date);
+
   const proposal = {
     ...rawData,
     cis: rawData.cis?.map((i) => i.name).join(", "),
+    date: date.toLocaleDateString(),
+    time: date.toLocaleTimeString(),
   };
 
   const data = {
     name: "Name",
     type: "Type",
     date: "Date",
-    time: "Time", // TODO: need to get time from data
+    time: "Time",
     ...extraFields,
   };
 

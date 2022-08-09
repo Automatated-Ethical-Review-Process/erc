@@ -8,6 +8,7 @@ const reviewApi = dataApi.injectEndpoints({
         method: "PUT",
         body: { reviewerId: rid },
       }),
+      // TODO: invalidateTags
     }),
     rejectReviewerProposal: build.mutation({
       query: ({ pid, vid, rid, message }) => ({
@@ -15,6 +16,7 @@ const reviewApi = dataApi.injectEndpoints({
         method: "PUT",
         body: { reviewerId: rid, message }, // TODO: endpoint doesn't accept message
       }),
+      // TODO: invalidateTags
     }),
   }),
 });
