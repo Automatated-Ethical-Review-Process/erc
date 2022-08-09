@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
 import DataGrid from "components/common/DataGrid";
+import { useGetAllReviewsQuery } from "api/data/version";
 
-const data = [
+/* const data = [
   { id: 0, reviewer: "reviewer 1", decision: "approved", status: "reviewed" },
   {
     id: 1,
@@ -23,16 +24,18 @@ const data = [
     status: "reviewed",
   },
   { id: 4, reviewer: "reviewer 5", decision: "-", status: "reviewing" },
-];
+]; */
 
 export default function Proposals() {
   const navigate = useNavigate();
+  const { data = [], isLoading } = useGetAllReviewsQuery();
 
   return (
     <DataGrid
-      fields={["reviewer", "decision", "status"]}
-      headerNames={["Reviewer", "Decision", "Status"]}
+      fields={["reviewerId", "decision"]}
+      headerNames={["Reviewer", "Decision"]}
       rows={data}
+      loading={isLoading}
       onRowClick={(row) => navigate(String(row.id))}
     />
   );
