@@ -7,9 +7,7 @@ import BaseProposal from "components/proposals/Proposal";
 function Proposal() {
   const navigate = useNavigate();
   return (
-    <BaseProposal
-      extraFields={{ pi: "Author", coInvestigators: "Co-Investigators" }}
-    >
+    <BaseProposal extraFields={{ pi: "Author", cis: "Co-Investigators" }}>
       <Button variant="contained" onClick={() => navigate("review")}>
         Choose Review Type
       </Button>

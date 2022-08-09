@@ -11,7 +11,7 @@ function Proposal() {
     <BaseProposal
       extraFields={{
         pi: "Author",
-        coInvestigators: "Co-Investigators",
+        cis: "Co-Investigators",
         reviewType: "Review Type",
         reviewers: "Reviewers",
       }}

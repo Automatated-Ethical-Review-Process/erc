@@ -73,7 +73,7 @@ export default function NewSubmission() {
   return (
     <BaseProposal
       loading={isLoading}
-      extraFields={{ pi: "PI", coInvestigators: "Co-Investigators" }}
+      extraFields={{ pi: "PI", cis: "Co-Investigators" }}
     >
       <Grid container spacing={2}>
         <Grid item xs={12}>
