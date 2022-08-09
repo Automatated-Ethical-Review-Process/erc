@@ -23,6 +23,7 @@ const versionApi = dataApi.injectEndpoints({
     }),
     getAllReviews: build.query({
       query: ({ pid, vid }) => `/proposal/${pid}/version/${vid}/evaluations`,
+      // TODO: provideTags
     }),
   }),
 });
@@ -31,6 +32,7 @@ export const {
   useGetVersionQuery,
   useSetVersionSubmittedMutation, //
   useSetVersionRejectedMutation, //
+  useGetAllReviewsQuery,
 } = versionApi;
 
 export default versionApi;
