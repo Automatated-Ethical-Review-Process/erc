@@ -21,6 +21,9 @@ const versionApi = dataApi.injectEndpoints({
         // TODO: invalidateTags
       }),
     }),
+    getAllReviews: build.query({
+      query: ({ pid, vid }) => `/proposal/${pid}/version/${vid}/evaluations`,
+    }),
   }),
 });
 
