@@ -15,9 +15,17 @@ const commentApi = dataApi.injectEndpoints({
       }),
       // TODO: invalidateTags
     }),
+    getAllGeneralComments: build.query({
+      query: ({ pid, vid }) =>
+        `/proposal/${pid}/version/${vid}/general-comment/all`,
+    }),
   }),
 });
 
-export const { useGetCommentQuery, useAddCommentMutation } = commentApi;
+export const {
+  useGetCommentQuery,
+  useAddCommentMutation,
+  useGetAllGeneralCommentsQuery,
+} = commentApi;
 
 export default commentApi;
