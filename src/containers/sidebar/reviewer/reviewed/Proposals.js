@@ -5,7 +5,6 @@ import useUser from "hooks/useUser";
 const ReviewerReviewedProposals = () => {
   const { id: rid } = useUser();
   const { data = [], isLoading } = useGetReviewerReviewedProposalsQuery(rid);
-  console.log(data);
   return <Proposals data={data} isLoading={isLoading} extraFields={null} />;
 };
 
