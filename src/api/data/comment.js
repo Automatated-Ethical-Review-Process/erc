@@ -19,6 +19,10 @@ const commentApi = dataApi.injectEndpoints({
       query: ({ pid, vid }) =>
         `/proposal/${pid}/version/${vid}/general-comment/all`,
     }),
+    getCommentbyId: build.query({
+      query: ({ pid, vid, cid }) =>
+        `/proposal/${pid}/version/${vid}/general-comment/${cid}`,
+    }),
   }),
 });
 
@@ -26,6 +30,7 @@ export const {
   useGetCommentQuery,
   useAddCommentMutation,
   useGetAllGeneralCommentsQuery,
+  useGetCommentbyIdQuery,
 } = commentApi;
 
 export default commentApi;
