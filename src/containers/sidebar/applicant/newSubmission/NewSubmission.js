@@ -1,11 +1,11 @@
-import * as React from "react";
+import { Container } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Container } from "@mui/material";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
-import { useNavigate } from "react-router-dom";
 
 const steps = ["Step 1", "Step 2"];
 
@@ -21,13 +21,11 @@ function getStepContent(step) {
 }
 
 export default function HorizontalLinearStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set());
   const isUndergraduate = false;
 
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
+  const isStepSkipped = (step) => skipped.has(step);
 
   const handleNext = () => {
     let newSkipped = skipped;
@@ -54,7 +52,7 @@ export default function HorizontalLinearStepper() {
     <Container>
       <Box sx={{ width: "100%", minHeight: 300 }}>
         {activeStep === steps.length ? (
-          <React.Fragment>
+          <>
             <Typography sx={{ mt: 10, mb: 1 }}>
               All steps completed - you&apos;re finished
             </Typography>
@@ -69,17 +67,16 @@ export default function HorizontalLinearStepper() {
                 Ok
               </Button>
             </Box>
-          </React.Fragment>
+          </>
         ) : (
-          <React.Fragment>
+          <>
             {getStepContent(activeStep)}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
-                color="inherit"
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 sx={{ mr: 1 }}
-                variant="contained"
+                variant="outlined"
               >
                 Back
               </Button>
@@ -93,7 +90,7 @@ export default function HorizontalLinearStepper() {
                 {activeStep === steps.length - 1 ? "Submit" : "Next"}
               </Button>
             </Box>
-          </React.Fragment>
+          </>
         )}
       </Box>
     </Container>

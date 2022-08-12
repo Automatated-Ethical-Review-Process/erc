@@ -2,6 +2,13 @@ import dataApi from "./api";
 
 const proposalApi = dataApi.injectEndpoints({
   endpoints: (build) => ({
+    addProposal: build.mutation({
+      query: (body) => ({
+        url: "/proposal",
+        method: "POST",
+        body,
+      }),
+    }),
     getProposals: build.query({
       query: () => "/proposal/all",
       // TODO: provideTags
@@ -66,6 +73,7 @@ const proposalApi = dataApi.injectEndpoints({
 });
 
 export const {
+  useAddProposalMutation,
   useGetProposalsQuery,
   useGetProposalQuery, //
   useGetVersionsQuery, //

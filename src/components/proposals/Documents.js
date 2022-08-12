@@ -24,8 +24,8 @@ export default function Documents({ children }) {
   return (
     <>
       <DataGrid
-        fields={["file", "type"]}
-        headerNames={["File", "Type"]}
+        fields={["name", "type"]}
+        headerNames={["Name", "Type"]}
         rows={data.documents}
         onRowClick={(row) => navigate(`doc-${row.id}`)}
         loading={isLoading}

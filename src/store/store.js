@@ -8,16 +8,16 @@ import { setStore } from "./dispatcher";
 import notificationReducer from "./notificationSlice";
 
 const store = configureStore({
-   reducer: {
-      [authApi.reducerPath]: authApi.reducer,
-      [dataApi.reducerPath]: dataApi.reducer,
-      auth: authReducer,
-      notifications: notificationReducer,
-   },
-   middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware()
-         .concat(authApi.middleware)
-         .concat(dataApi.middleware),
+  reducer: {
+    [authApi.reducerPath]: authApi.reducer,
+    [dataApi.reducerPath]: dataApi.reducer,
+    auth: authReducer,
+    notifications: notificationReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false })
+      .concat(authApi.middleware)
+      .concat(dataApi.middleware),
 });
 
 setStore(store);
