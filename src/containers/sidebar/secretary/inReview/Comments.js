@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import DataGrid from "components/common/DataGrid";
 import { useGetAllGeneralCommentsQuery } from "api/data/comment";
@@ -11,8 +11,9 @@ import { useGetAllGeneralCommentsQuery } from "api/data/comment";
 ];
  */
 export default function Proposals() {
+  const param = useParams();
   const navigate = useNavigate();
-  const { data = [], isLoading } = useGetAllGeneralCommentsQuery();
+  const { data = [], isLoading } = useGetAllGeneralCommentsQuery(param);
 
   return (
     <DataGrid

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import DataGrid from "components/common/DataGrid";
 import { useGetAllReviewsQuery } from "api/data/version";
@@ -28,7 +28,8 @@ import { useGetAllReviewsQuery } from "api/data/version";
 
 export default function Proposals() {
   const navigate = useNavigate();
-  const { data = [], isLoading } = useGetAllReviewsQuery();
+  const { pid, vid } = useParams();
+  const { data = [], isLoading } = useGetAllReviewsQuery({ pid, vid });
 
   return (
     <DataGrid

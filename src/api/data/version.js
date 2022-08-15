@@ -32,6 +32,19 @@ const versionApi = dataApi.injectEndpoints({
       query: ({ pid, vid }) => `/proposal/${pid}/version/${vid}/evaluations`,
       // TODO: provideTags
     }),
+    addSecretaryComment: build.mutation({
+      query: ({ pid, vid, body }) => ({
+        url: `/proposal/${pid}/version/${vid}/status`,
+        method: "PUT",
+        body,
+        //TODO:InvalidateTags
+      }),
+    }),
+    gerLatestVersion: build.query({
+      query: (pid) => ({
+        url: `/proposal/${pid}/version/latest`,
+      }),
+    }),
   }),
 });
 
@@ -41,6 +54,8 @@ export const {
   useSetVersionSubmittedMutation, //
   useSetVersionRejectedMutation, //
   useGetAllReviewsQuery,
+  useAddSecretaryCommentMutation, //
+  useGerLatestVersionQuery, //
 } = versionApi;
 
 export default versionApi;
