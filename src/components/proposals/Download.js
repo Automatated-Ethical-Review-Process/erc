@@ -16,7 +16,8 @@ export default function Download() {
   const document = data.documents?.find((d) => d.id === parseInt(did));
 
   const { data: blob, isLoading: isFileLoading } = useGetFileQuery(
-    document?.file
+    document?.file,
+    { skip: !document?.file }
   );
 
   const ref = useRef();

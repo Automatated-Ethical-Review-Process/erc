@@ -17,4 +17,9 @@ const DecisionTypes = {
   undecided: "UNDECIDED",
 };
 
-export { VersionStatus, DecisionTypes };
+const ProposalType = {
+  animal: "ANIMAL_RESEARCH",
+  human: "HUMAN_RESEARCH",
+};
+
+export { VersionStatus, DecisionTypes, ProposalType };

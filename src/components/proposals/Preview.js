@@ -20,7 +20,8 @@ export default function Preview() {
   const document = data.documents?.find((d) => d.id === parseInt(did));
 
   const { data: blob, isLoading: isFileLoading } = useGetFileQuery(
-    document?.file
+    document?.file,
+    { skip: !document?.file }
   );
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function Preview() {
   return (
     <>
       <LoadingCircle isLoading={isLoading} />
-      <PdfViewer link={link} />
+      {link && <PdfViewer link={link} />}
     </>
   );
 }
