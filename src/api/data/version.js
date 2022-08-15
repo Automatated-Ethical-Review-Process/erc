@@ -2,6 +2,13 @@ import dataApi from "./api";
 
 const versionApi = dataApi.injectEndpoints({
   endpoints: (build) => ({
+    addVersion: build.mutation({
+      query: ({ pid, body }) => ({
+        url: `/proposal/${pid}/version`,
+        method: "POST",
+        body,
+      }),
+    }),
     getVersion: build.query({
       query: ({ pid, vid }) => `/proposal/${pid}/version/${vid}`,
       // TODO: provideTags
@@ -42,6 +49,7 @@ const versionApi = dataApi.injectEndpoints({
 });
 
 export const {
+  useAddVersionMutation,
   useGetVersionQuery,
   useSetVersionSubmittedMutation, //
   useSetVersionRejectedMutation, //
