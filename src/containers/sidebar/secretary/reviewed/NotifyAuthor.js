@@ -48,7 +48,7 @@ export default function NotifyAuthor() {
       .unwrap()
       .then(() => {
         notify("Decison and Comment send Successfully", "success");
-        //  navigate(-1, { replace: true });
+        navigate(-1, { replace: true });
       })
       .catch(({ data }) =>
         notify(data?.message || "Something went wrong!", "error")
