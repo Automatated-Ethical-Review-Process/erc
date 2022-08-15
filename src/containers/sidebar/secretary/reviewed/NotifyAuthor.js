@@ -1,107 +1,133 @@
-import * as React from "react";
+import { useState, forwardRef } from "react";
 
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import Typography from "@mui/material/Typography";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
-import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
+import { Box, Container } from "@mui/material";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { Container } from "@mui/material";
-import { Box } from "@mui/material";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
+import Typography from "@mui/material/Typography";
+import Form from "components/common/Form";
+import { RadioGroupController } from "components/controllers";
+import { VersionStatus } from "config/enums";
+import { Controller, useForm } from "react-hook-form";
+import {
+  useAddSecretaryCommentMutation,
+  useGerLatestVersionQuery,
+} from "api/data/version";
+import { useParams, useNavigate } from "react-router-dom";
+import useNotify from "hooks/useNotify";
+import LoadingCircle from "components/common/LoadingCircle";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
 export default function NotifyAuthor() {
-  const [open1, setOpenAccept] = React.useState(false);
-  const handleClickOpen1 = () => {
-    setOpenAccept(true);
+  const [addSecretaryComment, { isLoading }] = useAddSecretaryCommentMutation();
+
+  const [data, setData] = useState(null);
+  const handleClose = () => {
+    setData(null);
   };
-  const handleClose1 = () => {
-    setOpenAccept(false);
+  const { pid } = useParams();
+  console.log(pid);
+  const { notify } = useNotify();
+  const navigate = useNavigate();
+  const { data: latestVersionData = {}, isLoading: isLoadingLatest } =
+    useGerLatestVersionQuery(pid);
+
+  console.log(latestVersionData);
+  const isAllLoading = isLoadingLatest || isLoading;
+  const handleSend = () => {
+    addSecretaryComment({ pid, vid: latestVersionData.id, body: data })
+      .unwrap()
+      .then(() => {
+        notify("Decison and Comment send Successfully", "success");
+        //  navigate(-1, { replace: true });
+      })
+      .catch(({ data }) =>
+        notify(data?.message || "Something went wrong!", "error")
+      );
+    handleClose();
+  };
+
+  const { control, handleSubmit } = useForm();
+  const options = [
+    { label: "Approve", value: VersionStatus.granted },
+    { label: "Major Modification", value: VersionStatus.major },
+    { label: "Minor Modification", value: VersionStatus.minor },
+    { label: "Disapprove", value: VersionStatus.rejected },
+  ];
+
+  const onData = (data) => {
+    console.log(data);
+    if (!data.message) {
+      alert("Please Input a comment in comment box.");
+    } else {
+      setData(data);
+    }
   };
   return (
     <Container>
-      <FormControl>
+      <LoadingCircle isLoading={isAllLoading} />
+      <Form onSubmit={handleSubmit(onData)} control={control}>
         <Typography variant="h5">Decision</Typography>
         <Box ml={3}>
-          <RadioGroup
-            defaultValue="disapprove"
-            name="radio-buttons-group"
-            ml="2"
-          >
-            <FormControlLabel
-              value="approve"
-              control={<Radio />}
-              label="Approve"
-            />
-            <FormControlLabel
-              value="mj_modification"
-              control={<Radio />}
-              label="Major Modification"
-            />
-            <FormControlLabel
-              value="mn_modification"
-              control={<Radio />}
-              label="Minor Modification"
-            />
-            <FormControlLabel
-              value="disapprove"
-              control={<Radio />}
-              label="Disapprove"
-            />
-          </RadioGroup>
+          <RadioGroupController name="status" options={options} />
         </Box>
         <Typography variant="h5" my={2}>
           Overall Comment
         </Typography>
         {/* textarea for comments */}
         <Box ml={3}>
-          <TextareaAutosize
-            my={2}
-            minRows={10}
-            placeholder="add overall comment for the proposal"
-            style={{ width: 600 }}
+          <Controller
+            name="message"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextareaAutosize
+                {...field}
+                minRows={10}
+                placeholder="add overall comment for the proposal"
+                style={{ width: 600 }}
+              />
+            )}
           />
         </Box>
-      </FormControl>
-      <Box my={2}>
-        <Button
-          variant="contained"
-          endIcon={<SendIcon />}
-          onClick={handleClickOpen1}
-          sx={{
-            ml: 6,
-          }}
-        >
-          Send
-        </Button>
-      </Box>
 
+        <Box my={2}>
+          <Button
+            variant="contained"
+            endIcon={<SendIcon />}
+            type="submit"
+            sx={{
+              ml: 6,
+            }}
+          >
+            Send
+          </Button>
+        </Box>
+      </Form>
       <Dialog
-        open={open1}
+        open={!!data}
         TransitionComponent={Transition}
         keepMounted
-        onClose={handleClose1}
+        onClose={handleClose}
       >
         <DialogTitle>{"Send Decision"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Do you want to send this decision?
+            Do you want to send this decision and Comment?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose1}>Cancel</Button>
-          <Button onClick={handleClose1}>Send</Button>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSend}>Send</Button>
         </DialogActions>
       </Dialog>
     </Container>
