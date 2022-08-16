@@ -1,4 +1,9 @@
-import { PhotoCamera, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  InsertDriveFile,
+  PhotoCamera,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 import {
   Button,
   Checkbox,
@@ -165,7 +170,7 @@ const Input = styled("input")({
   display: "none",
 });
 
-export function FileInputController({ name, ...args }) {
+function InputController({ name, label = "Upload", icon, ...args }) {
   return (
     <Controller
       name={name}
@@ -178,31 +183,67 @@ export function FileInputController({ name, ...args }) {
           <Input
             {...rest}
             id={name}
-            accept="image/*"
             type="file"
-            files={[value]}
+            files={value}
             onChange={({ target: t }) =>
               onChange({
-                target: { ...t, value: t.files[0] },
+                target: { ...t, value: t.files },
               })
             }
             {...args}
           />
-          <Button component="span" startIcon={<PhotoCamera />}>
-            Upload
+          <Button component="span" variant="outlined" startIcon={icon}>
+            {label}
           </Button>
-          {value && (
-            <Typography component="span" variant="body2" color="secondary">
-              {value.name}
+          <br />
+          {value?.length > 0 && (
+            <Typography
+              sx={{ mt: 1 }}
+              component="span"
+              variant="body2"
+              color="secondary"
+            >
+              {Array.from(value)
+                .map((i) => i.name)
+                .join(", ")}
             </Typography>
           )}
           {error && (
-            <Typography component="span" variant="body2" color="error">
+            <Typography
+              sx={{ mt: 1 }}
+              component="span"
+              variant="body2"
+              color="error"
+            >
               {error.message}
             </Typography>
           )}
         </label>
       )}
+    />
+  );
+}
+
+export function FileInputController({ name, label, ...args }) {
+  return (
+    <InputController
+      name={name}
+      label={label}
+      icon={<InsertDriveFile />}
+      accept=".pdf"
+      {...args}
+    />
+  );
+}
+
+export function ImageInputController({ name, label, ...args }) {
+  return (
+    <InputController
+      name={name}
+      label={label}
+      icon={<PhotoCamera />}
+      accept="image/*"
+      {...args}
     />
   );
 }

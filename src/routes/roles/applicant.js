@@ -4,7 +4,7 @@ import Proposal from "components/proposals/Proposal";
 import Versions from "components/proposals/Versions";
 import Documents from "components/proposals/Documents";
 import ApplicantDashboard from "containers/dashboard/ApplicantDashboard";
-import NewSubmission from "containers/sidebar/applicant/newSubmission/NewSubmission";
+import NewSubmission from "containers/sidebar/applicant/NewSubmission";
 import OngoingSubmission from "containers/sidebar/applicant/ongoingSubmissions/Proposal";
 import ApplicantLayout from "layouts/sidebar/ApplicantLayout";
 
