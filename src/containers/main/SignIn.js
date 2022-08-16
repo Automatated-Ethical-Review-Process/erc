@@ -278,13 +278,13 @@ export default function SignIn() {
             <Grid item xs={6} sm={4} md={3}>
               <ActionAreaCard url={Image5} minHeight={{ minHeight: 0 }} />
             </Grid>
-            <Grid item xs={4} md={3}>
+            <Grid item xs={6} sm={4} md={3}>
               <ActionAreaCard url={Image6} minHeight={{ minHeight: 0 }} />
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
               <ActionAreaCard url={Image7} minHeight={{ minHeight: 0 }} />
             </Grid>
-            <Grid item xs={4} md={3}>
+            <Grid item xs={6} sm={4} md={3}>
               <ActionAreaCard url={Image8} minHeight={{ minHeight: 0 }} />
             </Grid>
           </Grid>
