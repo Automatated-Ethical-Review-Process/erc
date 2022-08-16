@@ -17,7 +17,9 @@ export default function Versions({ children }) {
   //   return "invalid proposal id: " + proposalId;
   // } // TODO: handle error
 
-  const versions = data.map((i) => ({ ...i, documents: i.documents?.length }));
+  const versions = data
+    .map((i) => ({ ...i, documents: i.documents?.length }))
+    .sort((i, j) => i.id - j.id);
 
   return (
     <>

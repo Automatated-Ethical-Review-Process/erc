@@ -19,17 +19,17 @@ export default function Document() {
     isLoading,
   } = useGetVersionQuery({ pid, vid });
 
-  // if (error) {
-  //   return "invalid proposal id: " + pid + " or version id: " + vid;
-  // } // TODO: handle error
+  if (error) {
+    return "invalid proposal id: " + pid + " or version id: " + vid;
+  }
 
   const document = rawData.documents?.find((d) => d.id === parseInt(did));
 
-  // if (!document) {
-  //   return "invalid document id: " + did;
-  // } // TODO: handle error
+  if (!document) {
+    return "invalid document id: " + did;
+  }
 
-  const parts = document.file.split(".");
+  const parts = (document?.name || "").split(".");
 
   const docType = parts.pop().toUpperCase();
   const docName = parts.join(".");
@@ -37,7 +37,7 @@ export default function Document() {
   const data = [
     { label: "Name", value: docName },
     { label: "Type", value: docType },
-    { label: "File", value: document.file },
+    { label: "Full Name", value: document?.name || "" },
   ];
 
   return (

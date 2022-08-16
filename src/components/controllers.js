@@ -6,6 +6,8 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
+  Radio,
+  RadioGroup,
   Switch,
   TextField,
   Typography,
@@ -85,17 +87,43 @@ export function SelectController({
   );
 }
 
+export function RadioGroupController({
+  name,
+  options,
+  defaultValue = options[0].value,
+  ...args
+}) {
+  return (
+    <Controller
+      name={name}
+      control={useControl()}
+      defaultValue={defaultValue}
+      render={({ field }) => (
+        <RadioGroup {...field}>
+          {options.map((option, key) => (
+            <FormControlLabel
+              key={key}
+              value={option.value}
+              control={<Radio color="secondary" {...args} />}
+              label={option.label}
+            />
+          ))}
+        </RadioGroup>
+      )}
+    />
+  );
+}
+
 export function CheckboxController({
   name,
   label,
   defaultValue = false,
   ...args
 }) {
-  const control = useControl();
   return (
     <Controller
       name={name}
-      control={control}
+      control={useControl()}
       defaultValue={defaultValue}
       render={({ field: { value, ...rest } }) => (
         <FormControlLabel
@@ -116,11 +144,10 @@ export function SwitchController({
   defaultValue = false,
   ...args
 }) {
-  const control = useControl();
   return (
     <Controller
       name={name}
-      control={control}
+      control={useControl()}
       defaultValue={true}
       render={({ field: { value, ...rest } }) => (
         <FormControlLabel
@@ -139,11 +166,10 @@ const Input = styled("input")({
 });
 
 export function FileInputController({ name, ...args }) {
-  const control = useControl();
   return (
     <Controller
       name={name}
-      control={control}
+      control={useControl()}
       render={({
         field: { value, onChange, ...rest },
         fieldState: { error },

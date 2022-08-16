@@ -11,7 +11,11 @@ export default function Documents({ children }) {
 
   const { pid, vid } = useParams();
 
-  const { data = {}, error, isLoading } = useGetVersionQuery({ pid, vid });
+  const {
+    data = { documents: [] },
+    error,
+    isLoading,
+  } = useGetVersionQuery({ pid, vid });
 
   // if (error) {
   //   return "invalid proposal id: " + pid + " or version id: " + vid;
@@ -20,8 +24,8 @@ export default function Documents({ children }) {
   return (
     <>
       <DataGrid
-        fields={["file", "type"]}
-        headerNames={["File", "Type"]}
+        fields={["name", "type"]}
+        headerNames={["Name", "Type"]}
         rows={data.documents}
         onRowClick={(row) => navigate(`doc-${row.id}`)}
         loading={isLoading}
