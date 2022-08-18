@@ -47,7 +47,7 @@ export default function NotifyAuthor() {
     addSecretaryComment({ pid, vid: latestVersionData.id, body: data })
       .unwrap()
       .then(() => {
-        notify("Decison and Comment send Successfully", "success");
+        notify("Decision and Comment send Successfully", "success");
         navigate(-1, { replace: true });
       })
       .catch(({ data }) =>

@@ -22,7 +22,7 @@ import UserData from "containers/sidebar/secretary/reviewer-requests/UserDetails
 
 import Roles from "config/roles";
 import routes from "config/routes";
-import SecretaryArchivedProposals from "containers/sidebar/secretary/archived/Proposals";
+import SecretaryArchivedProposals from "containers/sidebar/secretary/ArchivedProposals";
 import SecretaryInReviewProposals from "containers/sidebar/secretary/inReview/Proposals";
 import SecretaryReviewedProposals from "containers/sidebar/secretary/reviewed/Proposals";
 import SecretaryUnassignedProposals from "containers/sidebar/secretary/unassigned/Proposals";

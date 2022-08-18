@@ -2,10 +2,12 @@ import { useGetFileQuery } from "api/data/file";
 import { useGetVersionQuery } from "api/data/version";
 import LoadingCircle from "components/common/LoadingCircle";
 import { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { onDownload } from "utils/download";
 
 export default function Download() {
   const { pid, vid, did } = useParams();
+  const navigate = useNavigate();
 
   const {
     data = {},
@@ -27,14 +29,10 @@ export default function Download() {
       return;
     }
     ref.current = true;
-    if (blob) {
-      const url = URL.createObjectURL(blob);
-      anchor.href = url;
-      anchor.download = document.name;
-      anchor.click();
-      URL.revokeObjectURL(url);
-    }
-  }, [blob, document.name]);
+
+    onDownload(blob, document.name);
+    navigate(-1, { replace: true });
+  }, [blob, document.name, navigate]);
 
   if (error) {
     return "invalid proposal id: " + pid + " or version id: " + vid;
@@ -53,6 +51,3 @@ export default function Download() {
     </>
   );
 }
-
-const anchor = document.createElement("a");
-document.body.appendChild(anchor);

@@ -63,7 +63,7 @@ const schema = yObject({
   paymentSlip: yFile,
 });
 
-export default function NewSubmission() {
+export default function ApplicantNewSubmission() {
   const { data = {}, isLoading: isMeLoading } = useGetMeQuery();
 
   const [addProposal, { isLoading: isProposalLoading }] =
