@@ -16,7 +16,7 @@ import {
 import { ProposalType } from "config/enums";
 import useNotify from "hooks/useNotify";
 import { useState } from "react";
-import { yEmptySchema } from "utils/yup";
+import { yObject, yString, yFile, yFiles } from "utils/yup";
 
 const proposalTypes = [
   {
@@ -48,7 +48,22 @@ function HiddenInput({ label, children }) {
   );
 }
 
-export default function HorizontalLinearStepper() {
+const schema = yObject({
+  name: yString().required("Proposal name is required"),
+  type: yString()
+    .required("Proposal type is required")
+    .oneOf([ProposalType.animal, ProposalType.human], "Invalid type"),
+  emails: yString(),
+  main: yFile.required("Proposal is required"),
+  supplementary: yFiles.required("Supplementary is required"),
+  coverLetter: yFile,
+  cv: yFile,
+  trainCertificate: yFiles,
+  arcApproved: yFiles,
+  paymentSlip: yFile,
+});
+
+export default function NewSubmission() {
   const { data = {}, isLoading: isMeLoading } = useGetMeQuery();
 
   const [addProposal, { isLoading: isProposalLoading }] =
@@ -60,22 +75,32 @@ export default function HorizontalLinearStepper() {
 
   const { notify } = useNotify();
 
-  const onAddProposal = ({ name, type, emails, ...data }) => {
-    const formData = new FormData();
-
-    formData.append("data", JSON.stringify({ name, type }));
-    formData.append("emails", JSON.stringify(emails));
-
-    Object.entries(data).forEach(([key, value]) =>
-      Array.from(value).forEach((v) => void formData.append(key, v))
-    );
-
-    addProposal(formData)
+  const onAddProposal = ({ name, type, ...data }) =>
+    addProposal({ data: { name, type }, ...data })
       .unwrap()
       .then(() => notify("Proposal added successfully", "success"))
       .catch(({ data }) =>
         notify(data?.message || "Something went wrong", "error")
       );
+
+  const onCheckEmails = (data) => {
+    if (data.emails.length === 0) {
+      onAddProposal(data);
+    } else {
+      checkEmails({ emails: data.emails })
+        .unwrap()
+        .then(({ unverified: uf }) =>
+          uf.length === 0
+            ? onAddProposal(data)
+            : notify(
+                `[${uf.join(", ")}] emails are not verified or exists`,
+                "error"
+              )
+        )
+        .catch(({ data }) =>
+          notify(data?.message || "Something went wrong", "error")
+        );
+    }
   };
 
   const onSubmit = ({ emails, ...data }) => {
@@ -84,23 +109,16 @@ export default function HorizontalLinearStepper() {
       .map((e) => e.trim())
       .filter((i) => i);
 
-    checkEmails({ emails: parsedEmails })
-      .unwrap()
-      .then(({ unverified }) =>
-        unverified.length === 0
-          ? onAddProposal({ ...data, emails: parsedEmails })
-          : notify(unverified.join(", ") + " emails are not verified", "error")
-      )
-      .catch(({ data }) =>
-        notify(data?.message || "Something went wrong", "error")
-      );
+    onCheckEmails({ emails: parsedEmails, ...data });
   };
+
+  // TODO: need to fill all fields of proposal add request
 
   return (
     <Container maxWidth="md">
       <LoadingCircle isLoading={isLoading} />
       <Box sx={{ my: 3 }}>
-        <BasicForm schema={yEmptySchema} onSubmit={onSubmit}>
+        <BasicForm schema={schema} onSubmit={onSubmit}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextFieldController
@@ -124,11 +142,16 @@ export default function HorizontalLinearStepper() {
                 margin="none"
               />
             </Grid>
-            <Grid item xs={12}>
-              <FileInputController name="main" label="Upload the proposal" />
-            </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <FileInputController
+                fullWidth
+                name="main"
+                label="Upload the proposal"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FileInputController
+                fullWidth
                 name="supplementary"
                 label="Upload the supplementary"
                 multiple
@@ -148,7 +171,7 @@ export default function HorizontalLinearStepper() {
               </HiddenInput>
             </Grid>
             <Grid item xs={12}>
-              <HiddenInput label="Has training certificate?">
+              <HiddenInput label="Has training certificates?">
                 <FileInputController
                   name="trainCertificate"
                   label="Attach certificates"
@@ -165,14 +188,15 @@ export default function HorizontalLinearStepper() {
                 />
               </HiddenInput>
             </Grid>
-            {!data.isUnderGraduate && (
+            {
+              /* !data.isUnderGraduate && */ //FIXME: uncomment this
               <Grid item xs={12}>
                 <ImageInputController
                   name="paymentSlip"
                   label="Upload the payment slip"
                 />
               </Grid>
-            )}
+            }
             <Grid item xs={12} textAlign="right">
               <Button type="submit" variant="contained">
                 Submit

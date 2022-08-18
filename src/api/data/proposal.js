@@ -1,12 +1,13 @@
+import { toFormData } from "utils/formData";
 import dataApi from "./api";
 
 const proposalApi = dataApi.injectEndpoints({
   endpoints: (build) => ({
     addProposal: build.mutation({
-      query: (body) => ({
+      query: (data) => ({
         url: "/proposal",
         method: "POST",
-        body,
+        body: toFormData(data),
       }),
     }),
     getProposals: build.query({

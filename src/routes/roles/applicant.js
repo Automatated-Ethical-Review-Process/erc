@@ -18,6 +18,7 @@ import ApplicantOngoingSubmissions from "containers/sidebar/applicant/ongoingSub
 import ApplicantPendingSubmissions from "containers/sidebar/applicant/PendingSubmissions";
 import ViewDecision from "containers/sidebar/applicant/common/ViewDecision";
 import DocumentsWithDecision from "containers/sidebar/applicant/common/DocumentsWithDecision";
+import SubmitNewVersion from "containers/sidebar/applicant/ongoingSubmissions/SubmitNewVersion";
 
 const applicantRoute = (
   <Route
@@ -53,6 +54,7 @@ const applicantRoute = (
       <Route index element={<ApplicantOngoingSubmissions />} />
       <Route path=":pid">
         <Route index element={<OngoingSubmission />} />
+        <Route path="new-version" element={<SubmitNewVersion />} />
         <Route path="versions">
           <Route index element={<Versions />} />
           <Route path=":vid">

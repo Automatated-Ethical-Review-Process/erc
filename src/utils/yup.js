@@ -32,9 +32,12 @@ export const yEducationalQualifications = string()
   .required("Education qualifications are required")
   .default("");
 
-export const yFile = mixed((o) => o instanceof File)
-  .nullable()
-  .required("File is required");
+export const yFile = mixed(
+  (o) => o instanceof FileList && o.length === 1
+).nullable();
+export const yFiles = mixed(
+  (o) => o instanceof FileList && o.length > 0
+).nullable();
 
 export const yNicPassport = string();
 

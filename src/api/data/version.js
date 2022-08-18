@@ -1,12 +1,14 @@
+import { VersionStatus } from "config/enums";
+import { toFormData } from "utils/formData";
 import dataApi from "./api";
 
 const versionApi = dataApi.injectEndpoints({
   endpoints: (build) => ({
     addVersion: build.mutation({
-      query: ({ pid, body }) => ({
+      query: ({ pid, data }) => ({
         url: `/proposal/${pid}/version`,
         method: "POST",
-        body,
+        body: toFormData(data),
       }),
     }),
     getVersion: build.query({
@@ -15,16 +17,17 @@ const versionApi = dataApi.injectEndpoints({
     }),
     setVersionSubmitted: build.mutation({
       query: ({ pid, vid }) => ({
-        url: `/proposal/${pid}/version/${vid}/submit`,
+        url: `/proposal/${pid}/version/${vid}/status`,
         method: "PUT",
+        body: { status: VersionStatus.submitted },
         // TODO: invalidateTags
       }),
     }),
     setVersionRejected: build.mutation({
       query: ({ pid, vid, message }) => ({
-        url: `/proposal/${pid}/version/${vid}/reject`,
+        url: `/proposal/${pid}/version/${vid}/status`,
         method: "PUT",
-        body: { message },
+        body: { status: VersionStatus.rejected, message },
         // TODO: invalidateTags
       }),
     }),

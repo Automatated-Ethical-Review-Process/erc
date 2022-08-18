@@ -3,6 +3,7 @@ import {
   PhotoCamera,
   Visibility,
   VisibilityOff,
+  HighlightOff,
 } from "@mui/icons-material";
 import {
   Button,
@@ -21,6 +22,7 @@ import { styled } from "@mui/material/styles";
 import useControl from "hooks/useControl";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
+import { humanize } from "utils/humanize";
 
 export function TextFieldController({ name, defaultValue = "", ...rest }) {
   const control = useControl();
@@ -170,7 +172,14 @@ const Input = styled("input")({
   display: "none",
 });
 
-function InputController({ name, label = "Upload", icon, ...args }) {
+function InputController({
+  name,
+  label = "Upload",
+  icon,
+  fullWidth = false,
+  ...args
+}) {
+  const [files, setFiles] = useState([]);
   return (
     <Controller
       name={name}
@@ -179,35 +188,59 @@ function InputController({ name, label = "Upload", icon, ...args }) {
         field: { value, onChange, ...rest },
         fieldState: { error },
       }) => (
-        <label htmlFor={name}>
-          <Input
-            {...rest}
-            id={name}
-            type="file"
-            files={value}
-            onChange={({ target: t }) =>
-              onChange({
-                target: { ...t, value: t.files },
-              })
-            }
-            {...args}
-          />
-          <Button component="span" variant="outlined" startIcon={icon}>
-            {label}
-          </Button>
-          <br />
-          {value?.length > 0 && (
-            <Typography
-              sx={{ mt: 1 }}
+        <>
+          <label htmlFor={name}>
+            <Input
+              {...rest}
+              id={name}
+              type="file"
+              files={value}
+              onChange={({ target: t }) => {
+                const files = Array.from(t.files);
+                onChange({
+                  target: { ...t, value: files },
+                });
+                setFiles(files);
+              }}
+              {...args}
+            />
+            <Button
+              fullWidth={fullWidth}
               component="span"
-              variant="body2"
-              color="secondary"
+              variant="outlined"
+              startIcon={icon}
             >
-              {Array.from(value)
-                .map((i) => i.name)
-                .join(", ")}
-            </Typography>
-          )}
+              {label}
+            </Button>
+          </label>
+          <br />
+          {files.length > 0 &&
+            files.map((file, key) => (
+              <Typography
+                key={key}
+                sx={{ mt: 1 }}
+                component="span"
+                variant="body2"
+                color="warning.main"
+                display="block"
+              >
+                {`${file.name} (${humanize(file.size)}) `}
+                {
+                  <IconButton
+                    size="small"
+                    onClick={() => {
+                      const newFiles = files.filter((_file) => _file !== file);
+                      onChange({
+                        target: { value: newFiles },
+                      });
+                      setFiles(newFiles);
+                    }}
+                  >
+                    <HighlightOff color="error" />
+                  </IconButton>
+                }
+              </Typography>
+            ))}
           {error && (
             <Typography
               sx={{ mt: 1 }}
@@ -215,10 +248,10 @@ function InputController({ name, label = "Upload", icon, ...args }) {
               variant="body2"
               color="error"
             >
-              {error.message}
+              * {error.message}
             </Typography>
           )}
-        </label>
+        </>
       )}
     />
   );

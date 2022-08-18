@@ -5,7 +5,7 @@ import {
   ImageInputController,
   TextFieldController,
 } from "components/controllers";
-import { yFile, yObject, yString } from "utils/yup";
+import { yObject, yString, yFile } from "utils/yup";
 
 const schemaU = yObject({
   university: yString().required("University is required"),
