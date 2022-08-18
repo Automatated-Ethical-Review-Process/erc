@@ -1,4 +1,4 @@
-import { useState, forwardRef } from "react";
+import { forwardRef, useState } from "react";
 
 import SendIcon from "@mui/icons-material/Send";
 import { Box, Container } from "@mui/material";
@@ -9,23 +9,31 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Typography from "@mui/material/Typography";
-import Form from "components/common/Form";
-import { RadioGroupController } from "components/controllers";
-import { VersionStatus } from "config/enums";
-import { Controller, useForm } from "react-hook-form";
 import {
   useAddSecretaryCommentMutation,
   useGerLatestVersionQuery,
 } from "api/data/version";
-import { useParams, useNavigate } from "react-router-dom";
-import useNotify from "hooks/useNotify";
+import { BasicForm } from "components/common/Form";
 import LoadingCircle from "components/common/LoadingCircle";
+import {
+  RadioGroupController,
+  TextAreaController,
+} from "components/controllers";
+import { VersionStatus } from "config/enums";
+import useNotify from "hooks/useNotify";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
+
+const options = [
+  { label: "Approve", value: VersionStatus.granted },
+  { label: "Major Modification", value: VersionStatus.major },
+  { label: "Minor Modification", value: VersionStatus.minor },
+  { label: "Disapprove", value: VersionStatus.rejected },
+];
 
 export default function NotifyAuthor() {
   const [addSecretaryComment, { isLoading }] = useAddSecretaryCommentMutation();
@@ -56,14 +64,6 @@ export default function NotifyAuthor() {
     handleClose();
   };
 
-  const { control, handleSubmit } = useForm();
-  const options = [
-    { label: "Approve", value: VersionStatus.granted },
-    { label: "Major Modification", value: VersionStatus.major },
-    { label: "Minor Modification", value: VersionStatus.minor },
-    { label: "Disapprove", value: VersionStatus.rejected },
-  ];
-
   const onData = (data) => {
     console.log(data);
     if (!data.message) {
@@ -75,7 +75,7 @@ export default function NotifyAuthor() {
   return (
     <Container>
       <LoadingCircle isLoading={isAllLoading} />
-      <Form onSubmit={handleSubmit(onData)} control={control}>
+      <BasicForm onSubmit={onData}>
         <Typography variant="h5">Decision</Typography>
         <Box ml={3}>
           <RadioGroupController name="status" options={options} />
@@ -83,20 +83,10 @@ export default function NotifyAuthor() {
         <Typography variant="h5" my={2}>
           Overall Comment
         </Typography>
-        {/* textarea for comments */}
         <Box ml={3}>
-          <Controller
+          <TextAreaController
             name="message"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextareaAutosize
-                {...field}
-                minRows={10}
-                placeholder="add overall comment for the proposal"
-                style={{ width: 600 }}
-              />
-            )}
+            placeholder="add overall comment for the proposal"
           />
         </Box>
 
@@ -112,7 +102,7 @@ export default function NotifyAuthor() {
             Send
           </Button>
         </Box>
-      </Form>
+      </BasicForm>
       <Dialog
         open={!!data}
         TransitionComponent={Transition}

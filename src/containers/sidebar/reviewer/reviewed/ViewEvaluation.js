@@ -29,24 +29,22 @@ export default function ViewEvaluation() {
   return (
     <Container>
       <LoadingCircle isLoading={isLoading} />
-      <FormControl>
-        <Typography variant="h5">Decision</Typography>
-        <Box ml={3}>
-          <RadioGroup defaultValue="approve" name="radio-buttons-group" ml="2">
-            <FormControlLabel
-              value="approve"
-              control={<Radio />}
-              label={data.decision}
-              selected
-            />
-          </RadioGroup>
-        </Box>
-        {data.file && (
-          <Button onClick={() => onDownload(blob, data.file)} color="warning">
-            Download the Evaluation Form
-          </Button>
-        )}
-      </FormControl>
+      <Typography variant="h5">Decision</Typography>
+      <Box ml={3}>
+        <RadioGroup defaultValue="approve" ml="2">
+          <FormControlLabel
+            value="approve"
+            control={<Radio />}
+            label={data.decision}
+            selected
+          />
+        </RadioGroup>
+      </Box>
+      {data.file && (
+        <Button onClick={() => onDownload(blob, data.file)} color="warning">
+          Download the Evaluation Form
+        </Button>
+      )}
     </Container>
   );
 }

@@ -9,7 +9,7 @@ const VersionStatus = {
   rejected: "REJECTED",
 };
 
-const DecisionTypes = {
+const DecisionType = {
   approved: "APPROVED",
   disapproved: "DISAPPROVED",
   major: "MAJOR",
@@ -22,4 +22,4 @@ const ProposalType = {
   human: "HUMAN_RESEARCH",
 };
 
-export { VersionStatus, DecisionTypes, ProposalType };
+export { VersionStatus, DecisionType, ProposalType };

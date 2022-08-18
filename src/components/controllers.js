@@ -6,6 +6,7 @@ import {
   HighlightOff,
 } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Checkbox,
   FormControlLabel,
@@ -15,6 +16,7 @@ import {
   Radio,
   RadioGroup,
   Switch,
+  TextareaAutosize,
   TextField,
   Typography,
 } from "@mui/material";
@@ -188,7 +190,7 @@ function InputController({
         field: { value, onChange, ...rest },
         fieldState: { error },
       }) => (
-        <>
+        <Box>
           <label htmlFor={name}>
             <Input
               {...rest}
@@ -251,7 +253,7 @@ function InputController({
               * {error.message}
             </Typography>
           )}
-        </>
+        </Box>
       )}
     />
   );
@@ -277,6 +279,30 @@ export function ImageInputController({ name, label, ...args }) {
       icon={<PhotoCamera />}
       accept="image/*"
       {...args}
+    />
+  );
+}
+
+export function TextAreaController({
+  name,
+  placeholder,
+  defaultValue = "",
+  ...rest
+}) {
+  return (
+    <Controller
+      name={name}
+      control={useControl()}
+      defaultValue={defaultValue}
+      render={({ field }) => (
+        <TextareaAutosize
+          {...field}
+          minRows={10}
+          placeholder={placeholder}
+          style={{ width: "100%" }}
+          {...rest}
+        />
+      )}
     />
   );
 }
