@@ -64,7 +64,7 @@ const schema = yObject({
 });
 
 export default function ApplicantNewSubmission() {
-  const { data = {}, isLoading: isMeLoading } = useGetMeQuery();
+  const { /* data = {}, */ isLoading: isMeLoading } = useGetMeQuery();
 
   const [addProposal, { isLoading: isProposalLoading }] =
     useAddProposalMutation();

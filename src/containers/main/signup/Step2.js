@@ -1,10 +1,7 @@
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { BasicForm } from "components/common/Form";
-import {
-  ImageInputController,
-  TextFieldController,
-} from "components/controllers";
+import { TextFieldController } from "components/controllers";
 import { yObject, yString } from "utils/yup";
 
 const schemaU = yObject({
