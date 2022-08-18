@@ -30,6 +30,10 @@ const proposalApi = dataApi.injectEndpoints({
       query: () => "/proposal/unassign",
       // TODO: provideTags
     }),
+    getSecretaryAssignedProposals: build.query({
+      query: () => "/proposal/review-state",
+      // TODO: provideTags
+    }),
     getSecretaryReviewingProposals: build.query({
       query: () => "/proposal/reviewing",
       // TODO: provideTags
@@ -80,6 +84,7 @@ export const {
   useGetVersionsQuery, //
   useGetClerkNewProposalsQuery, //
   useGetSecretaryUnassignedProposalsQuery, //
+  useGetSecretaryAssignedProposalsQuery, //
   useGetSecretaryReviewingProposalsQuery, //
   useGetSecretaryReviewedProposalsQuery, //
   useGetSecretaryArchivedProposalsQuery, //

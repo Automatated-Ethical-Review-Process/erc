@@ -16,6 +16,8 @@ import NotifyAuthor from "containers/sidebar/secretary/reviewed/NotifyAuthor";
 import ReviewedProposal from "containers/sidebar/secretary/reviewed/Proposal";
 import ChooseReviewType from "containers/sidebar/secretary/unassigned/ChooseReviewType";
 import UnassignedProposal from "containers/sidebar/secretary/unassigned/Proposal";
+import AssignedProposal from "containers/sidebar/secretary/assigned/Proposal";
+import EditReviewers from "containers/sidebar/secretary/assigned/EditReviewers";
 import SecretaryLayout from "layouts/sidebar/SecretaryLayout";
 
 import UserData from "containers/sidebar/secretary/reviewer-requests/UserDetails";
@@ -26,6 +28,7 @@ import SecretaryArchivedProposals from "containers/sidebar/secretary/ArchivedPro
 import SecretaryInReviewProposals from "containers/sidebar/secretary/inReview/Proposals";
 import SecretaryReviewedProposals from "containers/sidebar/secretary/reviewed/Proposals";
 import SecretaryUnassignedProposals from "containers/sidebar/secretary/unassigned/Proposals";
+import SecretaryAssignedProposals from "containers/sidebar/secretary/assigned/Proposals";
 import documentRoute from "routes/common/document";
 import { ProtectedDashboardRoute } from "routes/common/Protected";
 
@@ -45,6 +48,21 @@ const secretaryRoute = (
       <Route path=":pid">
         <Route index element={<UnassignedProposal />} />
         <Route path="review" element={<ChooseReviewType />} />
+        <Route path="versions">
+          <Route index element={<Versions />} />
+          <Route path=":vid">
+            <Route index element={<Documents />} />
+            {documentRoute}
+          </Route>
+        </Route>
+      </Route>
+    </Route>
+
+    <Route path="assigned">
+      <Route index element={<SecretaryAssignedProposals />} />
+      <Route path=":pid">
+        <Route index element={<AssignedProposal />} />
+        <Route path="edit" element={<EditReviewers />} />
         <Route path="versions">
           <Route index element={<Versions />} />
           <Route path=":vid">
