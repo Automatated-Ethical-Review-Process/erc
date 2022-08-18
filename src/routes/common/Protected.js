@@ -28,10 +28,15 @@ export const ProtectedRoute = ({
   init = true,
   children,
 }) => {
+  const { pathname } = useLocation();
   const { user, isAuthenticated, isLoading } = useAuth(init);
 
   if (isLoading) {
     return <Loading value={isLoading} />;
+  }
+
+  if (isAuthenticated && user.state === false && pathname !== routes.profile) {
+    return <Redirect to={routes.profile} />;
   }
 
   return isAuthenticated &&

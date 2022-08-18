@@ -1,56 +1,53 @@
-import Typography from "@mui/material/Typography";
+import EditIcon from "@mui/icons-material/Edit";
+import { Container, Fab } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import { Container, Fab } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import Avatar from "@mui/material/Avatar";
-import EditIcon from "@mui/icons-material/Edit";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 
 import { useNavigate } from "react-router-dom";
 
 import NavigationBar from "components/NavigationBar";
 
+import { useGetMeQuery, useSetIdPhotoMutation } from "api/data/user";
 import Image from "assets/profile-pic.jpg";
-import useAuth from "hooks/useAuth";
-import { useGetMeQuery } from "api/data/user";
 import LoadingCircle from "components/common/LoadingCircle";
-import { useGetStatusQuery } from "api/auth/api";
+import useAuth from "hooks/useAuth";
 
-import Chip from "@mui/material/Chip";
 import DoneIcon from "@mui/icons-material/Done";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+import Chip from "@mui/material/Chip";
+import useNotify from "hooks/useNotify";
+import useUser from "hooks/useUser";
 
-function UploadButtons() {
-  return (
-    <Stack direction="row" alignItems="center" spacing={2} mt={1}>
-      <Button variant="outlined">
-        Upload the photo
-        <input hidden accept="image/*" multiple type="file" />
-      </Button>
-    </Stack>
-  );
-}
-
-function VerifyStatus({ verificationImage }) {
+function VerifyStatus({ isUnderGraduate, verificationImage }) {
   // verificationImage = 1;
-  const { data: status = {}, isLoading } = useGetStatusQuery();
+  const user = useUser();
+  const { notify } = useNotify();
 
-  if (isLoading) {
-    return null;
-  }
+  const [setIdPhoto, { isLoading }] = useSetIdPhotoMutation();
 
-  if (status.isVerified) {
+  if (user.state) {
     return (
       <Chip label="Verified Account" icon={<DoneIcon />} color="success" />
     );
   }
 
-  if (verificationImage == null) {
+  if (!verificationImage) {
+    const onChange = (file) =>
+      setIdPhoto({ file })
+        .unwrap()
+        .then(() => notify("ID photo updated", "success"))
+        .catch(({ data }) =>
+          notify(data?.message || "Error updating photo", "error")
+        );
+
     return (
       <>
+        <LoadingCircle isLoading={isLoading} />
         <Chip
           label="Account Not Verified"
           icon={<PriorityHighIcon />}
@@ -58,22 +55,38 @@ function VerifyStatus({ verificationImage }) {
           variant="outlined"
         />
         <Chip
-          label="Please upload the ID Picture or Passport Picture"
+          label={
+            user.userMessage ||
+            `Please upload the ${
+              isUnderGraduate ? "University ID" : "ID or Passport"
+            } photo`
+          }
           icon={<PriorityHighIcon />}
           color="warning"
           variant="outlined"
-          sx={{ mt: 1 }}
+          sx={{ my: 1 }}
         />
-        <UploadButtons />
+        <label htmlFor="id-photo-input">
+          <Button component="span" variant="outlined">
+            Upload ID photo
+          </Button>
+          <input
+            id="id-photo-input"
+            onChange={(e) => onChange(e.target.files)}
+            hidden
+            accept="image/*"
+            type="file"
+          />
+        </label>
       </>
     );
   }
 
   return (
     <Chip
-      label="Account is not Verified.Still progressing"
+      label="Account is not Verified. Still in the process"
       icon={<PriorityHighIcon />}
-      color="error"
+      color="warning"
       variant="outlined"
     />
   );
@@ -114,7 +127,6 @@ export function Content() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { data = {}, isLoading } = useGetMeQuery();
-  console.log(data);
 
   return (
     <Container maxWidth={"md"} sx={{ pb: 10 }}>
@@ -135,7 +147,10 @@ export function Content() {
         marginTop={2}
         marginBottom={2}
       >
-        <VerifyStatus verificationImage={data.verificationImage} />
+        <VerifyStatus
+          isUnderGraduate={data.isUnderGraduate}
+          verificationImage={data.verificationImage}
+        />
       </Grid>
       <Box sx={{ width: "100%" }}>
         <Grid container rowSpacing={2}>

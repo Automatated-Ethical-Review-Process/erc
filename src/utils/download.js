@@ -8,5 +8,7 @@ export function onDownload(blob, filename = "download.pdf") {
     anchor.download = filename;
     anchor.click();
     URL.revokeObjectURL(url);
+  } else {
+    alert("No file to download");
   }
 }

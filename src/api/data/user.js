@@ -1,3 +1,4 @@
+import { toFormData } from "utils/formData";
 import dataApi from "./api";
 
 const userApi = dataApi.injectEndpoints({
@@ -45,6 +46,22 @@ const userApi = dataApi.injectEndpoints({
         body,
       }),
     }),
+    setIdPhoto: build.mutation({
+      query: (data) => ({
+        url: "/user/upload/id",
+        method: "PUT",
+        body: toFormData(data),
+      }),
+      invalidatesTags: (_, e) => (e ? [] : ["me"]),
+    }),
+    updateProfilePhoto: build.mutation({
+      query: (data) => ({
+        url: "/user/upload/profile",
+        method: "PUT",
+        body: toFormData(data),
+      }),
+      invalidatesTags: (_, e) => (e ? [] : ["me"]),
+    }),
   }),
 });
 
@@ -62,7 +79,9 @@ export const {
   useGetUsersByIdsMutation, //
   useGetApplicantsQuery,
   useGetReviewersQuery,
-  useUserExistsMutation,
+  useUserExistsMutation, //
+  useSetIdPhotoMutation, //
+  useUpdateProfilePhotoMutation,
 } = userApi;
 
 export default userApi;

@@ -5,14 +5,13 @@ import {
   ImageInputController,
   TextFieldController,
 } from "components/controllers";
-import { yObject, yString, yFile } from "utils/yup";
+import { yObject, yString } from "utils/yup";
 
 const schemaU = yObject({
   university: yString().required("University is required"),
   faculty: yString().required("Faculty is required"),
   year: yString(),
   registrationNumber: yString().required("Registration number is required"),
-  idImg: yFile.required("Id photo is required"), // TODO: add validation
 });
 
 function Undergraduate({ onSubmit, data, children }) {
@@ -53,11 +52,6 @@ function Undergraduate({ onSubmit, data, children }) {
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            University Id <ImageInputController name="idImg" />
-          </Typography>
-        </Grid>
       </Grid>
       {children}
     </BasicForm>
@@ -67,7 +61,6 @@ function Undergraduate({ onSubmit, data, children }) {
 const schemaNU = yObject({
   occupation: yString().required("Occupation is required"),
   position: yString().required("Position is required"),
-  idImg: yFile.required("Id photo is required"), // TODO: add validation for this field
 });
 
 function NonUndergraduate({ onSubmit, data, children }) {
@@ -92,11 +85,6 @@ function NonUndergraduate({ onSubmit, data, children }) {
             required
             variant="standard"
           />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            National Id <ImageInputController name="idImg" />
-          </Typography>
         </Grid>
       </Grid>
       {children}

@@ -21,7 +21,6 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Slide from "@mui/material/Slide";
-import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
@@ -59,9 +58,6 @@ import {
   yRef,
 } from "utils/yup";
 
-const Input = styled("input")({
-  display: "none",
-});
 function ImageAvatar() {
   return (
     <>
@@ -71,10 +67,8 @@ function ImageAvatar() {
         sx={{ width: 200, height: 200 }}
       />
       <label htmlFor="icon-button-file">
-        <Input accept="image/*" id="icon-button-file" type="file" />
+        <input hidden accept="image/*" id="icon-button-file" type="file" />
         <IconButton
-          // color="primary"
-          aria-label="upload picture"
           component="span"
           sx={{ mt: -6, ml: 18, color: "proIconColor.main" }}
         >
