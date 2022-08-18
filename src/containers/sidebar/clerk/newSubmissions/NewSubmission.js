@@ -8,15 +8,18 @@ import Grid from "@mui/material/Grid";
 import Slide from "@mui/material/Slide";
 import { forwardRef, useState } from "react";
 
-import DeclineComments from "components/common/DeclineComment";
-import BaseProposal from "components/proposals/Proposal";
 import {
+  useGetLatestVersionQuery,
   useSetVersionRejectedMutation,
   useSetVersionSubmittedMutation,
 } from "api/data/version";
-import { useNavigate, useParams } from "react-router-dom";
+import DeclineComments from "components/common/DeclineComment";
+import BaseProposal from "components/proposals/Proposal";
 import useNotify from "hooks/useNotify";
-import { useGetVersionsQuery } from "api/data/proposal";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetProposalQuery } from "api/data/proposal";
+import { useGetFileQuery } from "api/data/file";
+import { onDownload } from "utils/download";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -36,10 +39,26 @@ export default function NewSubmission() {
     useSetVersionSubmittedMutation();
   const [reject, { isLoading: isRejectLoading }] =
     useSetVersionRejectedMutation();
-  const { data = [], isLoading: isVersionsLoading } = useGetVersionsQuery(pid);
 
-  const isLoading = isAcceptLoading || isRejectLoading || isVersionsLoading;
-  const vid = data.at(-1)?.id;
+  const { data: proposal = {}, isLoading: isProposalLoading } =
+    useGetProposalQuery(pid);
+  const { data: latestVersion = {}, isLoading: isVersionsLoading } =
+    useGetLatestVersionQuery(pid);
+
+  const paymentSlip = proposal.paymentSlip;
+  const vid = latestVersion.id;
+
+  const { data: blob, isLoading: isFileLoading } = useGetFileQuery(
+    paymentSlip,
+    { skip: !paymentSlip }
+  );
+
+  const isLoading =
+    isAcceptLoading ||
+    isRejectLoading ||
+    isProposalLoading ||
+    isVersionsLoading ||
+    isFileLoading;
 
   const handleAccept = () => {
     accept({ pid, vid })
@@ -70,14 +89,18 @@ export default function NewSubmission() {
     }
   };
 
+  const rightButton = paymentSlip
+    ? {
+        text: "Download payment slip",
+        onClick: () => onDownload(blob, paymentSlip),
+      }
+    : null;
+
   return (
     <BaseProposal
       loading={isLoading}
       extraFields={{ pi: "PI", cis: "Co-Investigators" }}
-      rightButton={{
-        text: "Download payment slip",
-        onClick: () => {}, // TODO: download payment slip
-      }}
+      rightButton={rightButton}
     >
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>

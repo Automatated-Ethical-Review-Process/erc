@@ -43,7 +43,7 @@ const versionApi = dataApi.injectEndpoints({
         //TODO:InvalidateTags
       }),
     }),
-    gerLatestVersion: build.query({
+    getLatestVersion: build.query({
       query: (pid) => ({
         url: `/proposal/${pid}/version/latest`,
       }),
@@ -58,7 +58,7 @@ export const {
   useSetVersionRejectedMutation, //
   useGetAllReviewsQuery,
   useAddSecretaryCommentMutation, //
-  useGerLatestVersionQuery, //
+  useGetLatestVersionQuery, //
 } = versionApi;
 
 export default versionApi;

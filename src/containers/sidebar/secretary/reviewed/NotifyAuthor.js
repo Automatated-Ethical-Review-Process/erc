@@ -12,7 +12,7 @@ import Slide from "@mui/material/Slide";
 import Typography from "@mui/material/Typography";
 import {
   useAddSecretaryCommentMutation,
-  useGerLatestVersionQuery,
+  useGetLatestVersionQuery,
 } from "api/data/version";
 import { BasicForm } from "components/common/Form";
 import LoadingCircle from "components/common/LoadingCircle";
@@ -48,7 +48,7 @@ export default function NotifyAuthor() {
   const navigate = useNavigate();
 
   const { data: latestVersionData = {}, isLoading: isLoadingLatest } =
-    useGerLatestVersionQuery(pid);
+    useGetLatestVersionQuery(pid);
 
   const isAllLoading = isLoadingLatest || isLoading;
 
