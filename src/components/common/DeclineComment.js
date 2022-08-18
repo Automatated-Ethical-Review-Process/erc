@@ -27,6 +27,7 @@ export default function FormDialog({ label, onClick, disabled }) {
         color="error"
         onClick={handleOpen}
         disabled={disabled}
+        fullWidth
       >
         {label}
       </Button>

@@ -74,18 +74,23 @@ export default function NewSubmission() {
     <BaseProposal
       loading={isLoading}
       extraFields={{ pi: "PI", cis: "Co-Investigators" }}
+      rightButton={{
+        text: "Download payment slip",
+        onClick: () => {}, // TODO: download payment slip
+      }}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Button variant="outlined">Download payment slip</Button>
-        </Grid>
-        <Grid item xs={12} md={4} />
-        <Grid item xs={12} md={4} textAlign="right">
-          <Button variant="contained" color="success" onClick={handleOpen}>
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={6}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="success"
+            onClick={handleOpen}
+          >
             Complete Submission
           </Button>
         </Grid>
-        <Grid item xs={12} md={4} textAlign="right">
+        <Grid item xs={12} md={6}>
           <DeclineComments
             label="Incomplete submission"
             onClick={handleDecline}

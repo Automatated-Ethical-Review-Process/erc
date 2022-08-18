@@ -83,13 +83,17 @@ export default function Proposal() {
   return (
     <BaseProposal loading={isLoading}>
       <Grid container spacing={4}>
-        <Grid item xs={12} md={6} />
-        <Grid item xs={12} md={3}>
-          <Button variant="contained" color="success" onClick={handleOpen}>
+        <Grid item xs={12} md={6}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="success"
+            onClick={handleOpen}
+          >
             Accept Proposal
           </Button>
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={6}>
           <DeclineComments label="Decline Proposal" onClick={handleDecline} />
         </Grid>
       </Grid>

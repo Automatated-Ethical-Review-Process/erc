@@ -1,4 +1,4 @@
-import { Button, Container, Grid } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import { useAddVersionMutation } from "api/data/version";
 import { BasicForm } from "components/common/Form";
 import LoadingCircle from "components/common/LoadingCircle";
@@ -34,7 +34,10 @@ function SubmitNewVersion() {
     <Container maxWidth="md" sx={{ my: 3 }}>
       <LoadingCircle isLoading={isLoading} />
       <BasicForm schema={schema} onSubmit={onSubmit}>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Typography>Submit a new version</Typography>
+          </Grid>
           <Grid item xs={12} md={6}>
             <FileInputController
               fullWidth

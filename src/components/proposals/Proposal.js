@@ -11,6 +11,7 @@ import LoadingCircle from "components/common/LoadingCircle";
 export default function Proposal({
   loading,
   extraFields = { deadline: "Deadline" },
+  rightButton = null,
   children,
 }) {
   const navigate = useNavigate();
@@ -55,10 +56,21 @@ export default function Proposal({
           </Grid>
         ))}
 
-        <Grid item xs={12}>
-          <Button variant="contained" onClick={() => navigate("versions")}>
+        <Grid item xs={12} md={6}>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => navigate("versions")}
+          >
             View Documents
           </Button>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          {rightButton && (
+            <Button fullWidth variant="outlined" onClick={rightButton.onClick}>
+              {rightButton.text}
+            </Button>
+          )}
         </Grid>
         <Grid item xs={12} />
       </Grid>
