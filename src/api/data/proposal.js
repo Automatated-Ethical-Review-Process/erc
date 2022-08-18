@@ -10,6 +10,12 @@ const proposalApi = dataApi.injectEndpoints({
         body: toFormData(data),
       }),
     }),
+    setProposalReviewType: build.mutation({
+      query: ({ pid, type }) => ({
+        url: `/proposal/${pid}/review-type/${type}`,
+        method: "PUT",
+      }),
+    }),
     getProposals: build.query({
       query: () => "/proposal/all",
       // TODO: provideTags
@@ -79,6 +85,7 @@ const proposalApi = dataApi.injectEndpoints({
 
 export const {
   useAddProposalMutation,
+  useSetProposalReviewTypeMutation,
   useGetProposalsQuery,
   useGetProposalQuery, //
   useGetVersionsQuery, //

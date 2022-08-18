@@ -1,6 +1,9 @@
 import * as React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
+import CloseIcon from "@mui/icons-material/Close";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import SendIcon from "@mui/icons-material/Send";
 import {
   Container,
   Dialog,
@@ -16,15 +19,12 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import { useNavigate } from "react-router-dom";
-import SendIcon from "@mui/icons-material/Send";
-import Slide from "@mui/material/Slide";
-import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import Slide from "@mui/material/Slide";
 import { styled } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 import LoadingCircle from "components/common/LoadingCircle";
 import NavigationBar from "components/NavigationBar";
@@ -32,11 +32,12 @@ import useNotify from "hooks/useNotify";
 
 import {
   useCheckPasswordMutation,
+  useGetStatusQuery,
+  useToggleEnabledMutation,
   useUpdateEmailVerifyMutation,
   useUpdatePasswordMutation,
-  useToggleEnabledMutation,
-  useGetStatusQuery,
 } from "api/auth/api";
+import { useAddAppealMutation, useGetMyAppealsQuery } from "api/data/appeal";
 import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
 import Image from "assets/profile-pic.jpg";
 import Form from "components/common/Form";
@@ -183,30 +184,45 @@ function RequestForReviewer() {
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const { notify } = useNotify();
+
+  const { data, isLoading: isAppealLoading } = useGetMyAppealsQuery();
+
+  const [addAppeal, { isLoading: isAddingAppeal }] = useAddAppealMutation();
+
+  const isLoading = isAppealLoading || isAddingAppeal;
+
+  const onClick = (message) =>
+    addAppeal({ message })
+      .unwrap()
+      .then(() => notify("Appeal submitted successfully", "success"))
+      .catch(({ data }) =>
+        notify(data?.message || "Couldn't submit the appeal", "error")
+      );
+
   const handleSubmit = () => {
-    // onClick(ref.current.value);
+    onClick(ref.current.value);
     handleClose();
   };
 
   const ref = useRef();
   return (
-    <>
-      <Stack direction="row" spacing={2}>
-        <Button
-          variant="contained"
-          endIcon={<SendIcon />}
-          onClick={handleClickOpen}
-        >
-          Send Request to switch Reviewer
-        </Button>
-      </Stack>
+    <Box>
+      <LoadingCircle isLoading={isLoading} />
+      <Button
+        variant="contained"
+        endIcon={<SendIcon />}
+        onClick={handleClickOpen}
+        disabled={data === undefined || data.length > 0}
+      >
+        Send Request to be a Reviewer
+      </Button>
 
       <Dialog
         open={open}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>
           Do you want to switch this account to Reviewer?
@@ -229,7 +245,7 @@ function RequestForReviewer() {
           <Button onClick={handleSubmit}>Send</Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 }
 
@@ -258,25 +274,22 @@ function DisableAccount() {
   };
 
   return (
-    <>
+    <Box>
       <LoadingCircle isLoading={isLoading} />
-      <Stack direction="row" spacing={2}>
-        <Button
-          disabled={!data?.isEnable}
-          variant="outlined"
-          color="error"
-          onClick={handleClickOpen}
-        >
-          Disable Account
-        </Button>
-      </Stack>
+      <Button
+        disabled={!data?.isEnable}
+        variant="outlined"
+        color="error"
+        onClick={handleClickOpen}
+      >
+        Disable Account
+      </Button>
 
       <Dialog
         open={open}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>{"Do you want to disable this account?"}</DialogTitle>
         <DialogActions>
@@ -284,7 +297,7 @@ function DisableAccount() {
           <Button onClick={handleSubmit}>Okay</Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 }
 

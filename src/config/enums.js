@@ -22,4 +22,10 @@ const ProposalType = {
   human: "HUMAN_RESEARCH",
 };
 
-export { VersionStatus, DecisionType, ProposalType };
+const EReviewType = {
+  exemption: "EXEMPTION",
+  expedited: "EXPEDITED",
+  fullBoard: "FULLBOARD",
+};
+
+export { VersionStatus, DecisionType, ProposalType, EReviewType };
