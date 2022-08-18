@@ -1,9 +1,8 @@
-import { useGetFileQuery } from "api/data/file";
 import { useGetVersionQuery } from "api/data/version";
 import LoadingCircle from "components/common/LoadingCircle";
+import useDownload from "hooks/useDownload";
 import { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { onDownload } from "utils/download";
 
 export default function Download() {
   const { pid, vid, did } = useParams();
@@ -17,9 +16,9 @@ export default function Download() {
 
   const document = data.documents?.find((d) => d.id === parseInt(did));
 
-  const { data: blob, isLoading: isFileLoading } = useGetFileQuery(
+  const { download, isLoading: isFileLoading } = useDownload(
     document?.file,
-    { skip: !document?.file }
+    document?.name
   );
 
   const ref = useRef();
@@ -30,9 +29,9 @@ export default function Download() {
     }
     ref.current = true;
 
-    onDownload(blob, document.name);
+    download();
     navigate(-1, { replace: true });
-  }, [blob, document.name, navigate]);
+  }, [download, navigate]);
 
   if (error) {
     return "invalid proposal id: " + pid + " or version id: " + vid;

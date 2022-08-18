@@ -81,7 +81,7 @@ export const {
   useGetReviewersQuery,
   useUserExistsMutation, //
   useSetIdPhotoMutation, //
-  useUpdateProfilePhotoMutation,
+  useUpdateProfilePhotoMutation, //
 } = userApi;
 
 export default userApi;

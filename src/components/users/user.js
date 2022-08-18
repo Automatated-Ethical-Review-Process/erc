@@ -7,8 +7,7 @@ import Grid from "@mui/material/Grid";
 import { useGetUserQuery } from "api/data/user";
 import LoadingCircle from "components/common/LoadingCircle";
 import TextField from "components/common/TextField";
-import { useGetFileQuery } from "api/data/file";
-import { onDownload } from "utils/download";
+import useDownload from "hooks/useDownload";
 
 export default function User({ children }) {
   const { uid: userId } = useParams();
@@ -21,10 +20,7 @@ export default function User({ children }) {
 
   const verificationImage = user.verificationImage;
 
-  const { data: blob, isLoading: isFileLoading } = useGetFileQuery(
-    verificationImage,
-    { skip: !verificationImage }
-  );
+  const { download, isLoading: isFileLoading } = useDownload(verificationImage);
 
   if (error) {
     return "Invalid user id " + userId;
@@ -82,11 +78,7 @@ export default function User({ children }) {
         </Grid>
         <Grid item xs={12} sm={6} textAlign="right">
           {verificationImage && (
-            <Button
-              onClick={() => onDownload(blob, verificationImage)}
-              variant="contained"
-              color="warning"
-            >
+            <Button onClick={download} variant="contained" color="warning">
               Download ID Photo
             </Button>
           )}

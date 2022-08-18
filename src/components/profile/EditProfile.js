@@ -37,7 +37,11 @@ import {
   useUpdatePasswordMutation,
 } from "api/auth/api";
 import { useAddAppealMutation, useGetMyAppealsQuery } from "api/data/appeal";
-import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
+import {
+  useGetMeQuery,
+  useUpdateMeMutation,
+  useUpdateProfilePhotoMutation,
+} from "api/data/user";
 import Image from "assets/profile-pic.jpg";
 import Form from "components/common/Form";
 import {
@@ -45,6 +49,7 @@ import {
   TextPasswordFieldController,
 } from "components/controllers";
 import useAuth from "hooks/useAuth";
+import useFile from "hooks/useFile";
 import useForm from "hooks/useForm";
 import {
   yAddress,
@@ -59,15 +64,33 @@ import {
 } from "utils/yup";
 
 function ImageAvatar() {
+  const { data: { profileImage } = {} } = useGetMeQuery();
+
+  const { link } = useFile(profileImage, Image);
+
+  const { notify } = useNotify();
+  const [updatePhoto, { isLoading }] = useUpdateProfilePhotoMutation();
+
+  const onChange = (file) =>
+    updatePhoto({ file })
+      .unwrap()
+      .then(() => notify("Profile photo updated", "success"))
+      .catch(({ data }) =>
+        notify(data?.message || "Couldn't update photo", "error")
+      );
+
   return (
     <>
-      <Avatar
-        alt="Profile Image"
-        src={Image}
-        sx={{ width: 200, height: 200 }}
-      />
+      <LoadingCircle isLoading={isLoading} />
+      <Avatar alt="Profile Image" src={link} sx={{ width: 200, height: 200 }} />
       <label htmlFor="icon-button-file">
-        <input hidden accept="image/*" id="icon-button-file" type="file" />
+        <input
+          hidden
+          onChange={(e) => onChange(e.target.files)}
+          accept="image/*"
+          id="icon-button-file"
+          type="file"
+        />
         <IconButton
           component="span"
           sx={{ mt: -6, ml: 18, color: "proIconColor.main" }}

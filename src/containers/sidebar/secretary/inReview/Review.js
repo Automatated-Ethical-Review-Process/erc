@@ -1,12 +1,11 @@
 import { Button, Container } from "@mui/material";
 import { useGetEvaluationFormQuery } from "api/data/evaluationForm";
-import { useGetFileQuery } from "api/data/file";
 import { useGetUserQuery } from "api/data/user";
 import LoadingCircle from "components/common/LoadingCircle";
 
 import TextField from "components/common/TextField";
+import useDownload from "hooks/useDownload";
 import { useParams } from "react-router-dom";
-import { onDownload } from "utils/download";
 
 export default function Review() {
   const { pid, vid, rid } = useParams();
@@ -20,9 +19,7 @@ export default function Review() {
 
   const { data: reviewer, isLoading: isReviewerLoading } = useGetUserQuery(rid);
 
-  const { data: blob, isLoading: isFileLoading } = useGetFileQuery(data.file, {
-    skip: !data.file,
-  });
+  const { download, isLoading: isFileLoading } = useDownload(data.file);
 
   const isLoading = isReviewerLoading || isEvaluationLoading || isFileLoading;
 
@@ -45,7 +42,7 @@ export default function Review() {
       <br />
       <br />
       {data.file && (
-        <Button onClick={() => onDownload(blob, data.file)} color="warning">
+        <Button onClick={download} color="warning">
           Download the Evaluation Form
         </Button>
       )}

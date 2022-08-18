@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import Slide from "@mui/material/Slide";
 import { forwardRef, useState } from "react";
 
+import { useGetProposalQuery } from "api/data/proposal";
 import {
   useGetLatestVersionQuery,
   useSetVersionRejectedMutation,
@@ -15,11 +16,9 @@ import {
 } from "api/data/version";
 import DeclineComments from "components/common/DeclineComment";
 import BaseProposal from "components/proposals/Proposal";
+import useDownload from "hooks/useDownload";
 import useNotify from "hooks/useNotify";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetProposalQuery } from "api/data/proposal";
-import { useGetFileQuery } from "api/data/file";
-import { onDownload } from "utils/download";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -48,10 +47,7 @@ export default function NewSubmission() {
   const paymentSlip = proposal.paymentSlip;
   const vid = latestVersion.id;
 
-  const { data: blob, isLoading: isFileLoading } = useGetFileQuery(
-    paymentSlip,
-    { skip: !paymentSlip }
-  );
+  const { download, isLoading: isFileLoading } = useDownload(paymentSlip);
 
   const isLoading =
     isAcceptLoading ||
@@ -90,10 +86,7 @@ export default function NewSubmission() {
   };
 
   const rightButton = paymentSlip
-    ? {
-        text: "Download payment slip",
-        onClick: () => onDownload(blob, paymentSlip),
-      }
+    ? { text: "Download payment slip", onClick: download }
     : null;
 
   return (

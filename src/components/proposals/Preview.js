@@ -4,11 +4,9 @@ import PdfViewer from "components/PdfViewer";
 
 import { useGetVersionQuery } from "api/data/version";
 import LoadingCircle from "components/common/LoadingCircle";
-import { useGetFileQuery } from "api/data/file";
-import { useEffect, useState } from "react";
+import useFile from "hooks/useFile";
 
 export default function Preview() {
-  const [link, setLink] = useState("");
   const { pid, vid, did } = useParams();
 
   const {
@@ -19,21 +17,7 @@ export default function Preview() {
 
   const document = data.documents?.find((d) => d.id === parseInt(did));
 
-  const { data: blob, isLoading: isFileLoading } = useGetFileQuery(
-    document?.file,
-    { skip: !document?.file }
-  );
-
-  useEffect(() => {
-    if (blob && !link) {
-      setLink(URL.createObjectURL(blob));
-    }
-    return () => {
-      if (link) {
-        URL.revokeObjectURL(link);
-      }
-    };
-  }, [blob, link]);
+  const { link, isLoading: isFileLoading } = useFile(document?.file);
 
   if (error) {
     return "invalid proposal id: " + pid + " or version id: " + vid;

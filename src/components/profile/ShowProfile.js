@@ -20,6 +20,7 @@ import useAuth from "hooks/useAuth";
 import DoneIcon from "@mui/icons-material/Done";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import Chip from "@mui/material/Chip";
+import useFile from "hooks/useFile";
 import useNotify from "hooks/useNotify";
 import useUser from "hooks/useUser";
 
@@ -92,9 +93,11 @@ function VerifyStatus({ isUnderGraduate, verificationImage }) {
   );
 }
 
-function ImageAvatar() {
+function ImageAvatar({ src }) {
+  const { link } = useFile(src, Image);
+
   return (
-    <Avatar alt="Profile Image" src={Image} sx={{ width: 200, height: 200 }} />
+    <Avatar alt="Profile Image" src={link} sx={{ width: 200, height: 200 }} />
   );
 }
 
@@ -138,7 +141,7 @@ export function Content() {
         marginTop={2}
         marginBottom={2}
       >
-        <ImageAvatar />
+        <ImageAvatar src={data.profileImage} />
       </Grid>
       <Grid
         container
