@@ -39,18 +39,19 @@ export default function NotifyAuthor() {
   const [addSecretaryComment, { isLoading }] = useAddSecretaryCommentMutation();
 
   const [data, setData] = useState(null);
-  const handleClose = () => {
-    setData(null);
-  };
+
+  const handleClose = () => setData(null);
+
   const { pid } = useParams();
-  console.log(pid);
+
   const { notify } = useNotify();
   const navigate = useNavigate();
+
   const { data: latestVersionData = {}, isLoading: isLoadingLatest } =
     useGerLatestVersionQuery(pid);
 
-  console.log(latestVersionData);
   const isAllLoading = isLoadingLatest || isLoading;
+
   const handleSend = () => {
     addSecretaryComment({ pid, vid: latestVersionData.id, body: data })
       .unwrap()
@@ -65,13 +66,13 @@ export default function NotifyAuthor() {
   };
 
   const onData = (data) => {
-    console.log(data);
     if (!data.message) {
       alert("Please Input a comment in comment box.");
     } else {
       setData(data);
     }
   };
+
   return (
     <Container>
       <LoadingCircle isLoading={isAllLoading} />
