@@ -59,7 +59,7 @@ export default function Proposal({
         <Grid item xs={12} md={6}>
           <Button
             fullWidth
-            variant="contained"
+            variant="outlined"
             onClick={() => navigate("versions")}
           >
             View Documents
@@ -67,7 +67,7 @@ export default function Proposal({
         </Grid>
         <Grid item xs={12} md={6}>
           {rightButton && (
-            <Button fullWidth variant="outlined" onClick={rightButton.onClick}>
+            <Button fullWidth variant="contained" onClick={rightButton.onClick}>
               {rightButton.text}
             </Button>
           )}
@@ -77,7 +77,7 @@ export default function Proposal({
           <Grid item xs={12} md={6}>
             <Button
               fullWidth
-              variant="contained"
+              variant="outlined"
               color="warning"
               onClick={() => navigate(`doc-${proposal.cv}`)}
             >
@@ -89,7 +89,7 @@ export default function Proposal({
           <Grid item xs={12} md={6}>
             <Button
               fullWidth
-              variant="contained"
+              variant="outlined"
               color="warning"
               onClick={() => navigate(`doc-${proposal.coverLetter}`)}
             >
@@ -97,7 +97,7 @@ export default function Proposal({
             </Button>
           </Grid>
         )}
-        {proposal.ercApprovedCertificates && (
+        {proposal.ercApprovedCertificates?.length > 0 && (
           <Grid item xs={12} md={6}>
             <Button
               fullWidth
@@ -109,7 +109,7 @@ export default function Proposal({
             </Button>
           </Grid>
         )}
-        {proposal.trainCertificates && (
+        {proposal.trainCertificates?.length > 0 && (
           <Grid item xs={12} md={6}>
             <Button
               fullWidth
