@@ -31,8 +31,6 @@ import useNotify from "hooks/useNotify";
 
 import {
   useCheckPasswordMutation,
-  useGetStatusQuery,
-  useToggleEnabledMutation,
   useUpdateEmailVerifyMutation,
   useUpdatePasswordMutation,
 } from "api/auth/api";
@@ -48,9 +46,11 @@ import {
   PasswordFieldController,
   TextPasswordFieldController,
 } from "components/controllers";
+import Roles from "config/roles";
 import useAuth from "hooks/useAuth";
 import useFile from "hooks/useFile";
 import useForm from "hooks/useForm";
+import useUser from "hooks/useUser";
 import {
   yAddress,
   yEducationalQualifications,
@@ -266,58 +266,6 @@ function RequestForReviewer() {
   );
 }
 
-function DisableAccount() {
-  const [open, setOpen] = useState(false);
-
-  const { data } = useGetStatusQuery();
-  const [disableAccount, { isLoading }] = useToggleEnabledMutation();
-
-  const { notify } = useNotify();
-
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const handleSubmit = () => {
-    disableAccount()
-      .unwrap()
-      .then(() => notify("Your Account has disabled", "success"))
-      .catch(({ data }) =>
-        notify(
-          data?.message || "Something Went Wrong! Please Try Again.",
-          "error"
-        )
-      );
-    handleClose();
-  };
-
-  return (
-    <Box>
-      <LoadingCircle isLoading={isLoading} />
-      <Button
-        disabled={!data?.isEnable}
-        variant="outlined"
-        color="error"
-        onClick={handleClickOpen}
-      >
-        Disable Account
-      </Button>
-
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-      >
-        <DialogTitle>{"Do you want to disable this account?"}</DialogTitle>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Okay</Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
-  );
-}
-
 function EditEmail() {
   const { user } = useAuth();
   const { notify } = useNotify();
@@ -488,6 +436,11 @@ function EditPassword() {
 
 function Content() {
   const navigate = useNavigate();
+
+  const { roles } = useUser();
+
+  console.log(roles);
+
   return (
     <Container maxWidth={"md"} sx={{ pb: 10 }}>
       <Grid
@@ -506,9 +459,12 @@ function Content() {
           <EditEmail />
           <Divider />
           <EditPassword />
-          <Divider />
-          <RequestForReviewer />
-          <DisableAccount />
+          {!roles.includes(Roles.reviewer) && (
+            <>
+              <Divider />
+              <RequestForReviewer />
+            </>
+          )}
         </Stack>
       </Box>
       <Fab

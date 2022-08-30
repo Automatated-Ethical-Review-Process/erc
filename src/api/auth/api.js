@@ -154,13 +154,13 @@ const authApi = createApi({
       query: () => "/auth-user/un-verified",
       // TODO: providesTags
     }),
-    toggleEnabled: build.mutation({
-      query: () => ({
-        url: "/user/enable",
-        method: "PUT",
-      }),
-      invalidatesTags: (_, e) => (e ? [] : [{ type: "status", id: "SELF" }]),
-    }),
+    // toggleEnabled: build.mutation({
+    //   query: () => ({
+    //     url: "/user/enable",
+    //     method: "PUT",
+    //   }),
+    //   invalidatesTags: (_, e) => (e ? [] : [{ type: "status", id: "SELF" }]),
+    // }), removed
     toggleUserEnabled: build.mutation({
       query: (id) => ({
         url: `/user/enable/${id}`,
@@ -214,7 +214,7 @@ export const {
   useGetStatusByIdQuery, //
   useGetAllStatusQuery,
   useGetUnverifiedUsersQuery, //
-  useToggleEnabledMutation, //
+  // useToggleEnabledMutation, // removed
   useToggleUserEnabledMutation, //
   useToggleUserLockedMutation, //
   useSetUserVerifiedMutation, //
