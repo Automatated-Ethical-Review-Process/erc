@@ -73,42 +73,54 @@ export default function Proposal({
           )}
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={() => navigate(`doc-${proposal.cv}`)}
-          >
-            CV
-          </Button>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={() => navigate(`doc-${proposal.coverLetter}`)}
-          >
-            Cover Letter
-          </Button>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={() => navigate("erc-cert")}
-          >
-            ERC Approved Certificates
-          </Button>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={() => navigate("train-cert")}
-          >
-            Training Certificates
-          </Button>
-        </Grid>
+        {proposal.cv && (
+          <Grid item xs={12} md={6}>
+            <Button
+              fullWidth
+              variant="contained"
+              color="warning"
+              onClick={() => navigate(`doc-${proposal.cv}`)}
+            >
+              CV
+            </Button>
+          </Grid>
+        )}
+        {proposal.coverLetter && (
+          <Grid item xs={12} md={6}>
+            <Button
+              fullWidth
+              variant="contained"
+              color="warning"
+              onClick={() => navigate(`doc-${proposal.coverLetter}`)}
+            >
+              Cover Letter
+            </Button>
+          </Grid>
+        )}
+        {proposal.ercApprovedCertificates && (
+          <Grid item xs={12} md={6}>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="warning"
+              onClick={() => navigate("erc-cert")}
+            >
+              ERC Approved Certificates
+            </Button>
+          </Grid>
+        )}
+        {proposal.trainCertificates && (
+          <Grid item xs={12} md={6}>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="warning"
+              onClick={() => navigate("train-cert")}
+            >
+              Training Certificates
+            </Button>
+          </Grid>
+        )}
 
         <Grid item xs={12} />
       </Grid>
