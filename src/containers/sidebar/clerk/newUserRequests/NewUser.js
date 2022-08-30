@@ -12,6 +12,7 @@ import Slide from "@mui/material/Slide";
 import DeclineComments from "components/common/DeclineComment";
 import User from "components/users/user";
 import {
+  useGetStatusByIdQuery,
   useSetUserUnverifiedMutation,
   useSetUserVerifiedMutation,
 } from "api/auth/api";
@@ -28,11 +29,14 @@ export default function NewUser() {
 
   const [open, setOpen] = useState(false);
 
+  const { data: status = {}, isLoading: isStatusLoading } =
+    useGetStatusByIdQuery(userId);
+
   const [verify, { isLoading: isLoadingVerify }] = useSetUserVerifiedMutation();
   const [unVerify, { isLoading: isLoadingUnVerify }] =
     useSetUserUnverifiedMutation();
 
-  const isLoading = isLoadingVerify || isLoadingUnVerify;
+  const isLoading = isStatusLoading || isLoadingVerify || isLoadingUnVerify;
 
   const { notify } = useNotify();
 
@@ -86,6 +90,7 @@ export default function NewUser() {
           label="Decline Request"
           onClick={handleDecline}
           disabled={isLoading}
+          comment={status.userMessage || ""}
         />
       </Grid>
       <Dialog

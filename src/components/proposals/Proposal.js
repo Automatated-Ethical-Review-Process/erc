@@ -72,6 +72,44 @@ export default function Proposal({
             </Button>
           )}
         </Grid>
+
+        <Grid item xs={12} md={6}>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => navigate(`doc-${proposal.cv}`)}
+          >
+            CV
+          </Button>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => navigate(`doc-${proposal.coverLetter}`)}
+          >
+            Cover Letter
+          </Button>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => navigate("erc-cert")}
+          >
+            ERC Approved Certificates
+          </Button>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => navigate("train-cert")}
+          >
+            Training Certificates
+          </Button>
+        </Grid>
+
         <Grid item xs={12} />
       </Grid>
       {children}

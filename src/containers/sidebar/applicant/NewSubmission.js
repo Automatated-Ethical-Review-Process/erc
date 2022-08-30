@@ -16,7 +16,7 @@ import {
 import { ProposalType } from "config/enums";
 import useNotify from "hooks/useNotify";
 import { useState } from "react";
-import { yObject, yString, yFile, yFiles } from "utils/yup";
+import { yFile, yFiles, yObject, yString } from "utils/yup";
 
 const proposalTypes = [
   {
@@ -59,12 +59,13 @@ const schema = yObject({
   coverLetter: yFile,
   cv: yFile,
   trainCertificate: yFiles,
-  arcApproved: yFiles,
-  paymentSlip: yFile,
+  ercApproved: yFiles,
 });
 
+const paymentSlip = yFile.required("Payment slip is required");
+
 export default function ApplicantNewSubmission() {
-  const { /* data = {}, */ isLoading: isMeLoading } = useGetMeQuery();
+  const { data = {}, isLoading: isMeLoading } = useGetMeQuery();
 
   const [addProposal, { isLoading: isProposalLoading }] =
     useAddProposalMutation();
@@ -112,13 +113,14 @@ export default function ApplicantNewSubmission() {
     onCheckEmails({ emails: parsedEmails, ...data });
   };
 
-  // TODO: need to fill all fields of proposal add request
-
   return (
     <Container maxWidth="md">
       <LoadingCircle isLoading={isLoading} />
       <Box sx={{ my: 3 }}>
-        <BasicForm schema={schema} onSubmit={onSubmit}>
+        <BasicForm
+          schema={data.isUnderGraduate ? schema : schema.shape({ paymentSlip })}
+          onSubmit={onSubmit}
+        >
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextFieldController
@@ -182,21 +184,20 @@ export default function ApplicantNewSubmission() {
             <Grid item xs={12}>
               <HiddenInput label="Has any other ERC approved this project?">
                 <FileInputController
-                  name="arcApproved"
+                  name="ercApproved"
                   label="Attach approval letters"
                   multiple
                 />
               </HiddenInput>
             </Grid>
-            {
-              /* !data.isUnderGraduate && */ //FIXME: uncomment this
+            {!data.isUnderGraduate && (
               <Grid item xs={12}>
                 <ImageInputController
                   name="paymentSlip"
                   label="Upload the payment slip"
                 />
               </Grid>
-            }
+            )}
             <Grid item xs={12} textAlign="right">
               <Button type="submit" variant="contained">
                 Submit

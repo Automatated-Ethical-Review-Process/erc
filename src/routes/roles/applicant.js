@@ -10,7 +10,7 @@ import ApplicantLayout from "layouts/sidebar/ApplicantLayout";
 
 import Roles from "config/roles";
 import routes from "config/routes";
-import documentRoute from "routes/common/document";
+import { documentRoute, otherDocumentRoute } from "routes/common/document";
 import { ProtectedDashboardRoute } from "routes/common/Protected";
 
 import ApplicantOldSubmissions from "containers/sidebar/applicant/OldSubmissions";
@@ -47,6 +47,7 @@ const applicantRoute = (
             {documentRoute}
           </Route>
         </Route>
+        {otherDocumentRoute}
       </Route>
     </Route>
 
@@ -63,6 +64,7 @@ const applicantRoute = (
             {documentRoute}
           </Route>
         </Route>
+        {otherDocumentRoute}
       </Route>
     </Route>
 
@@ -81,6 +83,7 @@ const applicantRoute = (
             {documentRoute}
           </Route>
         </Route>
+        {otherDocumentRoute}
       </Route>
     </Route>
   </Route>

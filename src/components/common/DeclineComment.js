@@ -7,7 +7,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useRef, useState } from "react";
 
-export default function FormDialog({ label, onClick, disabled }) {
+export default function DeclineComment({
+  label,
+  onClick,
+  disabled,
+  comment = "",
+}) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -42,6 +47,7 @@ export default function FormDialog({ label, onClick, disabled }) {
             id="name"
             fullWidth
             variant="standard"
+            defaultValue={comment}
           />
         </DialogContent>
         <DialogActions>

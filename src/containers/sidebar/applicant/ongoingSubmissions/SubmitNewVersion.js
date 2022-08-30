@@ -9,7 +9,7 @@ import { yObject, yFile, yFiles } from "utils/yup";
 
 const schema = yObject({
   proposal: yFile.required("Proposal is required"),
-  supplementary: yFiles.required("Supplementary is required"),
+  supplementary: yFiles,
 });
 
 function SubmitNewVersion() {

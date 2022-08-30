@@ -5,19 +5,19 @@ import { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function Download() {
-  const { pid, vid, did } = useParams();
+  const { pid, vid, did, doc } = useParams();
   const navigate = useNavigate();
 
   const {
     data = {},
     error,
     isLoading: isVersionLoading,
-  } = useGetVersionQuery({ pid, vid });
+  } = useGetVersionQuery({ pid, vid }, { skip: !!doc });
 
   const document = data.documents?.find((d) => d.id === parseInt(did));
 
   const { download, isLoading: isFileLoading } = useDownload(
-    document?.file,
+    document?.file || doc,
     document?.name
   );
 
@@ -37,7 +37,7 @@ export default function Download() {
     return "invalid proposal id: " + pid + " or version id: " + vid;
   }
 
-  if (!document) {
+  if (!document && !doc) {
     return "invalid document id: " + did;
   }
 

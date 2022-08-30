@@ -26,7 +26,10 @@ export const yLandNumber = string()
   .matches(/^(\d{10})?$/, "Invalid number")
   .default("");
 
-export const yAddress = string().required("Address is required").default("");
+export const yAddress = string()
+  .required("Address is required")
+  .min(5, "Address must be at least 5 characters")
+  .default("");
 
 export const yEducationalQualifications = string()
   .required("Education qualifications are required")

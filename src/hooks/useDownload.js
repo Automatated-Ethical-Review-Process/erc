@@ -17,6 +17,7 @@ function onDownload(blob, filename = "download.pdf") {
 
 function useDownload(filename, name = filename) {
   const { data: blob, isLoading } = useGetFileQuery(filename, {
+    // FIXME: lazy download
     skip: !filename,
   });
 

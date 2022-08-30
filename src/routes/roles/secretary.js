@@ -30,7 +30,7 @@ import SecretaryUnassignedProposals from "containers/sidebar/secretary/unassigne
 import SecretaryAssignedProposals from "containers/sidebar/secretary/assigned/Proposals";
 import Requests from "containers/sidebar/secretary/reviewerRequests/Requests";
 import Request from "containers/sidebar/secretary/reviewerRequests/Request";
-import documentRoute from "routes/common/document";
+import { documentRoute, otherDocumentRoute } from "routes/common/document";
 import { ProtectedDashboardRoute } from "routes/common/Protected";
 
 const secretaryRoute = (
@@ -56,6 +56,7 @@ const secretaryRoute = (
             {documentRoute}
           </Route>
         </Route>
+        {otherDocumentRoute}
       </Route>
     </Route>
 
@@ -71,6 +72,7 @@ const secretaryRoute = (
             {documentRoute}
           </Route>
         </Route>
+        {otherDocumentRoute}
       </Route>
     </Route>
 
@@ -105,6 +107,7 @@ const secretaryRoute = (
             {documentRoute}
           </Route>
         </Route>
+        {otherDocumentRoute}
       </Route>
     </Route>
 
@@ -128,6 +131,7 @@ const secretaryRoute = (
             {documentRoute}
           </Route>
         </Route>
+        {otherDocumentRoute}
       </Route>
     </Route>
 
@@ -160,6 +164,7 @@ const secretaryRoute = (
             {documentRoute}
           </Route>
         </Route>
+        {otherDocumentRoute}
       </Route>
     </Route>
 

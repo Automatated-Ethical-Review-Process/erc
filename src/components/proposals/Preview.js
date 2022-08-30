@@ -7,23 +7,23 @@ import LoadingCircle from "components/common/LoadingCircle";
 import useFile from "hooks/useFile";
 
 export default function Preview() {
-  const { pid, vid, did } = useParams();
+  const { pid, vid, did, doc } = useParams();
 
   const {
     data = {},
     error,
     isLoading: isVersionLoading,
-  } = useGetVersionQuery({ pid, vid });
+  } = useGetVersionQuery({ pid, vid }, { skip: !!doc });
 
   const document = data.documents?.find((d) => d.id === parseInt(did));
 
-  const { link, isLoading: isFileLoading } = useFile(document?.file);
+  const { link, isLoading: isFileLoading } = useFile(document?.file || doc);
 
   if (error) {
     return "invalid proposal id: " + pid + " or version id: " + vid;
   }
 
-  if (!document) {
+  if (!document && !doc) {
     return "invalid document id: " + did;
   }
 
