@@ -30,6 +30,7 @@ import {
 } from "api/notification/api";
 import Loading from "components/common/Loading";
 import { object } from "yup/lib/locale";
+import { PrimaryButton } from "@react-pdf-viewer/core";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -150,6 +151,7 @@ function GetView() {
   const location = useLocation();
   const id = location.state;
   const { data, error, isLoading } = useGetNotificationsQuery();
+
   console.log(data);
   if (id) {
     return <Notification id={id} />;
@@ -167,6 +169,10 @@ function GetView() {
             fields={["title", "time"]}
             headerNames={["Title", "Time"]}
             rows={data}
+            sx={{
+              "& .unseen": { bgcolor: "gray" },
+            }}
+            getRowClassName={({ row }) => (row.read ? undefined : "unseen")}
             onRowClick={(row) => onclick("/notification", { state: row.id })}
           />
         )}
