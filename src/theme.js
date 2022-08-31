@@ -18,7 +18,7 @@ const getLightPalette = () => ({
 
 const getDarkPalette = () => ({
   primary: {
-    light: "#12CBC4",
+    light: "#0A1929",
     main: "#1289A7",
     dark: "#006266",
   },
