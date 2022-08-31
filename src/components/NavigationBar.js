@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -25,6 +25,17 @@ import { useLogoutMutation } from "api/auth/api";
 import routes from "config/routes";
 import { useTheme } from "styled-components";
 
+import { selectCurrentUser } from "api/auth/api";
+
+import authService from "services/auth";
+import {
+   onNotificationSocket,
+   closeNotificationSocket,
+} from "services/notification/notificationService";
+
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
+
 export default function SidebarLayout({ title, sideBarItems, children }) {
    const [mobileOpen, setMobileOpen] = useState(false);
    const [anchorEl, setAnchorEl] = useState(null);
@@ -35,6 +46,15 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
 
    const navigate = useNavigate();
    const theme = useTheme();
+   const user = useSelector(selectCurrentUser);
+
+   const sock = new SockJS(
+      "https://erc-notification-service.herokuapp.com/ws-message"
+   );
+
+   useEffect(() => {
+      onNotificationSocket(authService.access);
+   }, []);
 
    const notifications = 6;
 
@@ -66,6 +86,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
    const handleLogout = () => {
       handleMenuClose();
       logout();
+      closeNotificationSocket();
    };
 
    const handleMobileMenuOpen = (event) => {
