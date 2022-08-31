@@ -7,17 +7,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Typography from "@mui/material/Typography";
 import { useAddCommentMutation, useGetCommentQuery } from "api/data/comment";
 import Form from "components/common/Form";
 import LoadingCircle from "components/common/LoadingCircle";
-import { RadioGroupController } from "components/controllers";
-import { DecisionTypes } from "config/enums";
+import {
+  RadioGroupController,
+  TextAreaController,
+} from "components/controllers";
+import { DecisionType } from "config/enums";
 import useNotify from "hooks/useNotify";
 import useUser from "hooks/useUser";
 import { forwardRef, useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -25,11 +27,11 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 const options = [
-  { label: "Undecided", value: DecisionTypes.undecided },
-  { label: "Approve", value: DecisionTypes.approved },
-  { label: "Major Modification", value: DecisionTypes.major },
-  { label: "Minor Modification", value: DecisionTypes.minor },
-  { label: "Disapprove", value: DecisionTypes.disapproved },
+  { label: "Undecided", value: DecisionType.undecided },
+  { label: "Approve", value: DecisionType.approved },
+  { label: "Major Modification", value: DecisionType.major },
+  { label: "Minor Modification", value: DecisionType.minor },
+  { label: "Disapprove", value: DecisionType.disapproved },
 ];
 
 export default function AddComments() {
@@ -102,18 +104,9 @@ export default function AddComments() {
           Overall Comment
         </Typography>
         <Box ml={3}>
-          <Controller
+          <TextAreaController
             name="content"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextareaAutosize
-                {...field}
-                minRows={10}
-                placeholder="add overall comment for the proposal"
-                style={{ width: 600 }}
-              />
-            )}
+            placeholder="add overall comment for the proposal"
           />
         </Box>
         {!commentData && (

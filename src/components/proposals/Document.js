@@ -11,25 +11,25 @@ import LoadingCircle from "components/common/LoadingCircle";
 
 export default function Document() {
   const navigate = useNavigate();
-  const { pid, vid, did } = useParams();
+  const { pid, vid, did, doc } = useParams();
 
   const {
     data: rawData = {},
     error,
     isLoading,
-  } = useGetVersionQuery({ pid, vid });
+  } = useGetVersionQuery({ pid, vid }, { skip: !!doc });
 
-  // if (error) {
-  //   return "invalid proposal id: " + pid + " or version id: " + vid;
-  // } // TODO: handle error
+  if (error) {
+    return "invalid proposal id: " + pid + " or version id: " + vid;
+  }
 
   const document = rawData.documents?.find((d) => d.id === parseInt(did));
 
-  // if (!document) {
-  //   return "invalid document id: " + did;
-  // } // TODO: handle error
+  if (!document && !doc) {
+    return "invalid document id: " + did;
+  }
 
-  const parts = document.file.split(".");
+  const parts = (document?.name || doc || "").split(".");
 
   const docType = parts.pop().toUpperCase();
   const docName = parts.join(".");
@@ -37,7 +37,7 @@ export default function Document() {
   const data = [
     { label: "Name", value: docName },
     { label: "Type", value: docType },
-    { label: "File", value: document.file },
+    { label: "Full Name", value: document?.name || doc || "" },
   ];
 
   return (

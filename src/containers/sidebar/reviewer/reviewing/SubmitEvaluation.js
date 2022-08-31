@@ -1,118 +1,117 @@
-import { useState, forwardRef } from "react";
+import { forwardRef, useState } from "react";
 
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
 import SendIcon from "@mui/icons-material/Send";
-import Link from "@mui/material/Link";
+import { Box, Container, Stack } from "@mui/material";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { Container } from "@mui/material";
-import { Box } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import { useAddEvaluationFormMutation } from "api/data/evaluationForm";
+import { BasicForm } from "components/common/Form";
+import LoadingCircle from "components/common/LoadingCircle";
+import {
+  FileInputController,
+  RadioGroupController,
+} from "components/controllers";
+import { DecisionType } from "config/enums";
+import useNotify from "hooks/useNotify";
+import useUser from "hooks/useUser";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Transition = forwardRef(function Transition(props, ref) {
-   return <Slide direction="down" ref={ref} {...props} />;
+  return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const Input = styled("input")({
-   display: "none",
-});
+const options = [
+  { label: "Approve", value: DecisionType.approved },
+  { label: "Major Modification", value: DecisionType.major },
+  { label: "Minor Modification", value: DecisionType.minor },
+  { label: "Disapprove", value: DecisionType.disapproved },
+];
 
 export default function SubmitEvaluation() {
-   const [open, setOpenAccept] = useState(false);
+  const [data, setData] = useState(null);
+  const navigate = useNavigate();
 
-   const handleClickOpen = () => {
-      setOpenAccept(true);
-   };
-   const handleClose = () => {
-      setOpenAccept(false);
-   };
-   return (
-      <Container sx={{ mt: 10 }}>
-         <FormControl>
-            <Typography variant="h5">Decision</Typography>
-            <Box ml={3}>
-               <RadioGroup
-                  defaultValue="approve"
-                  name="radio-buttons-group"
-                  ml="2"
-               >
-                  <FormControlLabel
-                     value="approve"
-                     control={<Radio />}
-                     label="Approve"
-                  />
-                  <FormControlLabel
-                     value="mj_modification"
-                     control={<Radio />}
-                     label="Major Modification"
-                  />
-                  <FormControlLabel
-                     value="mn_modification"
-                     control={<Radio />}
-                     label="Minor Modification"
-                  />
-                  <FormControlLabel
-                     value="disapprove"
-                     control={<Radio />}
-                     label="Disapprove"
-                  />
-               </RadioGroup>
-            </Box>
+  const { pid, vid } = useParams();
+  const { id: rid } = useUser();
 
-            <Link href="#" underline="hover" color="warning.main">
-               {"Download the Evaluation Form"}
-            </Link>
-         </FormControl>
-         <Box my={2}>
-            <label htmlFor="contained-button-file">
-               <Button variant="contained" component="span">
-                  <Input
-                     accept="pdf/*"
-                     id="contained-button-file"
-                     multiple
-                     type="file"
-                  />
-                  Upload Evaluation Form
-               </Button>
-            </label>
-            <Button
-               variant="contained"
-               endIcon={<SendIcon />}
-               onClick={handleClickOpen}
-               sx={{
-                  ml: 2,
-               }}
-            >
-               Submit
+  const handleClose = () => setData(null);
+  const onData = (data) => {
+    if (data.form) {
+      setData(data);
+    } else {
+      alert("Please select the evaluation form");
+    }
+  };
+
+  const { notify } = useNotify();
+  const [addEvaluation, { isLoading }] = useAddEvaluationFormMutation();
+
+  const onSubmit = () => {
+    addEvaluation({ pid, vid, rid, data })
+      .unwrap()
+      .then(() => {
+        notify("Evaluation Form send Successfully", "success");
+        navigate(-1, { replace: true });
+      })
+      .catch(({ data }) =>
+        notify(data?.message || "Something went wrong", "error")
+      );
+    handleClose();
+  };
+
+  const onFormDownload = () => {
+    alert("not implemented"); // TODO: implement
+  };
+
+  return (
+    <Container sx={{ mt: 5 }}>
+      <LoadingCircle isLoading={isLoading} />
+      <BasicForm onSubmit={onData}>
+        <Typography variant="h5">Decision</Typography>
+        <Box ml={3} mb={3}>
+          <RadioGroupController name="type" options={options} />
+        </Box>
+        <Stack direction="row" spacing={3}>
+          <FileInputController
+            name="form"
+            label="Upload evaluation form"
+            multiple
+          />
+          <Box>
+            <Button variant="contained" type="submit" endIcon={<SendIcon />}>
+              Submit
             </Button>
-         </Box>
+          </Box>
+        </Stack>
+      </BasicForm>
 
-         <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleClose}
-         >
-            <DialogTitle>{"Review Submission"}</DialogTitle>
-            <DialogContent>
-               <DialogContentText id="alert-dialog-slide-description">
-                  Do you want to submit this review?
-               </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={handleClose}>Cancel</Button>
-               <Button onClick={handleClose}>Submit</Button>
-            </DialogActions>
-         </Dialog>
-      </Container>
-   );
+      <Button sx={{ mt: 5 }} onClick={onFormDownload} color="warning">
+        Download the Evaluation Form
+      </Button>
+
+      <Dialog
+        open={!!data}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+      >
+        <DialogTitle>Review Submission</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Do you want to submit this review?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={onSubmit}>Submit</Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
+  );
 }

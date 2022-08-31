@@ -8,8 +8,8 @@ function Proposal() {
     <BaseProposal
       extraFields={{ pi: "Author", cis: "Co-Investigators" }}
       rightButton={{
-        text: "Choose Review Type",
-        onClick: () => navigate("review"),
+        text: "Edit reviewers",
+        onClick: () => navigate("edit"),
       }}
     />
   );

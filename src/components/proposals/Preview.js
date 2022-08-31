@@ -2,16 +2,37 @@ import { useParams } from "react-router-dom";
 
 import PdfViewer from "components/PdfViewer";
 
-import { getDocument } from "services/data/documentService";
+import { useGetVersionQuery } from "api/data/version";
+import LoadingCircle from "components/common/LoadingCircle";
+import useFile from "hooks/useFile";
 
 export default function Preview() {
-   const { pid: proposalId, vid: versionId, did: documentId } = useParams();
+  const { pid, vid, did, doc } = useParams();
 
-   const document = getDocument(proposalId, versionId, documentId);
+  const {
+    data = {},
+    error,
+    isLoading: isVersionLoading,
+  } = useGetVersionQuery({ pid, vid }, { skip: !!doc });
 
-   if (!document) {
-      return "invalid link";
-   }
+  const document = data.documents?.find((d) => d.id === parseInt(did));
 
-   return <PdfViewer link={document.link} />;
+  const { link, isLoading: isFileLoading } = useFile(document?.file || doc);
+
+  if (error) {
+    return "invalid proposal id: " + pid + " or version id: " + vid;
+  }
+
+  if (!document && !doc) {
+    return "invalid document id: " + did;
+  }
+
+  const isLoading = isVersionLoading || isFileLoading;
+
+  return (
+    <>
+      <LoadingCircle isLoading={isLoading} />
+      {link && <PdfViewer link={link} />}
+    </>
+  );
 }

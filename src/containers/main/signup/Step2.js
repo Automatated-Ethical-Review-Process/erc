@@ -1,18 +1,14 @@
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { BasicForm } from "components/common/Form";
-import {
-  FileInputController,
-  TextFieldController,
-} from "components/controllers";
-import { yFile, yObject, yString } from "utils/yup";
+import { TextFieldController } from "components/controllers";
+import { yObject, yString } from "utils/yup";
 
 const schemaU = yObject({
   university: yString().required("University is required"),
   faculty: yString().required("Faculty is required"),
   year: yString(),
   registrationNumber: yString().required("Registration number is required"),
-  idImg: yFile.required("Id photo is required"),
 });
 
 function Undergraduate({ onSubmit, data, children }) {
@@ -53,11 +49,6 @@ function Undergraduate({ onSubmit, data, children }) {
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            University Id <FileInputController name="idImg" />
-          </Typography>
-        </Grid>
       </Grid>
       {children}
     </BasicForm>
@@ -67,7 +58,6 @@ function Undergraduate({ onSubmit, data, children }) {
 const schemaNU = yObject({
   occupation: yString().required("Occupation is required"),
   position: yString().required("Position is required"),
-  idImg: yFile.required("Id photo is required"),
 });
 
 function NonUndergraduate({ onSubmit, data, children }) {
@@ -92,11 +82,6 @@ function NonUndergraduate({ onSubmit, data, children }) {
             required
             variant="standard"
           />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            National Id <FileInputController name="idImg" />
-          </Typography>
         </Grid>
       </Grid>
       {children}

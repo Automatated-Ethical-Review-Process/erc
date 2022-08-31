@@ -1,5 +1,12 @@
-import { PhotoCamera, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  InsertDriveFile,
+  PhotoCamera,
+  Visibility,
+  VisibilityOff,
+  HighlightOff,
+} from "@mui/icons-material";
+import {
+  Box,
   Button,
   Checkbox,
   FormControlLabel,
@@ -9,6 +16,7 @@ import {
   Radio,
   RadioGroup,
   Switch,
+  TextareaAutosize,
   TextField,
   Typography,
 } from "@mui/material";
@@ -16,6 +24,7 @@ import { styled } from "@mui/material/styles";
 import useControl from "hooks/useControl";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
+import { humanize } from "utils/humanize";
 
 export function TextFieldController({ name, defaultValue = "", ...rest }) {
   const control = useControl();
@@ -165,7 +174,14 @@ const Input = styled("input")({
   display: "none",
 });
 
-export function FileInputController({ name, ...args }) {
+function InputController({
+  name,
+  label = "Upload",
+  icon,
+  fullWidth = false,
+  ...args
+}) {
+  const [files, setFiles] = useState([]);
   return (
     <Controller
       name={name}
@@ -174,34 +190,118 @@ export function FileInputController({ name, ...args }) {
         field: { value, onChange, ...rest },
         fieldState: { error },
       }) => (
-        <label htmlFor={name}>
-          <Input
-            {...rest}
-            id={name}
-            accept="image/*"
-            type="file"
-            files={[value]}
-            onChange={({ target: t }) =>
-              onChange({
-                target: { ...t, value: t.files[0] },
-              })
-            }
-            {...args}
-          />
-          <Button component="span" startIcon={<PhotoCamera />}>
-            Upload
-          </Button>
-          {value && (
-            <Typography component="span" variant="body2" color="secondary">
-              {value.name}
-            </Typography>
-          )}
+        <Box>
+          <label htmlFor={name}>
+            <Input
+              {...rest}
+              id={name}
+              type="file"
+              files={value}
+              onChange={({ target: t }) => {
+                const files = Array.from(t.files);
+                onChange({
+                  target: { ...t, value: files },
+                });
+                setFiles(files);
+              }}
+              {...args}
+            />
+            <Button
+              fullWidth={fullWidth}
+              component="span"
+              variant="outlined"
+              startIcon={icon}
+            >
+              {label}
+            </Button>
+          </label>
+          <br />
+          {files.length > 0 &&
+            files.map((file, key) => (
+              <Typography
+                key={key}
+                sx={{ mt: 1 }}
+                component="span"
+                variant="body2"
+                color="warning.main"
+                display="block"
+              >
+                {`${file.name} (${humanize(file.size)}) `}
+                {
+                  <IconButton
+                    size="small"
+                    onClick={() => {
+                      const newFiles = files.filter((_file) => _file !== file);
+                      onChange({
+                        target: { value: newFiles },
+                      });
+                      setFiles(newFiles);
+                    }}
+                  >
+                    <HighlightOff color="error" />
+                  </IconButton>
+                }
+              </Typography>
+            ))}
           {error && (
-            <Typography component="span" variant="body2" color="error">
-              {error.message}
+            <Typography
+              sx={{ mt: 1 }}
+              component="span"
+              variant="body2"
+              color="error"
+            >
+              * {error.message}
             </Typography>
           )}
-        </label>
+        </Box>
+      )}
+    />
+  );
+}
+
+export function FileInputController({ name, label, ...args }) {
+  return (
+    <InputController
+      name={name}
+      label={label}
+      icon={<InsertDriveFile />}
+      accept=".pdf"
+      {...args}
+    />
+  );
+}
+
+export function ImageInputController({ name, label, ...args }) {
+  return (
+    <InputController
+      name={name}
+      label={label}
+      icon={<PhotoCamera />}
+      accept="image/*"
+      {...args}
+    />
+  );
+}
+
+export function TextAreaController({
+  name,
+  placeholder,
+  defaultValue = "",
+  ...rest
+}) {
+  return (
+    <Controller
+      name={name}
+      control={useControl()}
+      defaultValue={defaultValue}
+      render={({ field }) => (
+        <TextareaAutosize
+          {...field}
+          minRows={10}
+          placeholder={placeholder}
+          style={{ width: "100%" }}
+          {...rest}
+        />
       )}
     />
   );

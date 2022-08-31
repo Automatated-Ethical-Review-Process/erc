@@ -9,7 +9,7 @@ const VersionStatus = {
   rejected: "REJECTED",
 };
 
-const DecisionTypes = {
+const DecisionType = {
   approved: "APPROVED",
   disapproved: "DISAPPROVED",
   major: "MAJOR",
@@ -17,4 +17,15 @@ const DecisionTypes = {
   undecided: "UNDECIDED",
 };
 
-export { VersionStatus, DecisionTypes };
+const ProposalType = {
+  animal: "ANIMAL_RESEARCH",
+  human: "HUMAN_RESEARCH",
+};
+
+const EReviewType = {
+  exemption: "EXEMPTION",
+  expedited: "EXPEDITED",
+  fullBoard: "FULLBOARD",
+};
+
+export { VersionStatus, DecisionType, ProposalType, EReviewType };

@@ -19,7 +19,7 @@ import ReviewerOtherProposals from "containers/sidebar/reviewer/other/Proposals"
 import ReviewerPendingProposals from "containers/sidebar/reviewer/pending/Proposals";
 import ReviewerReviewedProposals from "containers/sidebar/reviewer/reviewed/Proposals";
 import ReviewerReviewingProposals from "containers/sidebar/reviewer/reviewing/Proposals";
-import documentRoute from "routes/common/document";
+import { documentRoute } from "routes/common/document";
 import {
   ProtectedDashboardRoute,
   ProtectedRoute,

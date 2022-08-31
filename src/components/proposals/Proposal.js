@@ -11,6 +11,7 @@ import LoadingCircle from "components/common/LoadingCircle";
 export default function Proposal({
   loading,
   extraFields = { deadline: "Deadline" },
+  rightButton = null,
   children,
 }) {
   const navigate = useNavigate();
@@ -55,11 +56,72 @@ export default function Proposal({
           </Grid>
         ))}
 
-        <Grid item xs={12}>
-          <Button variant="contained" onClick={() => navigate("versions")}>
+        <Grid item xs={12} md={6}>
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={() => navigate("versions")}
+          >
             View Documents
           </Button>
         </Grid>
+        <Grid item xs={12} md={6}>
+          {rightButton && (
+            <Button fullWidth variant="contained" onClick={rightButton.onClick}>
+              {rightButton.text}
+            </Button>
+          )}
+        </Grid>
+
+        {proposal.cv && (
+          <Grid item xs={12} md={6}>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="warning"
+              onClick={() => navigate(`doc-${proposal.cv}`)}
+            >
+              CV
+            </Button>
+          </Grid>
+        )}
+        {proposal.coverLetter && (
+          <Grid item xs={12} md={6}>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="warning"
+              onClick={() => navigate(`doc-${proposal.coverLetter}`)}
+            >
+              Cover Letter
+            </Button>
+          </Grid>
+        )}
+        {proposal.ercApprovedCertificates?.length > 0 && (
+          <Grid item xs={12} md={6}>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="warning"
+              onClick={() => navigate("erc-cert")}
+            >
+              ERC Approved Certificates
+            </Button>
+          </Grid>
+        )}
+        {proposal.trainCertificates?.length > 0 && (
+          <Grid item xs={12} md={6}>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="warning"
+              onClick={() => navigate("train-cert")}
+            >
+              Training Certificates
+            </Button>
+          </Grid>
+        )}
+
         <Grid item xs={12} />
       </Grid>
       {children}
