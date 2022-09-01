@@ -4,6 +4,7 @@ import MainLayout from "layouts/MainLayout";
 import SignIn from "containers/main/SignIn";
 import HomePage from "containers/main/HomePage";
 import SignUp from "containers/main/signup/SignUp";
+import Instruction from "containers/main/Instructions";
 import ForgotPassword from "containers/main/ForgotPassword";
 import Update from "containers/main/Update";
 
@@ -31,6 +32,8 @@ const mainRoute = (
     <Route path="signup" element={<SignUp />} />
 
     <Route path="signin" element={<SignIn />} />
+
+    <Route path="instruction" element={<Instruction />} />
 
     <Route path="forgot-password" element={<ForgotPassword />} />
 

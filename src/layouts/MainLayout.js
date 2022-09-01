@@ -42,7 +42,7 @@ const NavigationBar = () => {
         navigate("/signup");
         break;
       case pages[3]:
-        alert("Not Implemented !");
+        navigate("/instruction");
         break;
       default:
         throw new Error("invalid index");
@@ -198,7 +198,7 @@ export default function MainLayout() {
       <Box sx={{ mb: 1 }}>
         <Outlet />
       </Box>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
