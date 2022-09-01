@@ -17,9 +17,9 @@ export default function Documents({ children }) {
     isLoading,
   } = useGetVersionQuery({ pid, vid });
 
-  // if (error) {
-  //   return "invalid proposal id: " + pid + " or version id: " + vid;
-  // } // TODO: handle error
+  if (error) {
+    return "invalid proposal id: " + pid + " or version id: " + vid;
+  }
 
   return (
     <>

@@ -20,14 +20,13 @@ export default function Proposal({
 
   const {
     data: rawData = {},
-    // error,
+    error,
     isLoading,
   } = useGetProposalQuery(proposalId);
 
-  // if (error) {
-  //   return "invalid proposal id " + proposalId;
-  // }
-  // TODO: handle error
+  if (error) {
+    return "invalid proposal id " + proposalId;
+  }
 
   const date = new Date(rawData.date);
 
