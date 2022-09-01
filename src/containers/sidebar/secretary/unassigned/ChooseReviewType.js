@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useCallback, useRef, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -148,6 +148,7 @@ function Exemption() {
 
 export function Expedited({ type = EReviewType.expedited }) {
   const [assigned, setAssigned] = useState([]);
+  const [previous, setPrevious] = useState([]);
 
   const { onSubmit, isLoading } = useAssignReviewers(assigned, type);
 
@@ -157,6 +158,7 @@ export function Expedited({ type = EReviewType.expedited }) {
       <ReviewerDataGrid
         assigned={assigned}
         setAssigned={setAssigned}
+        setPrevious={setPrevious}
         isLoading={isLoading}
       />
       <DialogBox
@@ -170,7 +172,9 @@ export function Expedited({ type = EReviewType.expedited }) {
           <Button
             sx={{ mt: 3 }}
             variant="contained"
-            disabled={assigned.length < 1}
+            disabled={
+              assigned.length < 1 || previous.every((i) => assigned.includes(i))
+            }
             onClick={onClick}
           >
             {type ? "Finish" : "Update"}
@@ -183,6 +187,7 @@ export function Expedited({ type = EReviewType.expedited }) {
 
 export function FullBoard({ type = EReviewType.fullBoard }) {
   const [assigned, setAssigned] = useState([]);
+  const [previous, setPrevious] = useState([]);
 
   const { onSubmit, isLoading } = useAssignReviewers(assigned, type);
 
@@ -213,6 +218,7 @@ export function FullBoard({ type = EReviewType.fullBoard }) {
       <ReviewerDataGrid
         assigned={assigned}
         setAssigned={setAssigned}
+        setPrevious={setPrevious}
         reviewerType={reviewerType}
         isLoading={isLoading}
       />
@@ -227,7 +233,9 @@ export function FullBoard({ type = EReviewType.fullBoard }) {
           <Button
             sx={{ mt: 3 }}
             variant="contained"
-            disabled={assigned.length < 3}
+            disabled={
+              assigned.length < 3 || previous.every((i) => assigned.includes(i))
+            }
             onClick={onClick}
           >
             {type ? "Finish" : "Update"}

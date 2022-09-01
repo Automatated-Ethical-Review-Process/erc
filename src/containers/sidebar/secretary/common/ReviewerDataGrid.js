@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 function ReviewerDataGrid({
   assigned,
   setAssigned,
+  setPrevious,
   reviewerType = "ROLE_INTERNAL_REVIEWER",
   isLoading,
 }) {
@@ -40,9 +41,11 @@ function ReviewerDataGrid({
 
   useEffect(() => {
     if (reviewAssigns && reviewAssigns.length > 0) {
-      setAssigned(reviewAssigns.map((i) => i.reviewer.id));
+      const tmp = reviewAssigns.map((i) => i.reviewer.id);
+      setAssigned(tmp);
+      setPrevious(tmp);
     }
-  }, [reviewAssigns, setAssigned]);
+  }, [reviewAssigns, setAssigned, setPrevious]);
 
   const previousReviewers = previousReviewersRaw.map((r) => r.reviewer_id);
 
