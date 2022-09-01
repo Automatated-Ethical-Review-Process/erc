@@ -41,14 +41,17 @@ export default function Proposal() {
   const { id: rid } = useUser();
   const { pid } = useParams();
 
-  const { data = {}, isLoading: isVersionLoading } =
-    useGetLatestVersionQuery(pid);
+  const {
+    data = {},
+    error,
+    isLoading: isVersionLoading,
+  } = useGetLatestVersionQuery(pid);
 
-  // TODO: handle error
+  if (error) {
+    return "No versions found";
+  }
 
   const vid = data.id;
-
-  // TODO: what if no version?
 
   const isLoading = isAcceptLoading || isRejectLoading || isVersionLoading;
 

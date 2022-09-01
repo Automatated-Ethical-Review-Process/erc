@@ -10,12 +10,17 @@ export default function ViewEvaluation() {
   const { pid, vid } = useParams();
   const { id: rid } = useUser();
 
-  const { data = {}, isLoading: isEvaluationLoading } =
-    useGetEvaluationFormQuery({ pid, vid, rid });
-
-  // TODO: handle data not found
+  const {
+    data = {},
+    error,
+    isLoading: isEvaluationLoading,
+  } = useGetEvaluationFormQuery({ pid, vid, rid });
 
   const { download, isLoading: isFileLoading } = useDownload(data.file);
+
+  if (error) {
+    return "No evaluation found";
+  }
 
   const isLoading = isEvaluationLoading || isFileLoading;
 
