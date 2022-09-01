@@ -1,4 +1,4 @@
-import { useGetFileQuery } from "api/data/file";
+import { useLazyGetFileQuery } from "api/data/file";
 
 const anchor = document.createElement("a");
 document.body.appendChild(anchor);
@@ -16,12 +16,15 @@ function onDownload(blob, filename = "download.pdf") {
 }
 
 function useDownload(filename, name = filename) {
-  const { data: blob, isLoading } = useGetFileQuery(filename, {
-    // FIXME: lazy download
-    skip: !filename,
-  });
+  const [getFile, { isLoading }] = useLazyGetFileQuery();
 
-  return { download: () => onDownload(blob, name), isLoading };
+  const download = () =>
+    getFile(filename, true)
+      .unwrap()
+      .then((blob) => onDownload(blob, name))
+      .catch(({ data }) => alert(data?.message || "Could not download file"));
+
+  return { download, isLoading };
 }
 
 export default useDownload;

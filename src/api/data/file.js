@@ -11,6 +11,6 @@ const fileApi = dataApi.injectEndpoints({
   }),
 });
 
-export const { useGetFileQuery } = fileApi;
+export const { useGetFileQuery, useLazyGetFileQuery } = fileApi;
 
 export default fileApi;
