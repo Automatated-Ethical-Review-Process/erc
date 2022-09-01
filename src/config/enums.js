@@ -28,4 +28,17 @@ const EReviewType = {
   fullBoard: "FULLBOARD",
 };
 
-export { VersionStatus, DecisionType, ProposalType, EReviewType };
+const ReviewerStatus = {
+  confirm: "CONFIRM",
+  reject: "REJECT",
+  pending: "PENDING",
+  completed: "COMPLETED",
+};
+
+export {
+  VersionStatus,
+  DecisionType,
+  ProposalType,
+  EReviewType,
+  ReviewerStatus,
+};

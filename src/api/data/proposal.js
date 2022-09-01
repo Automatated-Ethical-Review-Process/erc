@@ -80,6 +80,9 @@ const proposalApi = dataApi.injectEndpoints({
       query: () => "/proposal/user/old",
       // TODO: provideTags
     }),
+    getPreviousAssignedReviewers: build.query({
+      query: (pid) => `/proposal/${pid}/assigned-reviewers`,
+    }),
   }),
 });
 
@@ -102,6 +105,7 @@ export const {
   useGetUserPendingProposalsQuery, //
   useGetUserActiveProposalsQuery, //
   useGetUserOldProposalsQuery, //
+  useGetPreviousAssignedReviewersQuery,
 } = proposalApi;
 
 export default proposalApi;
