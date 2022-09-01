@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-import Button from "@mui/material/Button";
-
 import BaseProposal from "components/proposals/Proposal";
 
 function Proposal() {
@@ -15,11 +13,11 @@ function Proposal() {
         reviewType: "Review Type",
         reviewers: "Reviewers",
       }}
-    >
-      <Button variant="contained" onClick={() => navigate("notify")}>
-        Notify Author
-      </Button>
-    </BaseProposal>
+      rightButton={{
+        text: "Notify Author",
+        onClick: () => navigate("notify"),
+      }}
+    />
   );
 }
 

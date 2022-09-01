@@ -8,15 +8,17 @@ import Grid from "@mui/material/Grid";
 import Slide from "@mui/material/Slide";
 import { forwardRef, useState } from "react";
 
-import DeclineComments from "components/common/DeclineComment";
-import BaseProposal from "components/proposals/Proposal";
+import { useGetProposalQuery } from "api/data/proposal";
 import {
+  useGetLatestVersionQuery,
   useSetVersionRejectedMutation,
   useSetVersionSubmittedMutation,
 } from "api/data/version";
-import { useNavigate, useParams } from "react-router-dom";
+import DeclineComments from "components/common/DeclineComment";
+import BaseProposal from "components/proposals/Proposal";
+import useDownload from "hooks/useDownload";
 import useNotify from "hooks/useNotify";
-import { useGetVersionsQuery } from "api/data/proposal";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -36,10 +38,23 @@ export default function NewSubmission() {
     useSetVersionSubmittedMutation();
   const [reject, { isLoading: isRejectLoading }] =
     useSetVersionRejectedMutation();
-  const { data = [], isLoading: isVersionsLoading } = useGetVersionsQuery(pid);
 
-  const isLoading = isAcceptLoading || isRejectLoading || isVersionsLoading;
-  const vid = data.at(-1)?.id;
+  const { data: proposal = {}, isLoading: isProposalLoading } =
+    useGetProposalQuery(pid);
+  const { data: latestVersion = {}, isLoading: isVersionsLoading } =
+    useGetLatestVersionQuery(pid);
+
+  const paymentSlip = proposal.paymentSlip;
+  const vid = latestVersion.id;
+
+  const { download, isLoading: isFileLoading } = useDownload(paymentSlip);
+
+  const isLoading =
+    isAcceptLoading ||
+    isRejectLoading ||
+    isProposalLoading ||
+    isVersionsLoading ||
+    isFileLoading;
 
   const handleAccept = () => {
     accept({ pid, vid })
@@ -70,22 +85,28 @@ export default function NewSubmission() {
     }
   };
 
+  const rightButton = paymentSlip
+    ? { text: "Download payment slip", onClick: download }
+    : null;
+
   return (
     <BaseProposal
       loading={isLoading}
       extraFields={{ pi: "PI", cis: "Co-Investigators" }}
+      rightButton={rightButton}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Button variant="outlined">Download payment slip</Button>
-        </Grid>
-        <Grid item xs={12} md={4} />
-        <Grid item xs={12} md={4} textAlign="right">
-          <Button variant="contained" color="success" onClick={handleOpen}>
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={6}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="success"
+            onClick={handleOpen}
+          >
             Complete Submission
           </Button>
         </Grid>
-        <Grid item xs={12} md={4} textAlign="right">
+        <Grid item xs={12} md={6}>
           <DeclineComments
             label="Incomplete submission"
             onClick={handleDecline}

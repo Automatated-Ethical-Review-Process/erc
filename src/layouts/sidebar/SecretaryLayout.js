@@ -4,6 +4,7 @@ import AssignmentLateIcon from "@mui/icons-material/AssignmentLate";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ThreePIcon from "@mui/icons-material/ThreeP";
+import PreviewIcon from "@mui/icons-material/Preview";
 
 import SidebarLayout from "./SidebarLayout";
 import Roles from "config/roles";
@@ -13,6 +14,11 @@ const sideBarItems = [
     path: "/secretary/unassigned",
     icon: <AssignmentLateIcon />,
     text: "Unassigned",
+  },
+  {
+    path: "/secretary/assigned",
+    icon: <PreviewIcon />,
+    text: "Assigned",
   },
   {
     path: "/secretary/in-review",
@@ -30,14 +36,14 @@ const sideBarItems = [
     text: "Archived",
   },
   {
-    path: "/secretary/user-management",
-    icon: <AccountBoxIcon />,
-    text: "User Management",
-  },
-  {
     path: "/secretary/reviewer-requests",
     icon: <ThreePIcon />,
     text: "Reviewer requests",
+  },
+  {
+    path: "/secretary/user-management",
+    icon: <AccountBoxIcon />,
+    text: "User Management",
   },
 ];
 

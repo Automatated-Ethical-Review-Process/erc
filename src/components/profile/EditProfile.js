@@ -1,6 +1,9 @@
 import * as React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
+import CloseIcon from "@mui/icons-material/Close";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import SendIcon from "@mui/icons-material/Send";
 import {
   Container,
   Dialog,
@@ -16,15 +19,11 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import { useNavigate } from "react-router-dom";
-import SendIcon from "@mui/icons-material/Send";
-import Slide from "@mui/material/Slide";
-import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import { styled } from "@mui/material/styles";
+import Slide from "@mui/material/Slide";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 import LoadingCircle from "components/common/LoadingCircle";
 import NavigationBar from "components/NavigationBar";
@@ -34,18 +33,24 @@ import {
   useCheckPasswordMutation,
   useUpdateEmailVerifyMutation,
   useUpdatePasswordMutation,
-  useToggleEnabledMutation,
-  useGetStatusQuery,
 } from "api/auth/api";
-import { useGetMeQuery, useUpdateMeMutation } from "api/data/user";
+import { useAddAppealMutation, useGetMyAppealsQuery } from "api/data/appeal";
+import {
+  useGetMeQuery,
+  useUpdateMeMutation,
+  useUpdateProfilePhotoMutation,
+} from "api/data/user";
 import Image from "assets/profile-pic.jpg";
 import Form from "components/common/Form";
 import {
   PasswordFieldController,
   TextPasswordFieldController,
 } from "components/controllers";
+import Roles from "config/roles";
 import useAuth from "hooks/useAuth";
+import useFile from "hooks/useFile";
 import useForm from "hooks/useForm";
+import useUser from "hooks/useUser";
 import {
   yAddress,
   yEducationalQualifications,
@@ -58,22 +63,35 @@ import {
   yRef,
 } from "utils/yup";
 
-const Input = styled("input")({
-  display: "none",
-});
 function ImageAvatar() {
+  const { data: { profileImage } = {} } = useGetMeQuery();
+
+  const { link } = useFile(profileImage, Image);
+
+  const { notify } = useNotify();
+  const [updatePhoto, { isLoading }] = useUpdateProfilePhotoMutation();
+
+  const onChange = (file) =>
+    updatePhoto({ file })
+      .unwrap()
+      .then(() => notify("Profile photo updated", "success"))
+      .catch(({ data }) =>
+        notify(data?.message || "Couldn't update photo", "error")
+      );
+
   return (
     <>
-      <Avatar
-        alt="Profile Image"
-        src={Image}
-        sx={{ width: 200, height: 200 }}
-      />
+      <LoadingCircle isLoading={isLoading} />
+      <Avatar alt="Profile Image" src={link} sx={{ width: 200, height: 200 }} />
       <label htmlFor="icon-button-file">
-        <Input accept="image/*" id="icon-button-file" type="file" />
+        <input
+          hidden
+          onChange={(e) => onChange(e.target.files)}
+          accept="image/*"
+          id="icon-button-file"
+          type="file"
+        />
         <IconButton
-          // color="primary"
-          aria-label="upload picture"
           component="span"
           sx={{ mt: -6, ml: 18, color: "proIconColor.main" }}
         >
@@ -183,30 +201,45 @@ function RequestForReviewer() {
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const { notify } = useNotify();
+
+  const { data, isLoading: isAppealLoading } = useGetMyAppealsQuery();
+
+  const [addAppeal, { isLoading: isAddingAppeal }] = useAddAppealMutation();
+
+  const isLoading = isAppealLoading || isAddingAppeal;
+
+  const onClick = (message) =>
+    addAppeal({ message })
+      .unwrap()
+      .then(() => notify("Appeal submitted successfully", "success"))
+      .catch(({ data }) =>
+        notify(data?.message || "Couldn't submit the appeal", "error")
+      );
+
   const handleSubmit = () => {
-    // onClick(ref.current.value);
+    onClick(ref.current.value);
     handleClose();
   };
 
   const ref = useRef();
   return (
-    <>
-      <Stack direction="row" spacing={2}>
-        <Button
-          variant="contained"
-          endIcon={<SendIcon />}
-          onClick={handleClickOpen}
-        >
-          Send Request to switch Reviewer
-        </Button>
-      </Stack>
+    <Box>
+      <LoadingCircle isLoading={isLoading} />
+      <Button
+        variant="contained"
+        endIcon={<SendIcon />}
+        onClick={handleClickOpen}
+        disabled={data === undefined || data.length > 0}
+      >
+        Send Request to be a Reviewer
+      </Button>
 
       <Dialog
         open={open}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>
           Do you want to switch this account to Reviewer?
@@ -229,62 +262,7 @@ function RequestForReviewer() {
           <Button onClick={handleSubmit}>Send</Button>
         </DialogActions>
       </Dialog>
-    </>
-  );
-}
-
-function DisableAccount() {
-  const [open, setOpen] = useState(false);
-
-  const { data } = useGetStatusQuery();
-  const [disableAccount, { isLoading }] = useToggleEnabledMutation();
-
-  const { notify } = useNotify();
-
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const handleSubmit = () => {
-    disableAccount()
-      .unwrap()
-      .then(() => notify("Your Account has disabled", "success"))
-      .catch(({ data }) =>
-        notify(
-          data?.message || "Something Went Wrong! Please Try Again.",
-          "error"
-        )
-      );
-    handleClose();
-  };
-
-  return (
-    <>
-      <LoadingCircle isLoading={isLoading} />
-      <Stack direction="row" spacing={2}>
-        <Button
-          disabled={!data?.isEnable}
-          variant="outlined"
-          color="error"
-          onClick={handleClickOpen}
-        >
-          Disable Account
-        </Button>
-      </Stack>
-
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{"Do you want to disable this account?"}</DialogTitle>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Okay</Button>
-        </DialogActions>
-      </Dialog>
-    </>
+    </Box>
   );
 }
 
@@ -458,6 +436,11 @@ function EditPassword() {
 
 function Content() {
   const navigate = useNavigate();
+
+  const { roles } = useUser();
+
+  console.log(roles);
+
   return (
     <Container maxWidth={"md"} sx={{ pb: 10 }}>
       <Grid
@@ -476,9 +459,12 @@ function Content() {
           <EditEmail />
           <Divider />
           <EditPassword />
-          <Divider />
-          <RequestForReviewer />
-          <DisableAccount />
+          {!roles.includes(Roles.reviewer) && (
+            <>
+              <Divider />
+              <RequestForReviewer />
+            </>
+          )}
         </Stack>
       </Box>
       <Fab

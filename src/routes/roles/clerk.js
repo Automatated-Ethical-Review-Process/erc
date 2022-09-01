@@ -14,7 +14,7 @@ import ClerkLayout from "layouts/sidebar/ClerkLayout";
 
 import Roles from "config/roles";
 import routes from "config/routes";
-import documentRoute from "routes/common/document";
+import { documentRoute, otherDocumentRoute } from "routes/common/document";
 import { ProtectedDashboardRoute } from "routes/common/Protected";
 
 const clerkRoute = (
@@ -49,6 +49,7 @@ const clerkRoute = (
             {documentRoute}
           </Route>
         </Route>
+        {otherDocumentRoute}
       </Route>
     </Route>
 

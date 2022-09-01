@@ -3,13 +3,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
-import { useGetCommentbyIdQuery } from "api/data/comment";
+import { useGetCommentByIdQuery } from "api/data/comment";
 import LoadingCircle from "components/common/LoadingCircle";
 import { useParams } from "react-router-dom";
 
 function Comment() {
   const params = useParams();
-  const { data, isLoading } = useGetCommentbyIdQuery(params);
+  const { data, isLoading } = useGetCommentByIdQuery(params);
 
   return (
     <div>

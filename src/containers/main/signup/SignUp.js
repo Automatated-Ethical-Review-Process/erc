@@ -48,7 +48,6 @@ const initialState = {
   faculty: "",
   year: "",
   registrationNumber: "",
-  idImg: null,
   password: "",
   confirmPassword: "",
 };
@@ -76,7 +75,6 @@ function Content({ token, activeStep, handleNext, handleReset, children }) {
       nicPassport,
       educationalQualifications: eq,
       confirmPassword,
-      idImg,
       ...data
     } = finalData;
 
@@ -90,7 +88,6 @@ function Content({ token, activeStep, handleNext, handleReset, children }) {
     }
 
     const parsed = {
-      idImg: `https://file.com/${idImg.name}`,
       ...data,
       nic,
       passport,

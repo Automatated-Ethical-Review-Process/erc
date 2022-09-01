@@ -25,6 +25,7 @@ import {
 } from "api/notification/api";
 import Loading from "components/common/Loading";
 import { object } from "yup/lib/locale";
+import { PrimaryButton } from "@react-pdf-viewer/core";
 
 const Search = styled("div")(({ theme }) => ({
    position: "relative",
@@ -153,6 +154,8 @@ function GetView() {
    const location = useLocation();
    const id = location.state;
    const { data, error, isLoading } = useGetNotificationsQuery();
+
+   console.log(data);
    if (id) {
       return <Notification id={id} />;
    }
@@ -166,9 +169,15 @@ function GetView() {
                <h1>Loading</h1>
             ) : (
                <DataGrid
-                  fields={Object.keys(data[0])}
-                  headerNames={Object.keys(data[0])}
+                  fields={["title", "time"]}
+                  headerNames={["Title", "Time"]}
                   rows={data}
+                  sx={{
+                     "& .unseen": { bgcolor: "gray" },
+                  }}
+                  getRowClassName={({ row }) =>
+                     row.read ? undefined : "unseen"
+                  }
                   onRowClick={(row) =>
                      onclick("/notification", { state: row.id })
                   }

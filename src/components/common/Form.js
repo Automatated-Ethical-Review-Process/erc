@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { ControlContext } from "context";
 import useForm from "hooks/useForm";
+import { yEmptySchema } from "utils/yup";
 
 function Form({ onSubmit, control, children }) {
   return (
@@ -12,7 +13,12 @@ function Form({ onSubmit, control, children }) {
   );
 }
 
-export function BasicForm({ schema, defaultValues, onSubmit, children }) {
+export function BasicForm({
+  schema = yEmptySchema,
+  defaultValues,
+  onSubmit,
+  children,
+}) {
   const { control, handleSubmit } = useForm(schema, defaultValues);
   return (
     <Form control={control} onSubmit={handleSubmit(onSubmit)}>

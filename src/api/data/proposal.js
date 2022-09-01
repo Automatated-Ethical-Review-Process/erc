@@ -1,12 +1,19 @@
+import { toFormData } from "utils/formData";
 import dataApi from "./api";
 
 const proposalApi = dataApi.injectEndpoints({
   endpoints: (build) => ({
     addProposal: build.mutation({
-      query: (body) => ({
+      query: (data) => ({
         url: "/proposal",
         method: "POST",
-        body,
+        body: toFormData(data),
+      }),
+    }),
+    setProposalReviewType: build.mutation({
+      query: ({ pid, type }) => ({
+        url: `/proposal/${pid}/review-type/${type}`,
+        method: "PUT",
       }),
     }),
     getProposals: build.query({
@@ -22,11 +29,15 @@ const proposalApi = dataApi.injectEndpoints({
       // TODO: provideTags
     }),
     getClerkNewProposals: build.query({
-      query: () => "/proposal/pending", // FIXME: pending
+      query: () => "/proposal/pending",
       // TODO: provideTags
     }),
     getSecretaryUnassignedProposals: build.query({
       query: () => "/proposal/unassign",
+      // TODO: provideTags
+    }),
+    getSecretaryAssignedProposals: build.query({
+      query: () => "/proposal/review-state",
       // TODO: provideTags
     }),
     getSecretaryReviewingProposals: build.query({
@@ -74,11 +85,13 @@ const proposalApi = dataApi.injectEndpoints({
 
 export const {
   useAddProposalMutation,
+  useSetProposalReviewTypeMutation,
   useGetProposalsQuery,
   useGetProposalQuery, //
   useGetVersionsQuery, //
   useGetClerkNewProposalsQuery, //
   useGetSecretaryUnassignedProposalsQuery, //
+  useGetSecretaryAssignedProposalsQuery, //
   useGetSecretaryReviewingProposalsQuery, //
   useGetSecretaryReviewedProposalsQuery, //
   useGetSecretaryArchivedProposalsQuery, //
