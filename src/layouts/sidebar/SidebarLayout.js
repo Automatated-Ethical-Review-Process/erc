@@ -7,6 +7,11 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 import NavigationBar from "components/NavigationBar";
 import RoleNavigationBar from "components/RoleNavigationBar";
+import { isUuid } from "utils/yup";
+
+function simplify(part) {
+  return isUuid(part) ? part.split("-")[0] : part;
+}
 
 export default function SidebarLayout({ role, sideBarItems }) {
   const { pathname } = useLocation();
@@ -20,7 +25,7 @@ export default function SidebarLayout({ role, sideBarItems }) {
         .reduce(
           (data, curPath, index) => {
             data.push({
-              name: curPath,
+              name: simplify(curPath),
               link: data[index].link + "/" + curPath,
             });
             return data;
