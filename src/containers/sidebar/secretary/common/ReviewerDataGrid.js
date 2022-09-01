@@ -6,6 +6,15 @@ import DataGrid from "components/common/DataGrid";
 import { ReviewerStatus } from "config/enums";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { darken, lighten } from "@mui/material/styles";
+
+function getBgColor(color, isLight) {
+  return isLight ? lighten(color, 0.6) : darken(color, 0.6);
+}
+
+function getHoverBgColor(color, isLight) {
+  return isLight ? lighten(color, 0.5) : darken(color, 0.5);
+}
 
 function ReviewerDataGrid({
   assigned,
@@ -114,7 +123,15 @@ function ReviewerDataGrid({
 
   return (
     <DataGrid
-      sx={{ mt: 2, "& .previously-assigned": { bgcolor: "warning.light" } }}
+      sx={{
+        mt: 2,
+        "& .previously-assigned": {
+          bgcolor: (t) => getBgColor(t.palette.info.main, t.isLight),
+          "&:hover": {
+            bgcolor: (t) => getHoverBgColor(t.palette.info.main, t.isLight),
+          },
+        },
+      }}
       fields={["name", "assignedProposal", "btn"]}
       headerNames={["Reviewer", "Assigned Proposals", "Status"]}
       rows={rows}
