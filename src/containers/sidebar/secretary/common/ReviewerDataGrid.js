@@ -11,6 +11,7 @@ function ReviewerDataGrid({
   assigned,
   setAssigned,
   reviewerType = "ROLE_INTERNAL_REVIEWER",
+  isLoading,
 }) {
   const { pid } = useParams();
 
@@ -45,7 +46,7 @@ function ReviewerDataGrid({
 
   const previousReviewers = previousReviewersRaw.map((r) => r.reviewer_id);
 
-  const isLoading =
+  const isThisLoading =
     isReviewersLoading || isPreviouslyReviewersLoading || isLatestLoading;
 
   const isAssigned = (id) => assigned.includes(id);
@@ -111,10 +112,10 @@ function ReviewerDataGrid({
   return (
     <DataGrid
       sx={{ mt: 2, "& .previously-assigned": { bgcolor: "warning.light" } }}
-      fields={["name", "assignedProposal", "role", "btn"]}
-      headerNames={["Reviewer", "Assigned Proposals", "Role", "Status"]}
+      fields={["name", "assignedProposal", "btn"]}
+      headerNames={["Reviewer", "Assigned Proposals", "Status"]}
       rows={rows}
-      loading={isLoading}
+      loading={!isLoading && isThisLoading}
       getRowClassName={({ row }) =>
         previousReviewers.includes(row.reviewerId) ? "previously-assigned" : ""
       }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -17,6 +17,14 @@ import { EReviewType } from "config/enums";
 import useNotify from "hooks/useNotify";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewerDataGrid from "../common/ReviewerDataGrid";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+} from "@mui/material";
 
 function ChooseReviewType() {
   const [reviewType, setReviewType] = useState(null);
@@ -65,6 +73,43 @@ function RenderContent({ reviewType }) {
   }
 }
 
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
+
+function DialogBox({ title, subtitle, onSubmit, children }) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleYes = () => {
+    onSubmit();
+    handleClose();
+  };
+
+  return (
+    <>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+      >
+        <DialogTitle>{title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{subtitle}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>No</Button>
+          <Button onClick={handleYes}>Yes</Button>
+        </DialogActions>
+      </Dialog>
+      {children(handleOpen)}
+    </>
+  );
+}
+
 function Exemption() {
   const { pid } = useParams();
   const [setReviewType, { isLoading }] = useSetProposalReviewTypeMutation();
@@ -86,9 +131,17 @@ function Exemption() {
   return (
     <Box position="fixed" bottom={20} right={20}>
       <LoadingCircle isLoading={isLoading} />
-      <Button variant="contained" onClick={onSubmit}>
-        Finish
-      </Button>
+      <DialogBox
+        title="Mark as Reviewed"
+        subtitle="Do you want to mark this as reviewed?"
+        onSubmit={onSubmit}
+      >
+        {(onClick) => (
+          <Button variant="contained" onClick={onClick}>
+            Finish
+          </Button>
+        )}
+      </DialogBox>
     </Box>
   );
 }
@@ -101,15 +154,29 @@ export function Expedited({ type = EReviewType.expedited }) {
   return (
     <Box>
       <LoadingCircle isLoading={isLoading} />
-      <ReviewerDataGrid assigned={assigned} setAssigned={setAssigned} />
-      <Button
-        sx={{ mt: 3 }}
-        variant="contained"
-        disabled={assigned.length < 1}
-        onClick={onSubmit}
+      <ReviewerDataGrid
+        assigned={assigned}
+        setAssigned={setAssigned}
+        isLoading={isLoading}
+      />
+      <DialogBox
+        title={type ? "Mark as Expedited review" : "Update Reviewers"}
+        subtitle={`Do you want to ${
+          type ? "assign these" : "update assigned"
+        } reviewers?`}
+        onSubmit={onSubmit}
       >
-        {type ? "Finish" : "Update"}
-      </Button>
+        {(onClick) => (
+          <Button
+            sx={{ mt: 3 }}
+            variant="contained"
+            disabled={assigned.length < 1}
+            onClick={onClick}
+          >
+            {type ? "Finish" : "Update"}
+          </Button>
+        )}
+      </DialogBox>
     </Box>
   );
 }
@@ -147,15 +214,26 @@ export function FullBoard({ type = EReviewType.fullBoard }) {
         assigned={assigned}
         setAssigned={setAssigned}
         reviewerType={reviewerType}
+        isLoading={isLoading}
       />
-      <Button
-        sx={{ mt: 3 }}
-        variant="contained"
-        disabled={assigned.length < 3}
-        onClick={onSubmit}
+      <DialogBox
+        title={type ? "Mark as Full Board review" : "Update Reviewers"}
+        subtitle={`Do you want to ${
+          type ? "assign these" : "update assigned"
+        } reviewers?`}
+        onSubmit={onSubmit}
       >
-        {type ? "Finish" : "Update"}
-      </Button>
+        {(onClick) => (
+          <Button
+            sx={{ mt: 3 }}
+            variant="contained"
+            disabled={assigned.length < 3}
+            onClick={onClick}
+          >
+            {type ? "Finish" : "Update"}
+          </Button>
+        )}
+      </DialogBox>
     </Box>
   );
 }
