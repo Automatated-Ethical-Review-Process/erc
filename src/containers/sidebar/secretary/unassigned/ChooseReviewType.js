@@ -81,7 +81,7 @@ function Exemption() {
         navigate(-1, { replace: true });
       })
       .catch(({ data }) =>
-        notify(data.message || "Something went wrong", "error")
+        notify(data?.message || "Something went wrong", "error")
       );
 
   return (
@@ -116,14 +116,16 @@ function Expedited() {
         notify("Proposal assigned successfully", "success");
         navigate(-1, { replace: true });
       })
-      .catch(({ data }) => notify(data.message || "Failed to assign", "error"));
+      .catch(({ data }) =>
+        notify(data?.message || "Failed to assign", "error")
+      );
 
   const onFinish = () =>
     setReviewType({ pid, type: EReviewType.expedited })
       .unwrap()
       .then(assign)
       .catch(({ data }) =>
-        notify(data.message || "Failed to set review type", "error")
+        notify(data?.message || "Failed to set review type", "error")
       );
 
   const isLoading =
@@ -173,14 +175,16 @@ function FullBoard() {
         notify("Proposal assigned successfully", "success");
         navigate(-1, { replace: true });
       })
-      .catch(({ data }) => notify(data.message || "Failed to assign", "error"));
+      .catch(({ data }) =>
+        notify(data?.message || "Failed to assign", "error")
+      );
 
   const onFinish = () =>
     setReviewType({ pid, type: EReviewType.fullBoard })
       .unwrap()
       .then(assign)
       .catch(({ data }) =>
-        notify(data.message || "Failed to set review type", "error")
+        notify(data?.message || "Failed to set review type", "error")
       );
 
   const isLoading =

@@ -14,7 +14,7 @@ const reviewApi = dataApi.injectEndpoints({
       query: ({ pid, vid, rid, message }) => ({
         url: `/proposal/${pid}/version/${vid}/reviewer/reject`,
         method: "PUT",
-        body: { reviewerId: rid, message }, // TODO: endpoint doesn't accept message
+        body: { reviewerId: rid, message },
       }),
       // TODO: invalidateTags
     }),
@@ -25,6 +25,13 @@ const reviewApi = dataApi.injectEndpoints({
         body: { reviewers },
       }),
     }),
+    removeAssignedReviewer: build.mutation({
+      query: ({ pid, vid, rid }) => ({
+        url: `/proposal/${pid}/version/${vid}/reviewer/assign`,
+        method: "DELETE",
+        body: { reviewerId: rid },
+      }),
+    }),
   }),
 });
 
@@ -32,6 +39,7 @@ export const {
   useAcceptReviewerProposalMutation,
   useRejectReviewerProposalMutation,
   useAssignAllReviewersMutation,
+  useRemoveAssignedReviewerMutation,
 } = reviewApi;
 
 export default reviewApi;
