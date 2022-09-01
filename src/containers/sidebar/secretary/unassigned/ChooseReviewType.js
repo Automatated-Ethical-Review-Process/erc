@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useRef, useState } from "react";
+import { forwardRef, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -9,14 +9,6 @@ import FormLabel from "@mui/material/FormLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 
-import { useSetProposalReviewTypeMutation } from "api/data/proposal";
-import { useAssignAllReviewersMutation } from "api/data/review";
-import { useGetLatestVersionQuery } from "api/data/version";
-import LoadingCircle from "components/common/LoadingCircle";
-import { EReviewType } from "config/enums";
-import useNotify from "hooks/useNotify";
-import { useNavigate, useParams } from "react-router-dom";
-import ReviewerDataGrid from "../common/ReviewerDataGrid";
 import {
   Dialog,
   DialogActions,
@@ -25,6 +17,14 @@ import {
   DialogTitle,
   Slide,
 } from "@mui/material";
+import { useSetProposalReviewTypeMutation } from "api/data/proposal";
+import { useAssignAllReviewersMutation } from "api/data/review";
+import { useGetLatestVersionQuery } from "api/data/version";
+import LoadingCircle from "components/common/LoadingCircle";
+import { EReviewType } from "config/enums";
+import useNotify from "hooks/useNotify";
+import { useNavigate, useParams } from "react-router-dom";
+import ReviewerDataGrid from "../common/ReviewerDataGrid";
 
 function ChooseReviewType() {
   const [reviewType, setReviewType] = useState(null);
