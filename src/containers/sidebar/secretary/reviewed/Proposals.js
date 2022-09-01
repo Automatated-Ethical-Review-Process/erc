@@ -7,7 +7,7 @@ function SecretaryReviewedProposals() {
     <Proposals
       data={data}
       isLoading={isLoading}
-      extraFields={{ reviewType: "Review Type", reviewers: "Reviewers" }}
+      extraFields={{ reviewType: "Review Type" }}
     />
   );
 }
