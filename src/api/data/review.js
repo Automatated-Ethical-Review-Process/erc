@@ -18,12 +18,20 @@ const reviewApi = dataApi.injectEndpoints({
       }),
       // TODO: invalidateTags
     }),
+    assignAllReviewers: build.mutation({
+      query: ({ pid, vid, reviewers }) => ({
+        url: `/proposal/${pid}/version/${vid}/reviewer/assign/all`,
+        method: "POST",
+        body: { reviewers },
+      }),
+    }),
   }),
 });
 
 export const {
   useAcceptReviewerProposalMutation,
   useRejectReviewerProposalMutation,
+  useAssignAllReviewersMutation,
 } = reviewApi;
 
 export default reviewApi;

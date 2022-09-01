@@ -10,7 +10,7 @@ import LoadingCircle from "components/common/LoadingCircle";
 
 export default function Proposal({
   loading,
-  extraFields = { deadline: "Deadline" },
+  extraFields = {},
   rightButton = null,
   children,
 }) {

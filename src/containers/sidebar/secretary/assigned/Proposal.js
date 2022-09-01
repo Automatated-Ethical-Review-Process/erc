@@ -6,7 +6,11 @@ function Proposal() {
   const navigate = useNavigate();
   return (
     <BaseProposal
-      extraFields={{ pi: "Author", cis: "Co-Investigators" }}
+      extraFields={{
+        pi: "Author",
+        cis: "Co-Investigators",
+        reviewType: "Review Type",
+      }}
       rightButton={{
         text: "Edit reviewers",
         onClick: () => navigate("edit"),

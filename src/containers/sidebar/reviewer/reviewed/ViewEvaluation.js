@@ -1,7 +1,4 @@
-import { Box, Button, Container } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
+import { Button, Container } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useGetEvaluationFormQuery } from "api/data/evaluationForm";
 import LoadingCircle from "components/common/LoadingCircle";
@@ -25,19 +22,12 @@ export default function ViewEvaluation() {
   return (
     <Container>
       <LoadingCircle isLoading={isLoading} />
-      <Typography variant="h5">Decision</Typography>
-      <Box ml={3}>
-        <RadioGroup defaultValue="approve" ml="2">
-          <FormControlLabel
-            value="approve"
-            control={<Radio />}
-            label={data.decision}
-            selected
-          />
-        </RadioGroup>
-      </Box>
+      <Typography variant="subtitle1">Decision</Typography>
+      <Typography variant="body1" sx={{ ml: 3 }}>
+        {data.decision}
+      </Typography>
       {data.file && (
-        <Button onClick={download} color="warning">
+        <Button sx={{ mt: 3 }} onClick={download} color="warning">
           Download the Evaluation Form
         </Button>
       )}

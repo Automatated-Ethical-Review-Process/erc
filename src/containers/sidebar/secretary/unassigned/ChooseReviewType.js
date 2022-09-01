@@ -1,19 +1,23 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-import Container from "@mui/material/Container";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 
-import DataGrid from "components/common/DataGrid";
 import { useSetProposalReviewTypeMutation } from "api/data/proposal";
+import { useAssignAllReviewersMutation } from "api/data/review";
+import { useGetReviewersQuery } from "api/data/user";
+import { useGetLatestVersionQuery } from "api/data/version";
+import DataGrid from "components/common/DataGrid";
 import LoadingCircle from "components/common/LoadingCircle";
-import { useParams } from "react-router-dom";
 import { EReviewType } from "config/enums";
+import useNotify from "hooks/useNotify";
+import { useNavigate, useParams } from "react-router-dom";
 
 function ChooseReviewType() {
   const [reviewType, setReviewType] = useState(null);
@@ -25,7 +29,7 @@ function ChooseReviewType() {
         <RadioGroup
           row
           value={reviewType}
-          onChange={(e) => setReviewType(e.target.value)}
+          onChange={({ target }) => setReviewType(target.value)}
         >
           <FormControlLabel
             value="exemption"
@@ -66,7 +70,19 @@ function Exemption() {
   const { pid } = useParams();
   const [setReviewType, { isLoading }] = useSetProposalReviewTypeMutation();
 
-  const onSubmit = () => setReviewType({ pid, type: EReviewType.exemption });
+  const navigate = useNavigate();
+  const { notify } = useNotify();
+
+  const onSubmit = () =>
+    setReviewType({ pid, type: EReviewType.exemption })
+      .unwrap()
+      .then(() => {
+        notify("Proposal assigned successfully", "success");
+        navigate(-1, { replace: true });
+      })
+      .catch(({ data }) =>
+        notify(data.message || "Something went wrong", "error")
+      );
 
   return (
     <Box position="fixed" bottom={20} right={20}>
@@ -81,14 +97,53 @@ function Exemption() {
 function Expedited() {
   const [assigned, setAssigned] = useState([]);
 
+  const { pid } = useParams();
+
+  const navigate = useNavigate();
+  const { notify } = useNotify();
+
+  const [setReviewType, { isLoading: isReviewTypeLoading }] =
+    useSetProposalReviewTypeMutation();
+  const [assignReviewers, { isLoading: isAssignReviewersLoading }] =
+    useAssignAllReviewersMutation();
+  const { data: { id: vid } = {}, isLoading: isLatestLoading } =
+    useGetLatestVersionQuery(pid);
+
+  const assign = () =>
+    assignReviewers({ pid, vid, reviewers: assigned })
+      .unwrap()
+      .then(() => {
+        notify("Proposal assigned successfully", "success");
+        navigate(-1, { replace: true });
+      })
+      .catch(({ data }) => notify(data.message || "Failed to assign", "error"));
+
+  const onFinish = () =>
+    setReviewType({ pid, type: EReviewType.expedited })
+      .unwrap()
+      .then(assign)
+      .catch(({ data }) =>
+        notify(data.message || "Failed to set review type", "error")
+      );
+
+  const isLoading =
+    isReviewTypeLoading || isAssignReviewersLoading || isLatestLoading;
+
+  const filter = useCallback((r) => r.role === "ROLE_INTERNAL_REVIEWER", []);
+
   return (
     <Box>
-      <ReviewerDataGrid assigned={assigned} setAssigned={setAssigned} />
+      <LoadingCircle isLoading={isLoading} />
+      <ReviewerDataGrid
+        assigned={assigned}
+        setAssigned={setAssigned}
+        filter={filter}
+      />
       <Button
         sx={{ mt: 3 }}
         variant="contained"
         disabled={assigned.length < 1}
-        onClick={() => alert("Completed")}
+        onClick={onFinish}
       >
         Finish
       </Button>
@@ -99,29 +154,74 @@ function Expedited() {
 function FullBoard() {
   const [assigned, setAssigned] = useState([]);
 
+  const navigate = useNavigate();
+  const { notify } = useNotify();
+
+  const { pid } = useParams();
+
+  const [setReviewType, { isLoading: isReviewTypeLoading }] =
+    useSetProposalReviewTypeMutation();
+  const [assignReviewers, { isLoading: isAssignReviewersLoading }] =
+    useAssignAllReviewersMutation();
+  const { data: { id: vid } = {}, isLoading: isLatestLoading } =
+    useGetLatestVersionQuery(pid);
+
+  const assign = () =>
+    assignReviewers({ pid, vid, reviewers: assigned })
+      .unwrap()
+      .then(() => {
+        notify("Proposal assigned successfully", "success");
+        navigate(-1, { replace: true });
+      })
+      .catch(({ data }) => notify(data.message || "Failed to assign", "error"));
+
+  const onFinish = () =>
+    setReviewType({ pid, type: EReviewType.fullBoard })
+      .unwrap()
+      .then(assign)
+      .catch(({ data }) =>
+        notify(data.message || "Failed to set review type", "error")
+      );
+
+  const isLoading =
+    isReviewTypeLoading || isAssignReviewersLoading || isLatestLoading;
+
+  const [reviewerType, setReviewerType] = useState("ROLE_INTERNAL_REVIEWER");
+
+  const filter = useCallback((r) => r.role === reviewerType, [reviewerType]);
+
   return (
     <Box>
+      <LoadingCircle isLoading={isLoading} />
       <FormControl>
         <FormLabel>Reviewer Type</FormLabel>
-        <RadioGroup row defaultValue="internal">
+        <RadioGroup
+          onChange={({ target }) => setReviewerType(target.value)}
+          row
+          value={reviewerType}
+        >
           <FormControlLabel
-            value="internal"
+            value="ROLE_INTERNAL_REVIEWER"
             control={<Radio />}
             label="Internal"
           />
           <FormControlLabel
-            value="external"
+            value="ROLE_EXTERNAL_REVIEWER"
             control={<Radio />}
             label="External"
           />
         </RadioGroup>
       </FormControl>
-      <ReviewerDataGrid assigned={assigned} setAssigned={setAssigned} />
+      <ReviewerDataGrid
+        assigned={assigned}
+        setAssigned={setAssigned}
+        filter={filter}
+      />
       <Button
         sx={{ mt: 3 }}
         variant="contained"
         disabled={assigned.length < 3}
-        onClick={() => alert("Completed")}
+        onClick={onFinish}
       >
         Finish
       </Button>
@@ -129,7 +229,9 @@ function FullBoard() {
   );
 }
 
-function ReviewerDataGrid({ assigned, setAssigned }) {
+function ReviewerDataGrid({ assigned, setAssigned, filter = () => true }) {
+  const { data = [], isLoading } = useGetReviewersQuery();
+
   const isAssigned = (id) => assigned.includes(id);
 
   const toggleAssign = (id) =>
@@ -141,57 +243,27 @@ function ReviewerDataGrid({ assigned, setAssigned }) {
       }
     });
 
-  return (
-    <DataGrid
-      sx={{ mt: 2 }}
-      fields={["reviewer", "assigned", "btn"]}
-      headerNames={["Reviewer", "Currently Assigned", "Status"]}
-      rows={buildData(isAssigned, toggleAssign)}
-    />
-  );
-}
-
-const buildData = (isAssigned, toggleAssign) =>
-  [
-    {
-      id: 0,
-      reviewer: "reviewer 1",
-      assigned: null,
-    },
-    {
-      id: 1,
-      reviewer: "reviewer 2",
-      assigned: "proposal 1",
-    },
-    {
-      id: 2,
-      reviewer: "reviewer 3",
-      assigned: "proposal 1, proposal 2",
-    },
-    {
-      id: 3,
-      reviewer: "reviewer 4",
-      assigned: null,
-    },
-    {
-      id: 4,
-      reviewer: "reviewer 5",
-      assigned: "proposal 3",
-    },
-    {
-      id: 5,
-      reviewer: "reviewer 6",
-      assigned: "proposal 2",
-    },
-  ].map((row) => ({
+  const rows = data.filter(filter).map((row, id) => ({
     ...row,
+    id,
     btn: (
       <AssignButton
-        isAssigned={isAssigned(row.id)}
-        toggleAssign={() => toggleAssign(row.id)}
+        isAssigned={isAssigned(row.reviewerId)}
+        toggleAssign={() => toggleAssign(row.reviewerId)}
       />
     ),
   }));
+
+  return (
+    <DataGrid
+      sx={{ mt: 2 }}
+      fields={["name", "assignedProposal", "role", "btn"]}
+      headerNames={["Reviewer", "Assigned Proposals", "Role", "Status"]}
+      rows={rows}
+      loading={isLoading}
+    />
+  );
+}
 
 const AssignButton = ({ isAssigned, toggleAssign }) => {
   return (

@@ -29,14 +29,14 @@ export default function Review() {
       <TextField
         sx={{ ml: 3 }}
         label="Reviewer"
-        value={reviewer?.name}
+        value={reviewer?.name || ""}
         readOnly
       />
       <br />
       <TextField
         sx={{ ml: 3, mt: 3 }}
         label="Decision"
-        value={data?.decision}
+        value={data?.decision || ""}
         readOnly
       />
       <br />

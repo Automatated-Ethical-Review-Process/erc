@@ -24,6 +24,7 @@ import {
   ProtectedDashboardRoute,
   ProtectedRoute,
 } from "routes/common/Protected";
+
 const reviewerRoute = (
   <Route
     path={routes.reviewer}

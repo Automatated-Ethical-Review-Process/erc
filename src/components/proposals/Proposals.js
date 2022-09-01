@@ -6,7 +6,7 @@ export default function Proposals({
   data,
   isLoading,
   extraFields = {
-    deadline: "Deadline",
+    date: "Date",
   },
 }) {
   const navigate = useNavigate();
@@ -16,6 +16,13 @@ export default function Proposals({
     type: "Type",
     ...extraFields,
   };
+
+  if (data?.length > 0) {
+    data = data.map((i) => ({
+      ...i,
+      date: new Date(i.date).toLocaleDateString(),
+    }));
+  }
 
   return (
     <DataGrid

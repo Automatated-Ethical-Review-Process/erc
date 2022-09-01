@@ -5,9 +5,7 @@ import { useParams } from "react-router-dom";
 export default function ViewDecision() {
   const { pid, vid } = useParams();
 
-  const {
-    data = { status: "MAJOR", comment: "adsfsd fs df sdgds gdsg sdg sadfdf" }, // TODO: remove this
-  } = useGetVersionQuery({ pid, vid });
+  const { data = {} } = useGetVersionQuery({ pid, vid });
 
   return (
     <Container>

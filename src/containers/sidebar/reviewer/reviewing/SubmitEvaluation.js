@@ -78,11 +78,7 @@ export default function SubmitEvaluation() {
           <RadioGroupController name="type" options={options} />
         </Box>
         <Stack direction="row" spacing={3}>
-          <FileInputController
-            name="form"
-            label="Upload evaluation form"
-            multiple
-          />
+          <FileInputController name="form" label="Upload evaluation form" />
           <Box>
             <Button variant="contained" type="submit" endIcon={<SendIcon />}>
               Submit
