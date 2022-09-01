@@ -37,8 +37,7 @@ function VerifyStatus({ isUnderGraduate, verificationImage }) {
     );
   }
 
-  if (user.userMessage || !verificationImage) {
-    // TODO: need a help from the backend. userMessage should clear after updating the verificationImage
+  if (!verificationImage) {
     const onChange = (file) =>
       setIdPhoto({ file })
         .unwrap()
