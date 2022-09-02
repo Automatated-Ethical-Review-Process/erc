@@ -9,21 +9,12 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Paper from "@mui/material/Paper";
 
 import { useLoginMutation } from "api/auth/api";
 import authService from "services/auth";
 
-import Image from "assets/SliderImages/meeting1.jpg";
-// import Image1 from "assets/image1.png";
-// import Image2 from "assets/image2.png";
-// import Image3 from "assets/image3.png";
-// import Image4 from "assets/image4.png";
-// import Image5 from "assets/image5.png";
-// import Image6 from "assets/image6.png";
-// import Image7 from "assets/image7.png";
-// import Image8 from "assets/image8.png";
 // import Men from "assets/men.png";
 // import Woman from "assets/woman.png";
 
@@ -109,7 +100,7 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -118,7 +109,7 @@ export default function SignIn() {
         <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h4">
           Sign In
         </Typography>
         <BasicForm schema={schema} defaultValues={null} onSubmit={onSubmit}>
@@ -171,30 +162,10 @@ export default function SignIn() {
   );
 
   return (
-    <Grid>
-      <Grid
-        container
-        spacing={0}
-        columns={{ xs: 4, md: 12 }}
-        sx={{ mt: 1, pl: 2 }}
-      >
-        <Grid item xs={4} md={7}>
-          <Container
-            sx={{
-              backgroundImage: `url(${Image})`,
-              height: "100%",
-              width: "100%",
-              opacity: 1,
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-            }}
-          ></Container>
-        </Grid>
-        <Grid item xs={4}>
-          {formView}
-        </Grid>
-      </Grid>
-    </Grid>
+    <Container maxWidth="sm">
+      <Paper variant="outlined" sx={{ my: 4, pt: 0, pb: 4 }}>
+        {formView}
+      </Paper>
+    </Container>
   );
 }

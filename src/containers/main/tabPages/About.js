@@ -5,8 +5,12 @@ import { useTheme } from "@emotion/react";
 const About = () => {
   const theme = useTheme();
   return (
-    <Container sx={{ bgcolor: theme.isLight ? "#e6e6e6" : "#211e1b" }}>
-      <Typography align="justify" fontSize={18} sx={{ fontFamily: "Roboto" }}>
+    <Container sx={{ bgcolor: theme.isLight ? "#f2f2f2" : "#211e1b" }}>
+      <Typography
+        align="justify"
+        fontSize={18}
+        sx={{ fontFamily: "Roboto", py: 2 }}
+      >
         Ethical review Committee (ERC), Faculty of Medicine (FOM), University of
         Ruhuna (UOR) reviews all types of research proposals involving human and
         animal studies. It was established in 1980. Membership of Federation of
