@@ -1,5 +1,5 @@
 const Instruction = () => {
-  return <h1>Instruction</h1>;
+  return <h3>Instructions have not given yet.</h3>;
 };
 
 export default Instruction;
