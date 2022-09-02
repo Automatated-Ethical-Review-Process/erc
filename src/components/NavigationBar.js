@@ -30,6 +30,9 @@ import {
    closeNotificationSocket,
 } from "services/notification/notificationService";
 
+import { selectNotificationCount } from "api/notification/api";
+import { useSelector } from "react-redux";
+
 export default function SidebarLayout({ title, sideBarItems, children }) {
    const [mobileOpen, setMobileOpen] = useState(false);
    const [anchorEl, setAnchorEl] = useState(null);
@@ -45,7 +48,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
       onNotificationSocket(authService.access);
    }, []);
 
-   const notifications = 6;
+   const notifications = useSelector(selectNotificationCount);
 
    const [logout] = useLogoutMutation();
 

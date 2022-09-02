@@ -3,10 +3,12 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 
 import authApi, { reducer as authReducer } from "api/auth/api";
 import dataApi from "api/data/api";
-import notificationApi from "api/notification/api";
+import notificationApi, {
+   reducer as notificationReducer,
+} from "api/notification/api";
 import { setStore } from "./dispatcher";
 
-import notificationReducer from "./notificationSlice";
+//import notificationReducer from "./notificationSlice";
 
 const store = configureStore({
    reducer: {
@@ -14,7 +16,7 @@ const store = configureStore({
       [dataApi.reducerPath]: dataApi.reducer,
       [notificationApi.reducerPath]: notificationApi.reducer,
       auth: authReducer,
-      notifications: notificationReducer,
+      notification: notificationReducer,
    },
    middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false })

@@ -5,7 +5,7 @@ const sock = new SockJS(
    "https://erc-notification-service.herokuapp.com/ws-message"
 );
 let stompClient = Stomp.over(sock);
-//stompClient.debug = null;
+stompClient.debug = null;
 export const onNotificationSocket = (access) => {
    sock.onopen = function () {
       console.log("open");
