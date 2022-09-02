@@ -10,7 +10,13 @@ import RoleNavigationBar from "components/RoleNavigationBar";
 import { isUuid } from "utils/yup";
 
 function simplify(part) {
-  return isUuid(part) ? part.split("-")[0] : part;
+  if (part.includes("-")) {
+    const parts = part.split("-");
+    if (isUuid(part) || (parts.length === 5 && parts[0].length === 8)) {
+      return parts[0];
+    }
+  }
+  return part;
 }
 
 export default function SidebarLayout({ role, sideBarItems }) {
