@@ -25,13 +25,13 @@ const reviewApi = dataApi.injectEndpoints({
         body: { reviewers },
       }),
     }),
-    removeAssignedReviewer: build.mutation({
-      query: ({ pid, vid, rid }) => ({
-        url: `/proposal/${pid}/version/${vid}/reviewer/assign`,
-        method: "DELETE",
-        body: { reviewerId: rid },
-      }),
-    }),
+    // removeAssignedReviewer: build.mutation({
+    //   query: ({ pid, vid, rid }) => ({
+    //     url: `/proposal/${pid}/version/${vid}/reviewer/assign`,
+    //     method: "DELETE",
+    //     body: { reviewerId: rid },
+    //   }),
+    // }),
   }),
 });
 
@@ -39,7 +39,7 @@ export const {
   useAcceptReviewerProposalMutation,
   useRejectReviewerProposalMutation,
   useAssignAllReviewersMutation,
-  useRemoveAssignedReviewerMutation,
+  // useRemoveAssignedReviewerMutation,// removed
 } = reviewApi;
 
 export default reviewApi;

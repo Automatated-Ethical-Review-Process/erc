@@ -9,7 +9,6 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import {
   useGetStatusByIdQuery,
-  useToggleUserEnabledMutation,
   useToggleUserLockedMutation,
   useUpdateRolesMutation,
 } from "api/auth/api";
@@ -32,18 +31,12 @@ export default function UpdateUser() {
   const { data: status = {}, isLoading: isLoadingStatus } =
     useGetStatusByIdQuery(userId);
 
-  const [toggleEnable, { isLoading: isLoadingEnable }] =
-    useToggleUserEnabledMutation();
   const [toggleLock, { isLoading: isLoadingLock }] =
     useToggleUserLockedMutation();
   const [updateRoles, { isLoading: isLoadingRoles }] = useUpdateRolesMutation();
 
   const isLoading =
-    isLoadingUser ||
-    isLoadingStatus ||
-    isLoadingEnable ||
-    isLoadingLock ||
-    isLoadingRoles;
+    isLoadingUser || isLoadingStatus || isLoadingLock || isLoadingRoles;
 
   const role = user.roles?.includes(Roles.secretary)
     ? Roles.secretary
@@ -57,9 +50,6 @@ export default function UpdateUser() {
 
   const onSubmit = (data) => {
     const obj = {};
-    if (data.enabled !== status.isEnable) {
-      obj.toggleEnable = true;
-    }
     if (data.locked !== status.isLocked) {
       obj.toggleLocked = true;
     }
@@ -79,9 +69,6 @@ export default function UpdateUser() {
 
   const handleYes = () => {
     const promises = [];
-    if (data.toggleEnable) {
-      promises.push(toggleEnable(userId).unwrap());
-    }
     if (data.toggleLocked) {
       promises.push(toggleLock(userId).unwrap());
     }
@@ -99,7 +86,6 @@ export default function UpdateUser() {
   const defaultValues = useMemo(
     () => ({
       role,
-      enabled: status.isEnable ?? false,
       locked: status.isLocked ?? false,
     }),
     [status, role]
@@ -143,16 +129,6 @@ export default function UpdateUser() {
                 { label: "External Reviewer", value: Roles.e_reviewer },
                 { label: "Secretary", value: Roles.secretary },
               ]}
-            />
-          </Grid>
-          <Grid item xs={12} mt={3}>
-            <Typography variant="subtitle1">Enable or Disable user</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <SwitchController
-              name="enabled"
-              trueLabel="Enabled"
-              falseLabel="Disabled"
             />
           </Grid>
           <Grid item xs={12} mt={3}>
