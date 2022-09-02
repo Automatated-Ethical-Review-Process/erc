@@ -7,6 +7,7 @@ import { ReviewerStatus } from "config/enums";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
+import useUser from "hooks/useUser";
 
 function getBgColor(color, isLight) {
   return isLight ? lighten(color, 0.6) : darken(color, 0.6);
@@ -24,8 +25,10 @@ function ReviewerDataGrid({
   isLoading,
 }) {
   const { pid } = useParams();
+  const { id: uid } = useUser();
 
-  const { data = [], isLoading: isReviewersLoading } = useGetReviewersQuery();
+  const { data = [], isLoading: isReviewersLoading } =
+    useGetReviewersQuery(uid);
   const {
     data: previousReviewersRaw = [],
     isLoading: isPreviouslyReviewersLoading,

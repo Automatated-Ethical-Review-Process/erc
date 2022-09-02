@@ -36,7 +36,7 @@ const userApi = dataApi.injectEndpoints({
       providesTags: (r) => provideTags(r, "user"),
     }),
     getReviewers: build.query({
-      query: () => "/user/all/reviewer",
+      query: (pid) => `/user/all/reviewer/${pid}`,
       providesTags: (r) => provideTags(r, "user"),
     }),
     userExists: build.mutation({
