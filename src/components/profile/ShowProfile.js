@@ -1,5 +1,15 @@
 import EditIcon from "@mui/icons-material/Edit";
-import { Container, Fab } from "@mui/material";
+import {
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Fab,
+  Slide,
+  TextField,
+} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -19,10 +29,14 @@ import useAuth from "hooks/useAuth";
 
 import DoneIcon from "@mui/icons-material/Done";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+import SendIcon from "@mui/icons-material/Send";
 import Chip from "@mui/material/Chip";
+import { useAddAppealMutation, useGetMyAppealsQuery } from "api/data/appeal";
+import Roles from "config/roles";
 import useFile from "hooks/useFile";
 import useNotify from "hooks/useNotify";
 import useUser from "hooks/useUser";
+import { forwardRef, useRef, useState } from "react";
 
 function VerifyStatus({ isUnderGraduate, verificationImage }) {
   // verificationImage = 1;
@@ -192,6 +206,11 @@ export function Content() {
               )}
             </>
           )}
+          {!user.roles.includes(Roles.reviewer) && (
+            <Grid item xs={6}>
+              <RequestForReviewer />
+            </Grid>
+          )}
         </Grid>
       </Box>
       <Fab
@@ -208,6 +227,79 @@ export function Content() {
         Edit
       </Fab>
     </Container>
+  );
+}
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+function RequestForReviewer() {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const { notify } = useNotify();
+
+  const { data, isLoading: isAppealLoading } = useGetMyAppealsQuery();
+
+  const [addAppeal, { isLoading: isAddingAppeal }] = useAddAppealMutation();
+
+  const isLoading = isAppealLoading || isAddingAppeal;
+
+  const onClick = (message) =>
+    addAppeal({ message })
+      .unwrap()
+      .then(() => notify("Appeal submitted successfully", "success"))
+      .catch(({ data }) =>
+        notify(data?.message || "Couldn't submit the appeal", "error")
+      );
+
+  const handleSubmit = () => {
+    onClick(ref.current.value);
+    handleClose();
+  };
+
+  const ref = useRef();
+  return (
+    <Box>
+      <LoadingCircle isLoading={isLoading} />
+      <Button
+        variant="contained"
+        endIcon={<SendIcon />}
+        onClick={handleClickOpen}
+        disabled={data === undefined || data.length > 0}
+      >
+        Send Request to be a Reviewer
+      </Button>
+
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+      >
+        <DialogTitle>Do you want to send request to be a Reviewer?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Enter your comments hear ...
+          </DialogContentText>
+          <TextField
+            inputRef={ref}
+            autoFocus
+            margin="dense"
+            id="name"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSubmit}>Send</Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 }
 

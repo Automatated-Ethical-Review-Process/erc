@@ -1,9 +1,7 @@
-import * as React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import SendIcon from "@mui/icons-material/Send";
 import {
   Container,
   Dialog,
@@ -20,8 +18,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import Slide from "@mui/material/Slide";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +30,6 @@ import {
   useUpdateEmailVerifyMutation,
   useUpdatePasswordMutation,
 } from "api/auth/api";
-import { useAddAppealMutation, useGetMyAppealsQuery } from "api/data/appeal";
 import {
   useGetMeQuery,
   useUpdateMeMutation,
@@ -46,11 +41,9 @@ import {
   PasswordFieldController,
   TextPasswordFieldController,
 } from "components/controllers";
-import Roles from "config/roles";
 import useAuth from "hooks/useAuth";
 import useFile from "hooks/useFile";
 import useForm from "hooks/useForm";
-import useUser from "hooks/useUser";
 import {
   yAddress,
   yEducationalQualifications,
@@ -188,81 +181,6 @@ function EditDetails() {
         </Grid>
       </Grid>
     </Form>
-  );
-}
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
-function RequestForReviewer() {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const { notify } = useNotify();
-
-  const { data, isLoading: isAppealLoading } = useGetMyAppealsQuery();
-
-  const [addAppeal, { isLoading: isAddingAppeal }] = useAddAppealMutation();
-
-  const isLoading = isAppealLoading || isAddingAppeal;
-
-  const onClick = (message) =>
-    addAppeal({ message })
-      .unwrap()
-      .then(() => notify("Appeal submitted successfully", "success"))
-      .catch(({ data }) =>
-        notify(data?.message || "Couldn't submit the appeal", "error")
-      );
-
-  const handleSubmit = () => {
-    onClick(ref.current.value);
-    handleClose();
-  };
-
-  const ref = useRef();
-  return (
-    <Box>
-      <LoadingCircle isLoading={isLoading} />
-      <Button
-        variant="contained"
-        endIcon={<SendIcon />}
-        onClick={handleClickOpen}
-        disabled={data === undefined || data.length > 0}
-      >
-        Send Request to be a Reviewer
-      </Button>
-
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-      >
-        <DialogTitle>
-          Do you want to switch this account to Reviewer?
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Enter your reason hear ...
-          </DialogContentText>
-          <TextField
-            inputRef={ref}
-            autoFocus
-            margin="dense"
-            id="name"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Send</Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
   );
 }
 
@@ -436,11 +354,6 @@ function EditPassword() {
 
 function Content() {
   const navigate = useNavigate();
-
-  const { roles } = useUser();
-
-  console.log(roles);
-
   return (
     <Container maxWidth={"md"} sx={{ pb: 10 }}>
       <Grid
@@ -459,12 +372,6 @@ function Content() {
           <EditEmail />
           <Divider />
           <EditPassword />
-          {!roles.includes(Roles.reviewer) && (
-            <>
-              <Divider />
-              <RequestForReviewer />
-            </>
-          )}
         </Stack>
       </Box>
       <Fab
