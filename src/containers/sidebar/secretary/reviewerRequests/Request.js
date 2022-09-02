@@ -1,4 +1,5 @@
 import { Button, Container, Grid } from "@mui/material";
+import { useUpdateRolesMutation } from "api/auth/api";
 import {
   useAcceptAppealMutation,
   useGetAppealQuery,
@@ -6,6 +7,7 @@ import {
 } from "api/data/appeal";
 import LoadingCircle from "components/common/LoadingCircle";
 import TextField from "components/common/TextField";
+import Roles, { getRoles } from "config/roles";
 import useNotify from "hooks/useNotify";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -20,11 +22,14 @@ function ReviewerRequest() {
   const [rejectAppeal, { isLoading: isRejectLoading }] =
     useRejectAppealMutation();
 
-  const isLoading = isAppealLoading || isAcceptLoading || isRejectLoading;
+  const [updateRoles, { isLoading: isLoadingRoles }] = useUpdateRolesMutation();
+
+  const isLoading =
+    isAppealLoading || isAcceptLoading || isRejectLoading || isLoadingRoles;
 
   const { notify } = useNotify();
 
-  const onAccept = () =>
+  const onAcceptSuccess = () =>
     acceptAppeal(appeal.id)
       .unwrap()
       .then(() => {
@@ -33,6 +38,14 @@ function ReviewerRequest() {
       })
       .catch(({ data }) =>
         notify(data?.message || "Couldn't accept the request", "error")
+      );
+
+  const onAccept = () =>
+    updateRoles({ id: appeal.applicantId, roles: getRoles(Roles.e_reviewer) })
+      .unwrap()
+      .then(onAcceptSuccess)
+      .catch(({ data }) =>
+        notify(data?.message || "Couldn't update the role", "error")
       );
 
   const onReject = () =>
