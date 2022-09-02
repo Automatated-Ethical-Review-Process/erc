@@ -12,7 +12,10 @@ import { isUuid } from "utils/yup";
 function simplify(part) {
   if (part.includes("-")) {
     const parts = part.split("-");
-    if (isUuid(part) || (parts.length === 5 && parts[0].length === 8)) {
+    if (
+      isUuid(part) ||
+      ((parts.length === 5 || parts.length === 6) && parts[0].length === 8)
+    ) {
       return parts[0];
     }
   }
