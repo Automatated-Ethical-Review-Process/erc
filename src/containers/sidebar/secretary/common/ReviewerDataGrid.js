@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import { darken, lighten } from "@mui/material/styles";
 import { useGetPreviousAssignedReviewersQuery } from "api/data/proposal";
 import { useGetReviewersQuery } from "api/data/user";
 import { useGetLatestVersionQuery } from "api/data/version";
@@ -6,8 +7,6 @@ import DataGrid from "components/common/DataGrid";
 import { ReviewerStatus } from "config/enums";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { darken, lighten } from "@mui/material/styles";
-import useUser from "hooks/useUser";
 
 function getBgColor(color, isLight) {
   return isLight ? lighten(color, 0.6) : darken(color, 0.6);
@@ -25,10 +24,9 @@ function ReviewerDataGrid({
   isLoading,
 }) {
   const { pid } = useParams();
-  const { id: uid } = useUser();
 
   const { data = [], isLoading: isReviewersLoading } =
-    useGetReviewersQuery(uid);
+    useGetReviewersQuery(pid);
   const {
     data: previousReviewersRaw = [],
     isLoading: isPreviouslyReviewersLoading,
