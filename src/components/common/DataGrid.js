@@ -7,8 +7,8 @@ class ColumnDefinition {
   constructor(field, headerName, flex) {
     this.field = field;
     this.headerName = headerName;
-    this.headerAlign = "center";
-    this.align = "center";
+    this.headerAlign = "left";
+    this.align = "left";
     this.width = 150;
     this.flex = flex;
     this.renderCell = ({ value }) =>
@@ -58,6 +58,9 @@ const DataGrid = ({ fields, headerNames, rows, onRowClick, ...props }) => {
           ".MuiDataGrid-columnHeader": {
             backgroundColor: (t) =>
               t.isLight ? t.palette.secondary.light : t.palette.secondary.dark,
+          },
+          ".MuiDataGrid-cell": {
+            cursor: "pointer",
           },
           ...props.sx,
         }}

@@ -1,46 +1,30 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+
+import { SOCKET } from "config/endpoints";
+import routes from "config/routes";
+
 import { setNotification } from "../../api/notification/api";
 
-const sock = new SockJS(
-   "https://erc-notification-service.herokuapp.com/ws-message"
-);
-let stompClient = Stomp.over(sock);
+const stompClient = Stomp.over(new SockJS(SOCKET));
+
 stompClient.debug = null;
+
 export const OnNotificationSocket = (access, dispatch, notify, navigate) => {
-   sock.onopen = function () {
-      console.log("open");
-   };
-   stompClient.connect(
-      {
-         Authorization: access,
-      },
-      function (frame) {
-         stompClient.subscribe("/topic/message", function (greeting) {
-            //console.log(JSON.parse(greeting.body));
-         });
+  stompClient.connect({ Authorization: access }, (frame) => {
+    stompClient.subscribe("/topic/message", (greeting) => {});
 
-         stompClient.subscribe(
-            "/user/topic/private-message",
-            function (payload) {
-               console.log(JSON.parse(payload.body));
-               dispatch(setNotification(JSON.parse(payload.body)));
+    stompClient.subscribe("/user/topic/private-message", (payload) => {
+      const body = JSON.parse(payload.body);
+      console.log(body); // TODO: remove this line
+      dispatch(setNotification(body));
 
-               notify("Notification Received..!", "success", {
-                  onClick: () => {
-                     console.log(JSON.parse(payload.body).id);
-                     navigate("/notification", {
-                        state: JSON.parse(payload.body).id,
-                     });
-                  },
-                  label: "View",
-               });
-            }
-         );
-      }
-   );
+      notify("Notification Received..!", "success", {
+        onClick: () => navigate(routes.notification, { state: body.id }),
+        label: "View",
+      });
+    });
+  });
 };
 
-export const closeNotificationSocket = () => {
-   stompClient.disconnect();
-};
+export const closeNotificationSocket = stompClient.disconnect;

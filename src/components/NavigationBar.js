@@ -26,233 +26,235 @@ import { useTheme } from "styled-components";
 
 import authService from "services/auth";
 import {
-   OnNotificationSocket,
-   closeNotificationSocket,
+  OnNotificationSocket,
+  closeNotificationSocket,
 } from "services/notification/notificationService";
 
 import useNotify from "hooks/useNotify";
 
 import {
-   selectNotificationCount,
-   useGetNotificationsQuery,
+  selectNotificationCount,
+  useGetNotificationsQuery,
 } from "api/notification/api";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function SidebarLayout({ title, sideBarItems, children }) {
-   const [mobileOpen, setMobileOpen] = useState(false);
-   const [anchorEl, setAnchorEl] = useState(null);
-   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-   const isMenuOpen = Boolean(anchorEl);
-   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-   const navigate = useNavigate();
-   const dispatch = useDispatch();
-   const { notify } = useNotify(true);
-   const theme = useTheme();
-   const { error, isLoading } = useGetNotificationsQuery();
-   useEffect(() => {
-      OnNotificationSocket(authService.access, dispatch, notify, navigate);
-   }, []);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { notify } = useNotify(true);
 
-   const notifications = useSelector(selectNotificationCount);
+  const theme = useTheme();
+  useGetNotificationsQuery();
 
-   const [logout] = useLogoutMutation();
+  useEffect(() => {
+    OnNotificationSocket(authService.access, dispatch, notify, navigate);
+  }, [dispatch, notify, navigate]);
 
-   const handleProfileMenuOpen = (event) => {
-      setAnchorEl(event.currentTarget);
-   };
+  const notifications = useSelector(selectNotificationCount);
 
-   const handleMobileMenuClose = () => {
-      setMobileMoreAnchorEl(null);
-   };
+  const [logout] = useLogoutMutation();
 
-   const handleMenuClose = () => {
-      setAnchorEl(null);
-      handleMobileMenuClose();
-   };
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-   const handleNotification = () => {
-      handleMenuClose();
-      navigate(routes.notification);
-   };
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
 
-   const handleProfile = () => {
-      handleMenuClose();
-      navigate(routes.profile);
-   };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
 
-   const handleLogout = () => {
-      handleMenuClose();
-      logout();
-      closeNotificationSocket();
-   };
+  const handleNotification = () => {
+    handleMenuClose();
+    navigate(routes.notification);
+  };
 
-   const handleMobileMenuOpen = (event) => {
-      setMobileMoreAnchorEl(event.currentTarget);
-   };
+  const handleProfile = () => {
+    handleMenuClose();
+    navigate(routes.profile);
+  };
 
-   const handleDrawerToggle = () => {
-      setMobileOpen(!mobileOpen);
-   };
+  const handleLogout = () => {
+    handleMenuClose();
+    logout();
+    closeNotificationSocket();
+  };
 
-   const toggleTheme = (
-      <IconButton size="large" onClick={theme.toggleTheme} color="inherit">
-         {theme.isLight ? <DarkModeIcon /> : <LightModeIcon />}
-      </IconButton>
-   );
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
-   const renderMenu = (
-      <Menu
-         anchorEl={anchorEl}
-         anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-         }}
-         keepMounted
-         transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-         }}
-         open={isMenuOpen}
-         onClose={handleMenuClose}
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const toggleTheme = (
+    <IconButton size="large" onClick={theme.toggleTheme} color="inherit">
+      {theme.isLight ? <DarkModeIcon /> : <LightModeIcon />}
+    </IconButton>
+  );
+
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleProfile}>Profile</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+    </Menu>
+  );
+
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem onClick={handleNotification}>
+        <IconButton size="large" color="inherit">
+          <Badge badgeContent={notifications} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton size="large" color="inherit">
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
+  return (
+    <Box sx={{ display: "flex" }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          boxShadow: "none",
+          zIndex: (t) => t.zIndex.drawer + 1,
+        }}
       >
-         <MenuItem onClick={handleProfile}>Profile</MenuItem>
-         <MenuItem onClick={handleLogout}>Logout</MenuItem>
-      </Menu>
-   );
+        <Toolbar>
+          {sideBarItems && (
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
 
-   const renderMobileMenu = (
-      <Menu
-         anchorEl={mobileMoreAnchorEl}
-         anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-         }}
-         keepMounted
-         transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-         }}
-         open={isMobileMenuOpen}
-         onClose={handleMobileMenuClose}
+          <Typography
+            sx={{
+              fontFamily: "monospace",
+              fontSize: 20,
+              lineHeight: 3,
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+            onClick={() => navigate(routes.home)}
+          >
+            {title}
+          </Typography>
+
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              flexGrow: 1,
+              justifyContent: "right",
+            }}
+          >
+            {toggleTheme}
+            <IconButton
+              size="large"
+              color="inherit"
+              onClick={handleNotification}
+            >
+              <Badge badgeContent={notifications} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </Box>
+          <Box
+            sx={{
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              justifyContent: "right",
+            }}
+          >
+            {toggleTheme}
+            <IconButton
+              size="large"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+      {sideBarItems && (
+        <Drawer
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          items={sideBarItems}
+        />
+      )}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 1,
+          mt: { xs: 1, sm: 0 },
+          mb: 3,
+        }}
       >
-         <MenuItem onClick={handleNotification}>
-            <IconButton size="large" color="inherit">
-               <Badge badgeContent={notifications} color="error">
-                  <NotificationsIcon />
-               </Badge>
-            </IconButton>
-            <p>Notifications</p>
-         </MenuItem>
-         <MenuItem onClick={handleProfileMenuOpen}>
-            <IconButton size="large" color="inherit">
-               <AccountCircle />
-            </IconButton>
-            <p>Profile</p>
-         </MenuItem>
-      </Menu>
-   );
-
-   return (
-      <Box sx={{ display: "flex" }}>
-         <AppBar
-            position="fixed"
-            sx={{
-               boxShadow: "none",
-               zIndex: (t) => t.zIndex.drawer + 1,
-            }}
-         >
-            <Toolbar>
-               {sideBarItems && (
-                  <IconButton
-                     color="inherit"
-                     edge="start"
-                     onClick={handleDrawerToggle}
-                     sx={{ mr: 2, display: { sm: "none" } }}
-                  >
-                     <MenuIcon />
-                  </IconButton>
-               )}
-
-               <Typography
-                  sx={{
-                     fontFamily: "monospace",
-                     fontSize: 20,
-                     lineHeight: 3,
-                     fontWeight: 700,
-                     cursor: "pointer",
-                  }}
-                  onClick={() => navigate(routes.home)}
-               >
-                  {title}
-               </Typography>
-
-               <Box
-                  sx={{
-                     display: { xs: "none", md: "flex" },
-                     flexGrow: 1,
-                     justifyContent: "right",
-                  }}
-               >
-                  {toggleTheme}
-                  <IconButton
-                     size="large"
-                     color="inherit"
-                     onClick={handleNotification}
-                  >
-                     <Badge badgeContent={notifications} color="error">
-                        <NotificationsIcon />
-                     </Badge>
-                  </IconButton>
-                  <IconButton
-                     size="large"
-                     edge="end"
-                     onClick={handleProfileMenuOpen}
-                     color="inherit"
-                  >
-                     <AccountCircle />
-                  </IconButton>
-               </Box>
-               <Box
-                  sx={{
-                     display: { xs: "flex", md: "none" },
-                     flexGrow: 1,
-                     justifyContent: "right",
-                  }}
-               >
-                  {toggleTheme}
-                  <IconButton
-                     size="large"
-                     onClick={handleMobileMenuOpen}
-                     color="inherit"
-                  >
-                     <MoreIcon />
-                  </IconButton>
-               </Box>
-            </Toolbar>
-         </AppBar>
-         {renderMobileMenu}
-         {renderMenu}
-         {sideBarItems && (
-            <Drawer
-               open={mobileOpen}
-               onClose={handleDrawerToggle}
-               items={sideBarItems}
-            />
-         )}
-         <Box
-            component="main"
-            sx={{
-               flexGrow: 1,
-               p: 1,
-               mt: { xs: 1, sm: 0 },
-               mb: 3,
-            }}
-         >
-            <Toolbar />
-            {children}
-         </Box>
+        <Toolbar />
+        {children}
       </Box>
-   );
+    </Box>
+  );
 }

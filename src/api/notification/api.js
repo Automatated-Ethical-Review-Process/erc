@@ -2,107 +2,98 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { notificationQuery } from "api/base";
-import { bool } from "yup";
 
-const notification = createApi({
-   reducerPath: "api/notification",
-   baseQuery: notificationQuery,
-   endpoints: () => ({}),
-});
-
-const notificationApi = notification.injectEndpoints({
-   endpoints: (build) => ({
-      getNotifications: build.query({
-         query: () => "/",
-      }),
-      getNotification: build.query({
-         query: (id) => `/${id}`,
-      }),
-   }),
+const notificationApi = createApi({
+  reducerPath: "api/notification",
+  baseQuery: notificationQuery,
+  endpoints: (build) => ({
+    getNotifications: build.query({
+      query: () => "/",
+    }),
+    getNotification: build.query({
+      query: (id) => `/${id}`,
+    }),
+  }),
 });
 
 export const { useGetNotificationQuery, useGetNotificationsQuery } =
-   notificationApi;
+  notificationApi;
 
 export default notificationApi;
 
 const notificationSlice = createSlice({
-   name: "notification",
-   initialState: {
-      count: 0,
-      notifications: [],
-   },
-   reducers: {
-      setNotification(notification, { payload }) {
-         notification.notifications = appendData(
-            notification.notifications,
-            payload
-         );
-         notification.count = getUnreadNotification(notification.notifications);
-      },
-   },
-   extraReducers: (builder) => {
-      builder.addMatcher(
-         notificationApi.endpoints.getNotifications.matchFulfilled,
-         (notification, { payload }) => {
-            notification.notifications = payload;
-            notification.count = getUnreadNotification(
-               notification.notifications
-            );
-         }
+  name: "notification",
+  initialState: {
+    count: 0,
+    notifications: [],
+  },
+  reducers: {
+    setNotification(notification, { payload }) {
+      notification.notifications = appendData(
+        notification.notifications,
+        payload
       );
-   },
+      notification.count = getUnreadNotification(notification.notifications);
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      notificationApi.endpoints.getNotifications.matchFulfilled,
+      (notification, { payload }) => {
+        notification.notifications = payload;
+        notification.count = getUnreadNotification(notification.notifications);
+      }
+    );
+    builder.addMatcher(
+      notificationApi.endpoints.getNotification.matchFulfilled,
+      (notification, { payload }) => {
+        const data = notification.notifications.map((n) =>
+          n.id === payload.id ? { ...n, read: true } : n
+        );
+        notification.notifications = data;
+        notification.count = getUnreadNotification(notification.notifications);
+      }
+    );
+  },
 });
+
+function getUnreadNotification(array) {
+  return array.filter((i) => i.read === false).length;
+}
+
+function appendData(array, payload) {
+  const list = array.filter((element) => element.id !== payload.id);
+  list.push(payload);
+  return list;
+}
 
 export const { reducer } = notificationSlice;
 export const { setNotification } = notificationSlice.actions;
+
 export const selectNotificationCount = (state) => state.notification.count;
-export const selectNotitifcations = (state) => state.notification.notifications;
+export const selectNotifications = (state) => state.notification.notifications;
 
-export function pathGenarator(contentId, notificationType) {
-   if (notificationType === "NEW_PROPOSAL_SUBMISSION") {
+export function pathGenerator(contentId, notificationType) {
+  switch (notificationType) {
+    case "NEW_PROPOSAL_SUBMISSION":
       return "/clerk/new-submissions";
-   } else if (notificationType === "NEW_USER_REQUEST") {
+    case "NEW_USER_REQUEST":
       return "/clerk/new-user-requests";
-   } else if (notificationType === "USER_PROFILE") {
+    case "USER_PROFILE":
       return "/profile";
-   } else if (notificationType === "SECRETARY_UNASSIGNED_PROPOSAL_ID") {
+    case "SECRETARY_UNASSIGNED_PROPOSAL_ID":
       return `/secretary/assigned/${contentId}`;
-   } else if (notificationType === "APPLICANT_ONGOING_PROPOSAL_ID") {
+    case "APPLICANT_ONGOING_PROPOSAL_ID":
       return `/applicant/ongoing-submissions/${contentId}`;
-   } else if (notificationType === "REVIEWER_PENDING_PROPOSAL_ID") {
+    case "REVIEWER_PENDING_PROPOSAL_ID":
       return `/reviewer/pending/${contentId}`;
-   } else if (notificationType === "SECRETARY_CONFIRM_REVIEW_PROPOSAL_ID") {
+    case "SECRETARY_CONFIRM_REVIEW_PROPOSAL_ID":
       return `/secretary/assigned/${contentId}`;
-   } else if (notificationType === "SECRETARY_REJECT_REVIEW_PROPOSAL_ID") {
+    case "SECRETARY_REJECT_REVIEW_PROPOSAL_ID":
       return `/secretary/assigned/${contentId}`;
-   } else if (notificationType === "SECRETARY_REVIEWED_PROPOSAL_ID") {
+    case "SECRETARY_REVIEWED_PROPOSAL_ID":
       return `/secretary/reviewed/${contentId}`;
-   } else if (notificationType === "USER_PROFILE") {
-      return `/profile`;
-   } else if (notificationType === "USER_PROFILE") {
-      return `/profile`;
-   } else if (notificationType === "USER_PROFILE") {
-      return `/profile`;
-   } else if (notificationType === "USER_PROFILE") {
-      return `/profile`;
-   } else {
+    default:
       return "/notification";
-   }
-}
-
-function getUnreadNotification(arry) {
-   let unreadCount = 0;
-   arry.map((element) => {
-      if (element.read == false) {
-         unreadCount++;
-      }
-   });
-   return unreadCount;
-}
-
-function appendData(arry, payload) {
-   const list = arry.filter((element) => element.id != payload.id);
-   list.push(payload);
-   return list;
+  }
 }
