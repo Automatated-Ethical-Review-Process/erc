@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const useNotify = (persist = false) => {
    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
    const navigate = useNavigate();
-   const notify = (text, variant = "default", type = "default", options = {}) =>
+   const notify = (text, variant = "default", options = {}) =>
       enqueueSnackbar(text, {
          variant,
          persist,
@@ -15,14 +15,11 @@ const useNotify = (persist = false) => {
                   variant="text"
                   color="inherit"
                   onClick={() => {
-                     console.log("first");
                      closeSnackbar(id);
-                     if (type === "notification") {
-                        navigate("/notification");
-                     }
+                     options.onClick ? options.onClick() : void 0;
                   }}
                >
-                  Dismiss
+                  {options.label || "Dismiss"}
                </Button>
             ),
          ...options,

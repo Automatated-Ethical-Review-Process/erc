@@ -1,12 +1,13 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { setNotification } from "../../api/notification/api";
+
 const sock = new SockJS(
    "https://erc-notification-service.herokuapp.com/ws-message"
 );
 let stompClient = Stomp.over(sock);
 stompClient.debug = null;
-export const OnNotificationSocket = (access, dispatch, notify) => {
+export const OnNotificationSocket = (access, dispatch, notify, navigate) => {
    sock.onopen = function () {
       console.log("open");
    };
@@ -24,7 +25,16 @@ export const OnNotificationSocket = (access, dispatch, notify) => {
             function (payload) {
                console.log(JSON.parse(payload.body));
                dispatch(setNotification(JSON.parse(payload.body)));
-               notify("Notification Received..!", "success", "notification");
+
+               notify("Notification Received..!", "success", {
+                  onClick: () => {
+                     console.log(JSON.parse(payload.body).id);
+                     navigate("/notification", {
+                        state: JSON.parse(payload.body).id,
+                     });
+                  },
+                  label: "View",
+               });
             }
          );
       }

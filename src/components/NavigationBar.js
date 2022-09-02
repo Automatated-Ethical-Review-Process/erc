@@ -48,11 +48,11 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
 
    const navigate = useNavigate();
    const dispatch = useDispatch();
-   const { notify } = useNotify();
+   const { notify } = useNotify(true);
    const theme = useTheme();
    const { error, isLoading } = useGetNotificationsQuery();
    useEffect(() => {
-      OnNotificationSocket(authService.access, dispatch, notify);
+      OnNotificationSocket(authService.access, dispatch, notify, navigate);
    }, []);
 
    const notifications = useSelector(selectNotificationCount);
