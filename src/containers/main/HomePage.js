@@ -33,7 +33,6 @@ import img5 from "assets/SliderImages/meeting5.jpg";
 import img6 from "assets/SliderImages/meeting6.jpg";
 
 function ActionAreaCard() {
-  const theme = useTheme();
   return (
     <Card sx={{ maxWidth: "100%" }}>
       <Box sx={{ width: "100%" }}>
@@ -173,7 +172,7 @@ export default function HomePage() {
   };
 
   return (
-    <Container>
+    <Container sx={{ my: 2 }}>
       <Box sx={{ maxWidth: "100%", flexGrow: 1 }}>
         <Paper
           square
