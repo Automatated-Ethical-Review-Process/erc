@@ -26,12 +26,15 @@ import { useTheme } from "styled-components";
 
 import authService from "services/auth";
 import {
-   onNotificationSocket,
+   OnNotificationSocket,
    closeNotificationSocket,
 } from "services/notification/notificationService";
 
-import { selectNotificationCount } from "api/notification/api";
-import { useSelector } from "react-redux";
+import {
+   selectNotificationCount,
+   useGetNotificationsQuery,
+} from "api/notification/api";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function SidebarLayout({ title, sideBarItems, children }) {
    const [mobileOpen, setMobileOpen] = useState(false);
@@ -42,10 +45,11 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
    const navigate = useNavigate();
+   const dispatch = useDispatch();
    const theme = useTheme();
-
+   const { error, isLoading } = useGetNotificationsQuery();
    useEffect(() => {
-      onNotificationSocket(authService.access);
+      OnNotificationSocket(authService.access, dispatch);
    }, []);
 
    const notifications = useSelector(selectNotificationCount);

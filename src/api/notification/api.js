@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { notificationQuery } from "api/base";
+import { bool } from "yup";
 
 const notification = createApi({
    reducerPath: "api/notification",
@@ -33,8 +34,16 @@ const notificationSlice = createSlice({
    },
    reducers: {
       setNotification(notification, { payload }) {
-         notification.count = 5;
-         notification.notifications = [...notification.notifications, payload];
+         console.log("Initals", notification.notifications.length);
+         notification.notifications = appendData(
+            notification.notifications,
+            payload
+         );
+         console.log("After", notification.notifications.length);
+         notification.count = getUnreadNotification(notification.notifications);
+         console.log("After", notification.count);
+         console.log("trigered");
+         console.log(payload);
       },
    },
    extraReducers: (builder) => {
@@ -51,6 +60,7 @@ const notificationSlice = createSlice({
 });
 
 export const { reducer } = notificationSlice;
+export const { setNotification } = notificationSlice.actions;
 export const selectNotificationCount = (state) => state.notification.count;
 export const selectNotitifcations = (state) => state.notification.notifications;
 
@@ -61,17 +71,43 @@ export function pathGenarator(contentId, notificationType) {
       return "/clerk/new-user-requests";
    } else if (notificationType === "USER_PROFILE") {
       return "/profile";
-   } else if (notificationType === "") {
+   } else if (notificationType === "SECRETARY_UNASSIGNED_PROPOSAL_ID") {
+      return `/secretary/assigned/${contentId}`;
+   } else if (notificationType === "APPLICANT_ONGOING_PROPOSAL_ID") {
+      return `/applicant/ongoing-submissions/${contentId}`;
+   } else if (notificationType === "REVIEWER_PENDING_PROPOSAL_ID") {
+      return `/reviewer/pending/${contentId}`;
+   } else if (notificationType === "SECRETARY_CONFIRM_REVIEW_PROPOSAL_ID") {
+      return `/secretary/assigned/${contentId}`;
+   } else if (notificationType === "SECRETARY_REJECT_REVIEW_PROPOSAL_ID") {
+      return `/secretary/assigned/${contentId}`;
+   } else if (notificationType === "SECRETARY_REVIEWED_PROPOSAL_ID") {
+      return `/secretary/reviewed/${contentId}`;
+   } else if (notificationType === "USER_PROFILE") {
+      return `/profile`;
+   } else if (notificationType === "USER_PROFILE") {
+      return `/profile`;
+   } else if (notificationType === "USER_PROFILE") {
+      return `/profile`;
+   } else if (notificationType === "USER_PROFILE") {
+      return `/profile`;
+   } else {
+      return "/notification";
    }
 }
 
 function getUnreadNotification(arry) {
    let unreadCount = 0;
-   console.log(arry[0]);
    arry.map((element) => {
       if (element.read == false) {
          unreadCount++;
       }
    });
    return unreadCount;
+}
+
+function appendData(arry, payload) {
+   const list = arry.filter((element) => element.id != payload.id);
+   list.push(payload);
+   return list;
 }

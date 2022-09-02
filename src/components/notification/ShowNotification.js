@@ -98,6 +98,7 @@ const Item = styled(Paper)(({ theme }) => ({
 function Notification({ id }) {
    const navigate = useNavigate();
    const { data, error, isLoading } = useGetNotificationQuery(id);
+   console.log(data);
    return (
       <>
          {isLoading ? (
@@ -147,15 +148,19 @@ function Notification({ id }) {
                <Grid item xs={12} container sx={{ mt: 2 }}>
                   <Stack direction={"column"}>
                      <Typography>{data.content}</Typography>
-                     <Typography
-                        sx={{ color: "blue", cursor: "pointer" }}
-                        onClick={() => {
-                           navigate(pathGenarator(null, data.type));
-                        }}
-                     >
-                        {" "}
-                        Click Here...{" "}
-                     </Typography>
+                     {data.type !== "/notification" ? (
+                        <Typography
+                           sx={{ color: "blue", cursor: "pointer" }}
+                           onClick={() => {
+                              navigate(
+                                 pathGenarator(data.contentId, data.type)
+                              );
+                           }}
+                        >
+                           {" "}
+                           Click Here...{" "}
+                        </Typography>
+                     ) : null}
                   </Stack>
                </Grid>
             </Grid>
