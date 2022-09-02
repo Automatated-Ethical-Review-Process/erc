@@ -198,7 +198,7 @@ export default function MainLayout() {
       <Box sx={{ mb: 1 }}>
         <Outlet />
       </Box>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

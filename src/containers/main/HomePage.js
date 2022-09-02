@@ -1,18 +1,29 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
-import MobileStepper from "@mui/material/MobileStepper";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import CallIcon from "@mui/icons-material/Call";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import { CardActionArea } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import MobileStepper from "@mui/material/MobileStepper";
+import Paper from "@mui/material/Paper";
+import { useTheme } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
-import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
+import Tab from "@material-ui/core/Tab";
+import TabContext from "@material-ui/lab/TabContext";
+import TabList from "@material-ui/lab/TabList";
+import TabPanel from "@material-ui/lab/TabPanel";
+import CommitteMembers from "containers/main/tabPages/CommitteMembers";
+import Gallery from "containers/main/tabPages/Gallery";
+import About from "containers/main/tabPages/About";
 
 import img1 from "assets/SliderImages/meeting1.jpg";
 import img2 from "assets/SliderImages/meeting2.jpg";
@@ -21,10 +32,61 @@ import img4 from "assets/SliderImages/meeting4.jpg";
 import img5 from "assets/SliderImages/meeting5.jpg";
 import img6 from "assets/SliderImages/meeting6.jpg";
 
-import Tab from "@material-ui/core/Tab";
-import TabContext from "@material-ui/lab/TabContext";
-import TabList from "@material-ui/lab/TabList";
-import TabPanel from "@material-ui/lab/TabPanel";
+function ActionAreaCard() {
+  return (
+    <Card sx={{ maxWidth: "100%" }}>
+      <Box sx={{ width: "100%" }}>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid item xs={12} md={4}>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                <CallIcon /> Contact
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                The Administrative Officer <br /> Office: 0912234801/803 Ext:
+                161 <br />
+                Email :ethics@med.ruh.ac.lk
+              </Typography>
+            </CardContent>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                <CallIcon /> Contact
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Prof. C. M. Wickramatilake <br /> Chairperson <br /> Ethical
+                Review Committee
+                <br />
+                Department of Biochemistry <br />
+                Faculty of Medicine <br />
+                University of Ruhuna
+                <br />
+                Office: 0912234801/803 Ext: 261
+              </Typography>
+            </CardContent>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                <CallIcon /> Contact
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Dr. S. S. Wickramasinghe <br />
+                Convenor/Secretary <br />
+                Ethical Review Committee
+                <br />
+                Department of Microbiology <br />
+                Faculty of Medicine <br />
+                University of Ruhuna Office: 0912234801/803 Ext: 212
+              </Typography>
+            </CardContent>
+          </Grid>
+        </Grid>
+      </Box>
+    </Card>
+  );
+}
 
 function LabTabs() {
   const [value, setValue] = React.useState("1");
@@ -42,14 +104,28 @@ function LabTabs() {
             aria-label="lab API tabs example"
             centered
           >
-            <Tab label="Galleray" value="1" />
+            <Tab label="About" value="1" />
             <Tab label="Committee Members" value="2" />
-            <Tab label="Contact Us" value="3" />
+            <Tab label="Galleray" value="3" />
           </TabList>
         </Box>
-        <TabPanel value="1">Item One</TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
-        <TabPanel value="3">Item Three</TabPanel>
+        <TabPanel value="1">
+          <About />
+        </TabPanel>
+        <TabPanel value="2">
+          <CommitteMembers />
+        </TabPanel>
+        <TabPanel value="3">
+          <Box sx={{ display: { xs: "block", sm: "none" } }}>
+            <Gallery cols={1} />
+          </Box>
+          <Box sx={{ display: { xs: "none", sm: "block", md: "none" } }}>
+            <Gallery cols={2} />
+          </Box>
+          <Box sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
+            <Gallery cols={3} />
+          </Box>
+        </TabPanel>
       </TabContext>
     </Box>
   );
@@ -173,6 +249,8 @@ export default function HomePage() {
       </Box>
 
       <LabTabs />
+      <Divider variant="fullWidth" sx={{ mb: 2 }} />
+      <ActionAreaCard />
     </Container>
   );
 }

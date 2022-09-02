@@ -182,44 +182,6 @@ export default Test;
     </Grid>
   </Container>
 
-  <Grid container item xs={12} md={12} sx={{ mt: 5, mx: 2 }}>
-    <SubAppBar category="CONTACT" />
-  </Grid>
-
-  <Container>
-    <Grid container spacing={4} sx={{ my: 2 }}>
-      <Grid item xs={4} md={4}>
-        <Typography>
-          The Administrative Officer <br /> Office: 0912234801/803 Ext: 161{" "}
-          <br />
-          Email :ethics@med.ruh.ac.lk
-        </Typography>
-      </Grid>
-      <Grid item xs={4} md={4}>
-        <Typography>
-          Prof. C. M. Wickramatilake <br /> Chairperson <br /> Ethical Review
-          Committee
-          <br />
-          Department of Biochemistry <br />
-          Faculty of Medicine <br />
-          University of Ruhuna
-          <br />
-          Office: 0912234801/803 Ext: 261
-        </Typography>
-      </Grid>
-      <Grid item xs={4} md={4}>
-        <Typography>
-          Dr. S. S. Wickramasinghe <br />
-          Convenor/Secretary <br />
-          Ethical Review Committee
-          <br />
-          Department of Microbiology <br />
-          Faculty of Medicine <br />
-          University of Ruhuna Office: 0912234801/803 Ext: 212
-        </Typography>
-      </Grid>
-    </Grid>
-  </Container>
 </Grid>; 
 }
 */
