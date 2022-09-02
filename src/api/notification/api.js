@@ -29,20 +29,16 @@ const notificationSlice = createSlice({
   },
   reducers: {
     setNotification(notification, { payload }) {
-      notification.notifications = appendData(
-        notification.notifications,
-        payload
+      setNotifications(
+        notification,
+        appendData(notification.notifications, payload)
       );
-      notification.count = getUnreadNotification(notification.notifications);
     },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
       notificationApi.endpoints.getNotifications.matchFulfilled,
-      (notification, { payload }) => {
-        notification.notifications = payload;
-        notification.count = getUnreadNotification(notification.notifications);
-      }
+      (notification, { payload }) => setNotifications(notification, payload)
     );
     builder.addMatcher(
       notificationApi.endpoints.getNotification.matchFulfilled,
@@ -50,12 +46,16 @@ const notificationSlice = createSlice({
         const data = notification.notifications.map((n) =>
           n.id === payload.id ? { ...n, read: true } : n
         );
-        notification.notifications = data;
-        notification.count = getUnreadNotification(notification.notifications);
+        setNotifications(notification, data);
       }
     );
   },
 });
+
+function setNotifications(store, data) {
+  store.notifications = data.slice().sort((a, b) => b.id - a.id);
+  store.count = getUnreadNotification(data);
+}
 
 function getUnreadNotification(array) {
   return array.filter((i) => i.read === false).length;
@@ -75,24 +75,24 @@ export const selectNotifications = (state) => state.notification.notifications;
 
 export function pathGenerator(contentId, notificationType) {
   switch (notificationType) {
-    case "NEW_PROPOSAL_SUBMISSION":
-      return "/clerk/new-submissions";
-    case "NEW_USER_REQUEST":
-      return "/clerk/new-user-requests";
     case "USER_PROFILE":
       return "/profile";
-    case "SECRETARY_UNASSIGNED_PROPOSAL_ID":
-      return `/secretary/assigned/${contentId}`;
+    case "NEW_USER_REQUEST":
+      return "/clerk/new-user-requests";
+    case "NEW_PROPOSAL_SUBMISSION":
+      return "/clerk/new-submissions";
     case "APPLICANT_ONGOING_PROPOSAL_ID":
       return `/applicant/ongoing-submissions/${contentId}`;
-    case "REVIEWER_PENDING_PROPOSAL_ID":
-      return `/reviewer/pending/${contentId}`;
+    case "SECRETARY_UNASSIGNED_PROPOSAL_ID":
+      return `/secretary/unassigned/${contentId}`;
     case "SECRETARY_CONFIRM_REVIEW_PROPOSAL_ID":
       return `/secretary/assigned/${contentId}`;
     case "SECRETARY_REJECT_REVIEW_PROPOSAL_ID":
       return `/secretary/assigned/${contentId}`;
     case "SECRETARY_REVIEWED_PROPOSAL_ID":
       return `/secretary/reviewed/${contentId}`;
+    case "REVIEWER_PENDING_PROPOSAL_ID":
+      return `/reviewer/pending/${contentId}`;
     default:
       return "/notification";
   }
