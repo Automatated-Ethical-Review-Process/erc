@@ -173,7 +173,9 @@ export function Expedited({ type = EReviewType.expedited }) {
             sx={{ mt: 3 }}
             variant="contained"
             disabled={
-              assigned.length < 1 || assigned.every((i) => previous.includes(i))
+              assigned.length < 1 ||
+              (assigned.length === previous.length &&
+                assigned.every((i) => previous.includes(i)))
             }
             onClick={onClick}
           >
@@ -234,7 +236,9 @@ export function FullBoard({ type = EReviewType.fullBoard }) {
             sx={{ mt: 3 }}
             variant="contained"
             disabled={
-              assigned.length < 3 || assigned.every((i) => previous.includes(i))
+              assigned.length < 3 ||
+              (assigned.length === previous.length &&
+                assigned.every((i) => previous.includes(i)))
             }
             onClick={onClick}
           >
