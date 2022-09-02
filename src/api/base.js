@@ -1,7 +1,7 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Mutex } from "async-mutex";
 
-import { AUTH, DATA } from "config/endpoints";
+import { AUTH, DATA, NOTIFICATION } from "config/endpoints";
 import authService from "services/auth";
 
 const doNotAuth = [
@@ -25,6 +25,16 @@ const authBaseQuery = fetchBaseQuery({
 
 const dataBaseQuery = fetchBaseQuery({
    baseUrl: DATA,
+   prepareHeaders: (headers) => {
+      if (authService.hasAccess) {
+         headers.set("Authorization", `Bearer ${authService.access}`);
+      }
+      return headers;
+   },
+});
+
+const notificationBaseQuery = fetchBaseQuery({
+   baseUrl: NOTIFICATION,
    prepareHeaders: (headers) => {
       if (authService.hasAccess) {
          headers.set("Authorization", `Bearer ${authService.access}`);
@@ -62,7 +72,9 @@ const withReAuth = (baseQuery) => async (args, api, extraOptions) => {
       result.error &&
       result.error.status === 401 &&
       authService.hasRefresh &&
-      (baseQuery === dataBaseQuery || !doNotAuth.includes(api.endpoint))
+      (baseQuery === dataBaseQuery ||
+         baseQuery === notificationBaseQuery ||
+         !doNotAuth.includes(api.endpoint))
    ) {
       if (mutex.isLocked()) {
          await mutex.waitForUnlock();
@@ -92,5 +104,6 @@ const withReAuth = (baseQuery) => async (args, api, extraOptions) => {
 
 const authQuery = withReAuth(authBaseQuery);
 const dataQuery = withReAuth(dataBaseQuery);
+const notificationQuery = withReAuth(notificationBaseQuery);
 
-export { authQuery, dataQuery };
+export { authQuery, dataQuery, notificationQuery };
