@@ -127,13 +127,13 @@ const itemData = [
       "Senior Lecturer & Honorary Consultant Physician, Department of Medicine, Faculty of Medicine, University of Ruhuna",
   },
   {
-    img: manImg,
+    img: womenImg,
     name: "Prof. R. P. Hewawasam",
     description:
       "Professor in Biochemistry, Department of Biochemistry, Faculty of Medicine, University of Ruhuna",
   },
   {
-    img: manImg,
+    img: womenImg,
     name: "Ms. Saraswathi Dahanayake",
     description: "The Former Principal, Sri Sangamitta College, Galle.",
   },
@@ -144,7 +144,7 @@ const itemData = [
       "Lecturer(Probationary), Acting Intensivist, Department of Anesthesiology, Faculty of Medicine, University of Ruhuna",
   },
   {
-    img: manImg,
+    img: womenImg,
     name: "Dr. T. T. Ponnamperuma",
     description:
       "Senior Lecturer in Community Medicine, Department of Community Medicine, Faculty of Medicine, University of Ruhuna",
@@ -168,13 +168,13 @@ const itemData = [
       "Senior Lecturer in Gynaecology and Obstetrics, Department of Gynaecology and Obstetrics, Faculty of Medicine, University of Ruhuna",
   },
   {
-    img: manImg,
+    img: womenImg,
     name: "Dr. Rojika Kariyawasam",
     description:
       "Lecturer(Probationary), Department of Pathology, Faculty of Medicine, University of Ruhuna",
   },
   {
-    img: manImg,
+    img: womenImg,
     name: "Ms. Hasanga Rathnayake",
     description:
       "Lecturer(Probationary), Department of Biochemistry, Faculty of Medicine, University of Ruhuna",
