@@ -6,18 +6,29 @@ import { alpha } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Container, Typography } from "@mui/material";
+import { Container, Stack, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
-import {
-   getNotification,
-   getNotifications,
-} from "services/data/notificationService";
-
 import DataGrid from "components/common/DataGrid";
 import NavigationBar from "components/NavigationBar";
+
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated, selectCurrentUser } from "api/auth/api";
+
+import authService from "services/auth";
+
+import {
+   useGetNotificationsQuery,
+   useGetNotificationQuery,
+   selectNotificationCount,
+   selectNotitifcations,
+   pathGenarator,
+} from "api/notification/api";
+import Loading from "components/common/Loading";
+import { object } from "yup/lib/locale";
+import { PrimaryButton } from "@react-pdf-viewer/core";
 
 const Search = styled("div")(({ theme }) => ({
    position: "relative",
@@ -85,56 +96,76 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function Notification({ id }) {
-   const notification = getNotification(id);
-
-   if (!notification) {
-      return "invalid notification id: " + id;
-   }
-
+   const navigate = useNavigate();
+   const { data, error, isLoading } = useGetNotificationQuery(id);
+   console.log(data);
    return (
-      <Grid container spacing={2}>
-         <Grid item xs={12}>
-            <h1>{notification.title}</h1>
-         </Grid>
-         <Grid item xs={12} container direction="column" spacing={2}>
-            <Grid item container>
-               <Grid item xs={2} md={2}>
-                  <Typography>Date :</Typography>
+      <>
+         {isLoading ? (
+            <h1>Loading</h1>
+         ) : (
+            <Grid container spacing={2}>
+               <Grid item xs={12}>
+                  <h1>{data.title}</h1>
                </Grid>
-               <Grid item xs={4} md={4}>
-                  <Item>
-                     <Typography>{notification.date}</Typography>
-                  </Item>
+               <Grid item xs={12} container direction="column" spacing={2}>
+                  <Grid item container>
+                     <Grid item xs={2} md={2}>
+                        <Typography>Date :</Typography>
+                     </Grid>
+                     <Grid item xs={4} md={4}>
+                        <Item>
+                           <Typography>
+                              {
+                                 new Date(data.time)
+                                    .toLocaleString()
+                                    .split(",")[0]
+                              }
+                           </Typography>
+                        </Item>
+                     </Grid>
+                  </Grid>
+                  <Grid item container>
+                     <Grid item xs={2} md={2}>
+                        <Typography>Time :</Typography>
+                     </Grid>
+                     <Grid item xs={4} md={4}>
+                        <Item>
+                           <Typography>
+                              {
+                                 new Date(data.time)
+                                    .toLocaleString()
+                                    .split(",")[1]
+                              }
+                           </Typography>
+                        </Item>
+                     </Grid>
+                  </Grid>
+               </Grid>
+               <Grid item xs={12}>
+                  <Divider sx={{ borderBottomWidth: 5 }} />
+               </Grid>
+               <Grid item xs={12} container sx={{ mt: 2 }}>
+                  <Stack direction={"column"}>
+                     <Typography>{data.content}</Typography>
+                     {data.type !== "/notification" ? (
+                        <Typography
+                           sx={{ color: "blue", cursor: "pointer" }}
+                           onClick={() => {
+                              navigate(
+                                 pathGenarator(data.contentId, data.type)
+                              );
+                           }}
+                        >
+                           {" "}
+                           Click Here...{" "}
+                        </Typography>
+                     ) : null}
+                  </Stack>
                </Grid>
             </Grid>
-            <Grid item container>
-               <Grid item xs={2} md={2}>
-                  <Typography>Time :</Typography>
-               </Grid>
-               <Grid item xs={4} md={4}>
-                  <Item>
-                     <Typography>{notification.time}</Typography>
-                  </Item>
-               </Grid>
-            </Grid>
-            <Grid item container>
-               <Grid item xs={2} md={2}>
-                  <Typography>From :</Typography>
-               </Grid>
-               <Grid item xs={4} md={4}>
-                  <Item>
-                     <Typography>{notification.from}</Typography>
-                  </Item>
-               </Grid>
-            </Grid>
-         </Grid>
-         <Grid item xs={12}>
-            <Divider sx={{ borderBottomWidth: 5 }} />
-         </Grid>
-         <Grid item xs={12} container sx={{ mt: 2 }}>
-            <Typography>{notification.content}</Typography>
-         </Grid>
-      </Grid>
+         )}
+      </>
    );
 }
 
@@ -142,31 +173,48 @@ function GetView() {
    const onclick = useNavigate();
    const location = useLocation();
    const id = location.state;
-
+   const { error, isLoading } = useGetNotificationsQuery();
+   const count = useSelector(selectNotificationCount);
+   const data = useSelector(selectNotitifcations);
+   console.log(count);
+   //console.log(data);
    if (id) {
       return <Notification id={id} />;
    }
-
-   const notifications = getNotifications();
-
    return (
       <Grid container spacing={1}>
          <Grid item xs={12}>
             <SearchAppBar />
          </Grid>
          <Grid item xs={12}>
-            <DataGrid
-               fields={["title", "date", "time", "content", "from"]}
-               headerNames={["Title", "Date", "Time", "Content", "From"]}
-               rows={notifications}
-               onRowClick={(row) => onclick("/notification", { state: row.id })}
-            />
+            {isLoading ? (
+               <h1>Loading</h1>
+            ) : (
+               <DataGrid
+                  fields={["title", "time"]}
+                  headerNames={["Title", "Time"]}
+                  rows={data}
+                  sx={{
+                     "& .unseen": { bgcolor: "gray" },
+                  }}
+                  getRowClassName={({ row }) =>
+                     row.read ? undefined : "unseen"
+                  }
+                  onRowClick={(row) =>
+                     onclick("/notification", { state: row.id })
+                  }
+               />
+            )}
          </Grid>
       </Grid>
    );
 }
 
 export default function ShowNotification() {
+   const user = useSelector(selectCurrentUser);
+   const isAuthenticated = useSelector(selectIsAuthenticated);
+   //console.log(isAuthenticated);
+   //console.log(authService.access);
    return (
       <NavigationBar title="Notification">
          <Container>
