@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import image from "assets/uor_logo.png";
-import Footer from "components/Footer";
+// import Footer from "components/Footer";
 
 const pages = ["Home", "Sign in", "Sign up" /* "Instruction" */];
 
@@ -198,7 +198,7 @@ export default function MainLayout() {
       <Box sx={{ mb: 1 }}>
         <Outlet />
       </Box>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
