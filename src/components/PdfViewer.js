@@ -9,8 +9,6 @@ import {
 
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
-import tLink from "assets/(V2)_Lecture_11_2021.pdf";
-
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { Container } from "@mui/material";
@@ -68,7 +66,7 @@ const PdfViewer = ({ link }) => {
     <Container sx={{ height: "83vh" }}>
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.13.216/build/pdf.worker.min.js">
         <Viewer
-          fileUrl={link || tLink}
+          fileUrl={link}
           plugins={[defaultLayoutPluginInstance]}
           initialPage={initialPage}
           onPageChange={handlePageChange}
