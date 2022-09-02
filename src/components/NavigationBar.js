@@ -30,6 +30,8 @@ import {
    closeNotificationSocket,
 } from "services/notification/notificationService";
 
+import useNotify from "hooks/useNotify";
+
 import {
    selectNotificationCount,
    useGetNotificationsQuery,
@@ -46,10 +48,11 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
 
    const navigate = useNavigate();
    const dispatch = useDispatch();
+   const { notify } = useNotify();
    const theme = useTheme();
    const { error, isLoading } = useGetNotificationsQuery();
    useEffect(() => {
-      OnNotificationSocket(authService.access, dispatch);
+      OnNotificationSocket(authService.access, dispatch, notify);
    }, []);
 
    const notifications = useSelector(selectNotificationCount);
