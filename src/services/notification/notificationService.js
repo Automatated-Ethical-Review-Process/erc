@@ -19,7 +19,7 @@ export const OnNotificationSocket = (access, dispatch, notify, navigate) => {
       console.log(body); // TODO: remove this line
       dispatch(setNotification(body));
 
-      notify("Notification Received..!", "success", {
+      notify("Notification Received..!", "info", {
         onClick: () => navigate(routes.notification, { state: body.id }),
         label: "View",
       });
