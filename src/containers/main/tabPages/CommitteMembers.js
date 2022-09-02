@@ -61,17 +61,18 @@ const itemData = [
       "Professor in Biochemistry, Department of Biochemistry, Faculty of Medicine, University of Ruhuna",
   },
   {
-    img: womenImg,
-    name: "Dr. S. S. Wickramasinghe (Member Secretary)",
-    description:
-      "Senior Lecturer & Consultant Microbiologist, Department of Microbiology, Faculty of Medicine, University of Ruhuna",
-  },
-  {
     img: manImg,
     name: "Prof. P. V. De Silva (Vice Chairperson)",
     description:
       "Professor in Community Medicine, Department of Community Medicine, Faculty of Medicine, University of Ruhuna",
   },
+  {
+    img: womenImg,
+    name: "Dr. S. S. Wickramasinghe (Member Secretary)",
+    description:
+      "Senior Lecturer & Consultant Microbiologist, Department of Microbiology, Faculty of Medicine, University of Ruhuna",
+  },
+
   {
     img: womenImg,
     name: "Dr. Gayani Liyanage (Alternate Member Secretary)",
@@ -124,5 +125,64 @@ const itemData = [
     name: "Dr. H. M. M. Herath",
     description:
       "Senior Lecturer & Honorary Consultant Physician, Department of Medicine, Faculty of Medicine, University of Ruhuna",
+  },
+  {
+    img: manImg,
+    name: "Prof. R. P. Hewawasam",
+    description:
+      "Professor in Biochemistry, Department of Biochemistry, Faculty of Medicine, University of Ruhuna",
+  },
+  {
+    img: manImg,
+    name: "Ms. Saraswathi Dahanayake",
+    description: "The Former Principal, Sri Sangamitta College, Galle.",
+  },
+  {
+    img: manImg,
+    name: "Dr. Chamin Weerasekera",
+    description:
+      "Lecturer(Probationary), Acting Intensivist, Department of Anesthesiology, Faculty of Medicine, University of Ruhuna",
+  },
+  {
+    img: manImg,
+    name: "Dr. T. T. Ponnamperuma",
+    description:
+      "Senior Lecturer in Community Medicine, Department of Community Medicine, Faculty of Medicine, University of Ruhuna",
+  },
+  {
+    img: manImg,
+    name: "Dr. U. C. P. Perera",
+    description:
+      "Senior Lecturer & Medico-Legal Specialist, Department of Forensic Medicine, Faculty of Medicine, University of Ruhuna",
+  },
+  {
+    img: manImg,
+    name: "Senior Prof. U. K. Jayantha",
+    description:
+      "Professor of Paediatrics, Department of Paediatrics, Faculty of Medicine, University of Ruhuna",
+  },
+  {
+    img: manImg,
+    name: "Dr. M. F. M. Rameez",
+    description:
+      "Senior Lecturer in Gynaecology and Obstetrics, Department of Gynaecology and Obstetrics, Faculty of Medicine, University of Ruhuna",
+  },
+  {
+    img: manImg,
+    name: "Dr. Rojika Kariyawasam",
+    description:
+      "Lecturer(Probationary), Department of Pathology, Faculty of Medicine, University of Ruhuna",
+  },
+  {
+    img: manImg,
+    name: "Ms. Hasanga Rathnayake",
+    description:
+      "Lecturer(Probationary), Department of Biochemistry, Faculty of Medicine, University of Ruhuna",
+  },
+  {
+    img: manImg,
+    name: "Mr. N. G. U. S. Wijepala",
+    description:
+      "Lecturer in Sociology, Department of Sociology, Faculty of Humanities and Social Sciences, University of Ruhuna",
   },
 ];
