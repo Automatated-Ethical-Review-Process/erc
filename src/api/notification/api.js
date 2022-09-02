@@ -34,16 +34,11 @@ const notificationSlice = createSlice({
    },
    reducers: {
       setNotification(notification, { payload }) {
-         console.log("Initals", notification.notifications.length);
          notification.notifications = appendData(
             notification.notifications,
             payload
          );
-         console.log("After", notification.notifications.length);
          notification.count = getUnreadNotification(notification.notifications);
-         console.log("After", notification.count);
-         console.log("trigered");
-         console.log(payload);
       },
    },
    extraReducers: (builder) => {
