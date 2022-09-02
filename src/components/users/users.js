@@ -9,6 +9,7 @@ export default function Users({
   extraFields = {
     createdDate: "Registered",
   },
+  others = [],
 }) {
   const navigate = useNavigate();
 
@@ -22,6 +23,10 @@ export default function Users({
     data = users;
   } else if (usersByIds.length > 0) {
     data = usersByIds;
+  }
+
+  if (others.length > 0 && data.length > 0) {
+    data = data.map((i) => ({ ...others.find((j) => j.id === i.id), ...i }));
   }
 
   const isLoading = loading || isUsersLoading || isIdsLoading;

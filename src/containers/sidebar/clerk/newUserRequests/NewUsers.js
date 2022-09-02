@@ -8,6 +8,10 @@ const NewUsers = () => {
       ids={data.map((i) => i.id)}
       loading={isLoading}
       extraFields={{ status: "Status" }}
+      others={data.map((i) => ({
+        id: i.id,
+        status: i.hasReviewed ? "REVIEWED" : "PENDING",
+      }))}
     />
   );
 };
