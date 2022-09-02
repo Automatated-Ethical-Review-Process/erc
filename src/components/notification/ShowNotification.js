@@ -1,8 +1,6 @@
-import { Container, Stack, Typography } from "@mui/material";
+import { Button, Container, Stack, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -21,14 +19,6 @@ import {
 import LoadingCircle from "components/common/LoadingCircle";
 import routes from "config/routes";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
-
 function Notification({ id }) {
   const navigate = useNavigate();
   const { data = {}, isLoading } = useGetNotificationQuery(id);
@@ -39,47 +29,38 @@ function Notification({ id }) {
       <Grid item xs={12}>
         <Typography variant="h4">{data.title}</Typography>
       </Grid>
-      <Grid item xs={12} container direction="column" spacing={2}>
-        <Grid item container>
-          <Grid item xs={2} md={2}>
-            <Typography>Date :</Typography>
-          </Grid>
-          <Grid item xs={4} md={4}>
-            <Item>
-              <Typography>
-                {new Date(data.time).toLocaleDateString()}
-              </Typography>
-            </Item>
-          </Grid>
-        </Grid>
-        <Grid item container>
-          <Grid item xs={2} md={2}>
-            <Typography>Time :</Typography>
-          </Grid>
-          <Grid item xs={4} md={4}>
-            <Item>
-              <Typography>
-                {new Date(data.time).toLocaleTimeString()}
-              </Typography>
-            </Item>
-          </Grid>
-        </Grid>
+      <Grid item xs={12}>
+        <Typography>
+          <b>Date</b> : <i>{new Date(data.time).toLocaleDateString()}</i>
+        </Typography>
+        <Typography>
+          <b>Time</b> : <i>{new Date(data.time).toLocaleTimeString()}</i>
+        </Typography>
       </Grid>
       <Grid item xs={12}>
         <Divider sx={{ borderBottomWidth: 5 }} />
       </Grid>
-      <Grid item xs={12} container sx={{ mt: 2 }}>
-        <Stack direction={"column"}>
+      <Grid item xs={12}>
+        <Stack>
           <Typography>{data.content}</Typography>
-          {data.type !== "/notification" ? (
-            <Typography
-              sx={{ color: "blue", cursor: "pointer" }}
-              onClick={() => navigate(pathGenerator(data.contentId, data.type))}
+          <Stack direction="row" spacing={3} sx={{ mt: 3 }}>
+            <Button
+              variant="outlined"
+              onClick={() => navigate(-1, { replace: true })}
             >
-              {" "}
-              Click Here...{" "}
-            </Typography>
-          ) : null}
+              Back
+            </Button>
+            {data.type !== "/notification" && (
+              <Button
+                variant="contained"
+                onClick={() =>
+                  navigate(pathGenerator(data.contentId, data.type))
+                }
+              >
+                Navigate
+              </Button>
+            )}
+          </Stack>
         </Stack>
       </Grid>
     </Grid>
