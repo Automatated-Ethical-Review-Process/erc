@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import image from "assets/uor_logo.png";
 import Footer from "components/Footer";
 
-const pages = ["Home", "Sign in", "Sign up", "Instruction"];
+const pages = ["Home", "Sign in", "Sign up" /* "Instruction" */];
 
 const NavigationBar = () => {
   const navigate = useNavigate();
@@ -41,9 +41,9 @@ const NavigationBar = () => {
       case pages[2]:
         navigate("/signup");
         break;
-      case pages[3]:
+      /* case pages[3]:
         navigate("/instruction");
-        break;
+        break; */
       default:
         throw new Error("invalid index");
     }
