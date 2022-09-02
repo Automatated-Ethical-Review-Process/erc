@@ -6,7 +6,7 @@ import { alpha } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Container, Typography } from "@mui/material";
+import { Container, Stack, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
 
 import { useLocation, useNavigate } from "react-router-dom";
@@ -22,6 +22,9 @@ import authService from "services/auth";
 import {
    useGetNotificationsQuery,
    useGetNotificationQuery,
+   selectNotificationCount,
+   selectNotitifcations,
+   pathGenarator,
 } from "api/notification/api";
 import Loading from "components/common/Loading";
 import { object } from "yup/lib/locale";
@@ -93,6 +96,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function Notification({ id }) {
+   const navigate = useNavigate();
    const { data, error, isLoading } = useGetNotificationQuery(id);
    return (
       <>
@@ -141,7 +145,18 @@ function Notification({ id }) {
                   <Divider sx={{ borderBottomWidth: 5 }} />
                </Grid>
                <Grid item xs={12} container sx={{ mt: 2 }}>
-                  <Typography>{data.content}</Typography>
+                  <Stack direction={"column"}>
+                     <Typography>{data.content}</Typography>
+                     <Typography
+                        sx={{ color: "blue", cursor: "pointer" }}
+                        onClick={() => {
+                           navigate(pathGenarator(null, data.type));
+                        }}
+                     >
+                        {" "}
+                        Click Here...{" "}
+                     </Typography>
+                  </Stack>
                </Grid>
             </Grid>
          )}
@@ -153,9 +168,11 @@ function GetView() {
    const onclick = useNavigate();
    const location = useLocation();
    const id = location.state;
-   const { data, error, isLoading } = useGetNotificationsQuery();
-
-   console.log(data);
+   const { error, isLoading } = useGetNotificationsQuery();
+   const count = useSelector(selectNotificationCount);
+   const data = useSelector(selectNotitifcations);
+   console.log(count);
+   //console.log(data);
    if (id) {
       return <Notification id={id} />;
    }
