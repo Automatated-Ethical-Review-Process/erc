@@ -3,15 +3,15 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import Container from "@mui/material/Container";
 
-import img1 from "assets/image1.png";
-import img2 from "assets/image2.png";
-import img3 from "assets/image3.png";
-import img4 from "assets/image4.png";
-import img5 from "assets/image5.png";
-import img6 from "assets/image6.png";
-import img7 from "assets/image7.png";
-import img8 from "assets/image8.png";
-import img9 from "assets/image9.jpg";
+import img1 from "assets/GalleryImages/image1.png";
+import img2 from "assets/GalleryImages/image2.png";
+import img3 from "assets/GalleryImages/image3.png";
+import img4 from "assets/GalleryImages/image4.png";
+import img5 from "assets/GalleryImages/image5.png";
+import img6 from "assets/GalleryImages/image6.png";
+import img7 from "assets/GalleryImages/image7.png";
+import img8 from "assets/GalleryImages/image8.png";
+import img9 from "assets/GalleryImages/image9.jpg";
 
 export default function StandardImageList({ cols }) {
   return (
