@@ -1,10 +1,7 @@
-import { Dna } from "react-loader-spinner";
 import { Box } from "@mui/material";
-import { useTheme } from "styled-components";
+import { Dna } from "react-loader-spinner";
 
 const Loading = ({ value, children }) => {
-  const { palette } = useTheme();
-
   return value ? (
     <Box
       sx={{
@@ -14,7 +11,7 @@ const Loading = ({ value, children }) => {
         height: "100vh",
       }}
     >
-      <Dna color={palette.primary.main} height={100} width={100} />
+      <Dna height={150} width={150} />
     </Box>
   ) : (
     children
