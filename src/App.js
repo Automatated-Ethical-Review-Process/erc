@@ -12,7 +12,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import getPalette from "theme";
 import AppRoutes from "routes";
 
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 function App() {
   // const preferDark = useMediaQuery("(prefers-color-scheme: dark)");
