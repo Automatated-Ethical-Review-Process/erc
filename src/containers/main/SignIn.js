@@ -33,6 +33,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
+import routes from "config/routes";
 
 export function ActionAreaCard(props) {
   return (
@@ -90,7 +91,7 @@ export default function SignIn() {
     setSubmitError(null);
     login(data)
       .unwrap()
-      .then(() => navigate(state?.from ? state.from.pathname : "/"))
+      .then(() => navigate(state?.from ? state.from.pathname : routes.signIn))
       .catch((err) =>
         setSubmitError(err.data?.message || "Something went wrong")
       );
