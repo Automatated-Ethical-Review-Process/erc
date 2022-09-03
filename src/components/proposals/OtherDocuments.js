@@ -4,6 +4,7 @@ import { Container } from "@mui/material";
 
 import DataGrid from "components/common/DataGrid";
 import { useGetProposalQuery } from "api/data/proposal";
+import parseFilename from "utils/parseFilename";
 
 const mapper = new Map([
   ["erc-cert", "ercApprovedCertificates"],
@@ -31,7 +32,11 @@ export default function OtherDocuments({ children }) {
 
   const documents = Array.isArray(rawData) ? rawData : [rawData];
 
-  const rows = documents.map((doc, id) => ({ id: id + 1, doc }));
+  const rows = documents.map((doc, id) => ({
+    id: id + 1,
+    doc: parseFilename(doc),
+    raw: doc,
+  }));
 
   return (
     <>
@@ -39,7 +44,7 @@ export default function OtherDocuments({ children }) {
         fields={["id", "doc"]}
         headerNames={["No", "Document"]}
         rows={rows}
-        onRowClick={(row) => navigate(`doc-${row.doc}`)}
+        onRowClick={(row) => navigate(`doc-${row.raw}`)}
         loading={isLoading}
       />
       <Container maxWidth="md" sx={{ mt: 4 }}>

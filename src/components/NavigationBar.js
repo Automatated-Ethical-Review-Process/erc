@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -48,10 +48,14 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
   const { notify } = useNotify();
 
   useGetNotificationsQuery();
+  const ref = useRef();
 
   useEffect(() => {
-    OnNotificationSocket(authService.access, dispatch, notify, navigate);
-  }, [dispatch, notify, navigate]);
+    if (!ref.current) {
+      ref.current = true;
+      OnNotificationSocket(authService.access, dispatch, notify, navigate);
+    }
+  }, [ref, dispatch, notify, navigate]);
 
   const notifications = useSelector(selectNotificationCount);
 

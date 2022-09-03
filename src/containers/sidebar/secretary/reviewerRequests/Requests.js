@@ -8,8 +8,8 @@ function ReviewerRequests() {
 
   return (
     <DataGrid
-      fields={["id", "status", "message"]}
-      headerNames={["ID", "Status", "Message"]}
+      fields={["id", "name", "status", "message"]}
+      headerNames={["ID", "Name", "Status", "Message"]}
       rows={data}
       onRowClick={(row) => navigate(String(row.id))}
       loading={isLoading}

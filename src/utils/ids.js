@@ -1,7 +1,9 @@
 import { isUuid } from "./yup";
 
 export function putIdName(id, name, setIds) {
-  setIds((ids) => (ids[id] !== name ? { ...ids, [id]: name } : ids));
+  Promise.resolve().then(() =>
+    setIds((ids) => (ids[id] !== name ? { ...ids, [id]: name } : ids))
+  );
 }
 
 export function getIdName(ids, id) {

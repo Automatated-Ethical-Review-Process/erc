@@ -61,6 +61,7 @@ function ReviewerRequest() {
 
   const data = [
     { label: "ID", value: appeal.id ?? "" },
+    { label: "Name", value: appeal.name ?? "" },
     { label: "Status", value: appeal.status ?? "" },
     { label: "Message", value: appeal.message ?? "", multiline: true, rows: 4 },
   ];

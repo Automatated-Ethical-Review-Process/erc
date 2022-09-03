@@ -8,9 +8,13 @@ import TextField from "components/common/TextField";
 
 import { useGetVersionQuery } from "api/data/version";
 import LoadingCircle from "components/common/LoadingCircle";
+import parseFilename from "utils/parseFilename";
+import useIds from "hooks/useIds";
+import { putIdName } from "utils/ids";
 
 export default function Document() {
   const navigate = useNavigate();
+  const setIds = useIds();
   const { pid, vid, did, doc } = useParams();
 
   const {
@@ -29,7 +33,12 @@ export default function Document() {
     return "invalid document id: " + did;
   }
 
-  const parts = (document?.name || doc || "").split(".");
+  if (doc) {
+    putIdName(encodeURI(`doc-${doc}`), parseFilename(doc), setIds);
+  }
+
+  const fullName = document?.name || parseFilename(doc) || "";
+  const parts = fullName.split(".");
 
   const docType = parts.pop().toUpperCase();
   const docName = parts.join(".");
@@ -37,7 +46,7 @@ export default function Document() {
   const data = [
     { label: "Name", value: docName },
     { label: "Type", value: docType },
-    { label: "Full Name", value: document?.name || doc || "" },
+    { label: "Full Name", value: fullName },
   ];
 
   return (
