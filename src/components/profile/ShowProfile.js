@@ -206,11 +206,12 @@ export function Content() {
               )}
             </>
           )}
-          {!user.roles.includes(Roles.reviewer) && (
-            <Grid item xs={6}>
-              <RequestForReviewer />
-            </Grid>
-          )}
+          {!user.roles.includes(Roles.reviewer) &&
+            user.roles.includes(Roles.applicant) && (
+              <Grid item xs={6}>
+                <RequestForReviewer />
+              </Grid>
+            )}
         </Grid>
       </Box>
       <Fab
