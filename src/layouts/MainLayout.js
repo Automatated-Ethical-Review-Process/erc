@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { emphasize } from "@mui/material/styles";
-import { Outlet, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
@@ -10,9 +7,13 @@ import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { emphasize } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import image from "assets/uor_logo.png";
+import ToggleTheme from "components/common/ToggleTheme";
+import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 // import Footer from "components/Footer";
 
 const pages = ["Home", "Sign in", "Sign up" /* "Instruction" */];
@@ -105,7 +106,7 @@ const NavigationBar = () => {
             ))}
           </Menu>
         </Box>
-        <Box sx={{}}>
+        <Box>
           <Typography
             variant="h1"
             noWrap
@@ -185,6 +186,15 @@ const NavigationBar = () => {
               {page}
             </Typography>
           ))}
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexGrow: { xs: 1, md: 0 },
+            justifyContent: "right",
+          }}
+        >
+          <ToggleTheme sx={{ mr: 2 }} />
         </Box>
       </Toolbar>
     </AppBar>

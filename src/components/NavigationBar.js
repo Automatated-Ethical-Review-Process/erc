@@ -1,33 +1,29 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MenuIcon from "@mui/icons-material/Menu";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import AppBar from "@mui/material/AppBar";
+import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MoreIcon from "@mui/icons-material/MoreVert";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 import Drawer from "./Drawer";
 
 import { useLogoutMutation } from "api/auth/api";
 import routes from "config/routes";
-import { useTheme } from "styled-components";
 
 import authService from "services/auth";
 import {
-  OnNotificationSocket,
   closeNotificationSocket,
+  OnNotificationSocket,
 } from "services/notification/notificationService";
 
 import useNotify from "hooks/useNotify";
@@ -36,7 +32,8 @@ import {
   selectNotificationCount,
   useGetNotificationsQuery,
 } from "api/notification/api";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import ToggleTheme from "./common/ToggleTheme";
 
 export default function SidebarLayout({ title, sideBarItems, children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -50,7 +47,6 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
   const dispatch = useDispatch();
   const { notify } = useNotify(true);
 
-  const theme = useTheme();
   useGetNotificationsQuery();
 
   useEffect(() => {
@@ -97,12 +93,6 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  const toggleTheme = (
-    <IconButton size="large" onClick={theme.toggleTheme} color="inherit">
-      {theme.isLight ? <DarkModeIcon /> : <LightModeIcon />}
-    </IconButton>
-  );
 
   const renderMenu = (
     <Menu
@@ -197,7 +187,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
               justifyContent: "right",
             }}
           >
-            {toggleTheme}
+            <ToggleTheme />
             <IconButton
               size="large"
               color="inherit"
@@ -223,7 +213,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
               justifyContent: "right",
             }}
           >
-            {toggleTheme}
+            <ToggleTheme />
             <IconButton
               size="large"
               onClick={handleMobileMenuOpen}
