@@ -22,9 +22,11 @@ export const ProtectedNavigate = ({ rules, children }) => {
   return <Loading value={isLoading}>{children}</Loading>;
 };
 
+const unverifiedRoutes = [routes.profile, routes.notification];
+
 export const ProtectedRoute = ({
   role,
-  to = routes.home,
+  to = routes.signIn,
   init = true,
   children,
 }) => {
@@ -35,7 +37,11 @@ export const ProtectedRoute = ({
     return <Loading value={isLoading} />;
   }
 
-  if (isAuthenticated && user.state === false && pathname !== routes.profile) {
+  if (
+    isAuthenticated &&
+    user.state === false &&
+    !unverifiedRoutes.includes(pathname)
+  ) {
     return <Redirect to={routes.profile} />;
   }
 

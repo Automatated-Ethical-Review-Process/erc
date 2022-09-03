@@ -22,16 +22,16 @@ const rules = [
 
 const mainRoute = (
   <Route path={routes.home} element={<MainLayout />}>
-    <Route
-      index
-      element={
-        <ProtectedNavigate rules={rules}>{<HomePage />}</ProtectedNavigate> //<SignIn />
-      }
-    />
+    <Route index element={<HomePage />} />
 
     <Route path="signup" element={<SignUp />} />
 
-    <Route path="signin" element={<SignIn />} />
+    <Route
+      path="signin"
+      element={
+        <ProtectedNavigate rules={rules}>{<SignIn />}</ProtectedNavigate>
+      }
+    />
 
     <Route path="instruction" element={<Instruction />} />
 
