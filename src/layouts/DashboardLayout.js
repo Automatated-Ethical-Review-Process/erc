@@ -9,10 +9,10 @@ import Stack from "@mui/material/Stack";
 import NavigationBar from "components/NavigationBar";
 // import Footer from "components/Footer";
 
-export default function DashboardLayout() {
+export default function DashboardLayout({ role }) {
   return (
     <>
-      <NavigationBar title="Dashboard">
+      <NavigationBar role={role} title="Dashboard">
         <Card sx={{ mt: 2, mb: 6, mx: 1.5 }}>
           <CardContent>
             <Stack alignItems="center">

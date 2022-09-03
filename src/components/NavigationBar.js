@@ -28,14 +28,21 @@ import {
 
 import useNotify from "hooks/useNotify";
 
+import { useGetMeQuery } from "api/data/user";
 import {
   selectNotificationCount,
   useGetNotificationsQuery,
 } from "api/notification/api";
 import { useDispatch, useSelector } from "react-redux";
+import LoadingCircle from "./common/LoadingCircle";
 import ToggleTheme from "./common/ToggleTheme";
 
-export default function SidebarLayout({ title, sideBarItems, children }) {
+export default function NavigationBar({
+  title,
+  role = title,
+  sideBarItems,
+  children,
+}) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -48,6 +55,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
   const { notify } = useNotify();
 
   useGetNotificationsQuery();
+  const { data = {}, isLoading } = useGetMeQuery();
   const ref = useRef();
 
   useEffect(() => {
@@ -145,13 +153,14 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
         <IconButton size="large" color="inherit">
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>{data.name || "Profile"}</p>
       </MenuItem>
     </Menu>
   );
 
   return (
     <Box sx={{ display: "flex" }}>
+      <LoadingCircle isLoading={isLoading} />
       <AppBar
         position="fixed"
         sx={{
@@ -187,7 +196,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
               )
             }
           >
-            {title}
+            {role.toUpperCase()}
           </Typography>
 
           <Box
@@ -214,6 +223,9 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
               color="inherit"
             >
               <AccountCircle />
+              <Typography sx={{ ml: 1, mt: 0.5 }} variant="subtitle2">
+                {data.name}
+              </Typography>
             </IconButton>
           </Box>
           <Box

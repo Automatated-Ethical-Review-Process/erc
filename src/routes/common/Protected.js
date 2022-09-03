@@ -59,7 +59,7 @@ export const ProtectedDashboardRoute = ({ role, to, children }) => {
   return (
     <ProtectedRoute role={role} to={to}>
       {pathname.split("/").filter((i) => i).length === 1 ? (
-        <DashboardLayout />
+        <DashboardLayout role={role} />
       ) : (
         children
       )}

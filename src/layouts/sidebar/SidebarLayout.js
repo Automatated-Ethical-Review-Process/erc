@@ -39,7 +39,7 @@ export default function SidebarLayout({ role, sideBarItems }) {
   );
 
   return (
-    <NavigationBar title="ERC System" sideBarItems={sideBarItems}>
+    <NavigationBar role={role} title="ERC System" sideBarItems={sideBarItems}>
       <RoleNavigationBar role={role} />
       {paths && (
         <Breadcrumbs

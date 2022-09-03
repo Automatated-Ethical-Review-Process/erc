@@ -11,7 +11,7 @@ const Loading = ({ value, children }) => {
         height: "100vh",
       }}
     >
-      <Dna height={150} width={150} />
+      <Dna height={100} width={100} />
     </Box>
   ) : (
     children
