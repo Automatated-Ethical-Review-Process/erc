@@ -274,6 +274,11 @@ function RequestForReviewer() {
       >
         Send Request to be a Reviewer
       </Button>
+      {data?.length > 0 && (
+        <Typography color="warning.main" sx={{ p: 1 }}>
+          Already requested!
+        </Typography>
+      )}
 
       <Dialog
         open={open}

@@ -212,7 +212,7 @@ export default function ApplicantNewSubmission() {
               </Grid>
             )}
             <Grid item xs={12} textAlign="right">
-              <Button type="submit" variant="contained" disable={!validity}>
+              <Button type="submit" variant="contained" disabled={!validity}>
                 Submit
               </Button>
             </Grid>

@@ -36,6 +36,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import LoadingCircle from "./common/LoadingCircle";
 import ToggleTheme from "./common/ToggleTheme";
+import HomeIcon from "@mui/icons-material/Home";
 
 export default function NavigationBar({
   title,
@@ -180,14 +181,9 @@ export default function NavigationBar({
             </IconButton>
           )}
 
-          <Typography
-            sx={{
-              fontFamily: "monospace",
-              fontSize: 20,
-              lineHeight: 3,
-              fontWeight: 700,
-              cursor: "pointer",
-            }}
+          <HomeIcon
+            sx={{ mr: 1, cursor: "pointer" }}
+            size="large"
             onClick={() =>
               navigate(
                 title.toLowerCase() === "dashboard"
@@ -195,6 +191,14 @@ export default function NavigationBar({
                   : routes.signIn
               )
             }
+          />
+          <Typography
+            sx={{
+              fontFamily: "monospace",
+              fontSize: 20,
+              lineHeight: 3,
+              fontWeight: 700,
+            }}
           >
             {role.toUpperCase()}
           </Typography>

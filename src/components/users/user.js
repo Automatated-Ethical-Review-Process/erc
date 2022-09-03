@@ -49,7 +49,6 @@ export default function User({ children }) {
       rows: 4,
     },
     { label: "Roles", value: user.roles?.join(", ") ?? "" },
-    { label: "Created Date", value: user.createdDate ?? "" }, // TODO: need date from backend
   ];
 
   if (typeof user.isUnderGraduate === "boolean") {
