@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import HomeIcon from "@mui/icons-material/Home";
@@ -8,14 +8,18 @@ import { Breadcrumbs, Chip } from "@mui/material";
 import NavigationBar from "components/NavigationBar";
 import RoleNavigationBar from "components/RoleNavigationBar";
 import { getIdName } from "utils/ids";
+import { IdsContext } from "context";
 
-function simplify(part) {
-  return part.includes("-") ? getIdName(part) : part;
+function simplify(ids, part) {
+  return part.includes("-") ? getIdName(ids, part) : part;
 }
 
 export default function SidebarLayout({ role, sideBarItems }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const [ids, setIds] = useState({});
+
+  console.log(ids);
 
   const paths = useMemo(
     () =>
@@ -25,7 +29,7 @@ export default function SidebarLayout({ role, sideBarItems }) {
         .reduce(
           (data, curPath, index) => {
             data.push({
-              name: simplify(curPath),
+              name: simplify(ids, curPath),
               link: data[index].link + "/" + curPath,
             });
             return data;
@@ -33,7 +37,7 @@ export default function SidebarLayout({ role, sideBarItems }) {
           [{ link: "" }]
         )
         .slice(1),
-    [pathname]
+    [pathname, ids]
   );
 
   return (
@@ -66,7 +70,9 @@ export default function SidebarLayout({ role, sideBarItems }) {
           )}
         </Breadcrumbs>
       )}
-      <Outlet />
+      <IdsContext.Provider value={setIds}>
+        <Outlet />
+      </IdsContext.Provider>
     </NavigationBar>
   );
 }

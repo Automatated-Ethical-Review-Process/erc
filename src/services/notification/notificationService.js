@@ -8,7 +8,7 @@ import { setNotification } from "../../api/notification/api";
 
 const stompClient = Stomp.over(new SockJS(SOCKET));
 
-stompClient.debug = null;
+// stompClient.debug = null; // TODO: remove this line
 
 export const OnNotificationSocket = (access, dispatch, notify, navigate) => {
   stompClient.connect({ Authorization: access }, (frame) => {

@@ -1,12 +1,13 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import { Container } from "@mui/material";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 
-import TextField from "components/common/TextField";
 import { useGetProposalQuery } from "api/data/proposal";
 import LoadingCircle from "components/common/LoadingCircle";
+import TextField from "components/common/TextField";
+import useIds from "hooks/useIds";
 import { putIdName } from "utils/ids";
 
 export default function Proposal({
@@ -15,6 +16,7 @@ export default function Proposal({
   rightButton = null,
   children,
 }) {
+  const setIds = useIds();
   const navigate = useNavigate();
 
   const { pid: proposalId } = useParams();
@@ -30,7 +32,7 @@ export default function Proposal({
   }
 
   if (rawData.name) {
-    putIdName(proposalId, rawData.name);
+    putIdName(proposalId, rawData.name, setIds);
   }
 
   const date = new Date(rawData.date);

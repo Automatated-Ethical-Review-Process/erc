@@ -1,14 +1,13 @@
 import { isUuid } from "./yup";
 
-const ids = new Map();
-
-export function putIdName(id, name) {
-  ids.set(id, name); // TODO: set limit and remove old entries
+export function putIdName(id, name, setIds) {
+  setIds((ids) => (ids[id] !== name ? { ...ids, [id]: name } : ids));
 }
 
-export function getIdName(id) {
-  if (ids.has(id)) {
-    return ids.get(id);
+export function getIdName(ids, id) {
+  const cache = ids[id];
+  if (cache) {
+    return cache;
   }
   const parts = id.split("-");
   if (

@@ -8,10 +8,12 @@ import { useGetUserQuery } from "api/data/user";
 import LoadingCircle from "components/common/LoadingCircle";
 import TextField from "components/common/TextField";
 import useDownload from "hooks/useDownload";
+import useIds from "hooks/useIds";
 import { putIdName } from "utils/ids";
 
 export default function User({ children }) {
   const { uid: userId } = useParams();
+  const setIds = useIds();
 
   const {
     data: user = {},
@@ -28,7 +30,7 @@ export default function User({ children }) {
   }
 
   if (user.name) {
-    putIdName(userId, user.name);
+    putIdName(userId, user.name, setIds);
   }
 
   const isLoading = isUserLoading || isFileLoading;
