@@ -78,9 +78,9 @@ export function pathGenerator(contentId, notificationType) {
     case "USER_PROFILE":
       return "/profile";
     case "NEW_USER_REQUEST":
-      return `/clerk/new-user-requests${contentId ? `/${contentId}` : ""}`; // TODO: needs contentId
+      return `/clerk/new-user-requests${contentId ? `/${contentId}` : ""}`;
     case "NEW_PROPOSAL_SUBMISSION":
-      return `/clerk/new-submissions${contentId ? `/${contentId}` : ""}`; // TODO: needs contentId
+      return `/clerk/new-submissions${contentId ? `/${contentId}` : ""}`;
     case "APPLICANT_ONGOING_PROPOSAL_ID":
       return `/applicant/ongoing-submissions/${contentId}`;
     case "APPLICANT_OLD_PROPOSAL_ID":
