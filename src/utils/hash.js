@@ -8,5 +8,5 @@ export default function hash(string) {
     hash = (hash << 5) - hash + chr;
     hash |= 0;
   }
-  return hash;
+  return String(hash);
 }
