@@ -22,8 +22,10 @@ function ReviewerDataGrid({
   setPrevious,
   reviewerType = "ROLE_INTERNAL_REVIEWER",
   isLoading,
+  isEditing,
 }) {
   const { pid } = useParams();
+  console.log(isEditing);
 
   const { data = [], isLoading: isReviewersLoading } =
     useGetReviewersQuery(pid);
@@ -92,6 +94,15 @@ function ReviewerDataGrid({
     return "primary";
   };
 
+  const getStatus = (id) => {
+    for (const assign of reviewAssigns) {
+      if (assign.reviewer.id === id) {
+        return assign.status;
+      }
+    }
+    return "";
+  };
+
   const rows = data
     .filter((r) => r.role === reviewerType)
     .sort((a, b) => {
@@ -112,6 +123,7 @@ function ReviewerDataGrid({
     .map((row, id) => ({
       ...row,
       id,
+      status: getStatus(row.reviewerId),
       btn: (
         <AssignButton
           isAssigned={isAssigned(row.reviewerId)}
@@ -121,6 +133,17 @@ function ReviewerDataGrid({
         />
       ),
     }));
+
+  const fields = ["name", "assignedProposal"];
+  const headerNames = ["Reviewer", "Assigned Proposals"];
+
+  if (isEditing) {
+    fields.push("status");
+    headerNames.push("States");
+  }
+
+  fields.push("btn");
+  headerNames.push("Edit");
 
   return (
     <DataGrid
@@ -133,8 +156,8 @@ function ReviewerDataGrid({
           },
         },
       }}
-      fields={["name", "assignedProposal", "btn"]}
-      headerNames={["Reviewer", "Assigned Proposals", "Status"]}
+      fields={fields}
+      headerNames={headerNames}
       rows={rows}
       loading={!isLoading && isThisLoading}
       getRowClassName={({ row }) =>

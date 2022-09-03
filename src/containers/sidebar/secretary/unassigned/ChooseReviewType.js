@@ -160,6 +160,7 @@ export function Expedited({ type = EReviewType.expedited }) {
         setAssigned={setAssigned}
         setPrevious={setPrevious}
         isLoading={isLoading}
+        isEditing={type === null}
       />
       <DialogBox
         title={type ? "Mark as Expedited review" : "Update Reviewers"}
@@ -223,6 +224,7 @@ export function FullBoard({ type = EReviewType.fullBoard }) {
         setPrevious={setPrevious}
         reviewerType={reviewerType}
         isLoading={isLoading}
+        isEditing={type === null}
       />
       <DialogBox
         title={type ? "Mark as Full Board review" : "Update Reviewers"}
