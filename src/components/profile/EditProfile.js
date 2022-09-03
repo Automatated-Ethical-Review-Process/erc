@@ -310,8 +310,8 @@ function EditPassword() {
 
   const onSubmit = ({ oldPassword, newPassword }) =>
     updatePassword({
-      oldPassword,
-      newPassword,
+      oldPassword: hash(oldPassword),
+      newPassword: hash(newPassword),
     })
       .unwrap()
       .then(() => {
