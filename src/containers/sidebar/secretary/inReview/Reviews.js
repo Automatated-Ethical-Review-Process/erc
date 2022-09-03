@@ -10,8 +10,8 @@ export default function Proposals() {
 
   return (
     <DataGrid
-      fields={["id", "decision"]}
-      headerNames={["No", "Decision"]}
+      fields={["reviewerName", "decision"]}
+      headerNames={["Reviewer", "Decision"]}
       rows={data}
       loading={isLoading}
       onRowClick={(row) => navigate(String(row.reviewerId))}
