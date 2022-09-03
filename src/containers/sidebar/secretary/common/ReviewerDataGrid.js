@@ -25,7 +25,6 @@ function ReviewerDataGrid({
   isEditing,
 }) {
   const { pid } = useParams();
-  console.log(isEditing);
 
   const { data = [], isLoading: isReviewersLoading } =
     useGetReviewersQuery(pid);

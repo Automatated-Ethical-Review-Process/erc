@@ -19,8 +19,6 @@ export default function SidebarLayout({ role, sideBarItems }) {
   const navigate = useNavigate();
   const [ids, setIds] = useState({});
 
-  console.log(ids);
-
   const paths = useMemo(
     () =>
       pathname

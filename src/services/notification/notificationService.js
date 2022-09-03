@@ -16,7 +16,6 @@ export const OnNotificationSocket = (access, dispatch, notify, navigate) => {
 
     stompClient.subscribe("/user/topic/private-message", (payload) => {
       const body = JSON.parse(payload.body);
-      console.log(body); // TODO: remove this line
       dispatch(setNotification(body));
 
       notify("Notification Received..!", "info", {
