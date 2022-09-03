@@ -27,4 +27,4 @@ export const OnNotificationSocket = (access, dispatch, notify, navigate) => {
   });
 };
 
-export const closeNotificationSocket = stompClient.disconnect;
+export const closeNotificationSocket = () => stompClient.disconnect();

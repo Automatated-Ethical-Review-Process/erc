@@ -175,7 +175,13 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
               fontWeight: 700,
               cursor: "pointer",
             }}
-            onClick={() => navigate(routes.home)}
+            onClick={() =>
+              navigate(
+                title.toLowerCase() === "dashboard"
+                  ? routes.home
+                  : routes.signIn
+              )
+            }
           >
             {title}
           </Typography>
