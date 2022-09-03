@@ -3,7 +3,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { useAddProposalMutation } from "api/data/proposal";
+import {
+  useAddProposalMutation,
+  useHasActiveProposalQuery,
+} from "api/data/proposal";
 import { useGetMeQuery, useUserExistsMutation } from "api/data/user";
 import { BasicForm } from "components/common/Form";
 import LoadingCircle from "components/common/LoadingCircle";
@@ -15,7 +18,7 @@ import {
 } from "components/controllers";
 import { ProposalType } from "config/enums";
 import useNotify from "hooks/useNotify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { yFile, yFiles, yObject, yString } from "utils/yup";
 
 const proposalTypes = [
@@ -66,15 +69,24 @@ const paymentSlip = yFile.required("Payment slip is required");
 
 export default function ApplicantNewSubmission() {
   const { data = {}, isLoading: isMeLoading } = useGetMeQuery();
+  const { data: { validity: hasActive } = {}, isLoading: isActiveLoading } =
+    useHasActiveProposalQuery();
 
   const [addProposal, { isLoading: isProposalLoading }] =
     useAddProposalMutation();
   const [checkEmails, { isLoading: isCheckingEmails }] =
     useUserExistsMutation();
 
-  const isLoading = isMeLoading || isProposalLoading || isCheckingEmails;
+  const isLoading =
+    isMeLoading || isActiveLoading || isProposalLoading || isCheckingEmails;
 
   const { notify } = useNotify();
+
+  useEffect(() => {
+    if (hasActive) {
+      notify("You already have an active proposal", "error", { persist: true });
+    }
+  }, [hasActive, notify]);
 
   const onAddProposal = ({ name, type, ...data }) =>
     addProposal({ data: { name, type }, ...data })
@@ -199,7 +211,7 @@ export default function ApplicantNewSubmission() {
               </Grid>
             )}
             <Grid item xs={12} textAlign="right">
-              <Button type="submit" variant="contained">
+              <Button type="submit" variant="contained" disable={hasActive}>
                 Submit
               </Button>
             </Grid>

@@ -83,6 +83,9 @@ const proposalApi = dataApi.injectEndpoints({
     getPreviousAssignedReviewers: build.query({
       query: (pid) => `/proposal/${pid}/assigned-reviewers`,
     }),
+    hasActiveProposal: build.query({
+      query: () => "/proposal/user/exists",
+    }),
   }),
 });
 
@@ -106,6 +109,7 @@ export const {
   useGetUserActiveProposalsQuery, //
   useGetUserOldProposalsQuery, //
   useGetPreviousAssignedReviewersQuery,
+  useHasActiveProposalQuery,
 } = proposalApi;
 
 export default proposalApi;
