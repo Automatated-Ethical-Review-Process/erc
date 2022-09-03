@@ -22,6 +22,8 @@ import useNotify from "hooks/useNotify";
 import useUser from "hooks/useUser";
 import { useNavigate, useParams } from "react-router-dom";
 
+import EvaluationForm from "assets/EvaluationForm/evaluation_form_for_reviewers.docx";
+
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -32,6 +34,9 @@ const options = [
   { label: "Minor Modification", value: DecisionType.minor },
   { label: "Disapprove", value: DecisionType.disapproved },
 ];
+
+const anchor = document.createElement("a");
+document.body.appendChild(anchor);
 
 export default function SubmitEvaluation() {
   const [data, setData] = useState(null);
@@ -66,7 +71,9 @@ export default function SubmitEvaluation() {
   };
 
   const onFormDownload = () => {
-    alert("not implemented"); // TODO: implement
+    anchor.href = EvaluationForm;
+    anchor.download = "evaluation_form_for_reviewers.docx";
+    anchor.click();
   };
 
   return (
