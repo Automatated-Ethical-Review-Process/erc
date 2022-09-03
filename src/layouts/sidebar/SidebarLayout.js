@@ -1,25 +1,16 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
-import { Breadcrumbs, Chip } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Breadcrumbs, Chip } from "@mui/material";
 
 import NavigationBar from "components/NavigationBar";
 import RoleNavigationBar from "components/RoleNavigationBar";
-import { isUuid } from "utils/yup";
+import { getIdName } from "utils/ids";
 
 function simplify(part) {
-  if (part.includes("-")) {
-    const parts = part.split("-");
-    if (
-      isUuid(part) ||
-      ((parts.length === 5 || parts.length === 6) && parts[0].length === 8)
-    ) {
-      return parts[0];
-    }
-  }
-  return part;
+  return part.includes("-") ? getIdName(part) : part;
 }
 
 export default function SidebarLayout({ role, sideBarItems }) {

@@ -7,6 +7,7 @@ import { Container } from "@mui/material";
 import TextField from "components/common/TextField";
 import { useGetProposalQuery } from "api/data/proposal";
 import LoadingCircle from "components/common/LoadingCircle";
+import { putIdName } from "utils/ids";
 
 export default function Proposal({
   loading,
@@ -26,6 +27,10 @@ export default function Proposal({
 
   if (error) {
     return "invalid proposal id " + proposalId;
+  }
+
+  if (rawData.name) {
+    putIdName(proposalId, rawData.name);
   }
 
   const date = new Date(rawData.date);
