@@ -1,18 +1,34 @@
 {
   "files": {
     "main.css": "/static/css/main.f0af8955.css",
-    "main.js": "/static/js/main.9d47c3ce.js",
+    "main.js": "/static/js/main.5d2dbd8b.js",
     "static/js/787.7d3d693b.chunk.js": "/static/js/787.7d3d693b.chunk.js",
-    "static/media/(V2)_Lecture_11_2021.pdf": "/static/media/(V2)_Lecture_11_2021.837ae9d3ce87466ec83e.pdf",
-    "static/media/meetings.jpg": "/static/media/meetings.c7b93a7e35f39a3ac519.jpg",
+    "static/media/image2.png": "/static/media/image2.f8a91231746d2349a3c3.png",
+    "static/media/image5.png": "/static/media/image5.0c291fbbc8d9d222337f.png",
+    "static/media/image3.png": "/static/media/image3.3a4186f4f6402953412a.png",
+    "static/media/image8.png": "/static/media/image8.c549e450e3ca44b6da92.png",
+    "static/media/image7.png": "/static/media/image7.5cef9de0057d150ce9ab.png",
+    "static/media/image6.png": "/static/media/image6.a8d0473f6e952ad51a7c.png",
+    "static/media/image4.png": "/static/media/image4.fe73966b67489ef7d526.png",
+    "static/media/image1.png": "/static/media/image1.86ea130cfb833eda13d3.png",
+    "static/media/image9.jpg": "/static/media/image9.2045f48502c8a220468a.jpg",
+    "static/media/meeting4.jpg": "/static/media/meeting4.b1973964dcdc6deee08d.jpg",
+    "static/media/meeting5.jpg": "/static/media/meeting5.951ef3ddbc8023bc15c5.jpg",
+    "static/media/uor_logo.png": "/static/media/uor_logo.9c2cb9606ca24d19c67b.png",
+    "static/media/meeting6.jpg": "/static/media/meeting6.11048d5fbae1bfaa8986.jpg",
+    "static/media/meeting3.jpg": "/static/media/meeting3.2916397c41db0e43fcdd.jpg",
+    "static/media/meeting1.jpg": "/static/media/meeting1.ae60f1469f8913129b1e.jpg",
+    "static/media/meeting2.jpg": "/static/media/meeting2.2a30a3c9fbf8e2bc2700.jpg",
     "static/media/profile-pic.jpg": "/static/media/profile-pic.f463a804a5451bc314a9.jpg",
+    "static/media/women.jpg": "/static/media/women.7bf28634c453e8a62a76.jpg",
+    "static/media/man.jpg": "/static/media/man.3ab5974d4b12482af801.jpg",
     "index.html": "/index.html",
     "main.f0af8955.css.map": "/static/css/main.f0af8955.css.map",
-    "main.9d47c3ce.js.map": "/static/js/main.9d47c3ce.js.map",
+    "main.5d2dbd8b.js.map": "/static/js/main.5d2dbd8b.js.map",
     "787.7d3d693b.chunk.js.map": "/static/js/787.7d3d693b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f0af8955.css",
-    "static/js/main.9d47c3ce.js"
+    "static/js/main.5d2dbd8b.js"
   ]
 }
