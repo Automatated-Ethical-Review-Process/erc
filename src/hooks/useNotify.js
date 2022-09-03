@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { useSnackbar } from "notistack";
+
 const useNotify = (persist = false) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notify = (text, variant = "default", options = {}) =>
@@ -8,7 +9,9 @@ const useNotify = (persist = false) => {
       persist,
       autoHideDuration: 5000,
       action: (id) =>
-        (options.persist || (options.persist === undefined && persist)) && (
+        (options.onClick ||
+          options.persist ||
+          (options.persist === undefined && persist)) && (
           <Button
             variant="text"
             color="inherit"

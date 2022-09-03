@@ -45,7 +45,7 @@ export default function SidebarLayout({ title, sideBarItems, children }) {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { notify } = useNotify(true);
+  const { notify } = useNotify();
 
   useGetNotificationsQuery();
 
