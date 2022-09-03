@@ -18,6 +18,7 @@ import EmailVerify from "./EmailVerify";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
+import hash from "utils/hash";
 
 const steps = ["Step 1", "Step 2", "Step 3"];
 
@@ -74,6 +75,7 @@ function Content({ token, activeStep, handleNext, handleReset, children }) {
     const {
       nicPassport,
       educationalQualifications: eq,
+      password,
       confirmPassword,
       ...data
     } = finalData;
@@ -91,6 +93,7 @@ function Content({ token, activeStep, handleNext, handleReset, children }) {
       ...data,
       nic,
       passport,
+      password: hash(password),
       educationalQualifications: eq.split("\n").filter((i) => i),
     };
 

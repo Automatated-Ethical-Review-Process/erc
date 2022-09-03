@@ -34,6 +34,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
 import routes from "config/routes";
+import hash from "utils/hash";
 
 export function ActionAreaCard(props) {
   return (
@@ -86,10 +87,10 @@ export default function SignIn() {
 
   const [submitError, setSubmitError] = useState(window._msg);
 
-  const onSubmit = ({ rememberMe, ...data }) => {
-    authService.email = rememberMe ? data.email : null;
+  const onSubmit = ({ rememberMe, email, password }) => {
+    authService.email = rememberMe ? email : null;
     setSubmitError(null);
-    login(data)
+    login({ email, password: hash(password) })
       .unwrap()
       .then(() => navigate(state?.from ? state.from.pathname : routes.signIn))
       .catch((err) =>

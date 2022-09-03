@@ -18,6 +18,7 @@ import {
 import useNotify from "hooks/useNotify";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { isUuid, yEmailSchema, yObject, yPassword, yRef } from "utils/yup";
+import hash from "utils/hash";
 
 function Step1({ handleNext }) {
   const navigate = useNavigate();
@@ -119,7 +120,7 @@ function ForgotPasswordInput({ token }) {
   const { notify } = useNotify();
 
   const onSubmit = ({ password }) =>
-    forgotPassword({ id: token, password })
+    forgotPassword({ id: token, password: hash(password) })
       .unwrap()
       .then(() => {
         notify("Password reset successfully", "success", { persist: true });

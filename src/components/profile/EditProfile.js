@@ -55,6 +55,7 @@ import {
   yPasswordSchema,
   yRef,
 } from "utils/yup";
+import hash from "utils/hash";
 
 function ImageAvatar() {
   const { data: { profileImage } = {} } = useGetMeQuery();
@@ -217,7 +218,7 @@ function EditEmail() {
   const onCancel = () => setOpen(false);
 
   const onSubmitPassword = ({ password }) => {
-    checkPassword({ password })
+    checkPassword({ password: hash(password) })
       .unwrap()
       .then(() => {
         setOpen(false);
