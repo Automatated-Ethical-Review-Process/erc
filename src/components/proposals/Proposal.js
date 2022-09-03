@@ -9,6 +9,8 @@ import LoadingCircle from "components/common/LoadingCircle";
 import TextField from "components/common/TextField";
 import useIds from "hooks/useIds";
 import { putIdName } from "utils/ids";
+import useUser from "hooks/useUser";
+import Roles from "config/roles";
 
 export default function Proposal({
   loading,
@@ -18,6 +20,7 @@ export default function Proposal({
 }) {
   const setIds = useIds();
   const navigate = useNavigate();
+  const { roles } = useUser();
 
   const { pid: proposalId } = useParams();
 
@@ -52,6 +55,16 @@ export default function Proposal({
     ...extraFields,
   };
 
+  const viewUser = (
+    <Button
+      fullWidth
+      variant="outlined"
+      onClick={() => navigate(proposal.piid)}
+    >
+      View User
+    </Button>
+  );
+
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
       <LoadingCircle isLoading={isLoading || loading} />
@@ -72,14 +85,23 @@ export default function Proposal({
           </Button>
         </Grid>
         <Grid item xs={12} md={6}>
-          {rightButton && (
+          {rightButton ? (
             <Button fullWidth variant="contained" onClick={rightButton.onClick}>
               {rightButton.text}
             </Button>
+          ) : (
+            viewUser
           )}
         </Grid>
 
-        {proposal.cv && (
+        {rightButton &&
+          !roles.includes(Roles.reviewer) &&
+          !roles.includes(Roles.applicant) && (
+            <Grid item xs={12} md={6}>
+              {viewUser}
+            </Grid>
+          )}
+        {proposal.cv && !roles.includes(Roles.reviewer) && (
           <Grid item xs={12} md={6}>
             <Button
               fullWidth
@@ -91,7 +113,7 @@ export default function Proposal({
             </Button>
           </Grid>
         )}
-        {proposal.coverLetter && (
+        {proposal.coverLetter && !roles.includes(Roles.reviewer) && (
           <Grid item xs={12} md={6}>
             <Button
               fullWidth
@@ -103,30 +125,32 @@ export default function Proposal({
             </Button>
           </Grid>
         )}
-        {proposal.ercApprovedCertificates?.length > 0 && (
-          <Grid item xs={12} md={6}>
-            <Button
-              fullWidth
-              variant="outlined"
-              color="warning"
-              onClick={() => navigate("erc-cert")}
-            >
-              ERC Approved Certificates
-            </Button>
-          </Grid>
-        )}
-        {proposal.trainCertificates?.length > 0 && (
-          <Grid item xs={12} md={6}>
-            <Button
-              fullWidth
-              variant="outlined"
-              color="warning"
-              onClick={() => navigate("train-cert")}
-            >
-              Training Certificates
-            </Button>
-          </Grid>
-        )}
+        {proposal.ercApprovedCertificates?.length > 0 &&
+          !roles.includes(Roles.reviewer) && (
+            <Grid item xs={12} md={6}>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="warning"
+                onClick={() => navigate("t-erc-cert")}
+              >
+                ERC Approved Certificates
+              </Button>
+            </Grid>
+          )}
+        {proposal.trainCertificates?.length > 0 &&
+          !roles.includes(Roles.reviewer) && (
+            <Grid item xs={12} md={6}>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="warning"
+                onClick={() => navigate("t-train-cert")}
+              >
+                Training Certificates
+              </Button>
+            </Grid>
+          )}
 
         <Grid item xs={12} />
       </Grid>

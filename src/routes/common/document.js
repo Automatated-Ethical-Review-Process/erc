@@ -4,6 +4,7 @@ import Document from "components/proposals/Document";
 import Preview from "components/proposals/Preview";
 import Download from "components/proposals/Download";
 import OtherDocuments from "components/proposals/OtherDocuments";
+import User from "components/users/user";
 
 const basicRoutes = (
   <>
@@ -23,10 +24,12 @@ export const otherDocumentRoute = (
   <>
     {docRoute}
 
-    <Route path=":type">
+    <Route path="t-:type">
       <Route index element={<OtherDocuments />} />
 
       {docRoute}
     </Route>
+
+    <Route path=":uid" element={<User />} />
   </>
 );
