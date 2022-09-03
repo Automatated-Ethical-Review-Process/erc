@@ -69,7 +69,7 @@ const paymentSlip = yFile.required("Payment slip is required");
 
 export default function ApplicantNewSubmission() {
   const { data = {}, isLoading: isMeLoading } = useGetMeQuery();
-  const { data: { validity: hasActive } = {}, isLoading: isActiveLoading } =
+  const { data: { validity } = {}, isLoading: isActiveLoading } =
     useHasActiveProposalQuery();
 
   const [addProposal, { isLoading: isProposalLoading }] =
@@ -83,10 +83,11 @@ export default function ApplicantNewSubmission() {
   const { notify } = useNotify();
 
   useEffect(() => {
-    if (hasActive) {
+    if (validity === undefined) return;
+    if (!validity) {
       notify("You already have an active proposal", "error", { persist: true });
     }
-  }, [hasActive, notify]);
+  }, [validity, notify]);
 
   const onAddProposal = ({ name, type, ...data }) =>
     addProposal({ data: { name, type }, ...data })
@@ -211,7 +212,7 @@ export default function ApplicantNewSubmission() {
               </Grid>
             )}
             <Grid item xs={12} textAlign="right">
-              <Button type="submit" variant="contained" disable={hasActive}>
+              <Button type="submit" variant="contained" disable={!validity}>
                 Submit
               </Button>
             </Grid>
