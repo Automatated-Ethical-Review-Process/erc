@@ -7,7 +7,7 @@ function ApplicantOldSubmissions() {
     <Proposals
       data={data}
       isLoading={isLoading}
-      extraFields={{ status: "Status" }}
+      extraFields={{ status: "Status", pi: "PI" }}
     />
   );
 }

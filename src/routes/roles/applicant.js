@@ -36,10 +36,7 @@ const applicantRoute = (
     <Route path="pending-submissions">
       <Route index element={<ApplicantPendingSubmissions />} />
       <Route path=":pid">
-        <Route
-          index
-          element={<Proposal extraFields={{ status: "Status" }} />}
-        />
+        <Route index element={<Proposal />} />
         <Route path="versions">
           <Route index element={<Versions />} />
           <Route path=":vid">
@@ -71,10 +68,7 @@ const applicantRoute = (
     <Route path="old-submissions">
       <Route index element={<ApplicantOldSubmissions />} />
       <Route path=":pid">
-        <Route
-          index
-          element={<Proposal extraFields={{ status: "Status" }} />}
-        />
+        <Route index element={<Proposal />} />
         <Route path="versions">
           <Route index element={<Versions />} />
           <Route path=":vid">

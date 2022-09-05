@@ -86,7 +86,7 @@ export default function UpdateUser() {
   const defaultValues = useMemo(
     () => ({
       role,
-      locked: status.isLocked ?? false,
+      locked: !status.isLocked ?? false,
     }),
     [status, role]
   );

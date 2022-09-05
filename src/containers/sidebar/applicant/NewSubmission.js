@@ -153,7 +153,7 @@ export default function ApplicantNewSubmission() {
             <Grid item xs={12}>
               <TextFieldController
                 name="emails"
-                label="Co-Investigators"
+                label="Emails of Co-Investigators"
                 margin="none"
               />
             </Grid>

@@ -20,7 +20,7 @@ export default function Users({
 
   let data = [];
   if (users.length > 0) {
-    data = users;
+    data = users.filter((i) => i.email !== "admin@gmail.com");
   } else if (usersByIds.length > 0) {
     data = usersByIds;
   }
