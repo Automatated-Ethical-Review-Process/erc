@@ -173,6 +173,7 @@ export function Content() {
         <Grid container rowSpacing={2}>
           <GridItem title="Name" body={data.name} />
           <GridItem title="Email" body={user.email} />
+          <GridItem title="Roles" body={user.roles.join(", ")} />
           <GridItem title="Phone Number" body={data.mobileNumber} />
           <GridItem title="Land Number" body={data.landNumber} />
           <GridItem title="NIC / Passport" body={data.nic || data.passport} />

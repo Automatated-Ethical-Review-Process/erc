@@ -10,6 +10,7 @@ import TextField from "components/common/TextField";
 import useDownload from "hooks/useDownload";
 import useIds from "hooks/useIds";
 import { putIdName } from "utils/ids";
+import { useGetStatusByIdQuery } from "api/auth/api";
 
 export default function User({ children }) {
   const { uid: userId } = useParams();
@@ -20,6 +21,9 @@ export default function User({ children }) {
     error,
     isLoading: isUserLoading,
   } = useGetUserQuery(userId);
+
+  const { data: status = {}, isLoading: isStatusLoading } =
+    useGetStatusByIdQuery(userId);
 
   const verificationImage = user.verificationImage;
 
@@ -33,7 +37,7 @@ export default function User({ children }) {
     putIdName(userId, user.name, setIds);
   }
 
-  const isLoading = isUserLoading || isFileLoading;
+  const isLoading = isUserLoading || isFileLoading || isStatusLoading;
 
   const data = [
     { label: "Name", value: user.name ?? "" },
@@ -49,6 +53,8 @@ export default function User({ children }) {
       rows: 4,
     },
     { label: "Roles", value: user.roles?.join(", ") ?? "" },
+    { label: "IsVerified", value: status.isVerified ?? "" },
+    { label: "IsLocked", value: !status.isLocked ?? "" },
   ];
 
   if (typeof user.isUnderGraduate === "boolean") {
