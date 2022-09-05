@@ -6,7 +6,7 @@ const dataApi = createApi({
   reducerPath: "api/data",
   baseQuery: dataQuery,
   tagTypes: ["me", "user"],
-  keepUnusedDataFor: 0, // FIXME: remove this
+  keepUnusedDataFor: 3, // FIXME: remove this
   endpoints: () => ({}),
 });
 
