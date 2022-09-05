@@ -142,7 +142,12 @@ function ReviewerDataGrid({
   }
 
   fields.push("btn");
-  headerNames.push("Edit");
+
+  if (isEditing) {
+    headerNames.push("Edit");
+  } else {
+    headerNames.push("Assign");
+  }
 
   return (
     <DataGrid
