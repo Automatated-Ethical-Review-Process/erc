@@ -149,10 +149,12 @@ const authApi = createApi({
     getAllStatus: build.query({
       query: () => "/auth-user/all",
       // TODO: providesTags
+      keepUnusedDataFor: 0, // FIXME: remove this
     }),
     getUnverifiedUsers: build.query({
       query: () => "/auth-user/un-verified",
       // TODO: providesTags
+      keepUnusedDataFor: 0, // FIXME: remove this
     }),
     // toggleEnabled: build.mutation({
     //   query: () => ({

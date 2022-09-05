@@ -6,6 +6,7 @@ import { notificationQuery } from "api/base";
 const notificationApi = createApi({
   reducerPath: "api/notification",
   baseQuery: notificationQuery,
+  keepUnusedDataFor: 0, // FIXME: remove this
   endpoints: (build) => ({
     getNotifications: build.query({
       query: () => "/",
