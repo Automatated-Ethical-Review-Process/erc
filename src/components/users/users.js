@@ -1,5 +1,7 @@
 import { useGetUsersByIdsMutation, useLazyGetUsersQuery } from "api/data/user";
 import DataGrid from "components/common/DataGrid";
+import Roles from "config/roles";
+import useUser from "hooks/useUser";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +14,7 @@ export default function Users({
   others = [],
 }) {
   const navigate = useNavigate();
+  const { roles } = useUser();
 
   const [loadUsers, { data: users = [], isLoading: isUsersLoading }] =
     useLazyGetUsersQuery();
@@ -20,7 +23,15 @@ export default function Users({
 
   let data = [];
   if (users.length > 0) {
-    data = users.filter((i) => i.email !== "admin@gmail.com");
+    data = users.filter(({ email }) => {
+      if (
+        email === "admin@gmail.com" ||
+        (roles.includes(Roles.secretary) && email === "ercsecretary@gmail.com")
+      ) {
+        return false;
+      }
+      return true;
+    });
   } else if (usersByIds.length > 0) {
     data = usersByIds;
   }

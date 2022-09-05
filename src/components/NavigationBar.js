@@ -37,6 +37,8 @@ import { useDispatch, useSelector } from "react-redux";
 import LoadingCircle from "./common/LoadingCircle";
 import ToggleTheme from "./common/ToggleTheme";
 import HomeIcon from "@mui/icons-material/Home";
+import useFile from "hooks/useFile";
+import { Avatar } from "@mui/material";
 
 export default function NavigationBar({
   title,
@@ -127,6 +129,15 @@ export default function NavigationBar({
     </Menu>
   );
 
+  const { link } = useFile(data?.profileImage);
+
+  const profileImage =
+    data?.profileImage && link ? (
+      <Avatar alt="Profile Image" src={link} sx={{ width: 30, height: 30 }} />
+    ) : (
+      <AccountCircle />
+    );
+
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -152,7 +163,7 @@ export default function NavigationBar({
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton size="large" color="inherit">
-          <AccountCircle />
+          {profileImage}
         </IconButton>
         <p>{data.name || "Profile"}</p>
       </MenuItem>
@@ -226,7 +237,7 @@ export default function NavigationBar({
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              {profileImage}
               <Typography sx={{ ml: 1, mt: 0.5 }} variant="subtitle2">
                 {data.name}
               </Typography>
