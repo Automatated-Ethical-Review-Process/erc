@@ -52,6 +52,7 @@ export default function Proposal({
     type: "Type",
     date: "Date",
     time: "Time",
+    status: "Status",
     ...extraFields,
   };
 
@@ -90,6 +91,8 @@ export default function Proposal({
               {rightButton.text}
             </Button>
           ) : (
+            !roles.includes(Roles.reviewer) &&
+            !roles.includes(Roles.applicant) &&
             viewUser
           )}
         </Grid>

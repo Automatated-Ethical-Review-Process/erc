@@ -18,11 +18,5 @@ export default function Proposal() {
     };
   }
 
-  return (
-    <BaseProposal
-      loading={isLoading}
-      extraFields={{ status: "Status" }}
-      rightButton={rightButton}
-    />
-  );
+  return <BaseProposal loading={isLoading} rightButton={rightButton} />;
 }
